@@ -40,6 +40,28 @@ ASP.NET Core API Server (Modern System)
 
 ```bash
 # Build DLL for .NET interop (release, static CRT - no MSVCR dependency on target)
+cargo +rust9x dll-release
+
+# Build DLL for .NET interop (debug, static CRT - no MSVCR dependency on target)
+cargo +rust9x dll-debug
+
+# Build test harness EXE (release, dynamic CRT - requires MSVCR on target)
+cargo +rust9x exe-release
+
+# Build test harness EXE (debug, dynamic CRT - requires MSVCR on target)
+cargo +rust9x exe-debug
+
+# Build test harness EXE (release, static CRT - no MSVCR dependency on target)
+cargo +rust9x exe-static-release
+
+# Build test harness EXE (debug, static CRT - no MSVCR dependency on target)
+cargo +rust9x exe-static-debug
+```
+
+Or use the full cargo commands:
+
+```bash
+# Build DLL for .NET interop (release, static CRT - no MSVCR dependency on target)
 cargo +rust9x build --target i686-rust9x-windows-msvc --release --features "std,network,tls,dll-build"
 
 # Build DLL for .NET interop (debug, static CRT - no MSVCR dependency on target)
@@ -53,12 +75,30 @@ cargo +rust9x build --target i686-rust9x-windows-msvc --bin rust9x_auth_test --r
 
 # Build test harness EXE (debug, dynamic CRT - requires MSVCR on target)
 cargo +rust9x build --target i686-rust9x-windows-msvc --bin rust9x_auth_test --features "std,network,tls,exe-build"
+
+# Build test harness EXE (release, static CRT - no MSVCR dependency on target)
+cargo +rust9x build --target i686-rust9x-windows-msvc --bin rust9x_auth_test --release --features "std,network,tls,exe-static-build"
+
+# Build test harness EXE (debug, static CRT - no MSVCR dependency on target)
+cargo +rust9x build --target i686-rust9x-windows-msvc --bin rust9x_auth_test --features "std,network,tls,exe-static-build"
 ```
 
 ### Output Files
 
-- `target/i686-rust9x-windows-msvc/release/rust9x_windows_auth.dll` - Main DLL for .NET
-- `target/i686-rust9x-windows-msvc/release/rust9x_auth_test.exe` - Test harness
+Each build variant outputs to a separate directory:
+
+- `target/dll-release/i686-rust9x-windows-msvc/release/rust9x_windows_auth.dll` - DLL (release, static CRT)
+- `target/dll-debug/i686-rust9x-windows-msvc/debug/rust9x_windows_auth.dll` - DLL (debug, static CRT)
+- `target/exe-release/i686-rust9x-windows-msvc/release/rust9x_auth_test.exe` - EXE (release, dynamic CRT)
+- `target/exe-debug/i686-rust9x-windows-msvc/debug/rust9x_auth_test.exe` - EXE (debug, dynamic CRT)
+- `target/exe-static-release/i686-rust9x-windows-msvc/release/rust9x_auth_test.exe` - EXE (release, static CRT)
+- `target/exe-static-debug/i686-rust9x-windows-msvc/debug/rust9x_auth_test.exe` - EXE (debug, static CRT)
+
+Each output directory also includes:
+- `Microsoft.VC80.CRT/msvcr80.dll` - Visual C++ 2005 runtime (SxS assembly)
+- `Microsoft.VC80.CRT/Microsoft.VC80.CRT.manifest` - Assembly manifest
+- `msvcr80.dll` - Flat layout fallback for XP and below
+- `msvcr80.dll.manifest` - DLL manifest for flat layout
 
 ## .NET Framework 2.0 Integration
 

@@ -21,10 +21,91 @@ use windows_sys::Win32::Security::Credentials::{
 
 #[cfg(windows)]
 use windows_sys::Win32::Foundation::HWND;
+#[cfg(windows)]
+use windows_sys::Win32::Foundation::GetLastError;
 
 #[cfg(windows)]
 #[cfg(not(feature = "std"))]
 use alloc::ffi::CString;
+
+/// Helper to log SSPI SecurityStatus codes
+fn log_security_status<T>(status: &Result<T, sspi::Error>, operation: &str) {
+    match status {
+        Ok(_) => {
+            eprintln!("[SSPI] {} -> SUCCESS", operation);
+        }
+        Err(err) => {
+            eprintln!("[SSPI] {} -> Error: {} (0x{:08X}) - {}", 
+                operation,
+                format_error_kind(err.error_type),
+                err.error_type as u32,
+                err.description
+            );
+            if let Some(nstatus) = err.nstatus {
+                eprintln!("[SSPI] {} -> NTSTATUS: {:?}", operation, nstatus);
+            }
+        }
+    }
+}
+
+/// Format ErrorKind as symbolic name
+fn format_error_kind(kind: sspi::ErrorKind) -> &'static str {
+    match kind {
+        sspi::ErrorKind::InsufficientMemory => "SEC_E_INSUFFICIENT_MEMORY",
+        sspi::ErrorKind::InvalidHandle => "SEC_E_INVALID_HANDLE",
+        sspi::ErrorKind::UnsupportedFunction => "SEC_E_UNSUPPORTED_FUNCTION",
+        sspi::ErrorKind::TargetUnknown => "SEC_E_TARGET_UNKNOWN",
+        sspi::ErrorKind::InternalError => "SEC_E_INTERNAL_ERROR",
+        sspi::ErrorKind::SecurityPackageNotFound => "SEC_E_SECPKG_NOT_FOUND",
+        sspi::ErrorKind::NotOwned => "SEC_E_NOT_OWNER",
+        sspi::ErrorKind::CannotInstall => "SEC_E_CANNOT_INSTALL",
+        sspi::ErrorKind::InvalidToken => "SEC_E_INVALID_TOKEN",
+        sspi::ErrorKind::CannotPack => "SEC_E_CANNOT_PACK",
+        sspi::ErrorKind::OperationNotSupported => "SEC_E_UNSUPPORTED_OPERATION",
+        sspi::ErrorKind::NoImpersonation => "SEC_E_NO_IMPERSONATION",
+        sspi::ErrorKind::LogonDenied => "SEC_E_LOGON_DENIED",
+        sspi::ErrorKind::UnknownCredentials => "SEC_E_UNKNOWN_CREDENTIALS",
+        sspi::ErrorKind::NoCredentials => "SEC_E_NO_CREDENTIALS",
+        sspi::ErrorKind::MessageAltered => "SEC_E_MESSAGE_ALTERED",
+        sspi::ErrorKind::OutOfSequence => "SEC_E_OUT_OF_SEQUENCE",
+        sspi::ErrorKind::NoAuthenticatingAuthority => "SEC_E_NO_AUTHENTICATING_AUTHORITY",
+        sspi::ErrorKind::BadPackageId => "SEC_E_BAD_PKGID",
+        sspi::ErrorKind::ContextExpired => "SEC_E_CONTEXT_EXPIRED",
+        sspi::ErrorKind::IncompleteMessage => "SEC_E_INCOMPLETE_MESSAGE",
+        sspi::ErrorKind::IncompleteCredentials => "SEC_E_INCOMPLETE_CREDENTIALS",
+        sspi::ErrorKind::BufferTooSmall => "SEC_E_BUFFER_TOO_SMALL",
+        sspi::ErrorKind::WrongPrincipalName => "SEC_E_WRONG_PRINCIPAL",
+        sspi::ErrorKind::TimeSkew => "SEC_E_TIME_SKEW",
+        sspi::ErrorKind::UntrustedRoot => "SEC_E_UNTRUSTED_ROOT",
+        sspi::ErrorKind::IllegalMessage => "SEC_E_ILLEGAL_MESSAGE",
+        sspi::ErrorKind::CertificateUnknown => "SEC_E_CERT_UNKNOWN",
+        sspi::ErrorKind::CertificateExpired => "SEC_E_CERT_EXPIRED",
+        sspi::ErrorKind::EncryptFailure => "SEC_E_ENCRYPT_FAILURE",
+        sspi::ErrorKind::DecryptFailure => "SEC_E_DECRYPT_FAILURE",
+        sspi::ErrorKind::AlgorithmMismatch => "SEC_E_ALGORITHM_MISMATCH",
+        sspi::ErrorKind::SecurityQosFailed => "SEC_E_SECURITY_QOS_FAILED",
+        sspi::ErrorKind::UnfinishedContextDeleted => "SEC_E_UNFINISHED_CONTEXT_DELETED",
+        sspi::ErrorKind::NoTgtReply => "SEC_E_NO_TGT_REPLY",
+        sspi::ErrorKind::NoIpAddress => "SEC_E_NO_IP_ADDRESS",
+        sspi::ErrorKind::WrongCredentialHandle => "SEC_E_WRONG_CREDENTIAL_HANDLE",
+        sspi::ErrorKind::CryptoSystemInvalid => "SEC_E_CRYPTO_SYSTEM_INVALID",
+        sspi::ErrorKind::MaxReferralsExceeded => "SEC_E_MAX_REFERRALS_EXCEEDED",
+        sspi::ErrorKind::MustBeKdc => "SEC_E_MUST_BE_KDC",
+        sspi::ErrorKind::StrongCryptoNotSupported => "SEC_E_STRONG_CRYPTO_NOT_SUPPORTED",
+        sspi::ErrorKind::TooManyPrincipals => "SEC_E_TOO_MANY_PRINCIPALS",
+        sspi::ErrorKind::NoPaData => "SEC_E_NO_PA_DATA",
+        sspi::ErrorKind::PkInitNameMismatch => "SEC_E_PKINIT_NAME_MISMATCH",
+        sspi::ErrorKind::SmartCardLogonRequired => "SEC_E_SMARTCARD_LOGON_REQUIRED",
+        sspi::ErrorKind::ShutdownInProgress => "SEC_E_SHUTDOWN_IN_PROGRESS",
+        sspi::ErrorKind::KdcInvalidRequest => "SEC_E_KDC_INVALID_REQUEST",
+        sspi::ErrorKind::KdcUnknownEType => "SEC_E_KDC_UNKNOWN_ETYPE",
+        sspi::ErrorKind::KdcUnknownEType2 => "SEC_E_KDC_UNKNOWN_ETYPE2",
+        sspi::ErrorKind::UnsupportedPreAuth => "SEC_E_UNSUPPORTED_PREAUTH",
+        sspi::ErrorKind::DelegationRequired => "SEC_E_DELEGATION_REQUIRED",
+        sspi::ErrorKind::DelegationPolicy => "SEC_E_DELEGATION_POLICY",
+        _ => "UNKNOWN",
+    }
+}
 
 /// Authentication credentials structure
 #[derive(Debug, Clone)]
@@ -80,6 +161,11 @@ impl WindowsAuthClient {
 
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
+        eprintln!("[SSPI] API: AcquireCredentialsHandle");
+        eprintln!("[SSPI] Package: NTLM");
+        eprintln!("[SSPI] Principal: NULL");
+        eprintln!("[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND");
+
         let ntlm = self
             .ntlm
             .as_mut()
@@ -90,6 +176,9 @@ impl WindowsAuthClient {
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
 
+        eprintln!("[SSPI] Username: {}", creds.username);
+        eprintln!("[SSPI] Domain: {:?}", creds.domain.as_deref());
+
         let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
         })?;
@@ -99,12 +188,21 @@ impl WindowsAuthClient {
             password: creds.password.clone().into(),
         };
 
-        let mut acq_cred_result = ntlm
+        let acq_cred_result = ntlm
             .acquire_credentials_handle()
             .with_credential_use(CredentialUse::Outbound)
             .with_auth_data(&identity)
-            .execute(ntlm)
-            .map_err(|e| AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e)))?;
+            .execute(ntlm);
+
+        log_security_status(&acq_cred_result, "AcquireCredentialsHandle");
+        let mut acq_cred_result = acq_cred_result.map_err(|e| {
+            AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
+        })?;
+
+        eprintln!("[SSPI] API: InitializeSecurityContext");
+        eprintln!("[SSPI] TargetName: {}", target_name);
+        eprintln!("[SSPI] ContextRequirements: CONFIDENTIALITY | ALLOCATE_MEMORY");
+        eprintln!("[SSPI] DataRepresentation: Native");
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
@@ -123,8 +221,11 @@ impl WindowsAuthClient {
             .with_input(input_buffer.as_mut_slice())
             .with_output(output_buffer.as_mut_slice());
 
-        ntlm.initialize_security_context_impl(&mut builder)
-            .map_err(|e| AuthError::AuthFailed(format!("Failed to initialize security context: {}", e)))?;
+        let init_result = ntlm.initialize_security_context_impl(&mut builder);
+        log_security_status(&init_result, "InitializeSecurityContext");
+        init_result.map_err(|e| {
+            AuthError::AuthFailed(format!("Failed to initialize security context: {}", e))
+        })?;
 
         let token = output_buffer
             .into_iter()
@@ -132,11 +233,17 @@ impl WindowsAuthClient {
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
+        eprintln!("[SSPI] Negotiate token generated ({} bytes)", token.len());
         Ok(token)
     }
 
     /// Process NTLM challenge and generate authenticate token (Type 3 message)
     pub fn process_challenge(&mut self, challenge: &[u8], target_name: &str) -> AuthResult<Vec<u8>> {
+        eprintln!("[SSPI] API: AcquireCredentialsHandle (challenge)");
+        eprintln!("[SSPI] Package: NTLM");
+        eprintln!("[SSPI] Principal: NULL");
+        eprintln!("[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND");
+
         let ntlm = self
             .ntlm
             .as_mut()
@@ -147,6 +254,9 @@ impl WindowsAuthClient {
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
 
+        eprintln!("[SSPI] Username: {}", creds.username);
+        eprintln!("[SSPI] Domain: {:?}", creds.domain.as_deref());
+
         let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
         })?;
@@ -156,12 +266,22 @@ impl WindowsAuthClient {
             password: creds.password.clone().into(),
         };
 
-        let mut acq_cred_result = ntlm
+        let acq_cred_result = ntlm
             .acquire_credentials_handle()
             .with_credential_use(CredentialUse::Outbound)
             .with_auth_data(&identity)
-            .execute(ntlm)
-            .map_err(|e| AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e)))?;
+            .execute(ntlm);
+
+        log_security_status(&acq_cred_result, "AcquireCredentialsHandle (challenge)");
+        let mut acq_cred_result = acq_cred_result.map_err(|e| {
+            AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
+        })?;
+
+        eprintln!("[SSPI] API: InitializeSecurityContext (challenge)");
+        eprintln!("[SSPI] TargetName: {}", target_name);
+        eprintln!("[SSPI] Challenge size: {} bytes", challenge.len());
+        eprintln!("[SSPI] ContextRequirements: CONFIDENTIALITY | ALLOCATE_MEMORY");
+        eprintln!("[SSPI] DataRepresentation: Native");
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(challenge.to_vec(), BufferType::Token)];
@@ -180,8 +300,11 @@ impl WindowsAuthClient {
             .with_input(input_buffer.as_mut_slice())
             .with_output(output_buffer.as_mut_slice());
 
-        ntlm.initialize_security_context_impl(&mut builder)
-            .map_err(|e| AuthError::AuthFailed(format!("Failed to process challenge: {}", e)))?;
+        let init_result = ntlm.initialize_security_context_impl(&mut builder);
+        log_security_status(&init_result, "InitializeSecurityContext (challenge)");
+        init_result.map_err(|e| {
+            AuthError::AuthFailed(format!("Failed to process challenge: {}", e))
+        })?;
 
         let token = output_buffer
             .into_iter()
@@ -189,6 +312,7 @@ impl WindowsAuthClient {
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
+        eprintln!("[SSPI] Authenticate token generated ({} bytes)", token.len());
         Ok(token)
     }
 
@@ -201,6 +325,12 @@ impl WindowsAuthClient {
         save: bool,
     ) -> AuthResult<()> {
         use core::ptr;
+
+        eprintln!("[CredUI] API: CredUICmdLinePromptForCredentialsW");
+        eprintln!("[CredUI] Caption: {}", caption);
+        eprintln!("[CredUI] Message: {}", message);
+        eprintln!("[CredUI] Save checkbox: {}", save);
+        eprintln!("[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST");
 
         let caption_wide = Self::to_wide(caption);
         let message_wide = Self::to_wide(message);
@@ -239,15 +369,25 @@ impl WindowsAuthClient {
             )
         };
 
+        eprintln!("[CredUI] HRESULT: 0x{:08X}", result);
+
         if result != 0 {
-            return Err(AuthError::InvalidCredentials(
-                "Credential prompt cancelled or failed".to_string(),
-            ));
+            let last_error = unsafe { GetLastError() };
+            eprintln!("[CredUI] GetLastError: 0x{:08X}", last_error);
+            return Err(AuthError::InvalidCredentials(format!(
+                "Credential prompt failed - HRESULT: 0x{:08X}, GetLastError: 0x{:08X}",
+                result, last_error
+            )));
         }
 
         let username = Self::from_wide(&username_buf[..username_len as usize]);
         let password = Self::from_wide(&password_buf[..password_len as usize]);
         let domain = Self::from_wide(&domain_buf[..domain_len as usize]);
+
+        eprintln!("[CredUI] Username length: {}", username_len);
+        eprintln!("[CredUI] Password length: {}", password_len);
+        eprintln!("[CredUI] Domain length: {}", domain_len);
+        eprintln!("[CredUI] Save flag result: {}", save_flag);
 
         // Parse username in format "DOMAIN\username" or "username@domain"
         let (username, domain) = if let Some(pos) = username.find('\\') {
@@ -260,12 +400,16 @@ impl WindowsAuthClient {
             (username, if domain.is_empty() { None } else { Some(domain) })
         };
 
+        eprintln!("[CredUI] Parsed username: {}", username);
+        eprintln!("[CredUI] Parsed domain: {:?}", domain);
+
         self.credentials = Some(AuthCredentials {
             username,
             password,
             domain,
         });
 
+        eprintln!("[CredUI] Credentials stored successfully");
         Ok(())
     }
 
