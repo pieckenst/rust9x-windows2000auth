@@ -15,7 +15,7 @@ use sspi::{
 
 #[cfg(windows)]
 use windows_sys::Win32::Security::Credentials::{
-    CredUICmdLinePromptForCredentialsW, CREDUI_FLAGS_DO_NOT_PERSIST, CREDUI_FLAGS_GENERIC_CREDENTIALS,
+    CredUIPromptForCredentialsW, CREDUI_FLAGS_DO_NOT_PERSIST,
     CREDUI_INFOW,
 };
 
@@ -23,6 +23,9 @@ use windows_sys::Win32::Security::Credentials::{
 use windows_sys::Win32::Foundation::HWND;
 #[cfg(windows)]
 use windows_sys::Win32::Foundation::GetLastError;
+
+  
+
 
 #[cfg(windows)]
 #[cfg(not(feature = "std"))]
@@ -159,6 +162,38 @@ impl WindowsAuthClient {
         self.credentials = Some(creds);
     }
 
+    pub fn debug_credentials(&self) {
+        match &self.credentials {
+            Some(creds) => {
+                eprintln!("[AUTH] Credentials loaded");
+                eprintln!("[AUTH] Username : {}", creds.username);
+                eprintln!("[AUTH] Domain   : {:?}", creds.domain);
+
+                if let Some(domain) = &creds.domain {
+                    eprintln!(
+                        "[AUTH] Identity : {}\\{}",
+                        domain,
+                        creds.username
+                    );
+                } else {
+                    eprintln!(
+                        "[AUTH] Identity : .\\{}",
+                        creds.username
+                    );
+                }
+
+                eprintln!(
+                    "[AUTH] Password length : {}",
+                    creds.password.len()
+                );
+            }
+
+            None => {
+                eprintln!("[AUTH] No credentials loaded");
+            }
+        }
+    }
+
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
         eprintln!("[SSPI] API: AcquireCredentialsHandle");
@@ -201,7 +236,7 @@ impl WindowsAuthClient {
 
         eprintln!("[SSPI] API: InitializeSecurityContext");
         eprintln!("[SSPI] TargetName: {}", target_name);
-        eprintln!("[SSPI] ContextRequirements: CONFIDENTIALITY | ALLOCATE_MEMORY");
+        eprintln!("[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY");
         eprintln!("[SSPI] DataRepresentation: Native");
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
@@ -215,7 +250,7 @@ impl WindowsAuthClient {
             sspi::builders::WithoutOutput,
         >::default()
             .with_credentials_handle(&mut acq_cred_result.credentials_handle)
-            .with_context_requirements(ClientRequestFlags::CONFIDENTIALITY | ClientRequestFlags::ALLOCATE_MEMORY)
+            .with_context_requirements(ClientRequestFlags::CONNECTION | ClientRequestFlags::ALLOCATE_MEMORY)
             .with_target_data_representation(DataRepresentation::Native)
             .with_target_name(target_name)
             .with_input(input_buffer.as_mut_slice())
@@ -277,10 +312,10 @@ impl WindowsAuthClient {
             AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
         })?;
 
-        eprintln!("[SSPI] API: InitializeSecurityContext (challenge)");
+        eprintln!("[SSPI] API: InitializeSecurityContext (challenge - Type 3)");
         eprintln!("[SSPI] TargetName: {}", target_name);
         eprintln!("[SSPI] Challenge size: {} bytes", challenge.len());
-        eprintln!("[SSPI] ContextRequirements: CONFIDENTIALITY | ALLOCATE_MEMORY");
+        eprintln!("[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY");
         eprintln!("[SSPI] DataRepresentation: Native");
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
@@ -294,7 +329,7 @@ impl WindowsAuthClient {
             sspi::builders::WithoutOutput,
         >::default()
             .with_credentials_handle(&mut acq_cred_result.credentials_handle)
-            .with_context_requirements(ClientRequestFlags::CONFIDENTIALITY | ClientRequestFlags::ALLOCATE_MEMORY)
+            .with_context_requirements(ClientRequestFlags::CONNECTION | ClientRequestFlags::ALLOCATE_MEMORY)
             .with_target_data_representation(DataRepresentation::Native)
             .with_target_name(target_name)
             .with_input(input_buffer.as_mut_slice())
@@ -324,8 +359,6 @@ impl WindowsAuthClient {
         message: &str,
         save: bool,
     ) -> AuthResult<()> {
-        use core::ptr;
-
         eprintln!("[CredUI] API: CredUICmdLinePromptForCredentialsW");
         eprintln!("[CredUI] Caption: {}", caption);
         eprintln!("[CredUI] Message: {}", message);
@@ -337,13 +370,8 @@ impl WindowsAuthClient {
 
         let mut username_buf = [0u16; 256];
         let mut password_buf = [0u16; 256];
-        let mut domain_buf = [0u16; 16];
 
-        let mut username_len = username_buf.len() as u32;
-        let mut password_len = password_buf.len() as u32;
-        let mut domain_len = domain_buf.len() as u32;
-
-        let mut save_flag = if save { 1 } else { 0 };
+        let mut save_flag: i32 = if save { 1 } else { 0 };
 
         let cred_info = CREDUI_INFOW {
             cbSize: core::mem::size_of::<CREDUI_INFOW>() as u32,
@@ -353,17 +381,20 @@ impl WindowsAuthClient {
             hbmBanner: core::ptr::null_mut(),
         };
 
-        let flags = CREDUI_FLAGS_GENERIC_CREDENTIALS | CREDUI_FLAGS_DO_NOT_PERSIST;
+        let flags = CREDUI_FLAGS_DO_NOT_PERSIST;
+        let target_name = Self::to_wide("rust9x");
+
 
         let result = unsafe {
-            CredUICmdLinePromptForCredentialsW(
-                ptr::null(),
-                ptr::null_mut(),
-                &cred_info as *const CREDUI_INFOW as u32,
+            CredUIPromptForCredentialsW(
+                &cred_info as *const CREDUI_INFOW,
+                target_name.as_ptr(),
+                core::ptr::null(), // pContext
+                0,                 // dwAuthError
                 username_buf.as_mut_ptr(),
-                username_len,
+                username_buf.len() as u32,
                 password_buf.as_mut_ptr(),
-                password_len,
+                password_buf.len() as u32,
                 &mut save_flag,
                 flags,
             )
@@ -374,30 +405,46 @@ impl WindowsAuthClient {
         if result != 0 {
             let last_error = unsafe { GetLastError() };
             eprintln!("[CredUI] GetLastError: 0x{:08X}", last_error);
+
             return Err(AuthError::InvalidCredentials(format!(
                 "Credential prompt failed - HRESULT: 0x{:08X}, GetLastError: 0x{:08X}",
                 result, last_error
             )));
         }
 
-        let username = Self::from_wide(&username_buf[..username_len as usize]);
-        let password = Self::from_wide(&password_buf[..password_len as usize]);
-        let domain = Self::from_wide(&domain_buf[..domain_len as usize]);
+        // CredUICmdLinePromptForCredentialsW writes NUL-terminated wide strings.
+        // Find NUL terminators to determine actual lengths.
+        let username_len_pos = username_buf.iter().position(|&c| c == 0).unwrap_or(username_buf.len());
+        let password_len_pos = password_buf.iter().position(|&c| c == 0).unwrap_or(password_buf.len());
 
-        eprintln!("[CredUI] Username length: {}", username_len);
-        eprintln!("[CredUI] Password length: {}", password_len);
-        eprintln!("[CredUI] Domain length: {}", domain_len);
+        // Convert using your from_wide helper
+        let username = Self::from_wide(&username_buf[..username_len_pos]);
+        let password = Self::from_wide(&password_buf[..password_len_pos]);
+        let _domain = String::new(); // Domain is embedded in username (DOMAIN\user or user@domain)
+
+        eprintln!("[CredUI] Username length: {}", username_len_pos);
+        eprintln!("[CredUI] Password length: {}", password_len_pos);
         eprintln!("[CredUI] Save flag result: {}", save_flag);
 
         // Parse username in format "DOMAIN\username" or "username@domain"
         let (username, domain) = if let Some(pos) = username.find('\\') {
             let (d, u) = username.split_at(pos);
-            (u.to_string(), Some(d.to_string()))
+
+            (
+                u[1..].to_string(),
+                Some(d.to_string())
+            )
         } else if let Some(pos) = username.find('@') {
             let (u, d) = username.split_at(pos);
-            (u.to_string(), Some(d[1..].to_string()))
+            (
+                u.to_string(),
+                Some(d[1..].to_string())
+            )
         } else {
-            (username, if domain.is_empty() { None } else { Some(domain) })
+            (
+                username,
+                None // No domain specified
+            )
         };
 
         eprintln!("[CredUI] Parsed username: {}", username);

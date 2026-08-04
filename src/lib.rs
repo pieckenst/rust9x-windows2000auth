@@ -16,8 +16,6 @@ use alloc::slice;
 use alloc::format;
 
 #[cfg(feature = "std")]
-use std::string::String;
-#[cfg(feature = "std")]
 use std::vec::Vec;
 #[cfg(feature = "std")]
 use std::ffi::{CString, CStr};
