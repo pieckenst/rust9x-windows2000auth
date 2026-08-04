@@ -1,0 +1,37 @@
+[package]
+name = "rust9x_windows_auth"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "rust9x_windows_auth"
+crate-type = ["cdylib", "rlib"]
+
+[[bin]]
+name = "rust9x_auth_test"
+path = "src/bin/test_harness.rs"
+
+[features]
+default = ["network", "tls", "std"]
+network = []
+tls = ["native-tls"]
+std = []
+# Enable for Windows 9x/ME - requires unicows
+unicows = []
+
+[dependencies]
+sspi = "0.21"
+native-tls = { version = "0.2", optional = true }
+windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Security_Credentials"], optional = true }
+
+[target.'cfg(windows)'.dependencies]
+windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Security_Credentials", "Win32_Graphics_Gdi"] }
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+debug = true
