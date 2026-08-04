@@ -18,6 +18,10 @@ tls = ["native-tls"]
 std = []
 # Enable for Windows 9x/ME - requires unicows
 unicows = []
+# Build flags for DLL (static CRT - no MSVCR dependency on target)
+dll-build = []
+# Build flags for EXE (dynamic CRT - avoids duplicate symbols)
+exe-build = []
 
 [dependencies]
 sspi = "0.21"
@@ -31,6 +35,30 @@ windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Securit
 panic = "abort"
 
 [profile.release]
+panic = "abort"
+lto = true
+codegen-units = 1
+debug = true
+
+# DLL-specific profiles with static CRT (no MSVCR dependency on target)
+[profile.dll-dev]
+inherits = "dev"
+panic = "abort"
+
+[profile.dll-release]
+inherits = "release"
+panic = "abort"
+lto = true
+codegen-units = 1
+debug = true
+
+# EXE-specific profiles with dynamic CRT (avoids duplicate symbols)
+[profile.exe-dev]
+inherits = "dev"
+panic = "abort"
+
+[profile.exe-release]
+inherits = "release"
 panic = "abort"
 lto = true
 codegen-units = 1

@@ -33,11 +33,6 @@ rustflags = [
   # (NOTE: NT3.51 does _not_ like a 1MiB stack and will promptly ignore it)
   '-Clink-arg=/STACK:131072', # 128KiB stack
 
-  # For DLL builds, use dynamic CRT to avoid duplicate symbol issues
-  # The MSVCR80.dll (or similar) must be available on target system
-  '-Ctarget-feature=-crt-static', # dynamically linked runtime (required for DLL)
-  # '-Ctarget-feature=+crt-static', # statically linked runtime
-
   ############# Add search paths for import libraries
 
   # rust9x links against `unicows.lib` by default, make sure it's in your search path.
@@ -71,6 +66,20 @@ rustflags = [
   # # Add modern universal CRT for missing float/math intrinsics. see `cfg(feature = "float")` in
   # # `main.rs`!
   # '-Clink-arg=libucrt.lib',
+]
+
+# DLL-specific configuration: use static CRT for DLL (no MSVCR dependency on target)
+# Use via: cargo build --features dll-build
+[target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "dll-build"))']
+rustflags = [
+  '-Ctarget-feature=+crt-static', # statically linked runtime (no MSVCR dependency)
+]
+
+# EXE-specific configuration: use dynamic CRT for EXE (avoids duplicate symbols)
+# Use via: cargo build --features exe-build
+[target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "exe-build"))']
+rustflags = [
+  '-Ctarget-feature=-crt-static', # dynamically linked runtime
 ]
 
 # Additional link args for Windows Auth DLL (needs secur32.lib for SSPI/NTLM)
