@@ -22,8 +22,8 @@ namespace HandlerGui
             this.whitePanel = new System.Windows.Forms.Panel();
             this.pictureComputer = new System.Windows.Forms.PictureBox();
             this.pictureGlobe = new System.Windows.Forms.PictureBox();
-            this.transferLine = new AnimatedTransferLine();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.transferLine = new HandlerGui.AnimatedTransferLine();
             this.whitePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureComputer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureGlobe)).BeginInit();
@@ -62,13 +62,6 @@ namespace HandlerGui
             this.pictureGlobe.TabIndex = 1;
             this.pictureGlobe.TabStop = false;
             // 
-            // transferLine
-            // 
-            this.transferLine.Location = new System.Drawing.Point(62, 40);
-            this.transferLine.Name = "transferLine";
-            this.transferLine.Size = new System.Drawing.Size(270, 8);
-            this.transferLine.TabIndex = 2;
-            // 
             // lblStatus
             // 
             this.lblStatus.Location = new System.Drawing.Point(30, 70);
@@ -76,6 +69,17 @@ namespace HandlerGui
             this.lblStatus.Size = new System.Drawing.Size(319, 32);
             this.lblStatus.TabIndex = 3;
             this.lblStatus.Text = "Verifying application requirements. This may take a few moments.";
+            // 
+            // transferLine
+            // 
+            this.transferLine.BackgroundLineColor = System.Drawing.Color.Silver;
+            this.transferLine.Location = new System.Drawing.Point(62, 40);
+            this.transferLine.Name = "transferLine";
+            this.transferLine.SegmentColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(205)))), ((int)(((byte)(85)))));
+            this.transferLine.SegmentWidth = 28;
+            this.transferLine.Size = new System.Drawing.Size(270, 8);
+            this.transferLine.Speed = 2;
+            this.transferLine.TabIndex = 2;
             // 
             // LaunchingForm
             // 

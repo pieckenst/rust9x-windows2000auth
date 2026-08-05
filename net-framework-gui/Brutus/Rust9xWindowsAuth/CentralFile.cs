@@ -206,7 +206,7 @@ namespace Rust9xWindowsAuth
     /// Wrapper for authentication results with proper disposal
     /// Implements IDisposable to ensure proper cleanup of native resources
     /// </summary>
-    public class AuthResult : IDisposable
+    public partial class AuthResult : IDisposable
     {
         private AuthInteropResult _result;
         private bool _disposed;

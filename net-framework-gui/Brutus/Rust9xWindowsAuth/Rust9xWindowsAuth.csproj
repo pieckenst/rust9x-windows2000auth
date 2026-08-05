@@ -2,14 +2,31 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{86E365E2-D855-4579-B53D-9B0DF7FF0857}</ProjectGuid>
+
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Rust9xWindowsAuth</RootNamespace>
     <AssemblyName>Rust9xWindowsAuth</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+
+    <!-- Rust Build Configuration -->
+    <RustProjectRoot>$(ProjectDir)..\..\..\..\rust-src</RustProjectRoot>
+    <RustDllName>rust9x_windows_auth.dll</RustDllName>
+    <RustTargetTriple>i686-rust9x-windows-msvc</RustTargetTriple>
+
+    <!-- Rust DLL Source Paths -->
+    <RustDllDebugPath>$(RustProjectRoot)\target\dll-debug\$(RustTargetTriple)\debug\$(RustDllName)</RustDllDebugPath>
+    <RustDllReleasePath>$(RustProjectRoot)\target\dll-release\$(RustTargetTriple)\release\$(RustDllName)</RustDllReleasePath>
+
+    <!-- Rust runtime directories -->
+    <RustRuntimeDebugDir>$(RustProjectRoot)\target\dll-debug\$(RustTargetTriple)\debug</RustRuntimeDebugDir>
+    <RustRuntimeReleaseDir>$(RustProjectRoot)\target\dll-release\$(RustTargetTriple)\release</RustRuntimeReleaseDir>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -20,7 +37,10 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <RustDllSourcePath>$(RustDllDebugPath)</RustDllSourcePath>
+    <RustRuntimeDir>$(RustRuntimeDebugDir)</RustRuntimeDir>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -28,22 +48,104 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <RustDllSourcePath>$(RustDllReleasePath)</RustDllSourcePath>
+    <RustRuntimeDir>$(RustRuntimeReleaseDir)</RustRuntimeDir>
   </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
+
   <ItemGroup>
+    <Compile Include="AuthConfig.cs" />
+    <Compile Include="AuthManager.cs" />
     <Compile Include="CentralFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+
+  <!-- Old-style MSBuild extension points for VS2005 -->
+  <PropertyGroup>
+    <BuildDependsOn>BuildRustProject;$(BuildDependsOn)</BuildDependsOn>
+    <AfterBuildDependsOn>$(AfterBuildDependsOn);CopyRustDll;CopyRustRuntimeFiles</AfterBuildDependsOn>
+    <CleanDependsOn>$(CleanDependsOn);CleanRustFiles</CleanDependsOn>
+  </PropertyGroup>
+
+  <!-- Optional: build Rust first -->
+  <Target Name="BuildRustProject" Condition="'$(BuildRust)' == 'true'">
+    <Message Text="Building Rust project in $(RustProjectRoot)" Importance="high" />
+    <Exec Command="cargo +rust9x dll-release"
+          WorkingDirectory="$(RustProjectRoot)"
+          Condition=" '$(Configuration)' == 'Release' " />
+    <Exec Command="cargo +rust9x dll-debug"
+          WorkingDirectory="$(RustProjectRoot)"
+          Condition=" '$(Configuration)' == 'Debug' " />
   </Target>
-  <Target Name="AfterBuild">
+
+  <!-- Copy the built Rust DLL into this project's output folder -->
+  <Target Name="CopyRustDll">
+    <Message Text="Copying Rust DLL from: $(RustDllSourcePath)" Importance="high" />
+    <Message Text="To: $(OutputPath)" Importance="high" />
+
+    <Copy SourceFiles="$(RustDllSourcePath)"
+          DestinationFolder="$(OutputPath)"
+          SkipUnchangedFiles="true"
+          Condition="Exists('$(RustDllSourcePath)')">
+      <Output TaskParameter="DestinationFiles" ItemName="CopiedDlls" />
+    </Copy>
+
+    <Message Text="Rust DLL copied successfully." Importance="high"
+             Condition="Exists('$(RustDllSourcePath)')" />
+
+    <Error Text="Rust DLL not found at: $(RustDllSourcePath). Please build the Rust project first using: cargo +rust9x dll-release"
+           Condition="!Exists('$(RustDllSourcePath)')" />
   </Target>
-  -->
+
+  <!-- Copy runtime dependencies from Rust output -->
+  <ItemGroup Condition="Exists('$(RustRuntimeDir)')">
+    <RustRuntimeRootFiles Include="$(RustRuntimeDir)\*.dll" Exclude="$(RustDllSourcePath);$(RustRuntimeDir)\*.pdb" />
+    <RustRuntimeRootFiles Include="$(RustRuntimeDir)\*.manifest" />
+    <RustRuntimeCrtFiles Include="$(RustRuntimeDir)\Microsoft.VC80.CRT\*.*" />
+  </ItemGroup>
+
+  <Target Name="CopyRustRuntimeFiles" Condition="Exists('$(RustRuntimeDir)')">
+    <Message Text="Copying Rust runtime files from: $(RustRuntimeDir)" Importance="high" />
+
+    <Copy SourceFiles="@(RustRuntimeRootFiles)"
+          DestinationFolder="$(OutputPath)"
+          SkipUnchangedFiles="true"
+          Condition="'@(RustRuntimeRootFiles)' != ''" />
+
+    <Copy SourceFiles="@(RustRuntimeCrtFiles)"
+          DestinationFolder="$(OutputPath)Microsoft.VC80.CRT"
+          SkipUnchangedFiles="true"
+          Condition="'@(RustRuntimeCrtFiles)' != ''" />
+
+    <Message Text="Rust runtime files copied successfully." Importance="high" />
+  </Target>
+
+  <!-- Clean up copied Rust files -->
+  <Target Name="CleanRustFiles">
+    <Delete Files="$(OutputPath)$(RustDllName)"
+            Condition="Exists('$(OutputPath)$(RustDllName)')" />
+    <Delete Files="$(OutputPath)msvcr80.dll"
+            Condition="Exists('$(OutputPath)msvcr80.dll')" />
+    <Delete Files="$(OutputPath)msvcp80.dll"
+            Condition="Exists('$(OutputPath)msvcp80.dll')" />
+    <Delete Files="$(OutputPath)msvcm80.dll"
+            Condition="Exists('$(OutputPath)msvcm80.dll')" />
+    <Delete Files="$(OutputPath)Microsoft.VC80.CRT\*.*"
+            Condition="Exists('$(OutputPath)Microsoft.VC80.CRT')" />
+    <RemoveDir Directories="$(OutputPath)Microsoft.VC80.CRT"
+               Condition="Exists('$(OutputPath)Microsoft.VC80.CRT')" />
+    <Message Text="Cleaned Rust DLL and runtime files." Importance="high" />
+  </Target>
 </Project>
