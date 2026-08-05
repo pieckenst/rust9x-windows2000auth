@@ -11,6 +11,10 @@ use std::string::{String, ToString};
 use std::vec::Vec;
 #[cfg(feature = "std")]
 use std::format;
+#[cfg(feature = "std")]
+use std::fs::OpenOptions;
+#[cfg(feature = "std")]
+use std::io::Write;
 
 #[cfg(feature = "network")]
 use std::net::TcpStream;
@@ -19,6 +23,22 @@ use std::net::TcpStream;
 use native_tls::TlsConnector;
 
 use crate::auth::{AuthError, AuthResult, WindowsAuthClient};
+
+#[cfg(feature = "std")]
+fn log_to_file(message: &str) {
+    let log_path = "E:\\code\\rust9x-windows2000auth\\rust-src\\http_log.txt";
+    if let Ok(mut file) = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(log_path)
+    {
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs();
+        let _ = writeln!(file, "[{}] {}", timestamp, message);
+    }
+}
 
 trait ReadWrite: std::io::Read + std::io::Write {}
 impl<T: std::io::Read + std::io::Write> ReadWrite for T {}
@@ -42,9 +62,16 @@ impl HttpClient {
         match config.build_connector() {
             Ok(connector) => {
                 self.tls_connector = Some(connector);
+                let msg = "[HTTP] TLS connector built successfully";
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(msg);
             }
             Err(e) => {
-                eprintln!("Failed to build TLS connector: {}", e);
+                let msg = format!("Failed to build TLS connector: {}", e);
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(&msg);
             }
         }
         self
@@ -59,10 +86,20 @@ impl HttpClient {
     ) -> AuthResult<Vec<u8>> {
         let parsed_url = self.parse_url(url)?;
         
+        let start_msg = format!("[HTTP] Starting {} request to {}", method, parsed_url.address);
+        eprintln!("{}", start_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&start_msg);
+        
         #[cfg(feature = "network")]
         {
             let stream = TcpStream::connect(&parsed_url.address)
                 .map_err(|e| AuthError::NetworkError(format!("Failed to connect: {}", e)))?;
+
+            let connect_msg = format!("[HTTP] Connected to {}", parsed_url.address);
+            eprintln!("{}", connect_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&connect_msg);
 
             stream.set_read_timeout(Some(std::time::Duration::from_secs(30)))
                 .map_err(|e| AuthError::NetworkError(format!("Failed to set timeout: {}", e)))?;
@@ -72,8 +109,18 @@ impl HttpClient {
                 let tls_connector = self.tls_connector.as_ref()
                     .ok_or_else(|| AuthError::TlsError("TLS not configured".to_string()))?;
 
+                let tls_msg = format!("[HTTP] Starting TLS handshake with {}", parsed_url.host);
+                eprintln!("{}", tls_msg);
+                #[cfg(feature = "std")]
+                log_to_file(&tls_msg);
+
                 let tls_stream = tls_connector.connect(&parsed_url.host, stream)
                     .map_err(|e| AuthError::TlsError(format!("TLS handshake failed: {}", e)))?;
+
+                let tls_success_msg = format!("[HTTP] TLS handshake successful with {}", parsed_url.host);
+                eprintln!("{}", tls_success_msg);
+                #[cfg(feature = "std")]
+                log_to_file(&tls_success_msg);
 
                 Box::new(tls_stream) as Box<dyn ReadWrite>
             } else {
@@ -105,11 +152,26 @@ impl HttpClient {
         
         // Generate NTLM negotiate token
         let target_name = &format!("HTTP/{}", url.host);
+        let target_msg = format!("[HTTP] Target name for NTLM: {}", target_name);
+        eprintln!("{}", target_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&target_msg);
+        
         let negotiate_token = auth_client.generate_negotiate_token(target_name)?;
         let negotiate_b64 = self.base64_encode(&negotiate_token);
 
+        let negotiate_msg = format!("[HTTP] NTLM negotiate token: {} bytes", negotiate_token.len());
+        eprintln!("{}", negotiate_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&negotiate_msg);
+
         // Build initial request with Authorization header
         let request = self.build_request(url, method, &body, &format!("NTLM {}", negotiate_b64));
+        
+        let send_msg = format!("[HTTP] Sending initial request ({} bytes)", request.len());
+        eprintln!("{}", send_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&send_msg);
         
         stream.write_all(request.as_bytes())
             .map_err(|e| AuthError::NetworkError(format!("Failed to send request: {}", e)))?;
@@ -130,22 +192,52 @@ impl HttpClient {
             if let Some(pos) = self.find_headers_end(&response_buf) {
                 let headers = String::from_utf8_lossy(&response_buf[..pos]).to_string();
                 
+                let response_msg = format!("[HTTP] Received response headers ({} bytes)", pos);
+                eprintln!("{}", response_msg);
+                #[cfg(feature = "std")]
+                log_to_file(&response_msg);
+                
                 // Check for 401 Unauthorized with WWW-Authenticate
                 if headers.contains("401") && headers.contains("WWW-Authenticate:") {
+                    let challenge_msg = "[HTTP] Received 401 - extracting NTLM challenge";
+                    eprintln!("{}", challenge_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(challenge_msg);
+                    
                     // Extract NTLM challenge
                     if let Some(challenge) = self.extract_ntlm_challenge(&headers) {
+                        let challenge_size_msg = format!("[HTTP] NTLM challenge size: {} bytes", challenge.len());
+                        eprintln!("{}", challenge_size_msg);
+                        #[cfg(feature = "std")]
+                        log_to_file(&challenge_size_msg);
+                        
                         // Process challenge and get authenticate token
                         let auth_token = auth_client.process_challenge(&challenge, target_name)?;
                         let auth_b64 = self.base64_encode(&auth_token);
                         
+                        let auth_msg = format!("[HTTP] NTLM authenticate token: {} bytes", auth_token.len());
+                        eprintln!("{}", auth_msg);
+                        #[cfg(feature = "std")]
+                        log_to_file(&auth_msg);
+                        
                         // Send request with Authorization header
                         let auth_request = self.build_request(url, method, &body, &format!("NTLM {}", auth_b64));
+                        
+                        let auth_send_msg = format!("[HTTP] Sending auth request ({} bytes)", auth_request.len());
+                        eprintln!("{}", auth_send_msg);
+                        #[cfg(feature = "std")]
+                        log_to_file(&auth_send_msg);
                         
                         stream.write_all(auth_request.as_bytes())
                             .map_err(|e| AuthError::NetworkError(format!("Failed to send auth request: {}", e)))?;
                         
                         // Read final response
                         response_buf.clear();
+                        let final_read_msg = "[HTTP] Reading final response";
+                        eprintln!("{}", final_read_msg);
+                        #[cfg(feature = "std")]
+                        log_to_file(final_read_msg);
+                        
                         loop {
                             let n = stream.read(&mut temp_buf)
                                 .map_err(|e| AuthError::NetworkError(format!("Failed to read final response: {}", e)))?;
@@ -164,11 +256,20 @@ impl HttpClient {
                 
                 // If we got a non-401 response, break
                 if !headers.contains("401") {
+                    let success_msg = "[HTTP] Request completed successfully";
+                    eprintln!("{}", success_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(success_msg);
                     break;
                 }
             }
         }
 
+        let final_msg = format!("[HTTP] Final response size: {} bytes", response_buf.len());
+        eprintln!("{}", final_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&final_msg);
+        
         Ok(response_buf)
     }
 

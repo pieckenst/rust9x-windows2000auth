@@ -40,9 +40,11 @@ ASP.NET Core API Server (Modern System)
 
 ```bash
 # Build DLL for .NET interop (release, static CRT - no MSVCR dependency on target)
+# NOTE: This builds ONLY the DLL, not the test EXE
 cargo +rust9x dll-release
 
 # Build DLL for .NET interop (debug, static CRT - no MSVCR dependency on target)
+# NOTE: This builds ONLY the DLL, not the test EXE
 cargo +rust9x dll-debug
 
 # Build test harness EXE (release, dynamic CRT - requires MSVCR on target)
@@ -62,13 +64,16 @@ Or use the full cargo commands:
 
 ```bash
 # Build DLL for .NET interop (release, static CRT - no MSVCR dependency on target)
-cargo +rust9x build --target i686-rust9x-windows-msvc --release --features "std,network,tls,dll-build"
+# NOTE: This builds ONLY the DLL, not the test EXE
+cargo +rust9x build --target i686-rust9x-windows-msvc --release --lib --features "std,network,tls,dll-build"
 
 # Build DLL for .NET interop (debug, static CRT - no MSVCR dependency on target)
-cargo +rust9x build --target i686-rust9x-windows-msvc --features "std,network,tls,dll-build"
+# NOTE: This builds ONLY the DLL, not the test EXE
+cargo +rust9x build --target i686-rust9x-windows-msvc --lib --features "std,network,tls,dll-build"
 
 # Build DLL for legacy systems (no_std, release, static CRT)
-cargo +rust9x build --target i686-rust9x-windows-msvc --release --features "network,tls,dll-build"
+# NOTE: This builds ONLY the DLL, not the test EXE
+cargo +rust9x build --target i686-rust9x-windows-msvc --release --lib --features "network,tls,dll-build"
 
 # Build test harness EXE (release, dynamic CRT - requires MSVCR on target)
 cargo +rust9x build --target i686-rust9x-windows-msvc --bin rust9x_auth_test --release --features "std,network,tls,exe-build"

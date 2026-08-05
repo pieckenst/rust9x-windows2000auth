@@ -5,20 +5,26 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandlerGui", "HandlerGui\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rust9xWindowsAuth", "Rust9xWindowsAuth\Rust9xWindowsAuth.csproj", "{86E365E2-D855-4579-B53D-9B0DF7FF0857}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildCopyTool", "BuildCopyTool\BuildCopyTool.csproj", "{9042CC0C-7405-479F-8FEE-6E37B53234D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Debug|x86.ActiveCfg = Debug|x86
+		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Debug|x86.Build.0 = Debug|x86
+		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Release|x86.ActiveCfg = Release|x86
+		{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}.Release|x86.Build.0 = Release|x86
+		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Debug|x86.ActiveCfg = Debug|x86
+		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Debug|x86.Build.0 = Debug|x86
+		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Release|x86.ActiveCfg = Release|x86
+		{86E365E2-D855-4579-B53D-9B0DF7FF0857}.Release|x86.Build.0 = Release|x86
+		{9042CC0C-7405-479F-8FEE-6E37B53234D4}.Debug|x86.ActiveCfg = Debug|x86
+		{9042CC0C-7405-479F-8FEE-6E37B53234D4}.Debug|x86.Build.0 = Debug|x86
+		{9042CC0C-7405-479F-8FEE-6E37B53234D4}.Release|x86.ActiveCfg = Release|x86
+		{9042CC0C-7405-479F-8FEE-6E37B53234D4}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

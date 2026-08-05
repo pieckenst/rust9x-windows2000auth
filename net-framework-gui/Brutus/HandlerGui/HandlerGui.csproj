@@ -1,37 +1,28 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F2E0FCDD-A2A0-4EC4-A293-DB96E44C154A}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>HandlerGui</RootNamespace>
     <AssemblyName>HandlerGui</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <ApplicationIcon>File.ico</ApplicationIcon>
-
-    <!-- Rust Build Configuration -->
-    <RustProjectRoot>$(ProjectDir)..\..\..\..\rust-src</RustProjectRoot>
+    <RustProjectRoot>$(ProjectDir)..\..\..\rust-src</RustProjectRoot>
     <RustDllName>rust9x_windows_auth.dll</RustDllName>
     <RustTargetTriple>i686-rust9x-windows-msvc</RustTargetTriple>
-
-    <!-- Rust DLL Source Paths -->
     <RustDllDebugPath>$(RustProjectRoot)\target\dll-debug\$(RustTargetTriple)\debug\$(RustDllName)</RustDllDebugPath>
     <RustDllReleasePath>$(RustProjectRoot)\target\dll-release\$(RustTargetTriple)\release\$(RustDllName)</RustDllReleasePath>
-
-    <!-- Runtime directories -->
     <RustRuntimeDebugDir>$(RustProjectRoot)\target\dll-debug\$(RustTargetTriple)\debug</RustRuntimeDebugDir>
     <RustRuntimeReleaseDir>$(RustProjectRoot)\target\dll-release\$(RustTargetTriple)\release</RustRuntimeReleaseDir>
-
-    <!-- VS2005-compatible target chaining -->
-    <AfterBuildDependsOn>$(AfterBuildDependsOn);BuildRustProject;CopyRustDll;CopyRustRuntimeFiles</AfterBuildDependsOn>
-    <CleanDependsOn>$(CleanDependsOn);CleanRustFiles</CleanDependsOn>
+    <BuildCopyToolExe>$(ProjectDir)..\BuildCopyTool\bin\$(Configuration)\BuildCopyTool.exe</BuildCopyToolExe>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -40,21 +31,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
     <RustDllSourcePath>$(RustDllDebugPath)</RustDllSourcePath>
     <RustRuntimeDir>$(RustRuntimeDebugDir)</RustRuntimeDir>
   </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
     <RustDllSourcePath>$(RustDllReleasePath)</RustDllSourcePath>
     <RustRuntimeDir>$(RustRuntimeReleaseDir)</RustRuntimeDir>
   </PropertyGroup>
-
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -64,14 +55,12 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Rust9xWindowsAuth\Rust9xWindowsAuth.csproj">
       <Project>{86E365E2-D855-4579-B53D-9B0DF7FF0857}</Project>
       <Name>Rust9xWindowsAuth</Name>
     </ProjectReference>
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="ConfirmForm.cs">
       <SubType>Form</SubType>
@@ -96,7 +85,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
     <EmbeddedResource Include="ConfirmForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ConfirmForm.cs</DependentUpon>
@@ -109,7 +97,6 @@
       <SubType>Designer</SubType>
       <DependentUpon>LaunchingForm.cs</DependentUpon>
     </EmbeddedResource>
-
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -120,7 +107,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -131,55 +117,38 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <Content Include="File.ico" />
   </ItemGroup>
-
-  <!-- Copy lists split so VS2005 doesn't need transforms -->
-  <ItemGroup Condition="Exists('$(RustRuntimeDir)')">
-    <RustRuntimeRootFiles Include="$(RustRuntimeDir)\*.dll" />
-    <RustRuntimeRootFiles Include="$(RustRuntimeDir)\*.manifest" />
-    <RustRuntimeCrtFiles Include="$(RustRuntimeDir)\Microsoft.VC80.CRT\*.*" />
-  </ItemGroup>
-
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-
-  <!-- Optional: build Rust first -->
-  <Target Name="BuildRustProject" Condition="'$(BuildRust)' == 'true'">
-    <Message Text="Building Rust project in $(RustProjectRoot)" Importance="high" />
-    <Exec Command="cargo +rust9x dll-release" WorkingDirectory="$(RustProjectRoot)" Condition=" '$(Configuration)' == 'Release' " />
-    <Exec Command="cargo +rust9x dll-debug" WorkingDirectory="$(RustProjectRoot)" Condition=" '$(Configuration)' == 'Debug' " />
+  <PropertyGroup>
+    <BuildDependsOn>$(BuildDependsOn);LogRustPaths;BuildBuildCopyTool;RunBuildCopyTool</BuildDependsOn>
+    <CleanDependsOn>$(CleanDependsOn);CleanRustFiles</CleanDependsOn>
+  </PropertyGroup>
+  <Target Name="LogRustPaths">
+    <Message Text="=== HandlerGui LogRustPaths ===" Importance="high" />
+    <Message Text="Configuration: $(Configuration)" Importance="high" />
+    <Message Text="Platform: $(Platform)" Importance="high" />
+    <Message Text="ProjectDir: $(ProjectDir)" Importance="high" />
+    <Message Text="RustProjectRoot: $(RustProjectRoot)" Importance="high" />
+    <Message Text="RustDllSourcePath: $(RustDllSourcePath)" Importance="high" />
+    <Message Text="RustRuntimeDir: $(RustRuntimeDir)" Importance="high" />
+    <Message Text="BuildCopyToolExe: $(BuildCopyToolExe)" Importance="high" />
+    <Message Text="TargetDir: $(TargetDir)" Importance="high" />
   </Target>
-
-  <!-- Copy Rust DLL from rust-src\target to C# output -->
-  <Target Name="CopyRustDll">
-    <Message Text="Copying Rust DLL from: $(RustDllSourcePath)" Importance="high" />
-
-    <Copy SourceFiles="$(RustDllSourcePath)"
-          DestinationFolder="$(OutputPath)"
-          SkipUnchangedFiles="true"
-          Condition="Exists('$(RustDllSourcePath)')" />
-
-    <Error Text="Rust DLL not found at: $(RustDllSourcePath)"
-           Condition="!Exists('$(RustDllSourcePath)')" />
+  <Target Name="BuildBuildCopyTool">
+    <Message Text="=== BuildBuildCopyTool ===" Importance="high" />
+    <Message Text="Project: $(ProjectDir)..\BuildCopyTool\BuildCopyTool.csproj" Importance="high" />
+    <MSBuild Projects="$(ProjectDir)..\BuildCopyTool\BuildCopyTool.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" ContinueOnError="false" />
   </Target>
-
-  <!-- Copy VC80 CRT/runtime files -->
-  <Target Name="CopyRustRuntimeFiles" Condition="Exists('$(RustRuntimeDir)')">
-    <Message Text="Copying Rust runtime files from: $(RustRuntimeDir)" Importance="high" />
-
-    <Copy SourceFiles="@(RustRuntimeRootFiles)"
-          DestinationFolder="$(OutputPath)"
-          SkipUnchangedFiles="true"
-          Condition="'@(RustRuntimeRootFiles)' != ''" />
-
-    <Copy SourceFiles="@(RustRuntimeCrtFiles)"
-          DestinationFolder="$(OutputPath)Microsoft.VC80.CRT"
-          SkipUnchangedFiles="true"
-          Condition="'@(RustRuntimeCrtFiles)' != ''" />
+  <Target Name="RunBuildCopyTool">
+    <Message Text="=== RunBuildCopyTool ===" Importance="high" />
+    <Message Text="Tool: $(BuildCopyToolExe)" Importance="high" />
+    <Message Text="ProjectDir: $(ProjectDir)" Importance="high" />
+    <Message Text="TargetDir: $(TargetDir)" Importance="high" />
+    <Error Text="BuildCopyTool not found: $(BuildCopyToolExe)" Condition="!Exists('$(BuildCopyToolExe)')" />
+    <Exec Command="$(BuildCopyToolExe) &quot;$(ProjectDir)&quot; &quot;$(TargetDir)&quot;" />
   </Target>
-
   <Target Name="CleanRustFiles">
     <Delete Files="$(OutputPath)$(RustDllName)" Condition="Exists('$(OutputPath)$(RustDllName)')" />
     <Delete Files="$(OutputPath)msvcr80.dll" Condition="Exists('$(OutputPath)msvcr80.dll')" />
@@ -187,5 +156,6 @@
     <Delete Files="$(OutputPath)msvcm80.dll" Condition="Exists('$(OutputPath)msvcm80.dll')" />
     <Delete Files="$(OutputPath)Microsoft.VC80.CRT\*.*" Condition="Exists('$(OutputPath)Microsoft.VC80.CRT')" />
     <RemoveDir Directories="$(OutputPath)Microsoft.VC80.CRT" Condition="Exists('$(OutputPath)Microsoft.VC80.CRT')" />
+    <Message Text="Rust artifacts cleaned." Importance="high" />
   </Target>
 </Project>

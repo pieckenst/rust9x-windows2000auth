@@ -7,6 +7,10 @@ use alloc::vec::Vec;
 use std::string::String;
 #[cfg(feature = "std")]
 use std::vec::Vec;
+#[cfg(feature = "std")]
+use std::fs::OpenOptions;
+#[cfg(feature = "std")]
+use std::io::Write;
 
 use sspi::{
     AuthIdentity, BufferType, ClientRequestFlags, CredentialUse, DataRepresentation,
@@ -24,6 +28,22 @@ use windows_sys::Win32::Foundation::HWND;
 #[cfg(windows)]
 use windows_sys::Win32::Foundation::GetLastError;
 
+#[cfg(feature = "std")]
+fn log_to_file(message: &str) {
+    let log_path = "E:\\code\\rust9x-windows2000auth\\rust-src\\auth_log.txt";
+    if let Ok(mut file) = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open(log_path)
+    {
+        let timestamp = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .unwrap_or_default()
+            .as_secs();
+        let _ = writeln!(file, "[{}] {}", timestamp, message);
+    }
+}
+
   
 
 
@@ -35,17 +55,26 @@ use alloc::ffi::CString;
 fn log_security_status<T>(status: &Result<T, sspi::Error>, operation: &str) {
     match status {
         Ok(_) => {
-            eprintln!("[SSPI] {} -> SUCCESS", operation);
+            let msg = format!("[SSPI] {} -> SUCCESS", operation);
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(&msg);
         }
         Err(err) => {
-            eprintln!("[SSPI] {} -> Error: {} (0x{:08X}) - {}", 
+            let msg = format!("[SSPI] {} -> Error: {} (0x{:08X}) - {}", 
                 operation,
                 format_error_kind(err.error_type),
                 err.error_type as u32,
                 err.description
             );
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(&msg);
             if let Some(nstatus) = err.nstatus {
-                eprintln!("[SSPI] {} -> NTSTATUS: {:?}", operation, nstatus);
+                let nstatus_msg = format!("[SSPI] {} -> NTSTATUS: {:?}", operation, nstatus);
+                eprintln!("{}", nstatus_msg);
+                #[cfg(feature = "std")]
+                log_to_file(&nstatus_msg);
             }
         }
     }
@@ -165,41 +194,46 @@ impl WindowsAuthClient {
     pub fn debug_credentials(&self) {
         match &self.credentials {
             Some(creds) => {
-                eprintln!("[AUTH] Credentials loaded");
-                eprintln!("[AUTH] Username : {}", creds.username);
-                eprintln!("[AUTH] Domain   : {:?}", creds.domain);
-
-                if let Some(domain) = &creds.domain {
-                    eprintln!(
-                        "[AUTH] Identity : {}\\{}",
-                        domain,
-                        creds.username
-                    );
-                } else {
-                    eprintln!(
-                        "[AUTH] Identity : .\\{}",
-                        creds.username
-                    );
+                let msgs = vec![
+                    format!("[AUTH] Credentials loaded"),
+                    format!("[AUTH] Username : {}", creds.username),
+                    format!("[AUTH] Domain   : {:?}", creds.domain),
+                    if let Some(domain) = &creds.domain {
+                        format!("[AUTH] Identity : {}\\{}", domain, creds.username)
+                    } else {
+                        format!("[AUTH] Identity : .\\{}", creds.username)
+                    },
+                    format!("[AUTH] Password length : {}", creds.password.len()),
+                ];
+                for msg in &msgs {
+                    eprintln!("{}", msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(msg);
                 }
-
-                eprintln!(
-                    "[AUTH] Password length : {}",
-                    creds.password.len()
-                );
             }
 
             None => {
-                eprintln!("[AUTH] No credentials loaded");
+                let msg = "[AUTH] No credentials loaded";
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(msg);
             }
         }
     }
 
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
-        eprintln!("[SSPI] API: AcquireCredentialsHandle");
-        eprintln!("[SSPI] Package: NTLM");
-        eprintln!("[SSPI] Principal: NULL");
-        eprintln!("[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND");
+        let msgs = vec![
+            "[SSPI] API: AcquireCredentialsHandle",
+            "[SSPI] Package: NTLM",
+            "[SSPI] Principal: NULL",
+            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND",
+        ];
+        for msg in &msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let ntlm = self
             .ntlm
@@ -211,8 +245,15 @@ impl WindowsAuthClient {
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
 
-        eprintln!("[SSPI] Username: {}", creds.username);
-        eprintln!("[SSPI] Domain: {:?}", creds.domain.as_deref());
+        let user_msgs = vec![
+            format!("[SSPI] Username: {}", creds.username),
+            format!("[SSPI] Domain: {:?}", creds.domain.as_deref()),
+        ];
+        for msg in &user_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
@@ -234,10 +275,17 @@ impl WindowsAuthClient {
             AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
         })?;
 
-        eprintln!("[SSPI] API: InitializeSecurityContext");
-        eprintln!("[SSPI] TargetName: {}", target_name);
-        eprintln!("[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY");
-        eprintln!("[SSPI] DataRepresentation: Native");
+        let init_msgs = vec![
+            format!("[SSPI] API: InitializeSecurityContext"),
+            format!("[SSPI] TargetName: {}", target_name),
+            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY",
+            "[SSPI] DataRepresentation: Native",
+        ];
+        for msg in &init_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
@@ -268,16 +316,26 @@ impl WindowsAuthClient {
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
-        eprintln!("[SSPI] Negotiate token generated ({} bytes)", token.len());
+        let token_msg = format!("[SSPI] Negotiate token generated ({} bytes)", token.len());
+        eprintln!("{}", token_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&token_msg);
         Ok(token)
     }
 
     /// Process NTLM challenge and generate authenticate token (Type 3 message)
     pub fn process_challenge(&mut self, challenge: &[u8], target_name: &str) -> AuthResult<Vec<u8>> {
-        eprintln!("[SSPI] API: AcquireCredentialsHandle (challenge)");
-        eprintln!("[SSPI] Package: NTLM");
-        eprintln!("[SSPI] Principal: NULL");
-        eprintln!("[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND");
+        let msgs = vec![
+            "[SSPI] API: AcquireCredentialsHandle (challenge)",
+            "[SSPI] Package: NTLM",
+            "[SSPI] Principal: NULL",
+            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND",
+        ];
+        for msg in &msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let ntlm = self
             .ntlm
@@ -289,8 +347,15 @@ impl WindowsAuthClient {
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
 
-        eprintln!("[SSPI] Username: {}", creds.username);
-        eprintln!("[SSPI] Domain: {:?}", creds.domain.as_deref());
+        let user_msgs = vec![
+            format!("[SSPI] Username: {}", creds.username),
+            format!("[SSPI] Domain: {:?}", creds.domain.as_deref()),
+        ];
+        for msg in &user_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
@@ -312,11 +377,18 @@ impl WindowsAuthClient {
             AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
         })?;
 
-        eprintln!("[SSPI] API: InitializeSecurityContext (challenge - Type 3)");
-        eprintln!("[SSPI] TargetName: {}", target_name);
-        eprintln!("[SSPI] Challenge size: {} bytes", challenge.len());
-        eprintln!("[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY");
-        eprintln!("[SSPI] DataRepresentation: Native");
+        let init_msgs = vec![
+            format!("[SSPI] API: InitializeSecurityContext (challenge - Type 3)"),
+            format!("[SSPI] TargetName: {}", target_name),
+            format!("[SSPI] Challenge size: {} bytes", challenge.len()),
+            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY",
+            "[SSPI] DataRepresentation: Native",
+        ];
+        for msg in &init_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(challenge.to_vec(), BufferType::Token)];
@@ -347,7 +419,10 @@ impl WindowsAuthClient {
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
-        eprintln!("[SSPI] Authenticate token generated ({} bytes)", token.len());
+        let token_msg = format!("[SSPI] Authenticate token generated ({} bytes)", token.len());
+        eprintln!("{}", token_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&token_msg);
         Ok(token)
     }
 
@@ -359,11 +434,18 @@ impl WindowsAuthClient {
         message: &str,
         save: bool,
     ) -> AuthResult<()> {
-        eprintln!("[CredUI] API: CredUICmdLinePromptForCredentialsW");
-        eprintln!("[CredUI] Caption: {}", caption);
-        eprintln!("[CredUI] Message: {}", message);
-        eprintln!("[CredUI] Save checkbox: {}", save);
-        eprintln!("[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST");
+        let msgs = vec![
+            "[CredUI] API: CredUICmdLinePromptForCredentialsW",
+            format!("[CredUI] Caption: {}", caption),
+            format!("[CredUI] Message: {}", message),
+            format!("[CredUI] Save checkbox: {}", save),
+            "[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST",
+        ];
+        for msg in &msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         let caption_wide = Self::to_wide(caption);
         let message_wide = Self::to_wide(message);
@@ -400,11 +482,17 @@ impl WindowsAuthClient {
             )
         };
 
-        eprintln!("[CredUI] HRESULT: 0x{:08X}", result);
+        let hresult_msg = format!("[CredUI] HRESULT: 0x{:08X}", result);
+        eprintln!("{}", hresult_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&hresult_msg);
 
         if result != 0 {
             let last_error = unsafe { GetLastError() };
-            eprintln!("[CredUI] GetLastError: 0x{:08X}", last_error);
+            let last_error_msg = format!("[CredUI] GetLastError: 0x{:08X}", last_error);
+            eprintln!("{}", last_error_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&last_error_msg);
 
             return Err(AuthError::InvalidCredentials(format!(
                 "Credential prompt failed - HRESULT: 0x{:08X}, GetLastError: 0x{:08X}",
@@ -422,9 +510,16 @@ impl WindowsAuthClient {
         let password = Self::from_wide(&password_buf[..password_len_pos]);
         let _domain = String::new(); // Domain is embedded in username (DOMAIN\user or user@domain)
 
-        eprintln!("[CredUI] Username length: {}", username_len_pos);
-        eprintln!("[CredUI] Password length: {}", password_len_pos);
-        eprintln!("[CredUI] Save flag result: {}", save_flag);
+        let buf_msgs = vec![
+            format!("[CredUI] Username length: {}", username_len_pos),
+            format!("[CredUI] Password length: {}", password_len_pos),
+            format!("[CredUI] Save flag result: {}", save_flag),
+        ];
+        for msg in &buf_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         // Parse username in format "DOMAIN\username" or "username@domain"
         let (username, domain) = if let Some(pos) = username.find('\\') {
@@ -447,8 +542,15 @@ impl WindowsAuthClient {
             )
         };
 
-        eprintln!("[CredUI] Parsed username: {}", username);
-        eprintln!("[CredUI] Parsed domain: {:?}", domain);
+        let parsed_msgs = vec![
+            format!("[CredUI] Parsed username: {}", username),
+            format!("[CredUI] Parsed domain: {:?}", domain),
+        ];
+        for msg in &parsed_msgs {
+            eprintln!("{}", msg);
+            #[cfg(feature = "std")]
+            log_to_file(msg);
+        }
 
         self.credentials = Some(AuthCredentials {
             username,
@@ -456,7 +558,10 @@ impl WindowsAuthClient {
             domain,
         });
 
-        eprintln!("[CredUI] Credentials stored successfully");
+        let success_msg = "[CredUI] Credentials stored successfully";
+        eprintln!("{}", success_msg);
+        #[cfg(feature = "std")]
+        log_to_file(success_msg);
         Ok(())
     }
 

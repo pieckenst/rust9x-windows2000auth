@@ -1,0 +1,10 @@
+E:\code\rust9x-windows2000auth\rust-src\target/exe-static-release\i686-rust9x-windows-msvc\release\deps\crypto_common-3248681056068222.d: C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\lib.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\hazmat.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\generate.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\../README.md
+
+E:\code\rust9x-windows2000auth\rust-src\target/exe-static-release\i686-rust9x-windows-msvc\release\deps\libcrypto_common-3248681056068222.rlib: C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\lib.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\hazmat.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\generate.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\../README.md
+
+E:\code\rust9x-windows2000auth\rust-src\target/exe-static-release\i686-rust9x-windows-msvc\release\deps\libcrypto_common-3248681056068222.rmeta: C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\lib.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\hazmat.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\generate.rs C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\../README.md
+
+C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\lib.rs:
+C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\hazmat.rs:
+C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\generate.rs:
+C:\Users\rsncra\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\crypto-common-0.2.2\src\../README.md:

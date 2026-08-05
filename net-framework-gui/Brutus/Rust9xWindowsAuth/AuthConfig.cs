@@ -13,6 +13,23 @@ namespace Rust9xWindowsAuth
         private static AuthConfig _current;
         private static readonly object _lock = new object();
 
+        // Instance fields for .NET 2.0 compatibility
+        private string _authUrl;
+        private string _httpMethod;
+        private string _requestBody;
+        private int _timeoutMs;
+        private bool _autoPromptCredentials;
+        private string _credentialCaption;
+        private string _credentialMessage;
+        private bool _allowSaveCredentials;
+        private string _username;
+        private string _password;
+        private string _domain;
+        private int _maxRetryAttempts;
+        private int _retryDelayMs;
+        private bool _enableVerboseLogging;
+        private string _logFilePath;
+
         /// <summary>
         /// Current configuration instance
         /// </summary>
@@ -44,77 +61,137 @@ namespace Rust9xWindowsAuth
         /// <summary>
         /// Target URL for authentication requests
         /// </summary>
-        public string AuthUrl { get; set; }
+        public string AuthUrl
+        {
+            get { return _authUrl; }
+            set { _authUrl = value; }
+        }
 
         /// <summary>
         /// HTTP method to use (GET, POST, etc.)
         /// </summary>
-        public string HttpMethod { get; set; }
+        public string HttpMethod
+        {
+            get { return _httpMethod; }
+            set { _httpMethod = value; }
+        }
 
         /// <summary>
         /// Request body for POST requests
         /// </summary>
-        public string RequestBody { get; set; }
+        public string RequestBody
+        {
+            get { return _requestBody; }
+            set { _requestBody = value; }
+        }
 
         /// <summary>
         /// Timeout for authentication requests in milliseconds
         /// </summary>
-        public int TimeoutMs { get; set; }
+        public int TimeoutMs
+        {
+            get { return _timeoutMs; }
+            set { _timeoutMs = value; }
+        }
 
         /// <summary>
         /// Whether to prompt for credentials automatically
         /// </summary>
-        public bool AutoPromptCredentials { get; set; }
+        public bool AutoPromptCredentials
+        {
+            get { return _autoPromptCredentials; }
+            set { _autoPromptCredentials = value; }
+        }
 
         /// <summary>
         /// Caption for credential dialog
         /// </summary>
-        public string CredentialCaption { get; set; }
+        public string CredentialCaption
+        {
+            get { return _credentialCaption; }
+            set { _credentialCaption = value; }
+        }
 
         /// <summary>
         /// Message for credential dialog
         /// </summary>
-        public string CredentialMessage { get; set; }
+        public string CredentialMessage
+        {
+            get { return _credentialMessage; }
+            set { _credentialMessage = value; }
+        }
 
         /// <summary>
         /// Whether to save credentials option
         /// </summary>
-        public bool AllowSaveCredentials { get; set; }
+        public bool AllowSaveCredentials
+        {
+            get { return _allowSaveCredentials; }
+            set { _allowSaveCredentials = value; }
+        }
 
         /// <summary>
         /// Pre-configured username (optional)
         /// </summary>
-        public string Username { get; set; }
+        public string Username
+        {
+            get { return _username; }
+            set { _username = value; }
+        }
 
         /// <summary>
         /// Pre-configured password (optional)
         /// </summary>
-        public string Password { get; set; }
+        public string Password
+        {
+            get { return _password; }
+            set { _password = value; }
+        }
 
         /// <summary>
         /// Pre-configured domain (optional)
         /// </summary>
-        public string Domain { get; set; }
+        public string Domain
+        {
+            get { return _domain; }
+            set { _domain = value; }
+        }
 
         /// <summary>
         /// Maximum retry attempts for failed authentication
         /// </summary>
-        public int MaxRetryAttempts { get; set; }
+        public int MaxRetryAttempts
+        {
+            get { return _maxRetryAttempts; }
+            set { _maxRetryAttempts = value; }
+        }
 
         /// <summary>
         /// Delay between retry attempts in milliseconds
         /// </summary>
-        public int RetryDelayMs { get; set; }
+        public int RetryDelayMs
+        {
+            get { return _retryDelayMs; }
+            set { _retryDelayMs = value; }
+        }
 
         /// <summary>
         /// Whether to enable verbose logging
         /// </summary>
-        public bool EnableVerboseLogging { get; set; }
+        public bool EnableVerboseLogging
+        {
+            get { return _enableVerboseLogging; }
+            set { _enableVerboseLogging = value; }
+        }
 
         /// <summary>
         /// Log file path (if logging enabled)
         /// </summary>
-        public string LogFilePath { get; set; }
+        public string LogFilePath
+        {
+            get { return _logFilePath; }
+            set { _logFilePath = value; }
+        }
 
         public AuthConfig()
         {
@@ -189,7 +266,8 @@ namespace Rust9xWindowsAuth
             try
             {
                 string value = ConfigurationManager.AppSettings[key];
-                if (int.TryParse(value, out int result))
+                int result;
+                if (int.TryParse(value, out result))
                     return result;
                 return defaultValue;
             }
@@ -204,7 +282,8 @@ namespace Rust9xWindowsAuth
             try
             {
                 string value = ConfigurationManager.AppSettings[key];
-                if (bool.TryParse(value, out bool result))
+                bool result;
+                if (bool.TryParse(value, out result))
                     return result;
                 return defaultValue;
             }
@@ -266,24 +345,23 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public AuthConfig Clone()
         {
-            return new AuthConfig
-            {
-                AuthUrl = this.AuthUrl,
-                HttpMethod = this.HttpMethod,
-                RequestBody = this.RequestBody,
-                TimeoutMs = this.TimeoutMs,
-                AutoPromptCredentials = this.AutoPromptCredentials,
-                CredentialCaption = this.CredentialCaption,
-                CredentialMessage = this.CredentialMessage,
-                AllowSaveCredentials = this.AllowSaveCredentials,
-                Username = this.Username,
-                Password = this.Password,
-                Domain = this.Domain,
-                MaxRetryAttempts = this.MaxRetryAttempts,
-                RetryDelayMs = this.RetryDelayMs,
-                EnableVerboseLogging = this.EnableVerboseLogging,
-                LogFilePath = this.LogFilePath
-            };
+            AuthConfig clone = new AuthConfig();
+            clone.AuthUrl = this.AuthUrl;
+            clone.HttpMethod = this.HttpMethod;
+            clone.RequestBody = this.RequestBody;
+            clone.TimeoutMs = this.TimeoutMs;
+            clone.AutoPromptCredentials = this.AutoPromptCredentials;
+            clone.CredentialCaption = this.CredentialCaption;
+            clone.CredentialMessage = this.CredentialMessage;
+            clone.AllowSaveCredentials = this.AllowSaveCredentials;
+            clone.Username = this.Username;
+            clone.Password = this.Password;
+            clone.Domain = this.Domain;
+            clone.MaxRetryAttempts = this.MaxRetryAttempts;
+            clone.RetryDelayMs = this.RetryDelayMs;
+            clone.EnableVerboseLogging = this.EnableVerboseLogging;
+            clone.LogFilePath = this.LogFilePath;
+            return clone;
         }
     }
 }

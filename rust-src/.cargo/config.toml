@@ -107,9 +107,9 @@ rustflags = [
 
 # Build aliases with separate output directories for each variant
 [alias]
-# DLL build with static CRT
-dll-release = ["build", "--target", "i686-rust9x-windows-msvc", "--release", "--features", "dll-build,network,tls", "--target-dir", "target/dll-release"]
-dll-debug = ["build", "--target", "i686-rust9x-windows-msvc", "--features", "dll-build,network,tls", "--target-dir", "target/dll-debug"]
+# DLL build with static CRT (builds ONLY the DLL, not the EXE)
+dll-release = ["build", "--target", "i686-rust9x-windows-msvc", "--release", "--lib", "--features", "dll-build,network,tls", "--target-dir", "target/dll-release"]
+dll-debug = ["build", "--target", "i686-rust9x-windows-msvc", "--lib", "--features", "dll-build,network,tls", "--target-dir", "target/dll-debug"]
 
 # EXE build with dynamic CRT
 exe-release = ["build", "--target", "i686-rust9x-windows-msvc", "--bin", "rust9x_auth_test", "--release", "--features", "exe-build,network,tls", "--target-dir", "target/exe-release"]
