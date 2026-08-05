@@ -5,3 +5,6 @@ E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\Han
 E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.csproj.GenerateResource.Cache
 E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.exe
 E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.pdb
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.ConfirmForm.resources
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.InstallingForm.resources
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui\obj\Debug\HandlerGui.LaunchingForm.resources

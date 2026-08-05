@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 namespace HandlerGui
 {
-    public partial class Form1 : Form
+    public partial class LaunchingForm : Form
     {
-        public Form1()
+        public LaunchingForm()
         {
             InitializeComponent();
         }
