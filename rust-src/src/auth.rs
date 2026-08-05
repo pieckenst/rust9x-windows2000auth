@@ -195,7 +195,7 @@ impl WindowsAuthClient {
         match &self.credentials {
             Some(creds) => {
                 let msgs = vec![
-                    format!("[AUTH] Credentials loaded"),
+                    "[AUTH] Credentials loaded".to_string(),
                     format!("[AUTH] Username : {}", creds.username),
                     format!("[AUTH] Domain   : {:?}", creds.domain),
                     if let Some(domain) = &creds.domain {
@@ -224,10 +224,10 @@ impl WindowsAuthClient {
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
         let msgs = vec![
-            "[SSPI] API: AcquireCredentialsHandle",
-            "[SSPI] Package: NTLM",
-            "[SSPI] Principal: NULL",
-            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND",
+            "[SSPI] API: AcquireCredentialsHandle".to_string(),
+            "[SSPI] Package: NTLM".to_string(),
+            "[SSPI] Principal: NULL".to_string(),
+            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
         ];
         for msg in &msgs {
             eprintln!("{}", msg);
@@ -278,8 +278,8 @@ impl WindowsAuthClient {
         let init_msgs = vec![
             format!("[SSPI] API: InitializeSecurityContext"),
             format!("[SSPI] TargetName: {}", target_name),
-            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY",
-            "[SSPI] DataRepresentation: Native",
+            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY".to_string(),
+            "[SSPI] DataRepresentation: Native".to_string(),
         ];
         for msg in &init_msgs {
             eprintln!("{}", msg);
@@ -326,10 +326,10 @@ impl WindowsAuthClient {
     /// Process NTLM challenge and generate authenticate token (Type 3 message)
     pub fn process_challenge(&mut self, challenge: &[u8], target_name: &str) -> AuthResult<Vec<u8>> {
         let msgs = vec![
-            "[SSPI] API: AcquireCredentialsHandle (challenge)",
-            "[SSPI] Package: NTLM",
-            "[SSPI] Principal: NULL",
-            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND",
+            "[SSPI] API: AcquireCredentialsHandle (challenge)".to_string(),
+            "[SSPI] Package: NTLM".to_string(),
+            "[SSPI] Principal: NULL".to_string(),
+            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
         ];
         for msg in &msgs {
             eprintln!("{}", msg);
@@ -381,8 +381,8 @@ impl WindowsAuthClient {
             format!("[SSPI] API: InitializeSecurityContext (challenge - Type 3)"),
             format!("[SSPI] TargetName: {}", target_name),
             format!("[SSPI] Challenge size: {} bytes", challenge.len()),
-            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY",
-            "[SSPI] DataRepresentation: Native",
+            "[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY".to_string(),
+            "[SSPI] DataRepresentation: Native".to_string(),
         ];
         for msg in &init_msgs {
             eprintln!("{}", msg);
@@ -435,11 +435,11 @@ impl WindowsAuthClient {
         save: bool,
     ) -> AuthResult<()> {
         let msgs = vec![
-            "[CredUI] API: CredUICmdLinePromptForCredentialsW",
+            "[CredUI] API: CredUICmdLinePromptForCredentialsW".to_string(),
             format!("[CredUI] Caption: {}", caption),
             format!("[CredUI] Message: {}", message),
             format!("[CredUI] Save checkbox: {}", save),
-            "[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST",
+            "[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST".to_string(),
         ];
         for msg in &msgs {
             eprintln!("{}", msg);

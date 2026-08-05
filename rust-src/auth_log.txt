@@ -1,0 +1,30 @@
+[1785947209] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1785947209] [CredUI] Caption: rust9x Windows Authentication
+[1785947209] [CredUI] Message: Enter Windows credentials for NTLM testing
+[1785947209] [CredUI] Save checkbox: false
+[1785947209] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1785947218] [CredUI] HRESULT: 0x00000000
+[1785947218] [CredUI] Username length: 13
+[1785947218] [CredUI] Password length: 8
+[1785947218] [CredUI] Save flag result: 0
+[1785947218] [CredUI] Parsed username: rsncra
+[1785947218] [CredUI] Parsed domain: Some("rust9x")
+[1785947218] [CredUI] Credentials stored successfully
+[1785947218] [AUTH] Credentials loaded
+[1785947218] [AUTH] Username : rsncra
+[1785947218] [AUTH] Domain   : Some("rust9x")
+[1785947218] [AUTH] Identity : rust9x\rsncra
+[1785947218] [AUTH] Password length : 8
+[1785947218] [SSPI] API: AcquireCredentialsHandle
+[1785947218] [SSPI] Package: NTLM
+[1785947218] [SSPI] Principal: NULL
+[1785947218] [SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[1785947218] [SSPI] Username: rsncra
+[1785947218] [SSPI] Domain: Some("rust9x")
+[1785947218] [SSPI] AcquireCredentialsHandle -> SUCCESS
+[1785947218] [SSPI] API: InitializeSecurityContext
+[1785947218] [SSPI] TargetName: HTTP/example.com
+[1785947218] [SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[1785947218] [SSPI] DataRepresentation: Native
+[1785947218] [SSPI] InitializeSecurityContext -> SUCCESS
+[1785947218] [SSPI] Negotiate token generated (40 bytes)

@@ -1,0 +1,7 @@
+[1785947209] [LIB] auth_init called
+[1785947209] [LIB] Auth client initialized successfully
+[1785947209] [LIB] auth_prompt_credentials called
+[1785947209] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1785947218] [LIB] Credential prompt successful
+[1785947218] [LIB] auth_cleanup called
+[1785947218] [LIB] Auth client cleaned up
