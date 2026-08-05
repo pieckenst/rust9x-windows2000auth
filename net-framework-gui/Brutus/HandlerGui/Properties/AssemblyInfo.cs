@@ -5,13 +5,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HandlerGui")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Gui for starting a session in web browser through Windows Authentication and having  access to system resources")]
+[assembly: AssemblyDescription("Gui for starting a session in web browser through Windows Authentication and having  access to system resources")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HandlerGui")]
-[assembly: AssemblyCopyright("Copyright ©  2026")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("Pieckenst")]
+[assembly: AssemblyProduct("Rust9x GUI handler and Online Start-Service")]
+[assembly: AssemblyCopyright("Work of Pieckenst (c) 2026")]
+[assembly: AssemblyTrademark("Pieckenst")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]
