@@ -370,17 +370,6 @@ impl WindowsAuthClient {
             log_memory_info("generate_negotiate_token - start");
         }
 
-        let ntlm = self
-            .ntlm
-            .as_mut()
-            .ok_or_else(|| AuthError::NotInitialized("NTLM not initialized".to_string()))?;
-
-        #[cfg(feature = "std")]
-        {
-            log_option_info("ntlm", true);
-            log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
-        }
-
         let creds = self
             .credentials
             .as_ref()
@@ -403,64 +392,77 @@ impl WindowsAuthClient {
             log_to_file(msg);
         }
 
-        // Only acquire credentials handle once and reuse it
-        if self.credentials_handle.is_none() {
-            let msgs = vec![
-                "[SSPI] API: AcquireCredentialsHandle".to_string(),
-                "[SSPI] Package: NTLM".to_string(),
-                "[SSPI] Principal: NULL".to_string(),
-                "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
-            ];
-            for msg in &msgs {
-                eprintln!("{}", msg);
-                #[cfg(feature = "std")]
-                log_to_file(msg);
-            }
+        // Reset NTLM state for new authentication sequence
+        // This is necessary because the NTLM state machine progresses from Initial -> Negotiate -> Challenge -> Authenticate
+        // Once it leaves Initial state, it cannot generate a new negotiate token
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("generate_negotiate_token - resetting NTLM state for new authentication sequence");
+        }
+        self.ntlm = Some(Ntlm::new());
+        self.credentials_handle = None;
 
-            let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
-                AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
-            })?;
+        let ntlm = self
+            .ntlm
+            .as_mut()
+            .ok_or_else(|| AuthError::NotInitialized("NTLM not initialized".to_string()))?;
 
+        #[cfg(feature = "std")]
+        {
+            log_option_info("ntlm", true);
+            log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
+        }
+
+        let msgs = vec![
+            "[SSPI] API: AcquireCredentialsHandle".to_string(),
+            "[SSPI] Package: NTLM".to_string(),
+            "[SSPI] Principal: NULL".to_string(),
+            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
+        ];
+        for msg in &msgs {
+            eprintln!("{}", msg);
             #[cfg(feature = "std")]
-            {
-                log_object_size("Username struct", core::mem::size_of::<Username>());
-            }
+            log_to_file(msg);
+        }
 
-            let identity = AuthIdentity {
-                username,
-                password: creds.password.clone().into(),
-            };
+        let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
+            AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
+        })?;
 
-            #[cfg(feature = "std")]
-            {
-                log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
-                log_memory_info("generate_negotiate_token - before acquire_credentials_handle");
-            }
+        #[cfg(feature = "std")]
+        {
+            log_object_size("Username struct", core::mem::size_of::<Username>());
+        }
 
-            let acq_cred_result = ntlm
-                .acquire_credentials_handle()
-                .with_credential_use(CredentialUse::Outbound)
-                .with_auth_data(&identity)
-                .execute(ntlm);
+        let identity = AuthIdentity {
+            username,
+            password: creds.password.clone().into(),
+        };
 
-            log_security_status(&acq_cred_result, "AcquireCredentialsHandle");
-            let acq_cred_result = acq_cred_result.map_err(|e| {
-                AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
-            })?;
+        #[cfg(feature = "std")]
+        {
+            log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
+            log_memory_info("generate_negotiate_token - before acquire_credentials_handle");
+        }
 
-            // Store the credentials handle for reuse
-            self.credentials_handle = acq_cred_result.credentials_handle;
+        let acq_cred_result = ntlm
+            .acquire_credentials_handle()
+            .with_credential_use(CredentialUse::Outbound)
+            .with_auth_data(&identity)
+            .execute(ntlm);
 
-            #[cfg(feature = "std")]
-            {
-                log_memory_info("generate_negotiate_token - after acquire_credentials_handle");
-                log_option_info("credentials_handle", self.credentials_handle.is_some());
-            }
-        } else {
-            #[cfg(feature = "std")]
-            {
-                log_memory_info("generate_negotiate_token - reusing existing credentials handle");
-            }
+        log_security_status(&acq_cred_result, "AcquireCredentialsHandle");
+        let acq_cred_result = acq_cred_result.map_err(|e| {
+            AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
+        })?;
+
+        // Store the credentials handle for reuse in process_challenge
+        self.credentials_handle = acq_cred_result.credentials_handle;
+
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("generate_negotiate_token - after acquire_credentials_handle");
+            log_option_info("credentials_handle", self.credentials_handle.is_some());
         }
 
         let init_msgs = vec![

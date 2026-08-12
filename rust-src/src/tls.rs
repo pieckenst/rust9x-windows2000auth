@@ -216,6 +216,54 @@ impl TlsConfig {
         
         let mut builder = TlsConnector::builder();
         
+        // Map our TlsProtocol to native_tls Protocol
+        let native_protocol = match self.min_protocol {
+            TlsProtocol::Auto => None,
+            TlsProtocol::Tls1_0 => Some(native_tls::Protocol::Tlsv10),
+            TlsProtocol::Tls1_1 => Some(native_tls::Protocol::Tlsv11),
+            TlsProtocol::Tls1_2 => Some(native_tls::Protocol::Tlsv12),
+            TlsProtocol::Tls1_3 => Some(native_tls::Protocol::Tlsv13),
+        };
+        
+        let protocol_msg = format!("[TLS] Mapping min_protocol {:?} to native_tls {:?}", self.min_protocol, native_protocol);
+        eprintln!("{}", protocol_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&protocol_msg);
+        
+        // CRITICAL FIX: For Windows 2000 compatibility, we must set max_protocol to TLS 1.0
+        // This forces the schannel crate to use the older SCHANNEL_CRED interface instead of
+        // the newer SCH_CREDENTIALS interface which requires Windows 10+ APIs
+        let native_max_protocol = match self.min_protocol {
+            TlsProtocol::Auto => Some(native_tls::Protocol::Tlsv10), // Force TLS 1.0 max for Windows 2000
+            TlsProtocol::Tls1_0 => Some(native_tls::Protocol::Tlsv10),
+            TlsProtocol::Tls1_1 => Some(native_tls::Protocol::Tlsv11),
+            TlsProtocol::Tls1_2 => Some(native_tls::Protocol::Tlsv12),
+            TlsProtocol::Tls1_3 => Some(native_tls::Protocol::Tlsv13),
+        };
+        
+        let max_protocol_msg = format!("[TLS] Setting max protocol to {:?} to force legacy Schannel interface", native_max_protocol);
+        eprintln!("{}", max_protocol_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&max_protocol_msg);
+        
+        if let Some(protocol) = native_protocol {
+            let set_proto_msg = format!("[TLS] Setting minimum protocol to {:?}", protocol);
+            eprintln!("{}", set_proto_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&set_proto_msg);
+            
+            builder.min_protocol_version(Some(protocol));
+        }
+        
+        if let Some(protocol) = native_max_protocol {
+            let set_max_proto_msg = format!("[TLS] Setting maximum protocol to {:?}", protocol);
+            eprintln!("{}", set_max_proto_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&set_max_proto_msg);
+            
+            builder.max_protocol_version(Some(protocol));
+        }
+        
         // Set certificate verification
         if !self.verify_certs || self.danger_accept_invalid_certs {
             let warning_msg = "[TLS] WARNING: Certificate verification disabled or invalid certs accepted";
@@ -236,16 +284,14 @@ impl TlsConfig {
             builder.danger_accept_invalid_hostnames(true);
         }
         
-        // Note: native_tls doesn't expose fine-grained protocol version control,
-        // but it negotiates the highest available protocol by default
-        // The min/max protocol settings are logged for configuration tracking
-        
         // SNI is enabled by default in native_tls
         if !self.use_sni {
             let sni_msg = "[TLS] SNI disabled (native_tls uses SNI by default, this may not have effect)";
             eprintln!("{}", sni_msg);
             #[cfg(feature = "std")]
             log_to_file(sni_msg);
+            
+            builder.use_sni(false);
         }
         
         let result = builder.build();

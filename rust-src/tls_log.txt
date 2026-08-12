@@ -46,3 +46,63 @@
 [1786564290] [TLS] WARNING: Invalid hostname acceptance enabled
 [1786564290] [TLS] TLS connector built successfully
 [1786564290] [TLS] Connector ready for secure connections
+[1786565110] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565110] [TLS] Setting handshake timeout to: 30s
+[1786565110] [TLS] Configuration validation passed
+[1786565110] [TLS] Building TLS connector with current configuration
+[1786565110] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565110] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565110] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565110] [TLS] TLS connector built successfully
+[1786565110] [TLS] Connector ready for secure connections
+[1786565111] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565111] [TLS] Setting handshake timeout to: 30s
+[1786565111] [TLS] Configuration validation passed
+[1786565111] [TLS] Building TLS connector with current configuration
+[1786565111] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565111] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565111] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565111] [TLS] TLS connector built successfully
+[1786565111] [TLS] Connector ready for secure connections
+[1786565112] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565112] [TLS] Setting handshake timeout to: 30s
+[1786565112] [TLS] Configuration validation passed
+[1786565112] [TLS] Building TLS connector with current configuration
+[1786565112] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565112] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565112] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565112] [TLS] TLS connector built successfully
+[1786565112] [TLS] Connector ready for secure connections
+[1786565734] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565734] [TLS] Setting handshake timeout to: 30s
+[1786565734] [TLS] Configuration validation passed
+[1786565734] [TLS] Building TLS connector with current configuration
+[1786565734] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565734] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786565734] [TLS] Setting minimum protocol to Tlsv10
+[1786565734] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565734] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565734] [TLS] TLS connector built successfully
+[1786565734] [TLS] Connector ready for secure connections
+[1786565735] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565735] [TLS] Setting handshake timeout to: 30s
+[1786565735] [TLS] Configuration validation passed
+[1786565735] [TLS] Building TLS connector with current configuration
+[1786565735] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565735] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786565735] [TLS] Setting minimum protocol to Tlsv10
+[1786565735] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565735] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565735] [TLS] TLS connector built successfully
+[1786565735] [TLS] Connector ready for secure connections
+[1786565737] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786565737] [TLS] Setting handshake timeout to: 30s
+[1786565737] [TLS] Configuration validation passed
+[1786565737] [TLS] Building TLS connector with current configuration
+[1786565737] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786565737] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786565737] [TLS] Setting minimum protocol to Tlsv10
+[1786565737] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786565737] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786565737] [TLS] TLS connector built successfully
+[1786565737] [TLS] Connector ready for secure connections
