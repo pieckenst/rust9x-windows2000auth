@@ -71,32 +71,36 @@ rustflags = [
   # '-Clink-arg=libucrt.lib',
 ]
 
-# DLL-specific configuration: use static CRT for DLL (no MSVCR dependency on target)
-# Use via: cargo build --features dll-build
-[target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "dll-build"))']
-rustflags = [
-  '-Ctarget-feature=+crt-static', # statically linked runtime (no MSVCR dependency)
-  '-Clink-arg=/NODEFAULTLIB:msvcrt.lib', # prevent dynamic CRT
-  '-Clink-arg=/NODEFAULTLIB:msvcrtd.lib', # prevent debug dynamic CRT
-  '-Clink-arg=libcmt.lib', # explicitly link static CRT
-]
-
-# EXE-specific configuration: use dynamic CRT for EXE (avoids duplicate symbols)
-# Use via: cargo build --features exe-build
-[target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "exe-build"))']
-rustflags = [
-  '-Ctarget-feature=-crt-static', # dynamically linked runtime
-]
-
-# EXE-specific configuration: use static CRT for EXE (no MSVCR dependency on target)
-# Use via: cargo build --features exe-static-build
-[target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "exe-static-build"))']
-rustflags = [
-  '-Ctarget-feature=+crt-static', # statically linked runtime (no MSVCR dependency)
-  '-Clink-arg=/NODEFAULTLIB:msvcrt.lib', # prevent dynamic CRT
-  '-Clink-arg=/NODEFAULTLIB:msvcrtd.lib', # prevent debug dynamic CRT
-  '-Clink-arg=libcmt.lib', # explicitly link static CRT
-]
+# NOTE: The following target.'cfg(... feature = ...)' sections DO NOT WORK
+# because Cargo does not support feature-based matching in target configuration.
+# Static CRT is now enabled via the cargo rustc aliases below instead.
+#
+# # DLL-specific configuration: use static CRT for DLL (no MSVCR dependency on target)
+# # Use via: cargo build --features dll-build
+# [target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "dll-build"))']
+# rustflags = [
+#   '-Ctarget-feature=+crt-static', # statically linked runtime (no MSVCR dependency)
+#   '-Clink-arg=/NODEFAULTLIB:msvcrt.lib', # prevent dynamic CRT
+#   '-Clink-arg=/NODEFAULTLIB:msvcrtd.lib', # prevent debug dynamic CRT
+#   '-Clink-arg=libcmt.lib', # explicitly link static CRT
+# ]
+#
+# # EXE-specific configuration: use dynamic CRT for EXE (avoids duplicate symbols)
+# # Use via: cargo build --features exe-build
+# [target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "exe-build"))']
+# rustflags = [
+#   '-Ctarget-feature=-crt-static', # dynamically linked runtime
+# ]
+#
+# # EXE-specific configuration: use static CRT for EXE (no MSVCR dependency on target)
+# # Use via: cargo build --features exe-static-build
+# [target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "exe-static-build"))']
+# rustflags = [
+#   '-Ctarget-feature=+crt-static', # statically linked runtime (no MSVCR dependency)
+#   '-Clink-arg=/NODEFAULTLIB:msvcrt.lib', # prevent dynamic CRT
+#   '-Clink-arg=/NODEFAULTLIB:msvcrtd.lib', # prevent debug dynamic CRT
+#   '-Clink-arg=libcmt.lib', # explicitly link static CRT
+# ]
 
 # Additional link args for Windows Auth DLL (needs secur32.lib for SSPI/NTLM)
 [target.'cfg(all(target_family = "rust9x", target_env = "msvc", feature = "network"))']
@@ -108,9 +112,31 @@ rustflags = [
 # Build aliases with separate output directories for each variant
 [alias]
 # DLL build with static CRT (builds ONLY the DLL, not the EXE)
-dll-release = ["build", "--target", "i686-rust9x-windows-msvc", "--release", "--lib", "--features", "dll-build,network,tls", "--target-dir", "target/dll-release"]
-dll-debug = ["build", "--target", "i686-rust9x-windows-msvc", "--lib", "--features", "dll-build,network,tls", "--target-dir", "target/dll-debug"]
+# Using cargo rustc with explicit -Ctarget-feature=+crt-static because
+# target.'cfg(... feature = "dll-build")' matching does not work in Cargo
+# For DLL static CRT, we must explicitly exclude EXE CRT objects and use DLL entry point
+dll-release = [
+    "rustc",
+    "--target", "i686-rust9x-windows-msvc",
+    "--release",
+    "--lib",
+    "--features", "dll-build,network,tls",
+    "--target-dir", "target/dll-release",
+    "--",
+    "-Ctarget-feature=+crt-static",
+    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12"
+]
 
+dll-debug = [
+    "rustc",
+    "--target", "i686-rust9x-windows-msvc",
+    "--lib",
+    "--features", "dll-build,network,tls",
+    "--target-dir", "target/dll-debug",
+    "--",
+    "-Ctarget-feature=+crt-static",
+    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12"
+]
 # EXE build with dynamic CRT
 exe-release = ["build", "--target", "i686-rust9x-windows-msvc", "--bin", "rust9x_auth_test", "--release", "--features", "exe-build,network,tls", "--target-dir", "target/exe-release"]
 exe-debug = ["build", "--target", "i686-rust9x-windows-msvc", "--bin", "rust9x_auth_test", "--features", "exe-build,network,tls", "--target-dir", "target/exe-debug"]
