@@ -69,6 +69,9 @@ rustflags = [
   # # Add modern universal CRT for missing float/math intrinsics. see `cfg(feature = "float")` in
   # # `main.rs`!
   # '-Clink-arg=libucrt.lib',
+
+  '--cfg',
+  'getrandom_backend="windows_legacy"',
 ]
 
 # NOTE: The following target.'cfg(... feature = ...)' sections DO NOT WORK
@@ -135,7 +138,10 @@ dll-debug = [
     "--target-dir", "target/dll-debug",
     "--",
     "-Ctarget-feature=+crt-static",
-    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12"
+    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12",
+    "-Clink-arg=/NODEFAULTLIB:libcmt.lib",
+    "-Clink-arg=libcmt-dll.lib",
+    "-Clink-arg=/LIBPATH:E:\\code\\rust9x-windows2000auth\\libs"
 ]
 # EXE build with dynamic CRT
 exe-release = ["build", "--target", "i686-rust9x-windows-msvc", "--bin", "rust9x_auth_test", "--release", "--features", "exe-build,network,tls", "--target-dir", "target/exe-release"]

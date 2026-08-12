@@ -1,0 +1,7568 @@
+Microsoft (R) COFF/PE Dumper Version 8.00.50727.762
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file E:\code\rust9x-windows2000auth\libs\libcmt-dll.lib
+
+File Type: LIBRARY
+
+Archive member name at 2C33C: /0              ..\build\intel\mt_obj\util.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    156C size
+correct header end
+
+Archive member name at 2D8E4: /31             ..\build\intel\mt_obj\matherr.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1571 size
+correct header end
+
+Archive member name at 2EE92: /65             ..\build\intel\mt_obj\ldexp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    17CF size
+correct header end
+
+Archive member name at 3069E: /97             ..\build\intel\mt_obj\ieeemisc.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2A8C size
+correct header end
+
+Archive member name at 33166: /132            ..\build\intel\mt_obj\frexp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2322 size
+correct header end
+
+Archive member name at 354C4: /164            ..\build\intel\mt_obj\fpexcept.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    6C50 size
+correct header end
+
+Archive member name at 3C150: /199            ..\build\intel\mt_obj\contrlfp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    171B size
+correct header end
+
+Archive member name at 3D8A8: /234            ..\build\intel\mt_obj\bessel.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    3A67 size
+correct header end
+
+Archive member name at 4134C: /267            ..\build\intel\mt_obj\tan_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    280D size
+correct header end
+
+Archive member name at 43B96: /302            ..\build\intel\mt_obj\tanf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1828 size
+correct header end
+
+Archive member name at 453FA: /338            ..\build\intel\mt_obj\sin_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    185F size
+correct header end
+
+Archive member name at 46C96: /373            ..\build\intel\mt_obj\sinf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    11FE size
+correct header end
+
+Archive member name at 47ED0: /409            ..\build\intel\mt_obj\sincos_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    20BC size
+correct header end
+
+Archive member name at 49FC8: /447            ..\build\intel\mt_obj\sincosf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2115 size
+correct header end
+
+Archive member name at 4C11A: /486            ..\build\intel\mt_obj\pow_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    6D87 size
+correct header end
+
+Archive member name at 52EDE: /521            ..\build\intel\mt_obj\powf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2CDC size
+correct header end
+
+Archive member name at 55BF6: /557            ..\build\intel\mt_obj\log_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1AC2 size
+correct header end
+
+Archive member name at 576F4: /592            ..\build\intel\mt_obj\logf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    12EA size
+correct header end
+
+Archive member name at 58A1A: /628            ..\build\intel\mt_obj\log10_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1BB0 size
+correct header end
+
+Archive member name at 5A606: /665            ..\build\intel\mt_obj\log10f_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    12F4 size
+correct header end
+
+Archive member name at 5B936: /703            ..\build\intel\mt_obj\exp_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1590 size
+correct header end
+
+Archive member name at 5CF02: /738            ..\build\intel\mt_obj\expf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1087 size
+correct header end
+
+Archive member name at 5DFC6: /774            ..\build\intel\mt_obj\cos_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1773 size
+correct header end
+
+Archive member name at 5F776: /809            ..\build\intel\mt_obj\cosf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    11C6 size
+correct header end
+
+Archive member name at 60978: /845            ..\build\intel\mt_obj\atan_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1A3D size
+correct header end
+
+Archive member name at 623F2: /881            ..\build\intel\mt_obj\atanf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    13DA size
+correct header end
+
+Archive member name at 63808: /918            ..\build\intel\mt_obj\atan2_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2AF2 size
+correct header end
+
+Archive member name at 66336: /955            ..\build\intel\mt_obj\asin_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2FF6 size
+correct header end
+
+Archive member name at 69368: /991            ..\build\intel\mt_obj\asinf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    22DD size
+correct header end
+
+Archive member name at 6B682: /1028           ..\build\intel\mt_obj\acos_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    30FC size
+correct header end
+
+Archive member name at 6E7BA: /1064           ..\build\intel\mt_obj\acosf_sse2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2100 size
+correct header end
+
+Archive member name at 708F6: /1101           ..\build\intel\mt_obj\libm_error.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    47DD size
+correct header end
+
+Archive member name at 75110: /1138           ..\build\intel\mt_obj\tan_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2893 size
+correct header end
+
+Archive member name at 779E0: /1177           ..\build\intel\mt_obj\sin_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1889 size
+correct header end
+
+Archive member name at 792A6: /1216           ..\build\intel\mt_obj\cos_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1835 size
+correct header end
+
+Archive member name at 7AB18: /1255           ..\build\intel\mt_obj\asin_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    3B6F size
+correct header end
+
+Archive member name at 7E6C4: /1295           ..\build\intel\mt_obj\acos_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    3A26 size
+correct header end
+
+Archive member name at 82126: /1335           ..\build\intel\mt_obj\pow_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    74F5 size
+correct header end
+
+Archive member name at 89658: /1374           ..\build\intel\mt_obj\log10_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1C72 size
+correct header end
+
+Archive member name at 8B306: /1415           ..\build\intel\mt_obj\log_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1BB8 size
+correct header end
+
+Archive member name at 8CEFA: /1454           ..\build\intel\mt_obj\exp_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1963 size
+correct header end
+
+Archive member name at 8E89A: /1493           ..\build\intel\mt_obj\atan_table.obj
+461EE43D time/date Fri Apr 13 05:00:29 2007
+         uid
+         gid
+  100666 mode
+    1BDA size
+correct header end
+
+Archive member name at 904B0: /1530           ..\build\intel\mt_obj\atan_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1777 size
+correct header end
+
+Archive member name at 91C64: /1570           ..\build\intel\mt_obj\ceil_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     BB2 size
+correct header end
+
+Archive member name at 92852: /1610           ..\build\intel\mt_obj\floor_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     BDC size
+correct header end
+
+Archive member name at 9346A: /1651           ..\build\intel\mt_obj\modf_pentium4.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     C20 size
+correct header end
+
+Archive member name at 940C6: /1691           ..\build\intel\mt_obj\cpu_disp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1FF4 size
+correct header end
+
+Archive member name at 960F6: /1726           ..\build\intel\mt_obj\xmmi2_fp_emul.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    7F78 size
+correct header end
+
+Archive member name at 9E0AA: /1766           ..\build\intel\mt_obj\xmmi_fp_emul.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    6336 size
+correct header end
+
+Archive member name at A441C: /1805           ..\build\intel\mt_obj\sqrt.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     CBB size
+correct header end
+
+Archive member name at A5114: /1836           ..\build\intel\mt_obj\pow.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1A13 size
+correct header end
+
+Archive member name at A6B64: /1866           ..\build\intel\mt_obj\mathfcns.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    17CD size
+correct header end
+
+Archive member name at A836E: /1901           ..\build\intel\mt_obj\log10.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1210 size
+correct header end
+
+Archive member name at A95BA: /1933           ..\build\intel\mt_obj\log.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    119A size
+correct header end
+
+Archive member name at AA790: /1963           ..\build\intel\mt_obj\tan.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    10A6 size
+correct header end
+
+Archive member name at AB872: /1993           ..\build\intel\mt_obj\cos.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1092 size
+correct header end
+
+Archive member name at AC940: /2023           ..\build\intel\mt_obj\sin.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1092 size
+correct header end
+
+Archive member name at ADA0E: /2053           ..\build\intel\mt_obj\atan.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     FAA size
+correct header end
+
+Archive member name at AE9F4: /2084           ..\build\intel\mt_obj\acos.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1113 size
+correct header end
+
+Archive member name at AFB44: /2115           ..\build\intel\mt_obj\asin.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    10D3 size
+correct header end
+
+Archive member name at B0C54: /2146           ..\build\intel\mt_obj\testfdiv.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1A71 size
+correct header end
+
+Archive member name at B2702: /2181           ..\build\intel\mt_obj\powhlp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     FD1 size
+correct header end
+
+Archive member name at B3710: /2214           ..\build\intel\mt_obj\modf.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1758 size
+correct header end
+
+Archive member name at B4EA4: /2245           ..\build\intel\mt_obj\ieee87.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    5F1F size
+correct header end
+
+Archive member name at BAE00: /2278           ..\build\intel\mt_obj\hypotf.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     ACC size
+correct header end
+
+Archive member name at BB908: /2311           ..\build\intel\mt_obj\hypot.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1C9F size
+correct header end
+
+Archive member name at BD5E4: /2343           ..\build\intel\mt_obj\huge.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+     35E size
+correct header end
+
+Archive member name at BD97E: /2374           ..\build\intel\mt_obj\genexcep.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     A05 size
+correct header end
+
+Archive member name at BE3C0: /2409           ..\build\intel\mt_obj\ftol2.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     910 size
+correct header end
+
+Archive member name at BED0C: /2441           ..\build\intel\mt_obj\ftol.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     438 size
+correct header end
+
+Archive member name at BF180: /2472           ..\build\intel\mt_obj\fsqrt.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     57C size
+correct header end
+
+Archive member name at BF738: /2504           ..\build\intel\mt_obj\frnd.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     578 size
+correct header end
+
+Archive member name at BFCEC: /2535           ..\build\intel\mt_obj\fpctrl.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    2F22 size
+correct header end
+
+Archive member name at C2C4A: /2568           ..\build\intel\mt_obj\floor.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    145D size
+correct header end
+
+Archive member name at C40E4: /2600           ..\build\intel\mt_obj\filter_simd.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    DF26 size
+correct header end
+
+Archive member name at D2046: /2638           ..\build\intel\mt_obj\filter.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    696C size
+correct header end
+
+Archive member name at D89EE: /2671           ..\build\intel\mt_obj\fabs.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1386 size
+correct header end
+
+Archive member name at D9DB0: /2702           ..\build\intel\mt_obj\common.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    17AA size
+correct header end
+
+Archive member name at DB596: /2735           ..\build\intel\mt_obj\ceil.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1458 size
+correct header end
+
+Archive member name at DCA2A: /2766           ..\build\intel\mt_obj\adj_fdiv.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    6000 size
+correct header end
+
+Archive member name at E2A66: /2801           ..\build\intel\mt_obj\87trigh.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    12E1 size
+correct header end
+
+Archive member name at E3D84: /2835           ..\build\intel\mt_obj\87triga.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    10BE size
+correct header end
+
+Archive member name at E4E7E: /2869           ..\build\intel\mt_obj\87trig.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     95D size
+correct header end
+
+Archive member name at E5818: /2902           ..\build\intel\mt_obj\87tran.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1ED9 size
+correct header end
+
+Archive member name at E772E: /2935           ..\build\intel\mt_obj\87sqrt.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     7E0 size
+correct header end
+
+Archive member name at E7F4A: /2968           ..\build\intel\mt_obj\87fmod.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     AF2 size
+correct header end
+
+Archive member name at E8A78: /3001           ..\build\intel\mt_obj\87except.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    202F size
+correct header end
+
+Archive member name at EAAE4: /3036           ..\build\intel\mt_obj\87disp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    1447 size
+correct header end
+
+Archive member name at EBF68: /3069           ..\build\intel\mt_obj\87ctrigh.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     81C size
+correct header end
+
+Archive member name at EC7C0: /3104           ..\build\intel\mt_obj\87ctriga.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     4D3 size
+correct header end
+
+Archive member name at ECCD0: /3139           ..\build\intel\mt_obj\87ctran.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+     8C4 size
+correct header end
+
+Archive member name at ED5D0: /3173           ..\build\intel\mt_obj\87cdisp.obj
+461EE43F time/date Fri Apr 13 05:00:31 2007
+         uid
+         gid
+  100666 mode
+    198D size
+correct header end
+
+Archive member name at EEF9A: /3207           ..\build\intel\mt_obj\fltinf.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    1554 size
+correct header end
+
+Archive member name at F052A: /3240           ..\build\intel\mt_obj\x10fout.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    42FB size
+correct header end
+
+Archive member name at F4862: /3274           ..\build\intel\mt_obj\tenpow.obj
+461EE439 time/date Fri Apr 13 05:00:25 2007
+         uid
+         gid
+  100666 mode
+     2FF size
+correct header end
+
+Archive member name at F4B9E: /3307           ..\build\intel\mt_obj\wstrgtold.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    55F6 size
+correct header end
+
+Archive member name at FA1D0: /3343           ..\build\intel\mt_obj\strgtold.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    51D4 size
+correct header end
+
+Archive member name at FF3E0: /3378           ..\build\intel\mt_obj\mantold.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    1458 size
+correct header end
+
+Archive member name at 100874: /3412           ..\build\intel\mt_obj\intrncvt.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    3F7A size
+correct header end
+
+Archive member name at 10482A: /3447           ..\build\intel\mt_obj\fpinit.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    228F size
+correct header end
+
+Archive member name at 106AF6: /3480           ..\build\intel\mt_obj\cpp_obj\cvt.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    8DDE size
+correct header end
+
+Archive member name at 10F910: /3518           ..\build\intel\mt_obj\constpow.obj
+461EE439 time/date Fri Apr 13 05:00:25 2007
+         uid
+         gid
+  100666 mode
+     9DD size
+correct header end
+
+Archive member name at 11032A: /3553           ..\build\intel\mt_obj\cfout.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    2262 size
+correct header end
+
+Archive member name at 1125C8: /3585           ..\build\intel\mt_obj\wcfin.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    1A85 size
+correct header end
+
+Archive member name at 11408A: /3617           ..\build\intel\mt_obj\cfin.obj
+461EE43A time/date Fri Apr 13 05:00:26 2007
+         uid
+         gid
+  100666 mode
+    16A4 size
+correct header end
+
+Archive member name at 11576A: /3648           build\intel\mt_obj\wutime64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1C4F size
+correct header end
+
+Archive member name at 1173F6: /3680           build\intel\mt_obj\wutime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1C6F size
+correct header end
+
+Archive member name at 1190A2: /3710           build\intel\mt_obj\wstrtime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1CB5 size
+correct header end
+
+Archive member name at 11AD94: /3742           build\intel\mt_obj\wstrdate.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1CCF size
+correct header end
+
+Archive member name at 11CAA0: /3774           build\intel\mt_obj\wctime64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1C18 size
+correct header end
+
+Archive member name at 11E6F4: /3806           build\intel\mt_obj\wctime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1C16 size
+correct header end
+
+Archive member name at 120346: /3836           build\intel\mt_obj\wasctime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    2435 size
+correct header end
+
+Archive member name at 1227B8: /3868           build\intel\mt_obj\cpp_obj\wcsftime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    378D size
+correct header end
+
+Archive member name at 125F82: /3908           build\intel\mt_obj\utime64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    25D3 size
+correct header end
+
+Archive member name at 128592: /3939           build\intel\mt_obj\time64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    15F6 size
+correct header end
+
+Archive member name at 129BC4: /3969           build\intel\mt_obj\systime.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1AFA size
+correct header end
+
+Archive member name at 12B6FA: /4000           build\intel\mt_obj\mktime64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    2360 size
+correct header end
+
+Archive member name at 12DA96: /4032           build\intel\mt_obj\loctim64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    22C4 size
+correct header end
+
+Archive member name at 12FD96: /4064           build\intel\mt_obj\gmtime64.obj
+461EE4E1 time/date Fri Apr 13 05:03:13 2007
+         uid
+         gid
+  100666 mode
+    1EF9 size
+correct header end
+
+Archive member name at 131CCC: /4096           build\intel\mt_obj\ftime64.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    2397 size
+correct header end
+
+Archive member name at 1340A0: /4127           build\intel\mt_obj\dtoxtm64.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1DE6 size
+correct header end
+
+Archive member name at 135EC2: /4159           build\intel\mt_obj\ctime64.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1B08 size
+correct header end
+
+Archive member name at 137A06: /4190           build\intel\mt_obj\utime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    25ED size
+correct header end
+
+Archive member name at 13A030: /4219           build\intel\mt_obj\tzset.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    4D89 size
+correct header end
+
+Archive member name at 13EDF6: /4248           build\intel\mt_obj\timeset.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    29D6 size
+correct header end
+
+Archive member name at 141808: /4279           build\intel\mt_obj\time.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1603 size
+correct header end
+
+Archive member name at 142E48: /4307           build\intel\mt_obj\strtime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1B34 size
+correct header end
+
+Archive member name at 1449B8: /4338           build\intel\mt_obj\strdate.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1B3D size
+correct header end
+
+Archive member name at 146532: /4369           build\intel\mt_obj\cpp_obj\strftime.obj
+461EE4E2 time/date Fri Apr 13 05:03:14 2007
+         uid
+         gid
+  100666 mode
+    89C1 size
+correct header end
+
+Archive member name at 14EF30: /4409           build\intel\mt_obj\mktime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    22A8 size
+correct header end
+
+Archive member name at 151214: /4439           build\intel\mt_obj\localtim.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    21D8 size
+correct header end
+
+Archive member name at 153428: /4471           build\intel\mt_obj\gmtime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    20DB size
+correct header end
+
+Archive member name at 155540: /4501           build\intel\mt_obj\ftime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    2389 size
+correct header end
+
+Archive member name at 157906: /4530           build\intel\mt_obj\dtoxtime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1D5B size
+correct header end
+
+Archive member name at 15969E: /4562           build\intel\mt_obj\difftm64.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    15EB size
+correct header end
+
+Archive member name at 15ACC6: /4594           build\intel\mt_obj\difftime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    15E8 size
+correct header end
+
+Archive member name at 15C2EA: /4626           build\intel\mt_obj\days.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    12BF size
+correct header end
+
+Archive member name at 15D5E6: /4654           build\intel\mt_obj\ctime.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1B06 size
+correct header end
+
+Archive member name at 15F128: /4683           build\intel\mt_obj\clock.obj
+461EE4DD time/date Fri Apr 13 05:03:09 2007
+         uid
+         gid
+  100666 mode
+    1C62 size
+correct header end
+
+Archive member name at 160DC6: /4712           build\intel\mt_obj\asctime.obj
+461EE4DE time/date Fri Apr 13 05:03:10 2007
+         uid
+         gid
+  100666 mode
+    22E0 size
+correct header end
+
+Archive member name at 1630E2: /4743           build\intel\st_obj\almap\vsnprintf_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B5 size
+correct header end
+
+Archive member name at 1631D4: /4784           build\intel\st_obj\almap\vsnprintf.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 1632C2: /4823           build\intel\st_obj\almap\vswprintf.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 1633B0: /4862           build\intel\st_obj\almap\swprintf.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 16349C: /4900           build\intel\st_obj\almap\_wutime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A5 size
+correct header end
+
+Archive member name at 16357E: /4937           build\intel\st_obj\almap\_wstati64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 16366C: /4976           build\intel\st_obj\almap\_wstat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 16374C: /5012           build\intel\st_obj\almap\typeinfo_name_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+     109 size
+correct header end
+
+Archive member name at 163892: /5058           build\intel\st_obj\almap\typeinfo_type_info_dtor_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      F1 size
+correct header end
+
+Archive member name at 1639C0: /5114           build\intel\st_obj\almap\typeinfo_name_base_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+     115 size
+correct header end
+
+Archive member name at 163B12: /5165           build\intel\st_obj\almap\typeinfo_dtor_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      E2 size
+correct header end
+
+Archive member name at 163C30: /5211           build\intel\st_obj\almap\_set_invalid_parameter_handler_m_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+     117 size
+correct header end
+
+Archive member name at 163D84: /5276           build\intel\st_obj\almap\_set_invalid_parameter_handler_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+     103 size
+correct header end
+
+Archive member name at 163EC4: /5339           build\intel\st_obj\almap\typeinfo_32_2.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      CF size
+correct header end
+
+Archive member name at 163FD0: /5382           build\intel\st_obj\almap\typeinfo_32_1.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      CF size
+correct header end
+
+Archive member name at 1640DC: /5425           build\intel\st_obj\almap\vsprintf_32_1.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      D4 size
+correct header end
+
+Archive member name at 1641EC: /5468           build\intel\st_obj\almap\_wsopen_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      C7 size
+correct header end
+
+Archive member name at 1642F0: /5508           build\intel\st_obj\almap\_wopen_32.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      C3 size
+correct header end
+
+Archive member name at 1643F0: /5547           build\intel\st_obj\almap\__CxxFrameHandler2.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      C2 size
+correct header end
+
+Archive member name at 1644EE: /5595           build\intel\st_obj\almap\_freea_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 1645CE: /5633           build\intel\st_obj\almap\_wfindnexti64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      BA size
+correct header end
+
+Archive member name at 1646C4: /5676           build\intel\st_obj\almap\_wfindnext.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 1647B4: /5716           build\intel\st_obj\almap\_wfindfirsti64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      BC size
+correct header end
+
+Archive member name at 1648AC: /5760           build\intel\st_obj\almap\_wfindfirst.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B6 size
+correct header end
+
+Archive member name at 16499E: /5801           build\intel\st_obj\almap\_wctime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A5 size
+correct header end
+
+Archive member name at 164A80: /5838           build\intel\st_obj\almap\_utime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 164B60: /5874           build\intel\st_obj\almap\time.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 164C36: /5908           build\intel\st_obj\almap\_stati64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 164D22: /5946           build\intel\st_obj\almap\_stat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 164DF8: /5981           build\intel\st_obj\almap\_mkgmtime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 164EE6: /6020           build\intel\st_obj\almap\mktime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A5 size
+correct header end
+
+Archive member name at 164FC8: /6056           build\intel\st_obj\almap\localtime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1650B8: /6095           build\intel\st_obj\almap\gmtime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A5 size
+correct header end
+
+Archive member name at 16519A: /6131           build\intel\st_obj\almap\_futime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A5 size
+correct header end
+
+Archive member name at 16527C: /6168           build\intel\st_obj\almap\_ftime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 16535C: /6204           build\intel\st_obj\almap\_fstati64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 16544A: /6243           build\intel\st_obj\almap\_fstat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 16552A: /6279           build\intel\st_obj\almap\_findnexti64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B8 size
+correct header end
+
+Archive member name at 16561E: /6321           build\intel\st_obj\almap\_findnext.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 16570C: /6360           build\intel\st_obj\almap\_findfirsti64.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      BA size
+correct header end
+
+Archive member name at 165802: /6403           build\intel\st_obj\almap\_findfirst.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 1658F2: /6443           build\intel\st_obj\almap\difftime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 1659E0: /6481           build\intel\st_obj\almap\ctime.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 165AC0: /6516           build\intel\st_obj\almap\mbdup.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 165B96: /6551           build\intel\st_obj\almap\strcmpi.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 165C80: /6588           build\intel\st_obj\almap\mbcpy.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 165D56: /6623           build\intel\st_obj\almap\mbcat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 165E2C: /6658           build\intel\st_obj\tcmap\mbslen.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 165F02: /6694           build\intel\st_obj\tcmap\nset_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 165FF6: /6732           build\intel\st_obj\tcmap\nset_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1660E6: /6768           build\intel\st_obj\tcmap\nset_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1661D6: /6804           build\intel\st_obj\tcmap\nset.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 1662C2: /6838           build\intel\st_obj\tcmap\nicoll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 1663B6: /6876           build\intel\st_obj\tcmap\nicoll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1664A6: /6912           build\intel\st_obj\tcmap\nicmp_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B5 size
+correct header end
+
+Archive member name at 166598: /6949           build\intel\st_obj\tcmap\nicmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 166686: /6984           build\intel\st_obj\tcmap\ncpy_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 16677A: /7022           build\intel\st_obj\tcmap\ncpy_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 16686A: /7058           build\intel\st_obj\tcmap\ncpy_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 16695A: /7094           build\intel\st_obj\tcmap\ncpy.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 166A46: /7128           build\intel\st_obj\tcmap\ncoll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B5 size
+correct header end
+
+Archive member name at 166B38: /7165           build\intel\st_obj\tcmap\ncoll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 166C26: /7200           build\intel\st_obj\tcmap\ncmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 166D12: /7234           build\intel\st_obj\tcmap\ncat_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 166E06: /7272           build\intel\st_obj\tcmap\ncat_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 166EF6: /7308           build\intel\st_obj\tcmap\ncat_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 166FE6: /7344           build\intel\st_obj\tcmap\ncat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 1670D2: /7378           build\intel\st_obj\tcmap\nbset_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 1671C6: /7417           build\intel\st_obj\tcmap\nbset_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1672B6: /7454           build\intel\st_obj\tcmap\nbset_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1673A6: /7491           build\intel\st_obj\tcmap\nbset.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 167492: /7526           build\intel\st_obj\tcmap\nbicoll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 167586: /7565           build\intel\st_obj\tcmap\nbicoll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 167676: /7602           build\intel\st_obj\tcmap\nbicmp_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B5 size
+correct header end
+
+Archive member name at 167768: /7640           build\intel\st_obj\tcmap\nbicmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 167856: /7676           build\intel\st_obj\tcmap\nbcpy_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 16794A: /7715           build\intel\st_obj\tcmap\nbcpy_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 167A3A: /7752           build\intel\st_obj\tcmap\nbcpy_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 167B2A: /7789           build\intel\st_obj\tcmap\nbcpy.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 167C16: /7824           build\intel\st_obj\tcmap\nbcoll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B5 size
+correct header end
+
+Archive member name at 167D08: /7862           build\intel\st_obj\tcmap\nbcoll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 167DF6: /7898           build\intel\st_obj\tcmap\nbcmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 167EE2: /7933           build\intel\st_obj\tcmap\nbcat_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B7 size
+correct header end
+
+Archive member name at 167FD6: /7972           build\intel\st_obj\tcmap\nbcat_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1680C6: /8009           build\intel\st_obj\tcmap\nbcat_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 1681B6: /8046           build\intel\st_obj\tcmap\nbcat.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 1682A2: /8081           build\intel\st_obj\tcmap\_mbccpy_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 168392: /8122           build\intel\st_obj\tcmap\_mbccpy_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 16847E: /8161           build\intel\st_obj\tcmap\_mbccpy_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 16856A: /8200           build\intel\st_obj\tcmap\_mbccpy.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 168640: /8237           build\intel\st_obj\tcmap\_mbclen.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 168716: /8274           build\intel\st_obj\tcmap\nlen_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B3 size
+correct header end
+
+Archive member name at 168806: /8310           build\intel\st_obj\tcmap\nlen.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AF size
+correct header end
+
+Archive member name at 1688F2: /8344           build\intel\st_obj\tcmap\len_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B1 size
+correct header end
+
+Archive member name at 1689E0: /8379           build\intel\st_obj\tcmap\len.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      A4 size
+correct header end
+
+Archive member name at 168AC0: /8412           build\intel\st_obj\tcmap\icoll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 168BB0: /8449           build\intel\st_obj\tcmap\icoll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 168C9C: /8484           build\intel\st_obj\tcmap\coll_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 168D8A: /8520           build\intel\st_obj\tcmap\coll.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 168E74: /8554           build\intel\st_obj\tcmap\icmp_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B2 size
+correct header end
+
+Archive member name at 168F62: /8590           build\intel\st_obj\tcmap\icmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 16904C: /8624           build\intel\st_obj\tcmap\cmp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 169122: /8657           build\intel\st_obj\tcmap\upr_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 169212: /8694           build\intel\st_obj\tcmap\upr_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 1692FE: /8729           build\intel\st_obj\tcmap\upr_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 1693EA: /8764           build\intel\st_obj\tcmap\upr.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 1694C0: /8797           build\intel\st_obj\tcmap\lwr_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 1695B0: /8834           build\intel\st_obj\tcmap\lwr_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 16969C: /8869           build\intel\st_obj\tcmap\lwr_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 169788: /8904           build\intel\st_obj\tcmap\lwr.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16985E: /8937           build\intel\st_obj\tcmap\spnp.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 169948: /8971           build\intel\st_obj\tcmap\ninc.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 169A32: /9005           build\intel\st_obj\tcmap\nextc.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 169B1E: /9040           build\intel\st_obj\tcmap\nccnt.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 169C0A: /9075           build\intel\st_obj\tcmap\nbcnt.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 169CF6: /9110           build\intel\st_obj\tcmap\inc.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 169DCC: /9143           build\intel\st_obj\tcmap\dec.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 169EA2: /9176           build\intel\st_obj\tcmap\set_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 169F92: /9213           build\intel\st_obj\tcmap\set_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 16A07E: /9248           build\intel\st_obj\tcmap\set_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 16A16A: /9283           build\intel\st_obj\tcmap\set.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16A240: /9316           build\intel\st_obj\tcmap\rev.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16A316: /9349           build\intel\st_obj\tcmap\tok_s_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B4 size
+correct header end
+
+Archive member name at 16A406: /9386           build\intel\st_obj\tcmap\tok_s.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 16A4F2: /9421           build\intel\st_obj\tcmap\tok_l.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      B0 size
+correct header end
+
+Archive member name at 16A5DE: /9456           build\intel\st_obj\tcmap\tok.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16A6B4: /9489           build\intel\st_obj\tcmap\str.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16A78A: /9522           build\intel\st_obj\tcmap\spn.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16A860: /9555           build\intel\st_obj\tcmap\rchr.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 16A94A: /9589           build\intel\st_obj\tcmap\pbrk.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 16AA34: /9623           build\intel\st_obj\tcmap\cspn.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      AE size
+correct header end
+
+Archive member name at 16AB1E: /9657           build\intel\st_obj\tcmap\chr.obj
+461EE427 time/date Fri Apr 13 05:00:07 2007
+         uid
+         gid
+  100666 mode
+      9A size
+correct header end
+
+Archive member name at 16ABF4: /9690           build\intel\mt_obj\cpp_obj\wcsxfrm.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    2A73 size
+correct header end
+
+Archive member name at 16D6A4: /9729           build\intel\mt_obj\cpp_obj\wcsupr.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    369C size
+correct header end
+
+Archive member name at 170D7C: /9767           build\intel\mt_obj\cpp_obj\wcsnicol.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    2B70 size
+correct header end
+
+Archive member name at 173928: /9807           build\intel\mt_obj\cpp_obj\wcsnicmp.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    29CB size
+correct header end
+
+Archive member name at 176330: /9847           build\intel\mt_obj\cpp_obj\wcsncoll.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    2A03 size
+correct header end
+
+Archive member name at 178D70: /9887           build\intel\mt_obj\cpp_obj\wcslwr.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    369C size
+correct header end
+
+Archive member name at 17C448: /9925           build\intel\mt_obj\cpp_obj\wcsicoll.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    29F7 size
+correct header end
+
+Archive member name at 17EE7C: /9965           build\intel\mt_obj\cpp_obj\wcsicmp.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    2985 size
+correct header end
+
+Archive member name at 18183E: /10004          build\intel\mt_obj\cpp_obj\wcscoll.obj
+461EE4D7 time/date Fri Apr 13 05:03:03 2007
+         uid
+         gid
+  100666 mode
+    2901 size
+correct header end
+
+Archive member name at 18417C: /10043          build\intel\mt_obj\cpp_obj\strxfrm.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    2A28 size
+correct header end
+
+Archive member name at 186BE0: /10082          build\intel\mt_obj\cpp_obj\strupr.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    3725 size
+correct header end
+
+Archive member name at 18A342: /10120          build\intel\mt_obj\cpp_obj\strnicol.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    29F0 size
+correct header end
+
+Archive member name at 18CD6E: /10160          build\intel\mt_obj\cpp_obj\strnicmp.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    293E size
+correct header end
+
+Archive member name at 18F6E8: /10200          build\intel\mt_obj\cpp_obj\strncoll.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    2A4B size
+correct header end
+
+Archive member name at 192170: /10240          build\intel\mt_obj\cpp_obj\strlwr.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    370D size
+correct header end
+
+Archive member name at 1958BA: /10278          build\intel\mt_obj\cpp_obj\stricoll.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    28FC size
+correct header end
+
+Archive member name at 1981F2: /10318          build\intel\mt_obj\cpp_obj\stricmp.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    2B1D size
+correct header end
+
+Archive member name at 19AD4C: /10357          build\intel\mt_obj\cpp_obj\strcoll.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    2858 size
+correct header end
+
+Archive member name at 19D5E0: /10396          build\intel\mt_obj\cpp_obj\memicmp.obj
+461EE4D8 time/date Fri Apr 13 05:03:04 2007
+         uid
+         gid
+  100666 mode
+    2917 size
+correct header end
+
+Archive member name at 19FF34: /10435          build\intel\mt_obj\wcstok_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    1723 size
+correct header end
+
+Archive member name at 1A1694: /10467          build\intel\mt_obj\wcstok.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    164A size
+correct header end
+
+Archive member name at 1A2D1A: /10497          build\intel\mt_obj\wcsstr.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     C59 size
+correct header end
+
+Archive member name at 1A39B0: /10527          build\intel\mt_obj\wcsspn.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     C45 size
+correct header end
+
+Archive member name at 1A4632: /10557          build\intel\mt_obj\wcsset_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    1590 size
+correct header end
+
+Archive member name at 1A5BFE: /10589          build\intel\mt_obj\wcsset.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B34 size
+correct header end
+
+Archive member name at 1A676E: /10619          build\intel\mt_obj\wcsrev.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B9D size
+correct header end
+
+Archive member name at 1A7348: /10649          build\intel\mt_obj\wcsrchr.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B57 size
+correct header end
+
+Archive member name at 1A7EDC: /10680          build\intel\mt_obj\wcspbrk.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     C3A size
+correct header end
+
+Archive member name at 1A8B52: /10711          build\intel\mt_obj\wcsnset_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    16B1 size
+correct header end
+
+Archive member name at 1AA240: /10744          build\intel\mt_obj\wcsnset.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B9A size
+correct header end
+
+Archive member name at 1AAE16: /10775          build\intel\mt_obj\wcsncpy_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    1735 size
+correct header end
+
+Archive member name at 1AC588: /10808          build\intel\mt_obj\wcsncpy.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     BC8 size
+correct header end
+
+Archive member name at 1AD18C: /10839          build\intel\mt_obj\wcsncnt.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B66 size
+correct header end
+
+Archive member name at 1ADD2E: /10870          build\intel\mt_obj\wcsncmp.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B9C size
+correct header end
+
+Archive member name at 1AE906: /10901          build\intel\mt_obj\wcsncat_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+    16FD size
+correct header end
+
+Archive member name at 1B0040: /10934          build\intel\mt_obj\wcsncat.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     BC4 size
+correct header end
+
+Archive member name at 1B0C40: /10965          build\intel\mt_obj\wcslen_s.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B33 size
+correct header end
+
+Archive member name at 1B17B0: /10997          build\intel\mt_obj\wcslen.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     B1D size
+correct header end
+
+Archive member name at 1B230A: /11027          build\intel\mt_obj\wcsdup.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    1951 size
+correct header end
+
+Archive member name at 1B3C98: /11057          build\intel\mt_obj\wcscspn.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     C45 size
+correct header end
+
+Archive member name at 1B491A: /11088          build\intel\mt_obj\wcscpy_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    163F size
+correct header end
+
+Archive member name at 1B5F96: /11120          build\intel\mt_obj\wcscmp.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     BA9 size
+correct header end
+
+Archive member name at 1B6B7C: /11150          build\intel\mt_obj\wcschr.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     B4D size
+correct header end
+
+Archive member name at 1B7706: /11180          build\intel\mt_obj\wcscat_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    1675 size
+correct header end
+
+Archive member name at 1B8DB8: /11212          build\intel\mt_obj\wcscat.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     D59 size
+correct header end
+
+Archive member name at 1B9B4E: /11242          build\intel\mt_obj\strtok_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    17CF size
+correct header end
+
+Archive member name at 1BB35A: /11274          build\intel\mt_obj\strtok.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    16D4 size
+correct header end
+
+Archive member name at 1BCA6A: /11304          build\intel\mt_obj\strnset_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    16A9 size
+correct header end
+
+Archive member name at 1BE150: /11337          build\intel\mt_obj\strset_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    1614 size
+correct header end
+
+Archive member name at 1BF7A0: /11369          build\intel\mt_obj\strncnt.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     B64 size
+correct header end
+
+Archive member name at 1C0340: /11400          build\intel\mt_obj\strncpy_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    171F size
+correct header end
+
+Archive member name at 1C1A9C: /11433          build\intel\mt_obj\strcpy_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    1638 size
+correct header end
+
+Archive member name at 1C3110: /11465          build\intel\mt_obj\strncat_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    175E size
+correct header end
+
+Archive member name at 1C48AA: /11498          build\intel\mt_obj\strcat_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    166C size
+correct header end
+
+Archive member name at 1C5F52: /11530          build\intel\mt_obj\strlen_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+     B31 size
+correct header end
+
+Archive member name at 1C6AC0: /11562          build\intel\mt_obj\strstr.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     95B size
+correct header end
+
+Archive member name at 1C7458: /11592          build\intel\mt_obj\strspn.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     5C6 size
+correct header end
+
+Archive member name at 1C7A5A: /11622          build\intel\mt_obj\strset.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     432 size
+correct header end
+
+Archive member name at 1C7EC8: /11652          build\intel\mt_obj\strrev.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     4E6 size
+correct header end
+
+Archive member name at 1C83EA: /11682          build\intel\mt_obj\strrchr.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     4E6 size
+correct header end
+
+Archive member name at 1C890C: /11713          build\intel\mt_obj\strpbrk.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     608 size
+correct header end
+
+Archive member name at 1C8F50: /11744          build\intel\mt_obj\strnset.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     4F2 size
+correct header end
+
+Archive member name at 1C947E: /11775          build\intel\mt_obj\_strnicm.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     6CC size
+correct header end
+
+Archive member name at 1C9B86: /11807          build\intel\mt_obj\strncpy.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     EB1 size
+correct header end
+
+Archive member name at 1CAA74: /11838          build\intel\mt_obj\strncmp.obj
+461EE4D1 time/date Fri Apr 13 05:02:57 2007
+         uid
+         gid
+  100666 mode
+     D65 size
+correct header end
+
+Archive member name at 1CB816: /11869          build\intel\mt_obj\strncat.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     E41 size
+correct header end
+
+Archive member name at 1CC694: /11900          build\intel\mt_obj\strlen.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     767 size
+correct header end
+
+Archive member name at 1CCE38: /11930          build\intel\mt_obj\strdup.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    194E size
+correct header end
+
+Archive member name at 1CE7C2: /11960          build\intel\mt_obj\strcspn.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     61E size
+correct header end
+
+Archive member name at 1CEE1C: /11991          build\intel\mt_obj\strcmp.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     772 size
+correct header end
+
+Archive member name at 1CF5CA: /12021          build\intel\mt_obj\strchr.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     ADE size
+correct header end
+
+Archive member name at 1D00E4: /12051          build\intel\mt_obj\strcat.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     C64 size
+correct header end
+
+Archive member name at 1D0D84: /12081          build\intel\mt_obj\p4_memset.obj
+461EE438 time/date Fri Apr 13 05:00:24 2007
+         uid
+         gid
+  100666 mode
+     BDF size
+correct header end
+
+Archive member name at 1D19A0: /12114          build\intel\mt_obj\memset.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     839 size
+correct header end
+
+Archive member name at 1D2216: /12144          build\intel\mt_obj\memmove_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    1543 size
+correct header end
+
+Archive member name at 1D3796: /12177          build\intel\mt_obj\memmove.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+    1D41 size
+correct header end
+
+Archive member name at 1D5514: /12208          build\intel\mt_obj\_memicmp.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     6A3 size
+correct header end
+
+Archive member name at 1D5BF4: /12240          build\intel\mt_obj\memccpy.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     725 size
+correct header end
+
+Archive member name at 1D6356: /12271          build\intel\mt_obj\memcmp.obj
+461EE438 time/date Fri Apr 13 05:00:24 2007
+         uid
+         gid
+  100666 mode
+    4FA8 size
+correct header end
+
+Archive member name at 1DB33A: /12301          build\intel\mt_obj\memchr.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+     AFB size
+correct header end
+
+Archive member name at 1DBE72: /12331          build\intel\mt_obj\memcpy_s.obj
+461EE4CF time/date Fri Apr 13 05:02:55 2007
+         uid
+         gid
+  100666 mode
+    158A size
+correct header end
+
+Archive member name at 1DD438: /12363          build\intel\mt_obj\p4_memcpy.obj
+461EE438 time/date Fri Apr 13 05:00:24 2007
+         uid
+         gid
+  100666 mode
+     E20 size
+correct header end
+
+Archive member name at 1DE294: /12396          build\intel\mt_obj\memcpy.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+    1CE9 size
+correct header end
+
+Archive member name at 1DFFBA: /12426          build\intel\mt_obj\cpp_obj\woutputs.obj
+461EE4C9 time/date Fri Apr 13 05:02:49 2007
+         uid
+         gid
+  100666 mode
+    4F09 size
+correct header end
+
+Archive member name at 1E4F00: /12466          build\intel\mt_obj\cpp_obj\woutputp.obj
+461EE4C9 time/date Fri Apr 13 05:02:49 2007
+         uid
+         gid
+  100666 mode
+    5FD6 size
+correct header end
+
+Archive member name at 1EAF12: /12506          build\intel\mt_obj\cpp_obj\woutput.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    4EC1 size
+correct header end
+
+Archive member name at 1EFE10: /12545          build\intel\mt_obj\cpp_obj\winputs.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    5B47 size
+correct header end
+
+Archive member name at 1F5994: /12584          build\intel\mt_obj\cpp_obj\winput.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    592F size
+correct header end
+
+Archive member name at 1FB300: /12622          build\intel\mt_obj\cpp_obj\outputs.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    5365 size
+correct header end
+
+Archive member name at 2006A2: /12661          build\intel\mt_obj\cpp_obj\outputp.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    645E size
+correct header end
+
+Archive member name at 206B3C: /12700          build\intel\mt_obj\cpp_obj\output.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    5451 size
+correct header end
+
+Archive member name at 20BFCA: /12738          build\intel\mt_obj\cpp_obj\inputs.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    5894 size
+correct header end
+
+Archive member name at 21189A: /12776          build\intel\mt_obj\cpp_obj\input.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    5612 size
+correct header end
+
+Archive member name at 216EE8: /12813          build\intel\mt_obj\cpp_obj\cwprntfs.obj
+461EE4CA time/date Fri Apr 13 05:02:50 2007
+         uid
+         gid
+  100666 mode
+    537A size
+correct header end
+
+Archive member name at 21C29E: /12853          build\intel\mt_obj\cpp_obj\cwprntfp.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    6071 size
+correct header end
+
+Archive member name at 22234C: /12893          build\intel\mt_obj\cpp_obj\cwprintf.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    531A size
+correct header end
+
+Archive member name at 2276A2: /12933          build\intel\mt_obj\cpp_obj\cprintfs.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    5471 size
+correct header end
+
+Archive member name at 22CB50: /12973          build\intel\mt_obj\cpp_obj\cprintfp.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    626C size
+correct header end
+
+Archive member name at 232DF8: /13013          build\intel\mt_obj\cpp_obj\cprintf.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    5417 size
+correct header end
+
+Archive member name at 23824C: /13052          build\intel\mt_obj\cpp_obj\cwscanfs.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    5E19 size
+correct header end
+
+Archive member name at 23E0A2: /13092          build\intel\mt_obj\cpp_obj\cwscanf.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    5C05 size
+correct header end
+
+Archive member name at 243CE4: /13131          build\intel\mt_obj\cpp_obj\cscanfs.obj
+461EE4CB time/date Fri Apr 13 05:02:51 2007
+         uid
+         gid
+  100666 mode
+    5801 size
+correct header end
+
+Archive member name at 249522: /13170          build\intel\mt_obj\cpp_obj\cscanf.obj
+461EE4CC time/date Fri Apr 13 05:02:52 2007
+         uid
+         gid
+  100666 mode
+    55C0 size
+correct header end
+
+Archive member name at 24EB1E: /13208          build\intel\mt_obj\ncommode.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    1233 size
+correct header end
+
+Archive member name at 24FD8E: /13240          build\intel\mt_obj\wtmpfile.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    352F size
+correct header end
+
+Archive member name at 2532FA: /13272          build\intel\mt_obj\wtempnam.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    2F8D size
+correct header end
+
+Archive member name at 2562C4: /13304          build\intel\mt_obj\wscanf.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    24E1 size
+correct header end
+
+Archive member name at 2587E2: /13334          build\intel\mt_obj\wprintf.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    2680 size
+correct header end
+
+Archive member name at 25AE9E: /13365          build\intel\mt_obj\wpopen.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    3E7C size
+correct header end
+
+Archive member name at 25ED56: /13395          build\intel\mt_obj\_wopen.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    2426 size
+correct header end
+
+Archive member name at 2611B8: /13425          build\intel\mt_obj\wfreopen.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    22F6 size
+correct header end
+
+Archive member name at 2634EA: /13457          build\intel\mt_obj\wfopen.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    22F3 size
+correct header end
+
+Archive member name at 26581A: /13487          build\intel\mt_obj\wfdopen.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    21C7 size
+correct header end
+
+Archive member name at 267A1E: /13518          build\intel\mt_obj\vwprintf.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    2A2A size
+correct header end
+
+Archive member name at 26A484: /13550          build\intel\mt_obj\vswprnc.obj
+461EE4C1 time/date Fri Apr 13 05:02:41 2007
+         uid
+         gid
+  100666 mode
+    3160 size
+correct header end
+
+Archive member name at 26D620: /13581          build\intel\mt_obj\vswprinn.obj
+461EE4C2 time/date Fri Apr 13 05:02:42 2007
+         uid
+         gid
+  100666 mode
+    22BD size
+correct header end
+
+Archive member name at 26F91A: /13613          build\intel\mt_obj\vswprint.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    28C6 size
+correct header end
+
+Archive member name at 27221C: /13645          build\intel\mt_obj\vsnwprnt.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    1CA0 size
+correct header end
+
+Archive member name at 273EF8: /13677          build\intel\mt_obj\vsnprnc.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    3186 size
+correct header end
+
+Archive member name at 2770BA: /13708          build\intel\mt_obj\vsnprint.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    1B8A size
+correct header end
+
+Archive member name at 278C80: /13740          build\intel\mt_obj\vsprintf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    25A5 size
+correct header end
+
+Archive member name at 27B262: /13772          build\intel\mt_obj\vfwprint.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2A9D size
+correct header end
+
+Archive member name at 27DD3C: /13804          build\intel\mt_obj\vfprintf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2CDB size
+correct header end
+
+Archive member name at 280A54: /13836          build\intel\mt_obj\vprintf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2936 size
+correct header end
+
+Archive member name at 2833C6: /13867          build\intel\mt_obj\ungetwc.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2618 size
+correct header end
+
+Archive member name at 285A1A: /13898          build\intel\mt_obj\ungetc.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    22C8 size
+correct header end
+
+Archive member name at 287D1E: /13928          build\intel\mt_obj\tmpfile.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    45A5 size
+correct header end
+
+Archive member name at 28C300: /13959          build\intel\mt_obj\tempnam.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2EF3 size
+correct header end
+
+Archive member name at 28F230: /13990          build\intel\mt_obj\swscanf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2234 size
+correct header end
+
+Archive member name at 2914A0: /14021          build\intel\mt_obj\swprnc.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    1C6C size
+correct header end
+
+Archive member name at 293148: /14051          build\intel\mt_obj\swprintn.obj
+461EE4C2 time/date Fri Apr 13 05:02:42 2007
+         uid
+         gid
+  100666 mode
+    1ED2 size
+correct header end
+
+Archive member name at 295056: /14083          build\intel\mt_obj\swprintf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    311C size
+correct header end
+
+Archive member name at 2981AE: /14115          build\intel\mt_obj\stream.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    1F97 size
+correct header end
+
+Archive member name at 29A182: /14145          build\intel\mt_obj\sscanf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    215D size
+correct header end
+
+Archive member name at 29C31C: /14175          build\intel\mt_obj\sprintf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    2FE2 size
+correct header end
+
+Archive member name at 29F33A: /14206          build\intel\mt_obj\snwscanf.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    21FC size
+correct header end
+
+Archive member name at 2A1572: /14238          build\intel\mt_obj\snwprint.obj
+461EE4BF time/date Fri Apr 13 05:02:39 2007
+         uid
+         gid
+  100666 mode
+    1C48 size
+correct header end
+
+Archive member name at 2A31F6: /14270          build\intel\mt_obj\snscanf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    217A size
+correct header end
+
+Archive member name at 2A53AC: /14301          build\intel\mt_obj\snprnc.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1C2B size
+correct header end
+
+Archive member name at 2A7014: /14331          build\intel\mt_obj\snprintf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1B2E size
+correct header end
+
+Archive member name at 2A8B7E: /14363          build\intel\mt_obj\setvbuf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1DAE size
+correct header end
+
+Archive member name at 2AA968: /14394          build\intel\mt_obj\setbuf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+     D0C size
+correct header end
+
+Archive member name at 2AB6B0: /14424          build\intel\mt_obj\setmaxf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1F85 size
+correct header end
+
+Archive member name at 2AD672: /14455          build\intel\mt_obj\scanf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    23F2 size
+correct header end
+
+Archive member name at 2AFAA0: /14484          build\intel\mt_obj\rmtmp.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1FA2 size
+correct header end
+
+Archive member name at 2B1A7E: /14513          build\intel\mt_obj\rewind.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1E07 size
+correct header end
+
+Archive member name at 2B38C2: /14543          build\intel\mt_obj\putws.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1E2D size
+correct header end
+
+Archive member name at 2B572C: /14572          build\intel\mt_obj\putw.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1BDA size
+correct header end
+
+Archive member name at 2B7342: /14600          build\intel\mt_obj\puts.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    2045 size
+correct header end
+
+Archive member name at 2B93C4: /14628          build\intel\mt_obj\printf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    2BEA size
+correct header end
+
+Archive member name at 2BBFEA: /14658          build\intel\mt_obj\popen.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    43F8 size
+correct header end
+
+Archive member name at 2C041E: /14687          build\intel\mt_obj\outputformat.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    183F size
+correct header end
+
+Archive member name at 2C1C9A: /14723          build\intel\mt_obj\getws.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    2440 size
+correct header end
+
+Archive member name at 2C4116: /14752          build\intel\mt_obj\getw.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    1BEE size
+correct header end
+
+Archive member name at 2C5D40: /14780          build\intel\mt_obj\gets.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    2705 size
+correct header end
+
+Archive member name at 2C8482: /14808          build\intel\mt_obj\fwscanf.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    252A size
+correct header end
+
+Archive member name at 2CA9E8: /14839          build\intel\mt_obj\fwrite.obj
+461EE4BA time/date Fri Apr 13 05:02:34 2007
+         uid
+         gid
+  100666 mode
+    21B5 size
+correct header end
+
+Archive member name at 2CCBDA: /14869          build\intel\mt_obj\fwprintf.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    26CA size
+correct header end
+
+Archive member name at 2CF2E0: /14901          build\intel\mt_obj\ftelli64.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    2776 size
+correct header end
+
+Archive member name at 2D1A92: /14933          build\intel\mt_obj\ftell.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    234B size
+correct header end
+
+Archive member name at 2D3E1A: /14962          build\intel\mt_obj\fsetpos.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    160C size
+correct header end
+
+Archive member name at 2D5462: /14993          build\intel\mt_obj\fseeki64.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    1F9D size
+correct header end
+
+Archive member name at 2D743C: /15025          build\intel\mt_obj\fseek.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    1FC7 size
+correct header end
+
+Archive member name at 2D9440: /15054          build\intel\mt_obj\fscanf.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    275E size
+correct header end
+
+Archive member name at 2DBBDA: /15084          build\intel\mt_obj\freopen.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    2225 size
+correct header end
+
+Archive member name at 2DDE3C: /15115          build\intel\mt_obj\fread.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    284F size
+correct header end
+
+Archive member name at 2E06C8: /15144          build\intel\mt_obj\fprintf.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    29CF size
+correct header end
+
+Archive member name at 2E30D4: /15175          build\intel\mt_obj\fopen.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    2222 size
+correct header end
+
+Archive member name at 2E5332: /15204          build\intel\mt_obj\fgetpos.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    1671 size
+correct header end
+
+Archive member name at 2E69E0: /15235          build\intel\mt_obj\fflush.obj
+461EE4B6 time/date Fri Apr 13 05:02:30 2007
+         uid
+         gid
+  100666 mode
+    2B84 size
+correct header end
+
+Archive member name at 2E95A0: /15265          build\intel\mt_obj\fdopen.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    20F2 size
+correct header end
+
+Archive member name at 2EB6CE: /15295          build\intel\mt_obj\fclose.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    1FE4 size
+correct header end
+
+Archive member name at 2ED6EE: /15325          build\intel\mt_obj\closeall.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    1D72 size
+correct header end
+
+Archive member name at 2EF49C: /15357          build\intel\mt_obj\clearerr.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    1F8D size
+correct header end
+
+Archive member name at 2F1466: /15389          build\intel\mt_obj\_sftbuf.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    1C0F size
+correct header end
+
+Archive member name at 2F30B2: /15420          build\intel\mt_obj\_open.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    2353 size
+correct header end
+
+Archive member name at 2F5442: /15449          build\intel\mt_obj\_getbuf.obj
+461EE4B7 time/date Fri Apr 13 05:02:31 2007
+         uid
+         gid
+  100666 mode
+    16D4 size
+correct header end
+
+Archive member name at 2F6B52: /15480          build\intel\mt_obj\_freebuf.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1671 size
+correct header end
+
+Archive member name at 2F8200: /15512          build\intel\mt_obj\_flswbuf.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1E9A size
+correct header end
+
+Archive member name at 2FA0D6: /15544          build\intel\mt_obj\_flsbuf.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1E84 size
+correct header end
+
+Archive member name at 2FBF96: /15575          build\intel\mt_obj\_file.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    2E83 size
+correct header end
+
+Archive member name at 2FEE56: /15604          build\intel\mt_obj\_filwbuf.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1CB7 size
+correct header end
+
+Archive member name at 300B4A: /15636          build\intel\mt_obj\_filbuf.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1CB7 size
+correct header end
+
+Archive member name at 30283E: /15667          build\intel\mt_obj\fputwchr.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+     F41 size
+correct header end
+
+Archive member name at 3037BC: /15699          build\intel\mt_obj\fputws.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1D3E size
+correct header end
+
+Archive member name at 305536: /15729          build\intel\mt_obj\fputwc.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    288D size
+correct header end
+
+Archive member name at 307E00: /15759          build\intel\mt_obj\fputchar.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+     E2A size
+correct header end
+
+Archive member name at 308C66: /15791          build\intel\mt_obj\fputs.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1EB9 size
+correct header end
+
+Archive member name at 30AB5C: /15820          build\intel\mt_obj\fputc.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    24C6 size
+correct header end
+
+Archive member name at 30D05E: /15849          build\intel\mt_obj\fileno.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    15A4 size
+correct header end
+
+Archive member name at 30E63E: /15879          build\intel\mt_obj\fgetwchr.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+     F19 size
+correct header end
+
+Archive member name at 30F594: /15911          build\intel\mt_obj\fgetws.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    1DEF size
+correct header end
+
+Archive member name at 3113C0: /15941          build\intel\mt_obj\fgetwc.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    2857 size
+correct header end
+
+Archive member name at 313C54: /15971          build\intel\mt_obj\fgets.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    203C size
+correct header end
+
+Archive member name at 315CCC: /16000          build\intel\mt_obj\fgetchar.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+     E06 size
+correct header end
+
+Archive member name at 316B0E: /16032          build\intel\mt_obj\fgetc.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    26F0 size
+correct header end
+
+Archive member name at 31923A: /16061          build\intel\mt_obj\feoferr.obj
+461EE4B3 time/date Fri Apr 13 05:02:27 2007
+         uid
+         gid
+  100666 mode
+    17CD size
+correct header end
+
+Archive member name at 31AA44: /16092          build\intel\mt_obj\fp8.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    1819 size
+correct header end
+
+Archive member name at 31C29A: /16119          build\intel\mt_obj\atlssup.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+     2EA size
+correct header end
+
+Archive member name at 31C5C0: /16150          build\intel\mt_obj\wwild.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    311A size
+correct header end
+
+Archive member name at 31F716: /16179          build\intel\mt_obj\wwncmdln.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    177A size
+correct header end
+
+Archive member name at 320ECC: /16211          build\intel\mt_obj\wstdenvp.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    1F20 size
+correct header end
+
+Archive member name at 322E28: /16243          build\intel\mt_obj\wstdargv.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    2402 size
+correct header end
+
+Archive member name at 325266: /16275          build\intel\mt_obj\wincmdln.obj
+461EE4AF time/date Fri Apr 13 05:02:23 2007
+         uid
+         gid
+  100666 mode
+    16DE size
+correct header end
+
+Archive member name at 326980: /16307          build\intel\mt_obj\wild.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    2FB7 size
+correct header end
+
+Archive member name at 329974: /16335          build\intel\mt_obj\tlssup.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    14D2 size
+correct header end
+
+Archive member name at 32AE82: /16365          build\intel\mt_obj\tlsdyn.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    17D3 size
+correct header end
+
+Archive member name at 32C692: /16395          build\intel\mt_obj\tlsdtor.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    1C75 size
+correct header end
+
+Archive member name at 32E344: /16426          build\intel\mt_obj\tidtable.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    6538 size
+correct header end
+
+Archive member name at 3348B8: /16458          build\intel\mt_obj\threadex.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    2E04 size
+correct header end
+
+Archive member name at 3376F8: /16490          build\intel\mt_obj\thread.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    2DB8 size
+correct header end
+
+Archive member name at 33A4EC: /16520          build\intel\mt_obj\stdenvp.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    1DE6 size
+correct header end
+
+Archive member name at 33C30E: /16551          build\intel\mt_obj\stdargv.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    2499 size
+correct header end
+
+Archive member name at 33E7E4: /16582          build\intel\mt_obj\mlock.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    2F89 size
+correct header end
+
+Archive member name at 3417AA: /16611          build\intel\mt_obj\dllmain.obj
+461EE4AC time/date Fri Apr 13 05:02:20 2007
+         uid
+         gid
+  100666 mode
+    135D size
+correct header end
+
+Archive member name at 342B44: /16642          build\intel\mt_obj\dllcrt0.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    3E25 size
+correct header end
+
+Archive member name at 3469A6: /16673          build\intel\mt_obj\crt0msg.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    3E56 size
+correct header end
+
+Archive member name at 34A838: /16704          build\intel\mt_obj\crt0init.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    1842 size
+correct header end
+
+Archive member name at 34C0B6: /16736          build\intel\mt_obj\crt0fp.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    1408 size
+correct header end
+
+Archive member name at 34D4FA: /16766          build\intel\mt_obj\crt0dat.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    5C9B size
+correct header end
+
+Archive member name at 3531D2: /16797          build\intel\mt_obj\alloca16.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+     4D9 size
+correct header end
+
+Archive member name at 3536E8: /16829          build\intel\mt_obj\chkstk.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+     4C9 size
+correct header end
+
+Archive member name at 353BEE: /16859          build\intel\mt_obj\_wstargv.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    250B size
+correct header end
+
+Archive member name at 356136: /16891          build\intel\mt_obj\_setargv.obj
+461EE4AD time/date Fri Apr 13 05:02:21 2007
+         uid
+         gid
+  100666 mode
+    24A6 size
+correct header end
+
+Archive member name at 358618: /16923          ..\build\intel\mt_obj\userapi.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    2923 size
+correct header end
+
+Archive member name at 35AF78: /16957          ..\build\intel\mt_obj\stack.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    24B4 size
+correct header end
+
+Archive member name at 35D468: /16989          ..\build\intel\mt_obj\pdblkup.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+   16E89 size
+correct header end
+
+Archive member name at 37432E: /17023          ..\build\intel\mt_obj\memory.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    135F size
+correct header end
+
+Archive member name at 3756CA: /17056          ..\build\intel\mt_obj\initsect.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    2232 size
+correct header end
+
+Archive member name at 377938: /17091          ..\build\intel\mt_obj\init.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    1949 size
+correct header end
+
+Archive member name at 3792BE: /17122          ..\build\intel\mt_obj\fileio.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    135F size
+correct header end
+
+Archive member name at 37A65A: /17155          ..\build\intel\mt_obj\error.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    6983 size
+correct header end
+
+Archive member name at 38101A: /17187          ..\build\intel\mt_obj\convert.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    2228 size
+correct header end
+
+Archive member name at 38327E: /17221          ..\build\intel\mt_obj\contain.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    1367 size
+correct header end
+
+Archive member name at 384622: /17255          ..\build\intel\mt_obj\chsyheap.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    1367 size
+correct header end
+
+Archive member name at 3859C6: /17290          ..\build\intel\mt_obj\callsite.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    1367 size
+correct header end
+
+Archive member name at 386D6A: /17325          ..\build\intel\mt_obj\bintree.obj
+461EE436 time/date Fri Apr 13 05:00:22 2007
+         uid
+         gid
+  100666 mode
+    1367 size
+correct header end
+
+Archive member name at 38810E: /17359          build\intel\mt_obj\wtombenv.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    1806 size
+correct header end
+
+Archive member name at 389950: /17391          build\intel\mt_obj\wrt2err.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    1656 size
+correct header end
+
+Archive member name at 38AFE2: /17422          build\intel\mt_obj\wsplitpath_s.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    1C2E size
+correct header end
+
+Archive member name at 38CC4C: /17458          build\intel\mt_obj\wsplitpa.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    20AB size
+correct header end
+
+Archive member name at 38ED34: /17490          build\intel\mt_obj\wsetloca.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    24A6 size
+correct header end
+
+Archive member name at 391216: /17522          build\intel\mt_obj\wsetenv.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    2F4C size
+correct header end
+
+Archive member name at 39419E: /17553          build\intel\mt_obj\wsearche.obj
+461EE4A6 time/date Fri Apr 13 05:02:14 2007
+         uid
+         gid
+  100666 mode
+    29EF size
+correct header end
+
+Archive member name at 396BCA: /17585          build\intel\mt_obj\wputenv.obj
+461EE4A6 time/date Fri Apr 13 05:02:14 2007
+         uid
+         gid
+  100666 mode
+    2B17 size
+correct header end
+
+Archive member name at 39971E: /17616          build\intel\mt_obj\wperror.obj
+461EE4A6 time/date Fri Apr 13 05:02:14 2007
+         uid
+         gid
+  100666 mode
+    2441 size
+correct header end
+
+Archive member name at 39BB9C: /17647          build\intel\mt_obj\wmakepath_s.obj
+461EE4A6 time/date Fri Apr 13 05:02:14 2007
+         uid
+         gid
+  100666 mode
+    1910 size
+correct header end
+
+Archive member name at 39D4E8: /17682          build\intel\mt_obj\wmakepat.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    176F size
+correct header end
+
+Archive member name at 39EC94: /17714          build\intel\mt_obj\wgetpath.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    1976 size
+correct header end
+
+Archive member name at 3A0646: /17746          build\intel\mt_obj\wgetenv.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    397B size
+correct header end
+
+Archive member name at 3A3FFE: /17777          build\intel\mt_obj\winxfltr.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    2506 size
+correct header end
+
+Archive member name at 3A6540: /17809          build\intel\mt_obj\winsig.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    41AE size
+correct header end
+
+Archive member name at 3AA72A: /17839          build\intel\mt_obj\_wcserr.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    2744 size
+correct header end
+
+Archive member name at 3ACEAA: /17870          build\intel\mt_obj\wcserror.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    2811 size
+correct header end
+
+Archive member name at 3AF6F8: /17902          build\intel\mt_obj\wassert.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    46BD size
+correct header end
+
+Archive member name at 3B3DF2: /17933          build\intel\mt_obj\cpp_obj\w_str.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    3506 size
+correct header end
+
+Archive member name at 3B7334: /17970          build\intel\mt_obj\cpp_obj\w_map.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    3A9A size
+correct header end
+
+Archive member name at 3BAE0A: /18007          build\intel\mt_obj\cpp_obj\w_loc.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    3211 size
+correct header end
+
+Archive member name at 3BE058: /18044          build\intel\mt_obj\w_env.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    1DF0 size
+correct header end
+
+Archive member name at 3BFE84: /18073          build\intel\mt_obj\cpp_obj\w_cmp.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    377F size
+correct header end
+
+Archive member name at 3C3640: /18110          build\intel\mt_obj\umask.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    1902 size
+correct header end
+
+Archive member name at 3C4F7E: /18139          build\intel\mt_obj\convrtcp.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    2699 size
+correct header end
+
+Archive member name at 3C7654: /18171          build\intel\mt_obj\syserr.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    28F9 size
+correct header end
+
+Archive member name at 3C9F8A: /18201          build\intel\mt_obj\strerror.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    2309 size
+correct header end
+
+Archive member name at 3CC2D0: /18233          build\intel\mt_obj\_strerr.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    25A8 size
+correct header end
+
+Archive member name at 3CE8B4: /18264          build\intel\mt_obj\splitpath_s.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    1C51 size
+correct header end
+
+Archive member name at 3D0542: /18299          build\intel\mt_obj\splitpat.obj
+461EE4A7 time/date Fri Apr 13 05:02:15 2007
+         uid
+         gid
+  100666 mode
+    1EE7 size
+correct header end
+
+Archive member name at 3D2466: /18331          build\intel\mt_obj\setlocal.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    9F88 size
+correct header end
+
+Archive member name at 3DC42A: /18363          build\intel\mt_obj\setenv.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    27C3 size
+correct header end
+
+Archive member name at 3DEC2A: /18393          build\intel\mt_obj\searchen.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    2801 size
+correct header end
+
+Archive member name at 3E1468: /18425          build\intel\mt_obj\rotr.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    101D size
+correct header end
+
+Archive member name at 3E24C2: /18453          build\intel\mt_obj\rotl.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    101D size
+correct header end
+
+Archive member name at 3E351C: /18481          build\intel\mt_obj\rand_s.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1F2A size
+correct header end
+
+Archive member name at 3E5482: /18511          build\intel\mt_obj\rand.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    167C size
+correct header end
+
+Archive member name at 3E6B3A: /18539          build\intel\mt_obj\qsort_s.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    24F7 size
+correct header end
+
+Archive member name at 3E906E: /18570          build\intel\mt_obj\qsort.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    2371 size
+correct header end
+
+Archive member name at 3EB41C: /18599          build\intel\mt_obj\putenv.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    28ED size
+correct header end
+
+Archive member name at 3EDD46: /18629          build\intel\mt_obj\purevirt.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1A08 size
+correct header end
+
+Archive member name at 3EF78A: /18661          build\intel\mt_obj\pesect.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1FE0 size
+correct header end
+
+Archive member name at 3F17A6: /18691          build\intel\mt_obj\perror.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1F4F size
+correct header end
+
+Archive member name at 3F3732: /18721          build\intel\mt_obj\nlsdata3.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1229 size
+correct header end
+
+Archive member name at 3F4998: /18753          build\intel\mt_obj\nlsdata2.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    1934 size
+correct header end
+
+Archive member name at 3F6308: /18785          build\intel\mt_obj\nlsdata1.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+     AEC size
+correct header end
+
+Archive member name at 3F6E30: /18817          build\intel\mt_obj\onexit.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    252C size
+correct header end
+
+Archive member name at 3F9398: /18847          build\intel\mt_obj\mbtowenv.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    17A8 size
+correct header end
+
+Archive member name at 3FAB7C: /18879          build\intel\mt_obj\makepath_s.obj
+461EE4A2 time/date Fri Apr 13 05:02:10 2007
+         uid
+         gid
+  100666 mode
+    192F size
+correct header end
+
+Archive member name at 3FC4E8: /18913          build\intel\mt_obj\makepath.obj
+461EE4A3 time/date Fri Apr 13 05:02:11 2007
+         uid
+         gid
+  100666 mode
+    15CD size
+correct header end
+
+Archive member name at 3FDAF2: /18945          build\intel\mt_obj\lsearch_s.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    17EC size
+correct header end
+
+Archive member name at 3FF31A: /18978          build\intel\mt_obj\lsearch.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    1782 size
+correct header end
+
+Archive member name at 400AD8: /19009          build\intel\mt_obj\lfind_s.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    176C size
+correct header end
+
+Archive member name at 402280: /19040          build\intel\mt_obj\lfind.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    16FA size
+correct header end
+
+Archive member name at 4039B6: /19069          build\intel\mt_obj\ldiv.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+     B91 size
+correct header end
+
+Archive member name at 404584: /19097          build\intel\mt_obj\lconv.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    18E6 size
+correct header end
+
+Archive member name at 405EA6: /19126          build\intel\mt_obj\lcnvinit.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    149B size
+correct header end
+
+Archive member name at 40737E: /19158          build\intel\mt_obj\labs.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+     B3A size
+correct header end
+
+Archive member name at 407EF4: /19186          build\intel\mt_obj\cpp_obj\invarg.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    308B size
+correct header end
+
+Archive member name at 40AFBC: /19224          build\intel\mt_obj\inittime.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    2A77 size
+correct header end
+
+Archive member name at 40DA70: /19256          build\intel\mt_obj\initnum.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    226C size
+correct header end
+
+Archive member name at 40FD18: /19287          build\intel\mt_obj\initmon.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    24CA size
+correct header end
+
+Archive member name at 41221E: /19318          build\intel\mt_obj\inithelp.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    2306 size
+correct header end
+
+Archive member name at 414560: /19350          build\intel\mt_obj\initctyp.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    2E72 size
+correct header end
+
+Archive member name at 41740E: /19382          build\intel\mt_obj\initcrit.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    26A4 size
+correct header end
+
+Archive member name at 419AEE: /19414          build\intel\mt_obj\initcoll.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    1426 size
+correct header end
+
+Archive member name at 41AF50: /19446          build\intel\mt_obj\gs_support.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    1A59 size
+correct header end
+
+Archive member name at 41C9E6: /19480          build\intel\mt_obj\gs_report.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    1CCD size
+correct header end
+
+Archive member name at 41E6F0: /19513          build\intel\mt_obj\gs_cookie.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    1288 size
+correct header end
+
+Archive member name at 41F9B4: /19546          build\intel\mt_obj\glstatus.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    122F size
+correct header end
+
+Archive member name at 420C20: /19578          build\intel\mt_obj\getqloc.obj
+461EE49F time/date Fri Apr 13 05:02:07 2007
+         uid
+         gid
+  100666 mode
+    868B size
+correct header end
+
+Archive member name at 4292E8: /19609          build\intel\mt_obj\getpath.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    177E size
+correct header end
+
+Archive member name at 42AAA2: /19640          build\intel\mt_obj\getenv.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    36A3 size
+correct header end
+
+Archive member name at 42E182: /19670          build\intel\mt_obj\errmode.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    193A size
+correct header end
+
+Archive member name at 42FAF8: /19701          build\intel\mt_obj\cpp_obj\dbgrptw.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+     897 size
+correct header end
+
+Archive member name at 4303CC: /19740          build\intel\mt_obj\dbgrptt.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+     7F7 size
+correct header end
+
+Archive member name at 430C00: /19771          build\intel\mt_obj\dbgrpt.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+     7F3 size
+correct header end
+
+Archive member name at 431430: /19801          build\intel\mt_obj\dbgnew.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+    11C9 size
+correct header end
+
+Archive member name at 432636: /19831          build\intel\mt_obj\dbgdel.obj
+461EE4A8 time/date Fri Apr 13 05:02:16 2007
+         uid
+         gid
+  100666 mode
+     83F size
+correct header end
+
+Archive member name at 432EB2: /19861          build\intel\mt_obj\dbghook.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+     BC1 size
+correct header end
+
+Archive member name at 433AB0: /19892          build\intel\mt_obj\cpp_obj\dbgheap.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+     84B size
+correct header end
+
+Archive member name at 434338: /19931          build\intel\mt_obj\div.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+     B91 size
+correct header end
+
+Archive member name at 434F06: /19958          build\intel\mt_obj\ctype.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    23CE size
+correct header end
+
+Archive member name at 437310: /19987          build\intel\mt_obj\crtmboxw.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    2A22 size
+correct header end
+
+Archive member name at 439D6E: /20019          build\intel\mt_obj\crtmbox.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    27F2 size
+correct header end
+
+Archive member name at 43C59C: /20050          build\intel\mt_obj\cmiscdat.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1638 size
+correct header end
+
+Archive member name at 43DC10: /20082          build\intel\mt_obj\charmax.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1347 size
+correct header end
+
+Archive member name at 43EF94: /20113          build\intel\mt_obj\bswap.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    115E size
+correct header end
+
+Archive member name at 44012E: /20142          build\intel\mt_obj\bsearch_s.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1832 size
+correct header end
+
+Archive member name at 44199C: /20175          build\intel\mt_obj\bsearch.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    17B7 size
+correct header end
+
+Archive member name at 443190: /20206          build\intel\mt_obj\aw_com.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1AC0 size
+correct header end
+
+Archive member name at 444C8C: /20236          build\intel\mt_obj\assert.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    34E1 size
+correct header end
+
+Archive member name at 4481AA: /20266          build\intel\mt_obj\abs.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+     CFE size
+correct header end
+
+Archive member name at 448EE4: /20293          build\intel\mt_obj\abort.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1DF4 size
+correct header end
+
+Archive member name at 44AD14: /20322          build\intel\mt_obj\cpp_obj\a_str.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    3428 size
+correct header end
+
+Archive member name at 44E178: /20359          build\intel\mt_obj\cpp_obj\a_map.obj
+461EE499 time/date Fri Apr 13 05:02:01 2007
+         uid
+         gid
+  100666 mode
+    3B62 size
+correct header end
+
+Archive member name at 451D16: /20396          build\intel\mt_obj\cpp_obj\a_loc.obj
+461EE49A time/date Fri Apr 13 05:02:02 2007
+         uid
+         gid
+  100666 mode
+    3229 size
+correct header end
+
+Archive member name at 454F7C: /20433          build\intel\mt_obj\a_env.obj
+461EE49C time/date Fri Apr 13 05:02:04 2007
+         uid
+         gid
+  100666 mode
+    1D69 size
+correct header end
+
+Archive member name at 456D22: /20462          build\intel\mt_obj\cpp_obj\a_cmp.obj
+461EE49A time/date Fri Apr 13 05:02:02 2007
+         uid
+         gid
+  100666 mode
+    3AB5 size
+correct header end
+
+Archive member name at 45A814: /20499          build\intel\mt_obj\setjmpex.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     473 size
+correct header end
+
+Archive member name at 45ACC4: /20531          build\intel\mt_obj\setjmp3.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     9FD size
+correct header end
+
+Archive member name at 45B6FE: /20562          build\intel\mt_obj\setjmp.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     7F8 size
+correct header end
+
+Archive member name at 45BF32: /20592          build\intel\mt_obj\calldtor.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    1701 size
+correct header end
+
+Archive member name at 45D670: /20624          build\intel\mt_obj\sehsupp.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    1619 size
+correct header end
+
+Archive member name at 45ECC6: /20655          build\intel\mt_obj\sehprolg4gs.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     5D6 size
+correct header end
+
+Archive member name at 45F2D8: /20690          build\intel\mt_obj\sehprolg4.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     5C6 size
+correct header end
+
+Archive member name at 45F8DA: /20723          build\intel\mt_obj\sehprolg.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     52E size
+correct header end
+
+Archive member name at 45FE44: /20755          build\intel\mt_obj\secchk.obj
+461EE496 time/date Fri Apr 13 05:01:58 2007
+         uid
+         gid
+  100666 mode
+    13F9 size
+correct header end
+
+Archive member name at 46127A: /20785          build\intel\mt_obj\longjmp.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     C91 size
+correct header end
+
+Archive member name at 461F48: /20816          build\intel\mt_obj\loadcfg.obj
+461EE496 time/date Fri Apr 13 05:01:58 2007
+         uid
+         gid
+  100666 mode
+    131D size
+correct header end
+
+Archive member name at 4632A2: /20847          build\intel\mt_obj\exsup4.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    1647 size
+correct header end
+
+Archive member name at 464926: /20877          build\intel\mt_obj\exsup3.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    11DA size
+correct header end
+
+Archive member name at 465B3C: /20907          build\intel\mt_obj\exsup2.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     DD3 size
+correct header end
+
+Archive member name at 46694C: /20937          build\intel\mt_obj\exsup.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    164F size
+correct header end
+
+Archive member name at 467FD8: /20966          build\intel\mt_obj\eh3valid.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    3241 size
+correct header end
+
+Archive member name at 46B256: /20998          build\intel\mt_obj\chkesp.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    199E size
+correct header end
+
+Archive member name at 46CC30: /21028          build\intel\mt_obj\chandler4gs.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+     313 size
+correct header end
+
+Archive member name at 46CF80: /21063          build\intel\mt_obj\chandler4.obj
+461EE433 time/date Fri Apr 13 05:00:19 2007
+         uid
+         gid
+  100666 mode
+    2F2F size
+correct header end
+
+Archive member name at 46FEEC: /21096          build\intel\mt_obj\cpp_obj\tombbmbc.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    2C94 size
+correct header end
+
+Archive member name at 472BBC: /21136          build\intel\mt_obj\cpp_obj\tojisjms.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    2C86 size
+correct header end
+
+Archive member name at 47587E: /21176          build\intel\mt_obj\cpp_obj\mbtoupr.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    23F8 size
+correct header end
+
+Archive member name at 477CB2: /21215          build\intel\mt_obj\cpp_obj\mbtolwr.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    23F8 size
+correct header end
+
+Archive member name at 47A0E6: /21254          build\intel\mt_obj\cpp_obj\mbsupr.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    2E1B size
+correct header end
+
+Archive member name at 47CF3E: /21292          build\intel\mt_obj\cpp_obj\mbstok_s.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    2B30 size
+correct header end
+
+Archive member name at 47FAAA: /21332          build\intel\mt_obj\cpp_obj\mbstok.obj
+461EE494 time/date Fri Apr 13 05:01:56 2007
+         uid
+         gid
+  100666 mode
+    1DA5 size
+correct header end
+
+Archive member name at 48188C: /21370          build\intel\mt_obj\cpp_obj\mbsstr.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2989 size
+correct header end
+
+Archive member name at 484252: /21408          build\intel\mt_obj\cpp_obj\mbsspnp.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2992 size
+correct header end
+
+Archive member name at 486C20: /21447          build\intel\mt_obj\cpp_obj\mbsspn.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2925 size
+correct header end
+
+Archive member name at 489582: /21485          build\intel\mt_obj\cpp_obj\mbsset_s.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    18A1 size
+correct header end
+
+Archive member name at 48AE60: /21525          build\intel\mt_obj\cpp_obj\mbsset.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2887 size
+correct header end
+
+Archive member name at 48D724: /21563          build\intel\mt_obj\cpp_obj\mbsrev.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    286B size
+correct header end
+
+Archive member name at 48FFCC: /21601          build\intel\mt_obj\cpp_obj\mbsrchr.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    28BB size
+correct header end
+
+Archive member name at 4928C4: /21640          build\intel\mt_obj\cpp_obj\mbspbrk.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2939 size
+correct header end
+
+Archive member name at 49523A: /21679          build\intel\mt_obj\cpp_obj\mbsnset_s.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    18B7 size
+correct header end
+
+Archive member name at 496B2E: /21720          build\intel\mt_obj\cpp_obj\mbsnset.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2990 size
+correct header end
+
+Archive member name at 4994FA: /21759          build\intel\mt_obj\cpp_obj\mbsnicol.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    29E8 size
+correct header end
+
+Archive member name at 49BF1E: /21799          build\intel\mt_obj\cpp_obj\mbsnicmp.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    2A75 size
+correct header end
+
+Archive member name at 49E9D0: /21839          build\intel\mt_obj\cpp_obj\mbsnextc.obj
+461EE495 time/date Fri Apr 13 05:01:57 2007
+         uid
+         gid
+  100666 mode
+    27DA size
+correct header end
+
+Archive member name at 4A11E6: /21879          build\intel\mt_obj\cpp_obj\mbsncpy_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    18B7 size
+correct header end
+
+Archive member name at 4A2ADA: /21920          build\intel\mt_obj\cpp_obj\mbsncpy.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    28D7 size
+correct header end
+
+Archive member name at 4A53EE: /21959          build\intel\mt_obj\cpp_obj\mbsncoll.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    29E1 size
+correct header end
+
+Archive member name at 4A7E0C: /21999          build\intel\mt_obj\cpp_obj\mbsncmp.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2905 size
+correct header end
+
+Archive member name at 4AA74E: /22038          build\intel\mt_obj\cpp_obj\mbsnccnt.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    27E6 size
+correct header end
+
+Archive member name at 4ACF70: /22078          build\intel\mt_obj\cpp_obj\mbsncat_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    18B7 size
+correct header end
+
+Archive member name at 4AE864: /22119          build\intel\mt_obj\cpp_obj\mbsncat.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    29A8 size
+correct header end
+
+Archive member name at 4B1248: /22158          build\intel\mt_obj\cpp_obj\mbsnbset_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    18C1 size
+correct header end
+
+Archive member name at 4B2B46: /22200          build\intel\mt_obj\cpp_obj\mbsnbset.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2920 size
+correct header end
+
+Archive member name at 4B54A2: /22240          build\intel\mt_obj\cpp_obj\mbsnbico.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2938 size
+correct header end
+
+Archive member name at 4B7E16: /22280          build\intel\mt_obj\cpp_obj\mbsnbicm.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2B72 size
+correct header end
+
+Archive member name at 4BA9C4: /22320          build\intel\mt_obj\cpp_obj\mbsnbcpy_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    18C1 size
+correct header end
+
+Archive member name at 4BC2C2: /22362          build\intel\mt_obj\cpp_obj\mbsnbcpy.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2902 size
+correct header end
+
+Archive member name at 4BEC00: /22402          build\intel\mt_obj\cpp_obj\mbsnbcol.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2958 size
+correct header end
+
+Archive member name at 4C1594: /22442          build\intel\mt_obj\cpp_obj\mbsnbcnt.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    27D1 size
+correct header end
+
+Archive member name at 4C3DA2: /22482          build\intel\mt_obj\cpp_obj\mbsnbcmp.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    29D4 size
+correct header end
+
+Archive member name at 4C67B2: /22522          build\intel\mt_obj\cpp_obj\mbsnbcat_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    18C1 size
+correct header end
+
+Archive member name at 4C80B0: /22564          build\intel\mt_obj\cpp_obj\mbsnbcat.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    29C5 size
+correct header end
+
+Archive member name at 4CAAB2: /22604          build\intel\mt_obj\cpp_obj\mbslwr.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    2E1B size
+correct header end
+
+Archive member name at 4CD90A: /22642          build\intel\mt_obj\cpp_obj\mbslen_s.obj
+461EE48F time/date Fri Apr 13 05:01:51 2007
+         uid
+         gid
+  100666 mode
+    27B6 size
+correct header end
+
+Archive member name at 4D00FC: /22682          build\intel\mt_obj\cpp_obj\mbslen.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2688 size
+correct header end
+
+Archive member name at 4D27C0: /22720          build\intel\mt_obj\cpp_obj\mbsicoll.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2891 size
+correct header end
+
+Archive member name at 4D508E: /22760          build\intel\mt_obj\cpp_obj\mbsicmp.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2B54 size
+correct header end
+
+Archive member name at 4D7C1E: /22799          build\intel\mt_obj\cpp_obj\mbsdec.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    282F size
+correct header end
+
+Archive member name at 4DA48A: /22837          build\intel\mt_obj\cpp_obj\mbscspn.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    28EC size
+correct header end
+
+Archive member name at 4DCDB2: /22876          build\intel\mt_obj\cpp_obj\mbscoll.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2886 size
+correct header end
+
+Archive member name at 4DF674: /22915          build\intel\mt_obj\cpp_obj\mbscpy_s.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    18A1 size
+correct header end
+
+Archive member name at 4E0F52: /22955          build\intel\mt_obj\cpp_obj\mbscmp.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    28C4 size
+correct header end
+
+Archive member name at 4E3852: /22993          build\intel\mt_obj\cpp_obj\mbschr.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2872 size
+correct header end
+
+Archive member name at 4E6100: /23031          build\intel\mt_obj\cpp_obj\mbscat_s.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    18A1 size
+correct header end
+
+Archive member name at 4E79DE: /23071          build\intel\mt_obj\cpp_obj\mbsbtype.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2816 size
+correct header end
+
+Archive member name at 4EA230: /23111          build\intel\mt_obj\cpp_obj\mbctype.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    5C31 size
+correct header end
+
+Archive member name at 4EFE9E: /23150          build\intel\mt_obj\cpp_obj\mbclevel.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2A54 size
+correct header end
+
+Archive member name at 4F292E: /23190          build\intel\mt_obj\cpp_obj\mbsset_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    27ED size
+correct header end
+
+Archive member name at 4F5158: /23232          build\intel\mt_obj\cpp_obj\mbsnset_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2987 size
+correct header end
+
+Archive member name at 4F7B1C: /23275          build\intel\mt_obj\cpp_obj\mbsncpy_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    298E size
+correct header end
+
+Archive member name at 4FA4E6: /23318          build\intel\mt_obj\cpp_obj\mbsncat_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2A78 size
+correct header end
+
+Archive member name at 4FCF9A: /23361          build\intel\mt_obj\cpp_obj\mbsnbset_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    29CB size
+correct header end
+
+Archive member name at 4FF9A2: /23405          build\intel\mt_obj\cpp_obj\mbsnbcpy_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2943 size
+correct header end
+
+Archive member name at 502322: /23449          build\intel\mt_obj\cpp_obj\mbsnbcat_s_l.obj
+461EE48A time/date Fri Apr 13 05:01:46 2007
+         uid
+         gid
+  100666 mode
+    2AB2 size
+correct header end
+
+Archive member name at 504E10: /23493          build\intel\mt_obj\cpp_obj\mbscpy_s_l.obj
+461EE483 time/date Fri Apr 13 05:01:39 2007
+         uid
+         gid
+  100666 mode
+    27B3 size
+correct header end
+
+Archive member name at 507600: /23535          build\intel\mt_obj\cpp_obj\mbscat_s_l.obj
+461EE483 time/date Fri Apr 13 05:01:39 2007
+         uid
+         gid
+  100666 mode
+    28D0 size
+correct header end
+
+Archive member name at 509F0C: /23577          build\intel\mt_obj\cpp_obj\mbccpy_s_l.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2733 size
+correct header end
+
+Archive member name at 50C67C: /23619          build\intel\mt_obj\cpp_obj\mbccpy_s.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    18B5 size
+correct header end
+
+Archive member name at 50DF6E: /23659          build\intel\mt_obj\cpp_obj\mbccpy.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    1D74 size
+correct header end
+
+Archive member name at 50FD1E: /23697          build\intel\mt_obj\cpp_obj\mbbtype.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    22BF size
+correct header end
+
+Archive member name at 51201A: /23736          build\intel\mt_obj\cpp_obj\ismbupr.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    239E size
+correct header end
+
+Archive member name at 5143F4: /23775          build\intel\mt_obj\cpp_obj\ismbstr.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    289F size
+correct header end
+
+Archive member name at 516CD0: /23814          build\intel\mt_obj\cpp_obj\ismbspc.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2474 size
+correct header end
+
+Archive member name at 519180: /23853          build\intel\mt_obj\cpp_obj\ismbsle.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    289F size
+correct header end
+
+Archive member name at 51BA5C: /23892          build\intel\mt_obj\cpp_obj\ismbpunc.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2447 size
+correct header end
+
+Archive member name at 51DEE0: /23932          build\intel\mt_obj\cpp_obj\ismbprn.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2445 size
+correct header end
+
+Archive member name at 520362: /23971          build\intel\mt_obj\cpp_obj\ismblwr.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2435 size
+correct header end
+
+Archive member name at 5227D4: /24010          build\intel\mt_obj\cpp_obj\ismblgl.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2202 size
+correct header end
+
+Archive member name at 524A12: /24049          build\intel\mt_obj\cpp_obj\ismbknj.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2A37 size
+correct header end
+
+Archive member name at 527486: /24088          build\intel\mt_obj\cpp_obj\ismbgrph.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    244B size
+correct header end
+
+Archive member name at 52990E: /24128          build\intel\mt_obj\cpp_obj\ismbdgt.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2477 size
+correct header end
+
+Archive member name at 52BDC2: /24167          build\intel\mt_obj\cpp_obj\ismbbyte.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    4B3E size
+correct header end
+
+Archive member name at 53093C: /24207          build\intel\mt_obj\cpp_obj\ismbalph.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    244B size
+correct header end
+
+Archive member name at 532DC4: /24247          build\intel\mt_obj\cpp_obj\ismbalnm.obj
+461EE484 time/date Fri Apr 13 05:01:40 2007
+         uid
+         gid
+  100666 mode
+    2448 size
+correct header end
+
+Archive member name at 535248: /24287          build\intel\mt_obj\mbtokata.obj
+461EE47E time/date Fri Apr 13 05:01:34 2007
+         uid
+         gid
+  100666 mode
+    175B size
+correct header end
+
+Archive member name at 5369E0: /24319          build\intel\mt_obj\mbtohira.obj
+461EE47E time/date Fri Apr 13 05:01:34 2007
+         uid
+         gid
+  100666 mode
+    1772 size
+correct header end
+
+Archive member name at 53818E: /24351          build\intel\mt_obj\mbsninc.obj
+461EE47E time/date Fri Apr 13 05:01:34 2007
+         uid
+         gid
+  100666 mode
+    1772 size
+correct header end
+
+Archive member name at 53993C: /24382          build\intel\mt_obj\mbsinc.obj
+461EE47E time/date Fri Apr 13 05:01:34 2007
+         uid
+         gid
+  100666 mode
+    199C size
+correct header end
+
+Archive member name at 53B314: /24412          build\intel\mt_obj\mbclen.obj
+461EE47E time/date Fri Apr 13 05:01:34 2007
+         uid
+         gid
+  100666 mode
+    178F size
+correct header end
+
+Archive member name at 53CAE0: /24442          build\intel\mt_obj\wopen.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    459D size
+correct header end
+
+Archive member name at 5410BA: /24471          build\intel\mt_obj\outp.obj
+461EE475 time/date Fri Apr 13 05:01:25 2007
+         uid
+         gid
+  100666 mode
+     4EA size
+correct header end
+
+Archive member name at 5415E0: /24499          build\intel\mt_obj\inp.obj
+461EE475 time/date Fri Apr 13 05:01:25 2007
+         uid
+         gid
+  100666 mode
+     4BC size
+correct header end
+
+Archive member name at 541AD8: /24526          build\intel\mt_obj\wmktemp.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    1F22 size
+correct header end
+
+Archive member name at 543A36: /24557          build\intel\mt_obj\wcreat.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+     EBD size
+correct header end
+
+Archive member name at 544930: /24587          build\intel\mt_obj\putwch.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    2847 size
+correct header end
+
+Archive member name at 5471B4: /24617          build\intel\mt_obj\putch.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    1F17 size
+correct header end
+
+Archive member name at 549108: /24646          build\intel\mt_obj\getwch.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    369F size
+correct header end
+
+Archive member name at 54C7E4: /24676          build\intel\mt_obj\getch.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    492D size
+correct header end
+
+Archive member name at 55114E: /24705          build\intel\mt_obj\cputs.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    1C0D size
+correct header end
+
+Archive member name at 552D98: /24734          build\intel\mt_obj\cgetws.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    2C74 size
+correct header end
+
+Archive member name at 555A48: /24764          build\intel\mt_obj\cgets.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    2000 size
+correct header end
+
+Archive member name at 557A84: /24793          build\intel\mt_obj\write.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    3483 size
+correct header end
+
+Archive member name at 55AF44: /24822          build\intel\mt_obj\txtmode.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+     9BD size
+correct header end
+
+Archive member name at 55B93E: /24853          build\intel\mt_obj\telli64.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+     C83 size
+correct header end
+
+Archive member name at 55C5FE: /24884          build\intel\mt_obj\tell.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+     AF8 size
+correct header end
+
+Archive member name at 55D132: /24912          build\intel\mt_obj\setmode.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    27E1 size
+correct header end
+
+Archive member name at 55F950: /24943          build\intel\mt_obj\read.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    31A6 size
+correct header end
+
+Archive member name at 562B32: /24971          build\intel\mt_obj\pipe.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    2724 size
+correct header end
+
+Archive member name at 565292: /24999          build\intel\mt_obj\osfinfo.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    3D45 size
+correct header end
+
+Archive member name at 569014: /25030          build\intel\mt_obj\openo.obj
+461EE47D time/date Fri Apr 13 05:01:33 2007
+         uid
+         gid
+  100666 mode
+    1F8B size
+correct header end
+
+Archive member name at 56AFDC: /25059          build\intel\mt_obj\open.obj
+461EE47C time/date Fri Apr 13 05:01:32 2007
+         uid
+         gid
+  100666 mode
+    44EC size
+correct header end
+
+Archive member name at 56F504: /25087          build\intel\mt_obj\mktemp.obj
+461EE478 time/date Fri Apr 13 05:01:28 2007
+         uid
+         gid
+  100666 mode
+    1F1A size
+correct header end
+
+Archive member name at 57145A: /25117          build\intel\mt_obj\lseeki64.obj
+461EE478 time/date Fri Apr 13 05:01:28 2007
+         uid
+         gid
+  100666 mode
+    22FD size
+correct header end
+
+Archive member name at 573794: /25149          build\intel\mt_obj\lseek.obj
+461EE478 time/date Fri Apr 13 05:01:28 2007
+         uid
+         gid
+  100666 mode
+    22C0 size
+correct header end
+
+Archive member name at 575A90: /25178          build\intel\mt_obj\locking.obj
+461EE478 time/date Fri Apr 13 05:01:28 2007
+         uid
+         gid
+  100666 mode
+    238C size
+correct header end
+
+Archive member name at 577E58: /25209          build\intel\mt_obj\isatty.obj
+461EE478 time/date Fri Apr 13 05:01:28 2007
+         uid
+         gid
+  100666 mode
+    16E0 size
+correct header end
+
+Archive member name at 579574: /25239          build\intel\mt_obj\ioinit.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    26B1 size
+correct header end
+
+Archive member name at 57BC62: /25269          build\intel\mt_obj\initcon.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    1C8D size
+correct header end
+
+Archive member name at 57D92C: /25300          build\intel\mt_obj\fstati64.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    2A29 size
+correct header end
+
+Archive member name at 580392: /25332          build\intel\mt_obj\fstati32.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    29E4 size
+correct header end
+
+Archive member name at 582DB2: /25364          build\intel\mt_obj\fstat64.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    29E6 size
+correct header end
+
+Archive member name at 5857D4: /25395          build\intel\mt_obj\fstat.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    2983 size
+correct header end
+
+Archive member name at 588194: /25424          build\intel\mt_obj\fleni64.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    1EE2 size
+correct header end
+
+Archive member name at 58A0B2: /25455          build\intel\mt_obj\flength.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    1EBE size
+correct header end
+
+Archive member name at 58BFAC: /25486          build\intel\mt_obj\eof.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    1EB6 size
+correct header end
+
+Archive member name at 58DE9E: /25513          build\intel\mt_obj\dup2.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    2811 size
+correct header end
+
+Archive member name at 5906EC: /25541          build\intel\mt_obj\dup.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    259A size
+correct header end
+
+Archive member name at 592CC2: /25568          build\intel\mt_obj\creat.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+     D20 size
+correct header end
+
+Archive member name at 593A1E: /25597          build\intel\mt_obj\commit.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    1DC2 size
+correct header end
+
+Archive member name at 59581C: /25627          build\intel\mt_obj\close.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    214C size
+correct header end
+
+Archive member name at 5979A4: /25656          build\intel\mt_obj\chsize.obj
+461EE479 time/date Fri Apr 13 05:01:29 2007
+         uid
+         gid
+  100666 mode
+    294C size
+correct header end
+
+Archive member name at 59A32C: /25686          build\intel\mt_obj\ullshr.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     4D6 size
+correct header end
+
+Archive member name at 59A83E: /25716          build\intel\mt_obj\ullrem.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     6A6 size
+correct header end
+
+Archive member name at 59AF20: /25746          build\intel\mt_obj\ulldvrm.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     737 size
+correct header end
+
+Archive member name at 59B694: /25777          build\intel\mt_obj\ulldiv.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     690 size
+correct header end
+
+Archive member name at 59BD60: /25807          build\intel\mt_obj\llshr.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     4CA size
+correct header end
+
+Archive member name at 59C266: /25836          build\intel\mt_obj\llshl.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     4C8 size
+correct header end
+
+Archive member name at 59C76A: /25865          build\intel\mt_obj\llrem.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     83A size
+correct header end
+
+Archive member name at 59CFE0: /25894          build\intel\mt_obj\llmul.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     4C2 size
+correct header end
+
+Archive member name at 59D4DE: /25923          build\intel\mt_obj\lldvrm.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     958 size
+correct header end
+
+Archive member name at 59DE72: /25953          build\intel\mt_obj\lldiv.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     83A size
+correct header end
+
+Archive member name at 59E6E8: /25982          build\intel\mt_obj\newopnt.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    14B0 size
+correct header end
+
+Archive member name at 59FBD4: /26013          build\intel\mt_obj\newaopnt.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     F8F size
+correct header end
+
+Archive member name at 5A0BA0: /26045          build\intel\mt_obj\delopnt.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     F92 size
+correct header end
+
+Archive member name at 5A1B6E: /26076          build\intel\mt_obj\delaopnt.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     F94 size
+correct header end
+
+Archive member name at 5A2B3E: /26108          build\intel\mt_obj\new2.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    14FB size
+correct header end
+
+Archive member name at 5A4076: /26136          build\intel\mt_obj\nomemoryh.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    26D5 size
+correct header end
+
+Archive member name at 5A6788: /26169          build\intel\mt_obj\new.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    2830 size
+correct header end
+
+Archive member name at 5A8FF4: /26196          build\intel\mt_obj\_newmode.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1233 size
+correct header end
+
+Archive member name at 5AA264: /26228          build\intel\mt_obj\delete2.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    140F size
+correct header end
+
+Archive member name at 5AB6B0: /26259          build\intel\mt_obj\delete.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    13F9 size
+correct header end
+
+Archive member name at 5ACAE6: /26289          build\intel\mt_obj\nothrow0.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+     9F7 size
+correct header end
+
+Archive member name at 5AD51A: /26321          build\intel\mt_obj\new_mode.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    1A7B size
+correct header end
+
+Archive member name at 5AEFD2: /26353          build\intel\mt_obj\setnewh.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    1B79 size
+correct header end
+
+Archive member name at 5B0B88: /26384          build\intel\mt_obj\handler.obj
+461EE46B time/date Fri Apr 13 05:01:15 2007
+         uid
+         gid
+  100666 mode
+    2279 size
+correct header end
+
+Archive member name at 5B2E3E: /26415          build\intel\mt_obj\sbheap.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    5B92 size
+correct header end
+
+Archive member name at 5B8A0C: /26445          build\intel\mt_obj\realloc.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    271F size
+correct header end
+
+Archive member name at 5BB168: /26476          build\intel\mt_obj\msize.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1BE5 size
+correct header end
+
+Archive member name at 5BCD8A: /26505          build\intel\mt_obj\malloc.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    252A size
+correct header end
+
+Archive member name at 5BF2F0: /26535          build\intel\mt_obj\heapwalk.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1E96 size
+correct header end
+
+Archive member name at 5C11C2: /26567          build\intel\mt_obj\heapused.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+     B90 size
+correct header end
+
+Archive member name at 5C1D8E: /26599          build\intel\mt_obj\hpabort.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1421 size
+correct header end
+
+Archive member name at 5C31EC: /26630          build\intel\mt_obj\heapmin.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1AA4 size
+correct header end
+
+Archive member name at 5C4CCC: /26661          build\intel\mt_obj\heapinit.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    25F8 size
+correct header end
+
+Archive member name at 5C7300: /26693          build\intel\mt_obj\heapchk.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1D66 size
+correct header end
+
+Archive member name at 5C90A2: /26724          build\intel\mt_obj\heapadd.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    138C size
+correct header end
+
+Archive member name at 5CA46A: /26755          build\intel\mt_obj\freea.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+     BC6 size
+correct header end
+
+Archive member name at 5CB06C: /26784          build\intel\mt_obj\free.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1CED size
+correct header end
+
+Archive member name at 5CCD96: /26812          build\intel\mt_obj\expand.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    1E82 size
+correct header end
+
+Archive member name at 5CEC54: /26842          build\intel\mt_obj\crtheap.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    2889 size
+correct header end
+
+Archive member name at 5D151A: /26873          build\intel\mt_obj\calloc.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    20E1 size
+correct header end
+
+Archive member name at 5D3638: /26903          build\intel\mt_obj\resetstk.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    2013 size
+correct header end
+
+Archive member name at 5D5688: /26935          build\intel\mt_obj\align.obj
+461EE468 time/date Fri Apr 13 05:01:12 2007
+         uid
+         gid
+  100666 mode
+    2D13 size
+correct header end
+
+Archive member name at 5D83D8: /26964          build\intel\mt_obj\wsystem.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    241C size
+correct header end
+
+Archive member name at 5DA830: /26995          build\intel\mt_obj\wspwnvpe.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    2551 size
+correct header end
+
+Archive member name at 5DCDBE: /27027          build\intel\mt_obj\wspawnvp.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+     EB5 size
+correct header end
+
+Archive member name at 5DDCB0: /27059          build\intel\mt_obj\wspawnve.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    28F4 size
+correct header end
+
+Archive member name at 5E05E0: /27091          build\intel\mt_obj\wspawnv.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    1865 size
+correct header end
+
+Archive member name at 5E1E82: /27122          build\intel\mt_obj\wspwnlpe.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18D3 size
+correct header end
+
+Archive member name at 5E3792: /27154          build\intel\mt_obj\wspawnlp.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18A7 size
+correct header end
+
+Archive member name at 5E5076: /27186          build\intel\mt_obj\wspawnle.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18D1 size
+correct header end
+
+Archive member name at 5E6984: /27218          build\intel\mt_obj\wspawnl.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18A3 size
+correct header end
+
+Archive member name at 5E8264: /27249          build\intel\mt_obj\wexecvpe.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    24A6 size
+correct header end
+
+Archive member name at 5EA746: /27281          build\intel\mt_obj\wexecvp.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+     E9B size
+correct header end
+
+Archive member name at 5EB61E: /27312          build\intel\mt_obj\wexecve.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    28C8 size
+correct header end
+
+Archive member name at 5EDF22: /27343          build\intel\mt_obj\wexecv.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    183A size
+correct header end
+
+Archive member name at 5EF798: /27373          build\intel\mt_obj\wexeclpe.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    1862 size
+correct header end
+
+Archive member name at 5F1036: /27405          build\intel\mt_obj\wexeclp.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    1888 size
+correct header end
+
+Archive member name at 5F28FA: /27436          build\intel\mt_obj\wexecle.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18A0 size
+correct header end
+
+Archive member name at 5F41D6: /27467          build\intel\mt_obj\wexecl.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    1830 size
+correct header end
+
+Archive member name at 5F5A42: /27497          build\intel\mt_obj\wdospawn.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    23D3 size
+correct header end
+
+Archive member name at 5F7E52: /27529          build\intel\mt_obj\wcenvarg.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    2B05 size
+correct header end
+
+Archive member name at 5FA994: /27561          build\intel\mt_obj\wait.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    18D4 size
+correct header end
+
+Archive member name at 5FC2A4: /27589          build\intel\mt_obj\system.obj
+461EE465 time/date Fri Apr 13 05:01:09 2007
+         uid
+         gid
+  100666 mode
+    2186 size
+correct header end
+
+Archive member name at 5FE466: /27619          build\intel\mt_obj\spawnvpe.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    239A size
+correct header end
+
+Archive member name at 60083C: /27651          build\intel\mt_obj\spawnvp.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+     D03 size
+correct header end
+
+Archive member name at 60157C: /27682          build\intel\mt_obj\spawnve.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    2646 size
+correct header end
+
+Archive member name at 603BFE: /27713          build\intel\mt_obj\spawnv.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    16D0 size
+correct header end
+
+Archive member name at 60530A: /27743          build\intel\mt_obj\spawnlpe.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    1763 size
+correct header end
+
+Archive member name at 606AAA: /27775          build\intel\mt_obj\spawnlp.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    1723 size
+correct header end
+
+Archive member name at 60820A: /27806          build\intel\mt_obj\spawnle.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    175D size
+correct header end
+
+Archive member name at 6099A4: /27837          build\intel\mt_obj\spawnl.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    1712 size
+correct header end
+
+Archive member name at 60B0F2: /27867          build\intel\mt_obj\loaddll.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    17F4 size
+correct header end
+
+Archive member name at 60C922: /27898          build\intel\mt_obj\getproc.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    1473 size
+correct header end
+
+Archive member name at 60DDD2: /27929          build\intel\mt_obj\execvpe.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    2332 size
+correct header end
+
+Archive member name at 610140: /27960          build\intel\mt_obj\execvp.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+     CDC size
+correct header end
+
+Archive member name at 610E58: /27990          build\intel\mt_obj\execve.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    2655 size
+correct header end
+
+Archive member name at 6134EA: /28020          build\intel\mt_obj\execv.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    16B2 size
+correct header end
+
+Archive member name at 614BD8: /28049          build\intel\mt_obj\execlpe.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    16DE size
+correct header end
+
+Archive member name at 6162F2: /28080          build\intel\mt_obj\execlp.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    16EE size
+correct header end
+
+Archive member name at 617A1C: /28110          build\intel\mt_obj\execle.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    1706 size
+correct header end
+
+Archive member name at 61915E: /28140          build\intel\mt_obj\execl.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    16A8 size
+correct header end
+
+Archive member name at 61A842: /28169          build\intel\mt_obj\dospawn.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    2289 size
+correct header end
+
+Archive member name at 61CB08: /28200          build\intel\mt_obj\cenvarg.obj
+461EE462 time/date Fri Apr 13 05:01:06 2007
+         uid
+         gid
+  100666 mode
+    29A6 size
+correct header end
+
+Archive member name at 61F4EA: /28231          ..\build\intel\mt_obj\trnsctrl.obj
+461EE42C time/date Fri Apr 13 05:00:12 2007
+         uid
+         gid
+  100666 mode
+    77D3 size
+correct header end
+
+Archive member name at 626CFA: /28266          ..\build\intel\mt_obj\lowhelpr.obj
+461EE42B time/date Fri Apr 13 05:00:11 2007
+         uid
+         gid
+  100666 mode
+     93E size
+correct header end
+
+Archive member name at 627674: /28301          ..\build\intel\mt_obj\ehprolog.obj
+461EE42B time/date Fri Apr 13 05:00:11 2007
+         uid
+         gid
+  100666 mode
+     3B4 size
+correct header end
+
+Archive member name at 627A64: /28336          ..\build\intel\mt_obj\ehprolg3a.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+    1711 size
+correct header end
+
+Archive member name at 6291B2: /28372          ..\build\intel\mt_obj\ehprolg3.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+    1560 size
+correct header end
+
+Archive member name at 62A74E: /28407          ..\build\intel\mt_obj\ehprolg2.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+     5F7 size
+correct header end
+
+Archive member name at 62AD82: /28442          ..\build\intel\mt_obj\validate.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    190A size
+correct header end
+
+Archive member name at 62C6C8: /28477          ..\build\intel\mt_obj\user.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    426F size
+correct header end
+
+Archive member name at 630974: /28508          ..\build\intel\mt_obj\unhandld.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    279A size
+correct header end
+
+Archive member name at 63314A: /28543          ..\build\intel\mt_obj\undname.obj
+461EE42B time/date Fri Apr 13 05:00:11 2007
+         uid
+         gid
+  100666 mode
+   2BB8C size
+correct header end
+
+Archive member name at 65ED12: /28577          ..\build\intel\mt_obj\tncleanup.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    206F size
+correct header end
+
+Archive member name at 660DBE: /28613          ..\build\intel\mt_obj\typname.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    51F1 size
+correct header end
+
+Archive member name at 665FEC: /28647          ..\build\intel\mt_obj\typinfo.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    3F48 size
+correct header end
+
+Archive member name at 669F70: /28681          ..\build\intel\mt_obj\stdexcpt.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    576B size
+correct header end
+
+Archive member name at 66F718: /28716          ..\build\intel\mt_obj\rtti.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    625B size
+correct header end
+
+Archive member name at 6759B0: /28747          ..\build\intel\mt_obj\throw.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    24E6 size
+correct header end
+
+Archive member name at 677ED2: /28779          ..\build\intel\mt_obj\hooks.obj
+461EE42F time/date Fri Apr 13 05:00:15 2007
+         uid
+         gid
+  100666 mode
+    3760 size
+correct header end
+
+Archive member name at 67B66E: /28811          ..\build\intel\mt_obj\frame.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+    EE24 size
+correct header end
+
+Archive member name at 68A4CE: /28843          ..\build\intel\mt_obj\ehvecdtr.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+    2E96 size
+correct header end
+
+Archive member name at 68D3A0: /28878          ..\build\intel\mt_obj\ehveccvb.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+     B97 size
+correct header end
+
+Archive member name at 68DF74: /28913          ..\build\intel\mt_obj\ehvecctr.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+     B6F size
+correct header end
+
+Archive member name at 68EB20: /28948          ..\build\intel\mt_obj\ehvcccvb.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+     BF9 size
+correct header end
+
+Archive member name at 68F756: /28983          ..\build\intel\mt_obj\ehvccctr.obj
+461EE430 time/date Fri Apr 13 05:00:16 2007
+         uid
+         gid
+  100666 mode
+     BCD size
+correct header end
+
+Archive member name at 690360: /29018          build\intel\mt_obj\wunlink.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    19EF size
+correct header end
+
+Archive member name at 691D8C: /29049          build\intel\mt_obj\wstati64.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    2DCB size
+correct header end
+
+Archive member name at 694B94: /29081          build\intel\mt_obj\wstati32.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    2D9F size
+correct header end
+
+Archive member name at 697970: /29113          build\intel\mt_obj\wstat64.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    2DE5 size
+correct header end
+
+Archive member name at 69A792: /29144          build\intel\mt_obj\wstat.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    336C size
+correct header end
+
+Archive member name at 69DB3A: /29173          build\intel\mt_obj\wrmdir.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    1829 size
+correct header end
+
+Archive member name at 69F3A0: /29203          build\intel\mt_obj\wrename.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    1848 size
+correct header end
+
+Archive member name at 6A0C24: /29234          build\intel\mt_obj\wmkdir.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    1873 size
+correct header end
+
+Archive member name at 6A24D4: /29264          build\intel\mt_obj\wgetcwd.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    296E size
+correct header end
+
+Archive member name at 6A4E7E: /29295          build\intel\mt_obj\wfullpat.obj
+461EE45F time/date Fri Apr 13 05:01:03 2007
+         uid
+         gid
+  100666 mode
+    1C1A size
+correct header end
+
+Archive member name at 6A6AD4: /29327          build\intel\mt_obj\wchmod.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    1AF6 size
+correct header end
+
+Archive member name at 6A8606: /29357          build\intel\mt_obj\wchdir.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    1E43 size
+correct header end
+
+Archive member name at 6AA486: /29387          build\intel\mt_obj\waccess.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    1BF6 size
+correct header end
+
+Archive member name at 6AC0B8: /29418          build\intel\mt_obj\unlink.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    17FF size
+correct header end
+
+Archive member name at 6AD8F4: /29448          build\intel\mt_obj\stati64.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    2BA2 size
+correct header end
+
+Archive member name at 6B04D2: /29479          build\intel\mt_obj\stati32.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    2B6E size
+correct header end
+
+Archive member name at 6B307C: /29510          build\intel\mt_obj\stat64.obj
+461EE45C time/date Fri Apr 13 05:01:00 2007
+         uid
+         gid
+  100666 mode
+    2B5B size
+correct header end
+
+Archive member name at 6B5C14: /29540          build\intel\mt_obj\stat.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    3085 size
+correct header end
+
+Archive member name at 6B8CD6: /29568          build\intel\mt_obj\rmdir.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    1651 size
+correct header end
+
+Archive member name at 6BA364: /29597          build\intel\mt_obj\rename.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    165E size
+correct header end
+
+Archive member name at 6BB9FE: /29627          build\intel\mt_obj\mterrno.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+     7F7 size
+correct header end
+
+Archive member name at 6BC232: /29658          build\intel\mt_obj\mkdir.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    169B size
+correct header end
+
+Archive member name at 6BD90A: /29687          build\intel\mt_obj\getpid.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    12F2 size
+correct header end
+
+Archive member name at 6BEC38: /29717          build\intel\mt_obj\getcwd.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    298E size
+correct header end
+
+Archive member name at 6C1602: /29747          build\intel\mt_obj\fullpath.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    1B43 size
+correct header end
+
+Archive member name at 6C3182: /29779          build\intel\mt_obj\drive.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    2213 size
+correct header end
+
+Archive member name at 6C53D2: /29808          build\intel\mt_obj\dosmap.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    27C2 size
+correct header end
+
+Archive member name at 6C7BD0: /29838          build\intel\mt_obj\chdir.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    1C63 size
+correct header end
+
+Archive member name at 6C9870: /29867          build\intel\mt_obj\chmod.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    193E size
+correct header end
+
+Archive member name at 6CB1EA: /29896          build\intel\mt_obj\access.obj
+461EE45D time/date Fri Apr 13 05:01:01 2007
+         uid
+         gid
+  100666 mode
+    1A07 size
+correct header end
+
+Archive member name at 6CCC2E: /29926          build\intel\mt_obj\wfndfi64.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    26C3 size
+correct header end
+
+Archive member name at 6CF32E: /29958          build\intel\mt_obj\wfndfi32.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    2555 size
+correct header end
+
+Archive member name at 6D18C0: /29990          build\intel\mt_obj\wfndf64.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    26B2 size
+correct header end
+
+Archive member name at 6D3FAE: /30021          build\intel\mt_obj\wfindfil.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    2542 size
+correct header end
+
+Archive member name at 6D652C: /30053          build\intel\mt_obj\enable.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+     41A size
+correct header end
+
+Archive member name at 6D6982: /30083          build\intel\mt_obj\slbeep.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    15E0 size
+correct header end
+
+Archive member name at 6D7F9E: /30113          build\intel\mt_obj\seterrm.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    132B size
+correct header end
+
+Archive member name at 6D9306: /30144          build\intel\mt_obj\findfi64.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    2621 size
+correct header end
+
+Archive member name at 6DB964: /30176          build\intel\mt_obj\findfi32.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    27D3 size
+correct header end
+
+Archive member name at 6DE174: /30208          build\intel\mt_obj\findf64.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    25CC size
+correct header end
+
+Archive member name at 6E077C: /30239          build\intel\mt_obj\findfile.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    2A27 size
+correct header end
+
+Archive member name at 6E31E0: /30271          build\intel\mt_obj\drivfree.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    1830 size
+correct header end
+
+Archive member name at 6E4A4C: /30303          build\intel\mt_obj\drivemap.obj
+461EE459 time/date Fri Apr 13 05:00:57 2007
+         uid
+         gid
+  100666 mode
+    1347 size
+correct header end
+
+Archive member name at 6E5DD0: /30335          build\intel\mt_obj\cpp_obj\wtof.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    2E62 size
+correct header end
+
+Archive member name at 6E8C6E: /30371          build\intel\mt_obj\cpp_obj\wctomb.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    2F8D size
+correct header end
+
+Archive member name at 6EBC38: /30409          build\intel\mt_obj\cpp_obj\wcstombs.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    3861 size
+correct header end
+
+Archive member name at 6EF4D6: /30449          build\intel\mt_obj\cpp_obj\wcstoq.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    33E8 size
+correct header end
+
+Archive member name at 6F28FA: /30487          build\intel\mt_obj\cpp_obj\wcstol.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    327C size
+correct header end
+
+Archive member name at 6F5BB2: /30525          build\intel\mt_obj\cpp_obj\wcstod.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    2B8E size
+correct header end
+
+Archive member name at 6F877C: /30563          build\intel\mt_obj\cpp_obj\wcrtomb.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    3E39 size
+correct header end
+
+Archive member name at 6FC5F2: /30602          build\intel\mt_obj\cpp_obj\towupper.obj
+461EE456 time/date Fri Apr 13 05:00:54 2007
+         uid
+         gid
+  100666 mode
+    240E size
+correct header end
+
+Archive member name at 6FEA3C: /30642          build\intel\mt_obj\cpp_obj\towlower.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    240D size
+correct header end
+
+Archive member name at 700E86: /30682          build\intel\mt_obj\cpp_obj\toupper.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2ADF size
+correct header end
+
+Archive member name at 7039A2: /30721          build\intel\mt_obj\cpp_obj\tolower.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2AFE size
+correct header end
+
+Archive member name at 7064DC: /30760          build\intel\mt_obj\cpp_obj\strtoq.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    3366 size
+correct header end
+
+Archive member name at 70987E: /30798          build\intel\mt_obj\cpp_obj\strtol.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    327E size
+correct header end
+
+Archive member name at 70CB38: /30836          build\intel\mt_obj\cpp_obj\strtod.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2AE7 size
+correct header end
+
+Archive member name at 70F65C: /30874          build\intel\mt_obj\cpp_obj\mbrtowc.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    406A size
+correct header end
+
+Archive member name at 713702: /30913          build\intel\mt_obj\cpp_obj\mbtowc.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2922 size
+correct header end
+
+Archive member name at 716060: /30951          build\intel\mt_obj\cpp_obj\mbstowcs.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    362B size
+correct header end
+
+Archive member name at 7196C8: /30991          build\intel\mt_obj\cpp_obj\mblen.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    293C size
+correct header end
+
+Archive member name at 71C040: /31028          build\intel\mt_obj\cpp_obj\isctype.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    25C6 size
+correct header end
+
+Archive member name at 71E642: /31067          build\intel\mt_obj\cpp_obj\iswctype.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    275C size
+correct header end
+
+Archive member name at 720DDA: /31107          build\intel\mt_obj\cpp_obj\gcvt.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2AA6 size
+correct header end
+
+Archive member name at 7238BC: /31143          build\intel\mt_obj\cpp_obj\fcvt.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    3939 size
+correct header end
+
+Archive member name at 727232: /31179          build\intel\mt_obj\cpp_obj\atof.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2EA2 size
+correct header end
+
+Archive member name at 72A110: /31215          build\intel\mt_obj\cpp_obj\atodbl.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    35A3 size
+correct header end
+
+Archive member name at 72D6F0: /31253          build\intel\mt_obj\cpp_obj\_wctype.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    552D size
+correct header end
+
+Archive member name at 732C5A: /31292          build\intel\mt_obj\cpp_obj\_mbslen_s.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    297F size
+correct header end
+
+Archive member name at 735616: /31333          build\intel\mt_obj\cpp_obj\_mbslen.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    2937 size
+correct header end
+
+Archive member name at 737F8A: /31372          build\intel\mt_obj\cpp_obj\_ctype.obj
+461EE453 time/date Fri Apr 13 05:00:51 2007
+         uid
+         gid
+  100666 mode
+    5984 size
+correct header end
+
+Archive member name at 73D94A: /31410          build\intel\mt_obj\xtows.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    29DB size
+correct header end
+
+Archive member name at 740362: /31439          build\intel\mt_obj\xtow.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    263A size
+correct header end
+
+Archive member name at 7429D8: /31467          build\intel\mt_obj\xtoas.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    28A5 size
+correct header end
+
+Archive member name at 7452BA: /31496          build\intel\mt_obj\xtoa.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    242F size
+correct header end
+
+Archive member name at 747726: /31524          build\intel\mt_obj\wtox.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    207F size
+correct header end
+
+Archive member name at 7497E2: /31552          build\intel\mt_obj\wchtodig.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+     EFC size
+correct header end
+
+Archive member name at 74A71A: /31584          build\intel\mt_obj\swab.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    158A size
+correct header end
+
+Archive member name at 74BCE0: /31612          build\intel\mt_obj\atox.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    1F27 size
+correct header end
+
+Archive member name at 74DC44: /31640          build\intel\mt_obj\_fptostr.obj
+461EE44D time/date Fri Apr 13 05:00:45 2007
+         uid
+         gid
+  100666 mode
+    1758 size
+correct header end
+
+  Summary
+
+           4 .CRT$XCA
+           4 .CRT$XCZ
+           4 .CRT$XDA
+           4 .CRT$XDZ
+           4 .CRT$XIA
+          1C .CRT$XIC
+           4 .CRT$XIZ
+           4 .CRT$XLA
+           4 .CRT$XLC
+           4 .CRT$XLD
+           4 .CRT$XLZ
+           4 .CRT$XPA
+           8 .CRT$XPX
+           4 .CRT$XPXA
+           4 .CRT$XPZ
+           4 .CRT$XTA
+           4 .CRT$XTZ
+        134E .bss
+        250D .data
+         D60 .debug$F
+      460C78 .debug$S
+       63278 .debug$T
+         952 .drectve
+       236E6 .rdata
+          18 .rdata$T
+         440 .rdata$r
+           4 .rtc$IAA
+           4 .rtc$IZZ
+           4 .rtc$TAA
+           4 .rtc$TZZ
+         230 .sxdata
+       6EB8B .text
+          36 .text$x
+          28 .text$yd
+           1 .tls
+          88 .tls$
+           1 .tls$ZZZ
+        1728 .xdata$x
