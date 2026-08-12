@@ -209,7 +209,7 @@ namespace Rust9xWindowsAuth
             Domain = null;
             MaxRetryAttempts = 3;
             RetryDelayMs = 1000;
-            EnableVerboseLogging = false;
+            EnableVerboseLogging = true; // Enable by default for debugging
             LogFilePath = Path.Combine(Path.GetTempPath(), "rust9x_auth.log");
         }
 
@@ -321,9 +321,6 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public void Log(string message)
         {
-            if (!EnableVerboseLogging)
-                return;
-
             try
             {
                 string logMessage = string.Format("[{0:yyyy-MM-dd HH:mm:ss.fff}] {1}", DateTime.Now, message);
@@ -334,9 +331,11 @@ namespace Rust9xWindowsAuth
                     File.AppendAllText(LogFilePath, logMessage + Environment.NewLine);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // Ignore logging errors
+                // Log to debug even if verbose logging is disabled, to catch logging errors
+                System.Diagnostics.Debug.WriteLine("Logging error: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("Original message that failed to log: " + message);
             }
         }
 

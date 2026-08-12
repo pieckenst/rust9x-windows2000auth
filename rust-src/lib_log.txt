@@ -9,3 +9,220 @@
 [1786547056] [LIB] Auth client initialized successfully
 [1786549506] [LIB] auth_init called
 [1786549506] [LIB] Auth client initialized successfully
+[1786549615] [LIB] auth_init called
+[1786549615] [LIB] Auth client initialized successfully
+[1786551731] [LIB] auth_init called
+[1786551731] [LIB] Auth client initialized successfully
+[1786551734] [LIB] auth_prompt_credentials called
+[1786551734] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786551740] [LIB] Credential prompt failed: Invalid credentials: Credential prompt failed - HRESULT: 0x000004C7, GetLastError: 0x000000B7
+[1786551741] [LIB] auth_cleanup called
+[1786551741] [LIB] Auth client cleaned up
+[1786551753] [LIB] auth_init called
+[1786551753] [LIB] Auth client initialized successfully
+[1786551880] [LIB] auth_init called
+[1786551880] [LIB] Auth client initialized successfully
+[1786552002] [LIB] auth_prompt_credentials called
+[1786552002] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786552010] [LIB] Credential prompt successful
+[1786556769] [LIB] auth_init called
+[1786556769] [LIB] Auth client initialized successfully
+[1786556891] [LIB] auth_prompt_credentials called
+[1786556891] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786556926] [LIB] Credential prompt successful
+[1786558631] [LIB] auth_init called
+[1786558631] [LIB] Auth client initialized successfully
+[1786558752] [LIB] auth_prompt_credentials called
+[1786558752] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786558760] [LIB] Credential prompt successful
+[1786558851] [LIB] auth_init called
+[1786558851] [LIB] Auth client initialized successfully
+[1786558973] [LIB] auth_prompt_credentials called
+[1786558973] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786558979] [LIB] Credential prompt successful
+[1786559952] [LIB] auth_init called
+[1786559952] [LIB] Auth client initialized successfully
+[1786560086] [LIB] auth_prompt_credentials called
+[1786560086] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786560094] [LIB] Credential prompt successful
+[1786560115] [LIB] auth_cleanup called
+[1786560115] [LIB] Auth client cleaned up
+[1786560131] [LIB] auth_init called
+[1786560131] [LIB] Auth client initialized successfully
+[1786560252] [LIB] auth_prompt_credentials called
+[1786560252] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786560259] [LIB] Credential prompt successful
+[1786560288] [LIB] auth_cleanup called
+[1786560288] [LIB] Auth client cleaned up
+[1786560512] [FUNCTION_ENTRY] auth_init
+[1786560512] [LIB] auth_init called
+[1786560512] [OBJECT_SIZE] WindowsAuthClient = 880 bytes
+[1786560512] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786560512] [MEMORY_ALLOC] AUTH_CLIENT allocated 880 bytes
+[1786560512] [OBJECT_SIZE] client instance = 880 bytes
+[1786560512] [LIB] Auth client initialized successfully
+[1786560512] [FUNCTION_EXIT] auth_init -> Success
+[1786560634] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786560634] [LIB] auth_prompt_credentials called
+[1786560634] [PARAM] caption = 0x72ed30c
+[1786560634] [PARAM] message = 0x72ed20c
+[1786560634] [PARAM] save_credentials = 0x72ed204
+[1786560634] [PARAM] return_type = AuthInteropResult (size: 16 bytes)
+[1786560634] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786560634] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786560634] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786560634] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786560634] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786560634] [INTEROP] *mut bool -> bool [SUCCESS] value: false
+[1786560634] [PARAM] save = false (size: 1 bytes)
+[1786560634] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786560640] [LIB] Credential prompt successful
+[1786560640] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786560640] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786560640] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786560640] [PARAM] error_code = Success (size: 4 bytes)
+[1786560640] [PARAM] error_message = null_mut()
+[1786560640] [PARAM] response_data = null_mut()
+[1786560640] [PARAM] response_length = 0 (size: 4 bytes)
+[1786560640] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786561283] [FUNCTION_ENTRY] auth_init
+[1786561283] [LIB] auth_init called
+[1786561283] [OBJECT_SIZE] WindowsAuthClient = 880 bytes
+[1786561283] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786561283] [MEMORY_ALLOC] AUTH_CLIENT allocated 880 bytes
+[1786561283] [OBJECT_SIZE] client instance = 880 bytes
+[1786561283] [LIB] Auth client initialized successfully
+[1786561283] [FUNCTION_EXIT] auth_init -> Success
+[1786561407] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786561407] [LIB] auth_prompt_credentials called
+[1786561407] [PARAM] caption = 0x717cf40
+[1786561407] [PARAM] message = 0x717ce40
+[1786561407] [PARAM] save_credentials = 0x717ce38
+[1786561407] [PARAM] return_type = AuthInteropResult (size: 16 bytes)
+[1786561407] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786561407] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786561407] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786561407] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786561407] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786561407] [INTEROP] *mut bool -> bool [SUCCESS] value: false
+[1786561407] [PARAM] save = false (size: 1 bytes)
+[1786561407] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786561415] [LIB] Credential prompt successful
+[1786561415] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786561415] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786561415] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786561415] [PARAM] error_code = Success (size: 4 bytes)
+[1786561415] [PARAM] error_message = null_mut()
+[1786561415] [PARAM] response_data = null_mut()
+[1786561415] [PARAM] response_length = 0 (size: 4 bytes)
+[1786561415] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786561958] [FUNCTION_ENTRY] auth_init
+[1786561958] [LIB] auth_init called
+[1786561958] [OBJECT_SIZE] WindowsAuthClient = 880 bytes
+[1786561958] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786561958] [MEMORY_ALLOC] AUTH_CLIENT allocated 880 bytes
+[1786561958] [OBJECT_SIZE] client instance = 880 bytes
+[1786561958] [LIB] Auth client initialized successfully
+[1786561958] [FUNCTION_EXIT] auth_init -> Success
+[1786562114] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786562114] [LIB] auth_prompt_credentials called
+[1786562114] [PARAM] caption = 0x72cd61c
+[1786562114] [PARAM] message = 0x72cd51c
+[1786562114] [PARAM] save_credentials = 0x72cd514
+[1786562114] [PARAM] result = 0x72cd990
+[1786562114] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786562114] [PARAM] error_code = NotInitialized (size: 4 bytes)
+[1786562114] [PARAM] message = 'Auth client not initialized' (27 bytes) (size: 27 bytes)
+[1786562114] [MEMORY_ALLOC] CString (error message) allocated 27 bytes
+[1786562114] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x70f2140
+[1786562114] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786562114] [PARAM] error_message = ptr=0x70f2140 (leaked)
+[1786562114] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NotInitialized)
+[1786562114] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786562114] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786562114] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786562114] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786562114] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786562114] [INTEROP] *mut bool -> bool [SUCCESS] value: false
+[1786562114] [PARAM] save = false (size: 1 bytes)
+[1786562114] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786562121] [LIB] Credential prompt successful
+[1786562121] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786562121] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786562121] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786562121] [PARAM] error_code = Success (size: 4 bytes)
+[1786562121] [PARAM] error_message = null_mut()
+[1786562121] [PARAM] response_data = null_mut()
+[1786562121] [PARAM] response_length = 0 (size: 4 bytes)
+[1786562121] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786562121] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786562121] [LIB] auth_prompt_credentials called
+[1786562121] [PARAM] caption = 0x93be544
+[1786562121] [PARAM] message = 0x93be444
+[1786562121] [PARAM] save_credentials = 0x93be43c
+[1786562121] [PARAM] result = 0x93be8b8
+[1786562121] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786562121] [PARAM] error_code = NotInitialized (size: 4 bytes)
+[1786562121] [PARAM] message = 'Auth client not initialized' (27 bytes) (size: 27 bytes)
+[1786562121] [MEMORY_ALLOC] CString (error message) allocated 27 bytes
+[1786562121] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x7153b28
+[1786562121] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786562121] [PARAM] error_message = ptr=0x7153b28 (leaked)
+[1786562121] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NotInitialized)
+[1786562121] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786562121] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786562121] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786562121] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786562121] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786562121] [INTEROP] *mut bool -> bool [SUCCESS] value: false
+[1786562121] [PARAM] save = false (size: 1 bytes)
+[1786562121] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786562128] [LIB] Credential prompt successful
+[1786562128] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786562128] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786562128] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786562128] [PARAM] error_code = Success (size: 4 bytes)
+[1786562128] [PARAM] error_message = null_mut()
+[1786562128] [PARAM] response_data = null_mut()
+[1786562128] [PARAM] response_length = 0 (size: 4 bytes)
+[1786562128] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786562128] [FUNCTION_ENTRY] auth_http_request
+[1786562128] [LIB] auth_http_request called
+[1786562128] [PARAM] url = 0x93be358
+[1786562128] [PARAM] method = 0x93be258
+[1786562128] [PARAM] body_data = NULL
+[1786562128] [PARAM] body_length = 0 (size: 0 bytes)
+[1786562128] [PARAM] return_type = AuthInteropResult (size: 16 bytes)
+[1786562128] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786562128] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786562128] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786562128] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786562128] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786562128] [LIB] HTTP request: GET https://example.com/api/auth
+[1786562128] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786562128] [PARAM] body = None
+[1786562128] [OBJECT_SIZE] HttpClient = 20 bytes
+[1786562128] [MEMORY_ALLOC] HttpClient allocated 20 bytes
+[1786562129] [LIB] HTTP request failed: TLS error: TLS not configured
+[1786562129] [FUNCTION_EXIT] auth_http_request -> NetworkError: TLS error: TLS not configured
+[1786562129] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786562129] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786562129] [PARAM] message = 'HTTP request failed: TLS error: TLS not configured' (50 bytes) (size: 50 bytes)
+[1786562129] [MEMORY_ALLOC] CString (error message) allocated 50 bytes
+[1786562129] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x711fa10
+[1786562129] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786562129] [PARAM] error_message = ptr=0x711fa10 (leaked)
+[1786562129] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786562156] [FUNCTION_ENTRY] auth_cleanup
+[1786562156] [LIB] auth_cleanup called
+[1786562156] [PARAM] return_type = void
+[1786562156] [MEMORY_FREE] AUTH_CLIENT freed 880 bytes
+[1786562156] [OBJECT_SIZE] client being dropped = 880 bytes
+[1786562156] [LIB] Auth client cleaned up
+[1786562156] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786562156] [FUNCTION_ENTRY] auth_free_string
+[1786562156] [PARAM] ptr = 0x17125a4
+[1786562156] [PARAM] return_type = void
+[1786562156] [MEMORY_FREE] CString freed 0 bytes
+[1786562156] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x17125a4
+[1786562156] [FUNCTION_EXIT] auth_free_string -> void (freed)

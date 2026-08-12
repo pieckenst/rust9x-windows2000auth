@@ -118,42 +118,54 @@ namespace Rust9xWindowsAuth
         /// <returns>True if DLL was loaded successfully, false otherwise</returns>
         public static bool InitializeDll()
         {
-            lock (_initLock)
+            try
             {
-                Trace.WriteLine("InitializeDll: Starting DLL initialization");
-                
-                if (_isInitialized && _dllHandle != IntPtr.Zero)
+                lock (_initLock)
                 {
-                    Trace.WriteLine("InitializeDll: DLL already loaded, handle: " + _dllHandle);
+                    Trace.WriteLine("InitializeDll: Starting DLL initialization");
+                    
+                    if (_isInitialized && _dllHandle != IntPtr.Zero)
+                    {
+                        Trace.WriteLine("InitializeDll: DLL already loaded, handle: " + _dllHandle);
+                        return true;
+                    }
+
+                    Trace.WriteLine("InitializeDll: Searching for DLL: " + DLL_NAME);
+                    string dllPath = FindDllPath();
+                    
+                    if (dllPath == null)
+                    {
+                        Trace.WriteLine("InitializeDll: DLL not found in any search path");
+                        throw new DllLoadException(
+                            "Could not find " + DLL_NAME + ". " +
+                            "Searched in: application directory, assembly location, and system PATH.");
+                    }
+
+                    Trace.WriteLine("InitializeDll: Attempting to load DLL from: " + dllPath);
+                    _dllHandle = LoadLibrary(dllPath);
+                    
+                    if (_dllHandle == IntPtr.Zero)
+                    {
+                        int error = Marshal.GetLastWin32Error();
+                        Trace.WriteLine("InitializeDll: LoadLibrary failed with error code: " + error);
+                        throw new DllLoadException(
+                            "Failed to load DLL from '" + dllPath + "'. Windows error code: " + error + ". " +
+                            GetLoadLibraryErrorMessage(error));
+                    }
+
+                    _isInitialized = true;
+                    Trace.WriteLine("InitializeDll: DLL loaded successfully, handle: " + _dllHandle);
                     return true;
                 }
-
-                Trace.WriteLine("InitializeDll: Searching for DLL: " + DLL_NAME);
-                string dllPath = FindDllPath();
-                
-                if (dllPath == null)
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("InitializeDll: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
                 {
-                    Trace.WriteLine("InitializeDll: DLL not found in any search path");
-                    throw new DllLoadException(
-                        "Could not find " + DLL_NAME + ". " +
-                        "Searched in: application directory, assembly location, and system PATH.");
+                    throw;
                 }
-
-                Trace.WriteLine("InitializeDll: Attempting to load DLL from: " + dllPath);
-                _dllHandle = LoadLibrary(dllPath);
-                
-                if (_dllHandle == IntPtr.Zero)
-                {
-                    int error = Marshal.GetLastWin32Error();
-                    Trace.WriteLine("InitializeDll: LoadLibrary failed with error code: " + error);
-                    throw new DllLoadException(
-                        "Failed to load DLL from '" + dllPath + "'. Windows error code: " + error + ". " +
-                        GetLoadLibraryErrorMessage(error));
-                }
-
-                _isInitialized = true;
-                Trace.WriteLine("InitializeDll: DLL loaded successfully, handle: " + _dllHandle);
-                return true;
+                throw new DllLoadException("Failed to initialize DLL: " + ex.Message, ex);
             }
         }
 
@@ -162,52 +174,60 @@ namespace Rust9xWindowsAuth
         /// </summary>
         private static string FindDllPath()
         {
-            Trace.WriteLine("FindDllPath: Starting DLL search");
-            
-            string[] searchPaths = new string[]
+            try
             {
-                // 1. Application directory
-                AppDomain.CurrentDomain.BaseDirectory,
+                Trace.WriteLine("FindDllPath: Starting DLL search");
                 
-                // 2. Assembly location (for DLL in same directory as the assembly)
-                Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                
-                // 3. Current directory
-                Directory.GetCurrentDirectory(),
-                
-                // 4. Relative 'rust-runtime' subdirectory
-                Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rust-runtime"),
-                
-                // 5. Parent directory (for development scenarios)
-                Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory),
-                
-                // 6. System PATH will be searched automatically by LoadLibrary
-                null
-            };
-
-            int pathIndex = 0;
-            foreach (string basePath in searchPaths)
-            {
-                pathIndex++;
-                if (string.IsNullOrEmpty(basePath))
+                string[] searchPaths = new string[]
                 {
-                    Trace.WriteLine("FindDllPath: Path " + pathIndex + " is null, will search system PATH");
-                    continue;
+                    // 1. Application directory
+                    AppDomain.CurrentDomain.BaseDirectory,
+                    
+                    // 2. Assembly location (for DLL in same directory as the assembly)
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    
+                    // 3. Current directory
+                    Directory.GetCurrentDirectory(),
+                    
+                    // 4. Relative 'rust-runtime' subdirectory
+                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "rust-runtime"),
+                    
+                    // 5. Parent directory (for development scenarios)
+                    Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory),
+                    
+                    // 6. System PATH will be searched automatically by LoadLibrary
+                    null
+                };
+
+                int pathIndex = 0;
+                foreach (string basePath in searchPaths)
+                {
+                    pathIndex++;
+                    if (string.IsNullOrEmpty(basePath))
+                    {
+                        Trace.WriteLine("FindDllPath: Path " + pathIndex + " is null, will search system PATH");
+                        continue;
+                    }
+
+                    string dllPath = Path.Combine(basePath, DLL_NAME);
+                    Trace.WriteLine("FindDllPath: Checking path " + pathIndex + ": " + dllPath);
+                    
+                    if (File.Exists(dllPath))
+                    {
+                        Trace.WriteLine("FindDllPath: DLL found at: " + dllPath);
+                        return dllPath;
+                    }
                 }
 
-                string dllPath = Path.Combine(basePath, DLL_NAME);
-                Trace.WriteLine("FindDllPath: Checking path " + pathIndex + ": " + dllPath);
-                
-                if (File.Exists(dllPath))
-                {
-                    Trace.WriteLine("FindDllPath: DLL found at: " + dllPath);
-                    return dllPath;
-                }
+                Trace.WriteLine("FindDllPath: DLL not found in any search path, will use system PATH");
+                // Return null to let LoadLibrary search system PATH
+                return null;
             }
-
-            Trace.WriteLine("FindDllPath: DLL not found in any search path, will use system PATH");
-            // Return null to let LoadLibrary search system PATH
-            return null;
+            catch (Exception ex)
+            {
+                Trace.WriteLine("FindDllPath: Exception occurred while searching for DLL: " + ex.Message);
+                throw new DllLoadException("Error while searching for DLL: " + ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -215,20 +235,28 @@ namespace Rust9xWindowsAuth
         /// </summary>
         private static string GetLoadLibraryErrorMessage(int errorCode)
         {
-            switch (errorCode)
+            try
             {
-                case 126:
-                    return "The specified module could not be found (missing dependencies or wrong architecture).";
-                case 127:
-                    return "The specified procedure could not be found.";
-                case 5:
-                    return "Access is denied.";
-                case 1114:
-                    return "DLL initialization routine failed.";
-                case 193:
-                    return "The DLL is 32-bit and the application is 64-bit (or vice versa). Architecture mismatch.";
-                default:
-                    return "Unknown error (code: " + errorCode + ").";
+                switch (errorCode)
+                {
+                    case 126:
+                        return "The specified module could not be found (missing dependencies or wrong architecture).";
+                    case 127:
+                        return "The specified procedure could not be found.";
+                    case 5:
+                        return "Access is denied.";
+                    case 1114:
+                        return "DLL initialization routine failed.";
+                    case 193:
+                        return "The DLL is 32-bit and the application is 64-bit (or vice versa). Architecture mismatch.";
+                    default:
+                        return "Unknown error (code: " + errorCode + ").";
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("GetLoadLibraryErrorMessage: Exception occurred: " + ex.Message);
+                return "Error retrieving error message for code " + errorCode + ": " + ex.Message;
             }
         }
 
@@ -253,24 +281,32 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static void UnloadDll()
         {
-            lock (_initLock)
+            try
             {
-                Trace.WriteLine("UnloadDll: Starting DLL unload");
-                
-                if (_dllHandle != IntPtr.Zero)
+                lock (_initLock)
                 {
-                    Trace.WriteLine("UnloadDll: Freeing DLL handle: " + _dllHandle);
-                    bool result = FreeLibrary(_dllHandle);
-                    Trace.WriteLine("UnloadDll: FreeLibrary result: " + result);
+                    Trace.WriteLine("UnloadDll: Starting DLL unload");
                     
-                    _dllHandle = IntPtr.Zero;
-                    _isInitialized = false;
-                    Trace.WriteLine("UnloadDll: DLL unloaded successfully");
+                    if (_dllHandle != IntPtr.Zero)
+                    {
+                        Trace.WriteLine("UnloadDll: Freeing DLL handle: " + _dllHandle);
+                        bool result = FreeLibrary(_dllHandle);
+                        Trace.WriteLine("UnloadDll: FreeLibrary result: " + result);
+                        
+                        _dllHandle = IntPtr.Zero;
+                        _isInitialized = false;
+                        Trace.WriteLine("UnloadDll: DLL unloaded successfully");
+                    }
+                    else
+                    {
+                        Trace.WriteLine("UnloadDll: DLL handle is already zero, nothing to unload");
+                    }
                 }
-                else
-                {
-                    Trace.WriteLine("UnloadDll: DLL handle is already zero, nothing to unload");
-                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("UnloadDll: Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to unload DLL: " + ex.Message, ex);
             }
         }
 
@@ -283,14 +319,22 @@ namespace Rust9xWindowsAuth
         /// </summary>
         private static void EnsureDllLoaded()
         {
-            if (!_isInitialized)
+            try
             {
-                Trace.WriteLine("EnsureDllLoaded: DLL not initialized, calling InitializeDll");
-                InitializeDll();
+                if (!_isInitialized)
+                {
+                    Trace.WriteLine("EnsureDllLoaded: DLL not initialized, calling InitializeDll");
+                    InitializeDll();
+                }
+                else
+                {
+                    Trace.WriteLine("EnsureDllLoaded: DLL already initialized");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Trace.WriteLine("EnsureDllLoaded: DLL already initialized");
+                Trace.WriteLine("EnsureDllLoaded: Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to ensure DLL is loaded: " + ex.Message, ex);
             }
         }
 
@@ -300,23 +344,35 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthErrorCode auth_init()
         {
-            Trace.WriteLine("auth_init: Starting initialization");
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_init");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_init: Could not find 'auth_init' function in DLL");
-                throw new DllLoadException("Could not find 'auth_init' function in DLL");
-            }
+                Trace.WriteLine("auth_init: Starting initialization");
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_init");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_init: Could not find 'auth_init' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_init' function in DLL");
+                }
 
-            Trace.WriteLine("auth_init: Found function pointer for auth_init");
-            auth_init_delegate del = (auth_init_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_init_delegate));
-            
-            AuthErrorCode result = del();
-            Trace.WriteLine("auth_init: Initialization completed with result: " + result);
-            return result;
+                Trace.WriteLine("auth_init: Found function pointer for auth_init");
+                auth_init_delegate del = (auth_init_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_init_delegate));
+                
+                AuthErrorCode result = del();
+                Trace.WriteLine("auth_init: Initialization completed with result: " + result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_init: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to initialize authentication library: " + ex.Message, ex);
+            }
         }
 
         private delegate AuthErrorCode auth_init_delegate();
@@ -327,22 +383,34 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static void auth_cleanup()
         {
-            Trace.WriteLine("auth_cleanup: Starting cleanup");
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_cleanup");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_cleanup: Could not find 'auth_cleanup' function in DLL");
-                throw new DllLoadException("Could not find 'auth_cleanup' function in DLL");
-            }
+                Trace.WriteLine("auth_cleanup: Starting cleanup");
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_cleanup");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_cleanup: Could not find 'auth_cleanup' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_cleanup' function in DLL");
+                }
 
-            Trace.WriteLine("auth_cleanup: Found function pointer for auth_cleanup");
-            auth_cleanup_delegate del = (auth_cleanup_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_cleanup_delegate));
-            
-            del();
-            Trace.WriteLine("auth_cleanup: Cleanup completed");
+                Trace.WriteLine("auth_cleanup: Found function pointer for auth_cleanup");
+                auth_cleanup_delegate del = (auth_cleanup_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_cleanup_delegate));
+                
+                del();
+                Trace.WriteLine("auth_cleanup: Cleanup completed");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_cleanup: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to cleanup authentication library: " + ex.Message, ex);
+            }
         }
 
         private delegate void auth_cleanup_delegate();
@@ -353,22 +421,34 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static void auth_free_string(IntPtr ptr)
         {
-            Trace.WriteLine("auth_free_string: Freeing string at pointer: " + ptr);
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_free_string");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_free_string: Could not find 'auth_free_string' function in DLL");
-                throw new DllLoadException("Could not find 'auth_free_string' function in DLL");
-            }
+                Trace.WriteLine("auth_free_string: Freeing string at pointer: " + ptr);
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_free_string");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_free_string: Could not find 'auth_free_string' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_free_string' function in DLL");
+                }
 
-            Trace.WriteLine("auth_free_string: Found function pointer for auth_free_string");
-            auth_free_string_delegate del = (auth_free_string_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_free_string_delegate));
-            
-            del(ptr);
-            Trace.WriteLine("auth_free_string: String freed successfully");
+                Trace.WriteLine("auth_free_string: Found function pointer for auth_free_string");
+                auth_free_string_delegate del = (auth_free_string_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_free_string_delegate));
+                
+                del(ptr);
+                Trace.WriteLine("auth_free_string: String freed successfully");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_free_string: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to free string: " + ex.Message, ex);
+            }
         }
 
         private delegate void auth_free_string_delegate(IntPtr ptr);
@@ -379,22 +459,34 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static void auth_free_data(IntPtr ptr, UIntPtr length)
         {
-            Trace.WriteLine("auth_free_data: Freeing data at pointer: " + ptr + ", length: " + length);
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_free_data");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_free_data: Could not find 'auth_free_data' function in DLL");
-                throw new DllLoadException("Could not find 'auth_free_data' function in DLL");
-            }
+                Trace.WriteLine("auth_free_data: Freeing data at pointer: " + ptr + ", length: " + length);
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_free_data");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_free_data: Could not find 'auth_free_data' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_free_data' function in DLL");
+                }
 
-            Trace.WriteLine("auth_free_data: Found function pointer for auth_free_data");
-            auth_free_data_delegate del = (auth_free_data_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_free_data_delegate));
-            
-            del(ptr, length);
-            Trace.WriteLine("auth_free_data: Data freed successfully");
+                Trace.WriteLine("auth_free_data: Found function pointer for auth_free_data");
+                auth_free_data_delegate del = (auth_free_data_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_free_data_delegate));
+                
+                del(ptr, length);
+                Trace.WriteLine("auth_free_data: Data freed successfully");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_free_data: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to free data: " + ex.Message, ex);
+            }
         }
 
         private delegate void auth_free_data_delegate(IntPtr ptr, UIntPtr length);
@@ -411,23 +503,35 @@ namespace Rust9xWindowsAuth
             string password,
             string domain)
         {
-            Trace.WriteLine("auth_set_credentials: Setting credentials for user: " + username + ", domain: " + (domain ?? "(null)"));
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_set_credentials");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_set_credentials: Could not find 'auth_set_credentials' function in DLL");
-                throw new DllLoadException("Could not find 'auth_set_credentials' function in DLL");
-            }
+                Trace.WriteLine("auth_set_credentials: Setting credentials for user: " + username + ", domain: " + (domain ?? "(null)"));
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_set_credentials");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_set_credentials: Could not find 'auth_set_credentials' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_set_credentials' function in DLL");
+                }
 
-            Trace.WriteLine("auth_set_credentials: Found function pointer for auth_set_credentials");
-            auth_set_credentials_delegate del = (auth_set_credentials_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_set_credentials_delegate));
-            
-            AuthErrorCode result = del(username, password, domain);
-            Trace.WriteLine("auth_set_credentials: Credentials set with result: " + result);
-            return result;
+                Trace.WriteLine("auth_set_credentials: Found function pointer for auth_set_credentials");
+                auth_set_credentials_delegate del = (auth_set_credentials_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_set_credentials_delegate));
+                
+                AuthErrorCode result = del(username, password, domain);
+                Trace.WriteLine("auth_set_credentials: Credentials set with result: " + result);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_set_credentials: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to set credentials: " + ex.Message, ex);
+            }
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
@@ -450,68 +554,109 @@ namespace Rust9xWindowsAuth
             IntPtr bodyData,
             UIntPtr bodyLength)
         {
-            Trace.WriteLine("auth_http_request: Starting HTTP request to: " + url + ", method: " + method + ", body length: " + bodyLength);
-            EnsureDllLoaded();
-            
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_http_request");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_http_request: Could not find 'auth_http_request' function in DLL");
-                throw new DllLoadException("Could not find 'auth_http_request' function in DLL");
-            }
+                Trace.WriteLine("auth_http_request: Starting HTTP request to: " + url + ", method: " + method + ", body length: " + bodyLength);
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_http_request");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_http_request: Could not find 'auth_http_request' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_http_request' function in DLL");
+                }
 
-            Trace.WriteLine("auth_http_request: Found function pointer for auth_http_request");
-            auth_http_request_delegate del = (auth_http_request_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_http_request_delegate));
-            
-            AuthInteropResult result = del(url, method, bodyData, bodyLength);
-            Trace.WriteLine("auth_http_request: HTTP request completed with error code: " + result.error_code);
-            return result;
+                Trace.WriteLine("auth_http_request: Found function pointer for auth_http_request");
+                auth_http_request_delegate del = (auth_http_request_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_http_request_delegate));
+                
+                AuthInteropResult result;
+                del(url, method, bodyData, bodyLength, out result);
+                Trace.WriteLine("auth_http_request: HTTP request completed with error code: " + result.error_code);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("auth_http_request: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to perform HTTP request: " + ex.Message, ex);
+            }
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private delegate AuthInteropResult auth_http_request_delegate(
+        private delegate void auth_http_request_delegate(
             string url,
             string method,
             IntPtr bodyData,
-            UIntPtr bodyLength);
+            UIntPtr bodyLength,
+            out AuthInteropResult result);
 
         /// <summary>
         /// Prompt for credentials using Windows credential dialog
         /// </summary>
         /// <param name="caption">Dialog caption/title</param>
         /// <param name="message">Dialog message/instructions</param>
-        /// <param name="saveCredentials">Reference to boolean for save checkbox state</param>
-        /// <returns>Result structure indicating success or failure</returns>
-        public static AuthInteropResult auth_prompt_credentials(
+        /// <param name="saveCredentials">Reference to int for save checkbox state (0 = false, 1 = true)</param>
+        /// <param name="result">Output parameter for the result structure</param>
+        public static void auth_prompt_credentials(
             string caption,
             string message,
-            ref bool saveCredentials)
+            ref int saveCredentials,
+            out AuthInteropResult result)
         {
-            Trace.WriteLine("auth_prompt_credentials: Prompting for credentials with caption: " + caption + ", save: " + saveCredentials);
-            EnsureDllLoaded();
+            result = new AuthInteropResult(); // Initialize to default
             
-            IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_prompt_credentials");
-            if (funcPtr == IntPtr.Zero)
+            try
             {
-                Trace.WriteLine("auth_prompt_credentials: Could not find 'auth_prompt_credentials' function in DLL");
-                throw new DllLoadException("Could not find 'auth_prompt_credentials' function in DLL");
-            }
+                Trace.WriteLine(string.Format("auth_prompt_credentials: Prompting for credentials with caption: {0}, save: {1}", 
+                    caption ?? "(null)", saveCredentials));
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_prompt_credentials");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_prompt_credentials: Could not find 'auth_prompt_credentials' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_prompt_credentials' function in DLL");
+                }
 
-            Trace.WriteLine("auth_prompt_credentials: Found function pointer for auth_prompt_credentials");
-            auth_prompt_credentials_delegate del = (auth_prompt_credentials_delegate)Marshal.GetDelegateForFunctionPointer(
-                funcPtr, typeof(auth_prompt_credentials_delegate));
-            
-            AuthInteropResult result = del(caption, message, ref saveCredentials);
-            Trace.WriteLine("auth_prompt_credentials: Credential prompt completed with error code: " + result.error_code + ", save: " + saveCredentials);
-            return result;
+                Trace.WriteLine("auth_prompt_credentials: Found function pointer for auth_prompt_credentials");
+                auth_prompt_credentials_delegate del = (auth_prompt_credentials_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_prompt_credentials_delegate));
+                
+                del(caption, message, ref saveCredentials, out result);
+                Trace.WriteLine("auth_prompt_credentials: Credential prompt completed with error code: " + result.error_code + ", save: " + saveCredentials);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("EXCEPTION TYPE: " + ex.GetType().FullName);
+                Trace.WriteLine("MESSAGE: " + ex.Message);
+                Trace.WriteLine("STACK TRACE:\r\n" + ex.StackTrace);
+                
+                if (ex.InnerException != null)
+                {
+                    Trace.WriteLine("INNER TYPE: " + ex.InnerException.GetType().FullName);
+                    Trace.WriteLine("INNER MESSAGE: " + ex.InnerException.Message);
+                    Trace.WriteLine("INNER STACK:\r\n" + ex.InnerException.StackTrace);
+                }
+                
+                Trace.WriteLine("auth_prompt_credentials: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to prompt for credentials: " + ex.Message, ex);
+            }
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-        private delegate AuthInteropResult auth_prompt_credentials_delegate(
+        private delegate void auth_prompt_credentials_delegate(
             string caption,
             string message,
-            ref bool saveCredentials);
+            ref int saveCredentials,
+            out AuthInteropResult result);
 
         #endregion
 
@@ -522,18 +667,30 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthErrorCode SetCredentials(string username, string password, string domain)
         {
-            Trace.WriteLine("SetCredentials: Helper method called for user: " + username + ", domain: " + (domain ?? "(null)"));
             try
             {
-                AuthErrorCode result = auth_set_credentials(username, password, domain);
-                Trace.WriteLine("SetCredentials: Credentials set successfully with result: " + result);
-                return result;
+                Trace.WriteLine("SetCredentials: Helper method called for user: " + username + ", domain: " + (domain ?? "(null)"));
+                try
+                {
+                    AuthErrorCode result = auth_set_credentials(username, password, domain);
+                    Trace.WriteLine("SetCredentials: Credentials set successfully with result: " + result);
+                    return result;
+                }
+                catch (DllLoadException ex)
+                {
+                    Trace.WriteLine("SetCredentials: DLL loading error: " + ex.Message);
+                    throw new InvalidOperationException(
+                        "Failed to set credentials due to DLL loading error: " + ex.Message, ex);
+                }
             }
-            catch (DllLoadException ex)
+            catch (Exception ex)
             {
-                Trace.WriteLine("SetCredentials: DLL loading error: " + ex.Message);
-                throw new InvalidOperationException(
-                    "Failed to set credentials due to DLL loading error: " + ex.Message, ex);
+                Trace.WriteLine("SetCredentials: Exception occurred: " + ex.Message);
+                if (ex is InvalidOperationException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to set credentials: " + ex.Message, ex);
             }
         }
 
@@ -542,8 +699,16 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthErrorCode SetCredentials(string username, string password)
         {
-            Trace.WriteLine("SetCredentials: Helper method called for local account user: " + username);
-            return SetCredentials(username, password, null);
+            try
+            {
+                Trace.WriteLine("SetCredentials: Helper method called for local account user: " + username);
+                return SetCredentials(username, password, null);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("SetCredentials (local account): Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to set local account credentials: " + ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -551,8 +716,16 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthResult HttpRequest(string url)
         {
-            Trace.WriteLine("HttpRequest: Helper method called for GET request to: " + url);
-            return HttpRequest(url, "GET", null);
+            try
+            {
+                Trace.WriteLine("HttpRequest: Helper method called for GET request to: " + url);
+                return HttpRequest(url, "GET", null);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("HttpRequest (GET): Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to perform HTTP GET request: " + ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -560,8 +733,16 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthResult HttpPost(string url, byte[] body)
         {
-            Trace.WriteLine("HttpPost: Helper method called for POST request to: " + url + ", body length: " + (body != null ? body.Length.ToString() : "0"));
-            return HttpRequest(url, "POST", body);
+            try
+            {
+                Trace.WriteLine("HttpPost: Helper method called for POST request to: " + url + ", body length: " + (body != null ? body.Length.ToString() : "0"));
+                return HttpRequest(url, "POST", body);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("HttpPost: Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to perform HTTP POST request: " + ex.Message, ex);
+            }
         }
 
         /// <summary>
@@ -569,38 +750,50 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthResult HttpRequest(string url, string method, byte[] body)
         {
-            Trace.WriteLine("HttpRequest: Helper method called for " + method + " request to: " + url + ", body length: " + (body != null ? body.Length.ToString() : "0"));
-            
-            IntPtr bodyPtr = IntPtr.Zero;
-            UIntPtr bodyLen = UIntPtr.Zero;
-
-            if (body != null && body.Length > 0)
-            {
-                bodyPtr = Marshal.AllocHGlobal(body.Length);
-                Marshal.Copy(body, 0, bodyPtr, body.Length);
-                bodyLen = (UIntPtr)body.Length;
-                Trace.WriteLine("HttpRequest: Allocated unmanaged memory for body at: " + bodyPtr);
-            }
-
             try
             {
-                AuthInteropResult result = auth_http_request(url, method, bodyPtr, bodyLen);
-                Trace.WriteLine("HttpRequest: Request completed successfully");
-                return new AuthResult(result);
-            }
-            catch (DllLoadException ex)
-            {
-                Trace.WriteLine("HttpRequest: DLL loading error: " + ex.Message);
-                throw new InvalidOperationException(
-                    "Failed to perform HTTP request due to DLL loading error: " + ex.Message, ex);
-            }
-            finally
-            {
-                if (bodyPtr != IntPtr.Zero)
+                Trace.WriteLine("HttpRequest: Helper method called for " + method + " request to: " + url + ", body length: " + (body != null ? body.Length.ToString() : "0"));
+                
+                IntPtr bodyPtr = IntPtr.Zero;
+                UIntPtr bodyLen = UIntPtr.Zero;
+
+                if (body != null && body.Length > 0)
                 {
-                    Marshal.FreeHGlobal(bodyPtr);
-                    Trace.WriteLine("HttpRequest: Freed unmanaged memory for body");
+                    bodyPtr = Marshal.AllocHGlobal(body.Length);
+                    Marshal.Copy(body, 0, bodyPtr, body.Length);
+                    bodyLen = (UIntPtr)body.Length;
+                    Trace.WriteLine("HttpRequest: Allocated unmanaged memory for body at: " + bodyPtr);
                 }
+
+                try
+                {
+                    AuthInteropResult result = auth_http_request(url, method, bodyPtr, bodyLen);
+                    Trace.WriteLine("HttpRequest: Request completed successfully");
+                    return new AuthResult(result);
+                }
+                catch (DllLoadException ex)
+                {
+                    Trace.WriteLine("HttpRequest: DLL loading error: " + ex.Message);
+                    throw new InvalidOperationException(
+                        "Failed to perform HTTP request due to DLL loading error: " + ex.Message, ex);
+                }
+                finally
+                {
+                    if (bodyPtr != IntPtr.Zero)
+                    {
+                        Marshal.FreeHGlobal(bodyPtr);
+                        Trace.WriteLine("HttpRequest: Freed unmanaged memory for body");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("HttpRequest: Exception occurred: " + ex.Message);
+                if (ex is InvalidOperationException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to perform HTTP request: " + ex.Message, ex);
             }
         }
 
@@ -609,18 +802,43 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthResult PromptCredentials(string caption, string message, bool save)
         {
-            Trace.WriteLine("PromptCredentials: Helper method called with caption: " + caption + ", save: " + save);
             try
             {
-                AuthInteropResult result = auth_prompt_credentials(caption, message, ref save);
-                Trace.WriteLine("PromptCredentials: Credential prompt completed with error code: " + result.error_code + ", save: " + save);
-                return new AuthResult(result);
+                Trace.WriteLine("PromptCredentials: Helper method called with caption: " + caption + ", save: " + save);
+                try
+                {
+                    int saveInt = save ? 1 : 0;
+                    AuthInteropResult result;
+                    auth_prompt_credentials(caption, message, ref saveInt, out result);
+                    Trace.WriteLine("PromptCredentials: Credential prompt completed with error code: " + result.error_code + ", save: " + saveInt);
+                    return new AuthResult(result);
+                }
+                catch (DllLoadException ex)
+                {
+                    Trace.WriteLine("PromptCredentials: DLL loading error: " + ex.Message);
+                    throw new InvalidOperationException(
+                        "Failed to prompt for credentials due to DLL loading error: " + ex.Message, ex);
+                }
             }
-            catch (DllLoadException ex)
+            catch (Exception ex)
             {
-                Trace.WriteLine("PromptCredentials: DLL loading error: " + ex.Message);
-                throw new InvalidOperationException(
-                    "Failed to prompt for credentials due to DLL loading error: " + ex.Message, ex);
+                Trace.WriteLine("EXCEPTION TYPE: " + ex.GetType().FullName);
+                Trace.WriteLine("MESSAGE: " + ex.Message);
+                Trace.WriteLine("STACK TRACE:\r\n" + ex.StackTrace);
+                
+                if (ex.InnerException != null)
+                {
+                    Trace.WriteLine("INNER TYPE: " + ex.InnerException.GetType().FullName);
+                    Trace.WriteLine("INNER MESSAGE: " + ex.InnerException.Message);
+                    Trace.WriteLine("INNER STACK:\r\n" + ex.InnerException.StackTrace);
+                }
+                
+                Trace.WriteLine("PromptCredentials: Exception occurred: " + ex.Message);
+                if (ex is InvalidOperationException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to prompt for credentials: " + ex.Message, ex);
             }
         }
 
@@ -629,12 +847,19 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public static AuthResult PromptCredentials()
         {
-            Trace.WriteLine("PromptCredentials: Helper method called with default settings");
-            bool save = false;
-            return PromptCredentials(
-                "Windows Authentication",
-                "Enter your credentials to continue",
-                save);
+            try
+            {
+                Trace.WriteLine("PromptCredentials: Helper method called with default settings");
+                return PromptCredentials(
+                    "Windows Authentication",
+                    "Enter your credentials to continue",
+                    false);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("PromptCredentials (default): Exception occurred: " + ex.Message);
+                throw new InvalidOperationException("Failed to prompt for credentials with default settings: " + ex.Message, ex);
+            }
         }
 
         #endregion
@@ -652,7 +877,13 @@ namespace Rust9xWindowsAuth
         public AuthResult(AuthInteropResult result)
         {
             Trace.WriteLine("AuthResult: Constructor called");
+            Trace.WriteLine("AuthResult: Result error_code: " + result.error_code);
+            Trace.WriteLine("AuthResult: Result error_message: " + result.error_message);
+            Trace.WriteLine("AuthResult: Result response_data: " + result.response_data);
+            Trace.WriteLine("AuthResult: Result response_length: " + result.response_length);
+            Trace.WriteLine("AuthResult: _result field assignment");
             _result = result;
+            Trace.WriteLine("AuthResult: Constructor completed successfully");
         }
 
         /// <summary>
@@ -662,8 +893,16 @@ namespace Rust9xWindowsAuth
         {
             get 
             { 
-                Trace.WriteLine("AuthResult: Getting ErrorCode: " + _result.error_code);
-                return _result.error_code; 
+                try
+                {
+                    Trace.WriteLine("AuthResult: Getting ErrorCode: " + _result.error_code);
+                    return _result.error_code; 
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("AuthResult: Exception occurred while getting ErrorCode: " + ex.Message);
+                    return AuthErrorCode.Unknown;
+                }
             }
         }
 
@@ -674,14 +913,22 @@ namespace Rust9xWindowsAuth
         {
             get
             {
-                if (_result.error_message != IntPtr.Zero)
+                try
                 {
-                    string message = Marshal.PtrToStringAnsi(_result.error_message);
-                    Trace.WriteLine("AuthResult: Getting ErrorMessage: " + message);
-                    return message;
+                    if (_result.error_message != IntPtr.Zero)
+                    {
+                        string message = Marshal.PtrToStringAnsi(_result.error_message);
+                        Trace.WriteLine("AuthResult: Getting ErrorMessage: " + message);
+                        return message;
+                    }
+                    Trace.WriteLine("AuthResult: ErrorMessage is null");
+                    return null;
                 }
-                Trace.WriteLine("AuthResult: ErrorMessage is null");
-                return null;
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("AuthResult: Exception occurred while getting ErrorMessage: " + ex.Message);
+                    return "Error retrieving error message: " + ex.Message;
+                }
             }
         }
 
@@ -692,15 +939,23 @@ namespace Rust9xWindowsAuth
         {
             get
             {
-                if (_result.response_data != IntPtr.Zero && _result.response_length != UIntPtr.Zero)
+                try
                 {
-                    byte[] data = new byte[(int)_result.response_length];
-                    Marshal.Copy(_result.response_data, data, 0, (int)_result.response_length);
-                    Trace.WriteLine("AuthResult: Getting ResponseData, length: " + data.Length);
-                    return data;
+                    if (_result.response_data != IntPtr.Zero && _result.response_length != UIntPtr.Zero)
+                    {
+                        byte[] data = new byte[(int)_result.response_length];
+                        Marshal.Copy(_result.response_data, data, 0, (int)_result.response_length);
+                        Trace.WriteLine("AuthResult: Getting ResponseData, length: " + data.Length);
+                        return data;
+                    }
+                    Trace.WriteLine("AuthResult: ResponseData is null");
+                    return null;
                 }
-                Trace.WriteLine("AuthResult: ResponseData is null");
-                return null;
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("AuthResult: Exception occurred while getting ResponseData: " + ex.Message);
+                    return null;
+                }
             }
         }
 
@@ -711,15 +966,23 @@ namespace Rust9xWindowsAuth
         {
             get
             {
-                byte[] data = ResponseData;
-                if (data != null)
+                try
                 {
-                    string response = Encoding.UTF8.GetString(data);
-                    Trace.WriteLine("AuthResult: Getting ResponseString, length: " + response.Length);
-                    return response;
+                    byte[] data = ResponseData;
+                    if (data != null)
+                    {
+                        string response = Encoding.UTF8.GetString(data);
+                        Trace.WriteLine("AuthResult: Getting ResponseString, length: " + response.Length);
+                        return response;
+                    }
+                    Trace.WriteLine("AuthResult: ResponseString is null");
+                    return null;
                 }
-                Trace.WriteLine("AuthResult: ResponseString is null");
-                return null;
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("AuthResult: Exception occurred while getting ResponseString: " + ex.Message);
+                    return null;
+                }
             }
         }
 
@@ -730,9 +993,17 @@ namespace Rust9xWindowsAuth
         {
             get 
             { 
-                bool success = _result.error_code == AuthErrorCode.Success;
-                Trace.WriteLine("AuthResult: Getting Success: " + success);
-                return success; 
+                try
+                {
+                    bool success = _result.error_code == AuthErrorCode.Success;
+                    Trace.WriteLine("AuthResult: Getting Success: " + success);
+                    return success; 
+                }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("AuthResult: Exception occurred while getting Success: " + ex.Message);
+                    return false;
+                }
             }
         }
 
@@ -741,29 +1012,45 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public void Dispose()
         {
-            Trace.WriteLine("AuthResult: Dispose called, disposed: " + _disposed);
-            if (!_disposed)
+            try
             {
-                if (_result.error_message != IntPtr.Zero)
+                Trace.WriteLine("AuthResult: Dispose called, disposed: " + _disposed);
+                if (!_disposed)
                 {
-                    Trace.WriteLine("AuthResult: Freeing error message at: " + _result.error_message);
-                    WindowsAuth.auth_free_string(_result.error_message);
+                    if (_result.error_message != IntPtr.Zero)
+                    {
+                        Trace.WriteLine("AuthResult: Freeing error message at: " + _result.error_message);
+                        WindowsAuth.auth_free_string(_result.error_message);
+                    }
+                    if (_result.response_data != IntPtr.Zero)
+                    {
+                        Trace.WriteLine("AuthResult: Freeing response data at: " + _result.response_data + ", length: " + _result.response_length);
+                        WindowsAuth.auth_free_data(_result.response_data, _result.response_length);
+                    }
+                    _disposed = true;
+                    Trace.WriteLine("AuthResult: Dispose completed");
                 }
-                if (_result.response_data != IntPtr.Zero)
-                {
-                    Trace.WriteLine("AuthResult: Freeing response data at: " + _result.response_data + ", length: " + _result.response_length);
-                    WindowsAuth.auth_free_data(_result.response_data, _result.response_length);
-                }
-                _disposed = true;
-                Trace.WriteLine("AuthResult: Dispose completed");
+                GC.SuppressFinalize(this);
             }
-            GC.SuppressFinalize(this);
+            catch (Exception ex)
+            {
+                Trace.WriteLine("AuthResult: Exception occurred during Dispose: " + ex.Message);
+                // Don't throw in Dispose as it's called during cleanup
+            }
         }
 
         ~AuthResult()
         {
-            Trace.WriteLine("AuthResult: Finalizer called");
-            Dispose();
+            try
+            {
+                Trace.WriteLine("AuthResult: Finalizer called");
+                Dispose();
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("AuthResult: Exception occurred in finalizer: " + ex.Message);
+                // Cannot throw in finalizer
+            }
         }
     }
 

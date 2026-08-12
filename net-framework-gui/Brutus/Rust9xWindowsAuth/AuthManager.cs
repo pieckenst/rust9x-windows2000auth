@@ -123,19 +123,40 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public AuthResult PromptForCredentials()
         {
-            bool saveCredentials = _config.AllowSaveCredentials;
+            try
+            {
+                int saveCredentials = _config.AllowSaveCredentials ? 1 : 0;
 
-            _config.Log("Showing credential dialog: " + _config.CredentialCaption);
+                _config.Log("Showing credential dialog: " + _config.CredentialCaption);
 
-            AuthInteropResult result = WindowsAuth.auth_prompt_credentials(
-                _config.CredentialCaption,
-                _config.CredentialMessage,
-                ref saveCredentials);
+                AuthInteropResult result;
+                WindowsAuth.auth_prompt_credentials(
+                    _config.CredentialCaption,
+                    _config.CredentialMessage,
+                    ref saveCredentials,
+                    out result);
 
-            AuthResult authResult = new AuthResult(result);
-            _config.Log("Credential dialog result: " + authResult.ErrorCode);
+                AuthResult authResult = new AuthResult(result);
+                _config.Log("Credential dialog result: " + authResult.ErrorCode);
 
-            return authResult;
+                return authResult;
+            }
+            catch (Exception ex)
+            {
+                _config.Log("EXCEPTION TYPE: " + ex.GetType().FullName);
+                _config.Log("MESSAGE: " + ex.Message);
+                _config.Log("STACK TRACE:\r\n" + ex.StackTrace);
+                
+                if (ex.InnerException != null)
+                {
+                    _config.Log("INNER TYPE: " + ex.InnerException.GetType().FullName);
+                    _config.Log("INNER MESSAGE: " + ex.InnerException.Message);
+                    _config.Log("INNER STACK:\r\n" + ex.InnerException.StackTrace);
+                }
+                
+                _config.Log("PromptForCredentials: Exception occurred: " + ex.Message);
+                throw;
+            }
         }
 
         /// <summary>

@@ -1,0 +1,2 @@
+[1786562128] [HTTP] Starting GET request to example.com:443
+[1786562129] [HTTP] Connected to example.com:443

@@ -44,6 +44,67 @@ fn log_to_file(message: &str) {
     }
 }
 
+#[cfg(feature = "std")]
+fn log_function_entry(function_name: &str, params: &str) {
+    let msg = format!("[FUNCTION_ENTRY] {} - Parameters: {}", function_name, params);
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_function_exit(function_name: &str, result: &str) {
+    let msg = format!("[FUNCTION_EXIT] {} - Result: {}", function_name, result);
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_object_size(object_name: &str, size: usize) {
+    let msg = format!("[OBJECT_SIZE] {} - {} bytes", object_name, size);
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_memory_info(context: &str) {
+    // Log basic memory information
+    let msg = format!("[MEMORY] {} - Context: {}", context, "Memory tracking enabled");
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_string_info(name: &str, s: &str) {
+    let msg = format!("[STRING_INFO] {} - Length: {} bytes, Content: '{}'", 
+                     name, s.len(), s);
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_vec_info(name: &str, v: &[u8]) {
+    let msg = format!("[VEC_INFO] {} - Length: {} bytes", 
+                     name, v.len());
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_vec_u16_info(name: &str, v: &[u16]) {
+    let msg = format!("[VEC_U16_INFO] {} - Length: {} elements", 
+                     name, v.len());
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
+#[cfg(feature = "std")]
+fn log_option_info(name: &str, is_some: bool) {
+    let status = if is_some { "Some" } else { "None" };
+    let msg = format!("[OPTION_INFO] {} - Status: {}", name, status);
+    eprintln!("{}", msg);
+    log_to_file(&msg);
+}
+
   
 
 
@@ -53,6 +114,12 @@ use alloc::ffi::CString;
 
 /// Helper to log SSPI SecurityStatus codes
 fn log_security_status<T>(status: &Result<T, sspi::Error>, operation: &str) {
+    #[cfg(feature = "std")]
+    {
+        log_function_entry("log_security_status", &format!("operation: {}", operation));
+        log_memory_info("log_security_status - processing result");
+    }
+
     match status {
         Ok(_) => {
             let msg = format!("[SSPI] {} -> SUCCESS", operation);
@@ -77,6 +144,12 @@ fn log_security_status<T>(status: &Result<T, sspi::Error>, operation: &str) {
                 log_to_file(&nstatus_msg);
             }
         }
+    }
+
+    #[cfg(feature = "std")]
+    {
+        log_function_exit("log_security_status", "completed");
+        log_memory_info("log_security_status - end");
     }
 }
 
@@ -181,17 +254,65 @@ pub struct WindowsAuthClient {
 
 impl WindowsAuthClient {
     pub fn new() -> AuthResult<Self> {
-        Ok(Self {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::new", "no parameters");
+            log_memory_info("WindowsAuthClient::new - creating new instance");
+            log_object_size("WindowsAuthClient struct", core::mem::size_of::<WindowsAuthClient>());
+        }
+
+        let result = Ok(Self {
             credentials: None,
             ntlm: Some(Ntlm::new()),
-        })
+        });
+
+        #[cfg(feature = "std")]
+        {
+            match &result {
+            Ok(client) => {
+                log_function_exit("WindowsAuthClient::new", "Success");
+                log_option_info("credentials", client.credentials.is_some());
+                log_option_info("ntlm", client.ntlm.is_some());
+            }
+            Err(e) => {
+                log_function_exit("WindowsAuthClient::new", &format!("Error: {}", e));
+            }
+        }
+        }
+
+        result
     }
 
     pub fn set_credentials(&mut self, creds: AuthCredentials) {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::set_credentials", 
+                              &format!("username length: {}, password length: {}, domain: {:?}", 
+                                       creds.username.len(), creds.password.len(), creds.domain));
+            log_string_info("creds.username", &creds.username);
+            log_object_size("AuthCredentials struct", core::mem::size_of::<AuthCredentials>());
+            log_object_size("String struct", core::mem::size_of::<String>());
+            log_memory_info("set_credentials - before assignment");
+        }
+
         self.credentials = Some(creds);
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::set_credentials", "Success");
+            log_option_info("credentials", self.credentials.is_some());
+            log_memory_info("set_credentials - after assignment");
+        }
     }
 
     pub fn debug_credentials(&self) {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::debug_credentials", "no parameters");
+            log_object_size("WindowsAuthClient struct", core::mem::size_of::<WindowsAuthClient>());
+            log_memory_info("debug_credentials - start");
+        }
+
         match &self.credentials {
             Some(creds) => {
                 let msgs = vec![
@@ -205,6 +326,14 @@ impl WindowsAuthClient {
                     },
                     format!("[AUTH] Password length : {}", creds.password.len()),
                 ];
+                
+                #[cfg(feature = "std")]
+                {
+                    log_string_info("creds.username", &creds.username);
+                    log_string_info("creds.password", &format!("***{} chars***", creds.password.len()));
+                    log_object_size("AuthCredentials struct", core::mem::size_of::<AuthCredentials>());
+                }
+                
                 for msg in &msgs {
                     eprintln!("{}", msg);
                     #[cfg(feature = "std")]
@@ -219,10 +348,25 @@ impl WindowsAuthClient {
                 log_to_file(msg);
             }
         }
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::debug_credentials", "Success");
+            log_memory_info("debug_credentials - end");
+        }
     }
 
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::generate_negotiate_token", 
+                              &format!("target_name: '{}', length: {}", target_name, target_name.len()));
+            log_string_info("target_name", target_name);
+            log_object_size("WindowsAuthClient struct", core::mem::size_of::<WindowsAuthClient>());
+            log_memory_info("generate_negotiate_token - start");
+        }
+
         let msgs = vec![
             "[SSPI] API: AcquireCredentialsHandle".to_string(),
             "[SSPI] Package: NTLM".to_string(),
@@ -240,10 +384,23 @@ impl WindowsAuthClient {
             .as_mut()
             .ok_or_else(|| AuthError::NotInitialized("NTLM not initialized".to_string()))?;
 
+        #[cfg(feature = "std")]
+        {
+            log_option_info("ntlm", true);
+            log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
+        }
+
         let creds = self
             .credentials
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
+
+        #[cfg(feature = "std")]
+        {
+            log_option_info("credentials", true);
+            log_string_info("creds.username", &creds.username);
+            log_object_size("String struct", core::mem::size_of::<String>());
+        }
 
         let user_msgs = vec![
             format!("[SSPI] Username: {}", creds.username),
@@ -259,10 +416,21 @@ impl WindowsAuthClient {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
         })?;
 
+        #[cfg(feature = "std")]
+        {
+            log_object_size("Username struct", core::mem::size_of::<Username>());
+        }
+
         let identity = AuthIdentity {
             username,
             password: creds.password.clone().into(),
         };
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
+            log_memory_info("generate_negotiate_token - before acquire_credentials_handle");
+        }
 
         let acq_cred_result = ntlm
             .acquire_credentials_handle()
@@ -274,6 +442,11 @@ impl WindowsAuthClient {
         let mut acq_cred_result = acq_cred_result.map_err(|e| {
             AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
         })?;
+
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("generate_negotiate_token - after acquire_credentials_handle");
+        }
 
         let init_msgs = vec![
             format!("[SSPI] API: InitializeSecurityContext"),
@@ -289,6 +462,15 @@ impl WindowsAuthClient {
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("output_buffer", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("input_buffer", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("output_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("input_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_memory_info("generate_negotiate_token - before initialize_security_context");
+        }
 
         let mut builder = sspi::builders::InitializeSecurityContext::<
             Option<sspi::AuthIdentityBuffers>,
@@ -310,21 +492,52 @@ impl WindowsAuthClient {
             AuthError::AuthFailed(format!("Failed to initialize security context: {}", e))
         })?;
 
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("generate_negotiate_token - after initialize_security_context");
+        }
+
         let token = output_buffer
             .into_iter()
             .next()
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
+        #[cfg(feature = "std")]
+        {
+            log_vec_info("token", &token);
+            log_object_size("token Vec", core::mem::size_of::<Vec<u8>>());
+            log_object_size("token Vec<u8>", core::mem::size_of::<Vec<u8>>());
+        }
+
         let token_msg = format!("[SSPI] Negotiate token generated ({} bytes)", token.len());
         eprintln!("{}", token_msg);
         #[cfg(feature = "std")]
         log_to_file(&token_msg);
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::generate_negotiate_token", 
+                             &format!("Success - token size: {} bytes", token.len()));
+            log_memory_info("generate_negotiate_token - end");
+        }
+
         Ok(token)
     }
 
     /// Process NTLM challenge and generate authenticate token (Type 3 message)
     pub fn process_challenge(&mut self, challenge: &[u8], target_name: &str) -> AuthResult<Vec<u8>> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::process_challenge", 
+                              &format!("challenge length: {}, target_name: '{}', length: {}", 
+                                       challenge.len(), target_name, target_name.len()));
+            log_vec_info("challenge", challenge);
+            log_string_info("target_name", target_name);
+            log_object_size("WindowsAuthClient struct", core::mem::size_of::<WindowsAuthClient>());
+            log_memory_info("process_challenge - start");
+        }
+
         let msgs = vec![
             "[SSPI] API: AcquireCredentialsHandle (challenge)".to_string(),
             "[SSPI] Package: NTLM".to_string(),
@@ -342,10 +555,23 @@ impl WindowsAuthClient {
             .as_mut()
             .ok_or_else(|| AuthError::NotInitialized("NTLM not initialized".to_string()))?;
 
+        #[cfg(feature = "std")]
+        {
+            log_option_info("ntlm", true);
+            log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
+        }
+
         let creds = self
             .credentials
             .as_ref()
             .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
+
+        #[cfg(feature = "std")]
+        {
+            log_option_info("credentials", true);
+            log_string_info("creds.username", &creds.username);
+            log_object_size("String struct", core::mem::size_of::<String>());
+        }
 
         let user_msgs = vec![
             format!("[SSPI] Username: {}", creds.username),
@@ -361,10 +587,21 @@ impl WindowsAuthClient {
             AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
         })?;
 
+        #[cfg(feature = "std")]
+        {
+            log_object_size("Username struct", core::mem::size_of::<Username>());
+        }
+
         let identity = AuthIdentity {
             username,
             password: creds.password.clone().into(),
         };
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
+            log_memory_info("process_challenge - before acquire_credentials_handle");
+        }
 
         let acq_cred_result = ntlm
             .acquire_credentials_handle()
@@ -376,6 +613,11 @@ impl WindowsAuthClient {
         let mut acq_cred_result = acq_cred_result.map_err(|e| {
             AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
         })?;
+
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("process_challenge - after acquire_credentials_handle");
+        }
 
         let init_msgs = vec![
             format!("[SSPI] API: InitializeSecurityContext (challenge - Type 3)"),
@@ -392,6 +634,16 @@ impl WindowsAuthClient {
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
         let mut input_buffer = vec![SecurityBuffer::new(challenge.to_vec(), BufferType::Token)];
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("output_buffer", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("input_buffer", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("output_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("input_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
+            log_object_size("challenge Vec clone", core::mem::size_of::<Vec<u8>>());
+            log_memory_info("process_challenge - before initialize_security_context");
+        }
 
         let mut builder = sspi::builders::InitializeSecurityContext::<
             Option<sspi::AuthIdentityBuffers>,
@@ -413,16 +665,36 @@ impl WindowsAuthClient {
             AuthError::AuthFailed(format!("Failed to process challenge: {}", e))
         })?;
 
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("process_challenge - after initialize_security_context");
+        }
+
         let token = output_buffer
             .into_iter()
             .next()
             .map(|buf| buf.buffer)
             .unwrap_or_default();
 
+        #[cfg(feature = "std")]
+        {
+            log_vec_info("token", &token);
+            log_object_size("token Vec", core::mem::size_of::<Vec<u8>>());
+            log_object_size("token Vec<u8>", core::mem::size_of::<Vec<u8>>());
+        }
+
         let token_msg = format!("[SSPI] Authenticate token generated ({} bytes)", token.len());
         eprintln!("{}", token_msg);
         #[cfg(feature = "std")]
         log_to_file(&token_msg);
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::process_challenge", 
+                             &format!("Success - token size: {} bytes", token.len()));
+            log_memory_info("process_challenge - end");
+        }
+
         Ok(token)
     }
 
@@ -433,7 +705,17 @@ impl WindowsAuthClient {
         caption: &str,
         message: &str,
         save: bool,
-    ) -> AuthResult<()> {
+    ) -> AuthResult<bool> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::prompt_for_windows_credentials", 
+                              &format!("caption: '{}', message: '{}', save: {}", caption, message, save));
+            log_string_info("caption", caption);
+            log_string_info("message", message);
+            log_object_size("WindowsAuthClient struct", core::mem::size_of::<WindowsAuthClient>());
+            log_memory_info("prompt_for_windows_credentials - start");
+        }
+
         let msgs = vec![
             "[CredUI] API: CredUICmdLinePromptForCredentialsW".to_string(),
             format!("[CredUI] Caption: {}", caption),
@@ -450,8 +732,22 @@ impl WindowsAuthClient {
         let caption_wide = Self::to_wide(caption);
         let message_wide = Self::to_wide(message);
 
+        #[cfg(feature = "std")]
+        {
+            log_vec_u16_info("caption_wide", &caption_wide);
+            log_vec_u16_info("message_wide", &message_wide);
+            log_object_size("caption_wide Vec", core::mem::size_of::<Vec<u16>>());
+            log_object_size("message_wide Vec", core::mem::size_of::<Vec<u16>>());
+        }
+
         let mut username_buf = [0u16; 256];
         let mut password_buf = [0u16; 256];
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("username_buf", core::mem::size_of::<[u16; 256]>());
+            log_object_size("password_buf", core::mem::size_of::<[u16; 256]>());
+        }
 
         let mut save_flag: i32 = if save { 1 } else { 0 };
 
@@ -463,9 +759,14 @@ impl WindowsAuthClient {
             hbmBanner: core::ptr::null_mut(),
         };
 
+        #[cfg(feature = "std")]
+        {
+            log_object_size("CREDUI_INFOW struct", core::mem::size_of::<CREDUI_INFOW>());
+            log_memory_info("prompt_for_windows_credentials - before CredUIPromptForCredentialsW");
+        }
+
         let flags = CREDUI_FLAGS_DO_NOT_PERSIST;
         let target_name = Self::to_wide("rust9x");
-
 
         let result = unsafe {
             CredUIPromptForCredentialsW(
@@ -482,6 +783,11 @@ impl WindowsAuthClient {
             )
         };
 
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("prompt_for_windows_credentials - after CredUIPromptForCredentialsW");
+        }
+
         let hresult_msg = format!("[CredUI] HRESULT: 0x{:08X}", result);
         eprintln!("{}", hresult_msg);
         #[cfg(feature = "std")]
@@ -493,6 +799,13 @@ impl WindowsAuthClient {
             eprintln!("{}", last_error_msg);
             #[cfg(feature = "std")]
             log_to_file(&last_error_msg);
+
+            #[cfg(feature = "std")]
+            {
+                log_function_exit("WindowsAuthClient::prompt_for_windows_credentials", 
+                                 &format!("Error - HRESULT: 0x{:08X}", result));
+                log_memory_info("prompt_for_windows_credentials - end (error)");
+            }
 
             return Err(AuthError::InvalidCredentials(format!(
                 "Credential prompt failed - HRESULT: 0x{:08X}, GetLastError: 0x{:08X}",
@@ -509,6 +822,13 @@ impl WindowsAuthClient {
         let username = Self::from_wide(&username_buf[..username_len_pos]);
         let password = Self::from_wide(&password_buf[..password_len_pos]);
         let _domain = String::new(); // Domain is embedded in username (DOMAIN\user or user@domain)
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("username", &username);
+            log_object_size("username String", core::mem::size_of::<String>());
+            log_object_size("password String", core::mem::size_of::<String>());
+        }
 
         let buf_msgs = vec![
             format!("[CredUI] Username length: {}", username_len_pos),
@@ -552,17 +872,36 @@ impl WindowsAuthClient {
             log_to_file(msg);
         }
 
+        #[cfg(feature = "std")]
+        {
+            log_string_info("parsed username", &username);
+            log_option_info("parsed domain", domain.is_some());
+            log_memory_info("prompt_for_windows_credentials - before credentials assignment");
+        }
+
         self.credentials = Some(AuthCredentials {
             username,
             password,
             domain,
         });
 
+        #[cfg(feature = "std")]
+        {
+            log_memory_info("prompt_for_windows_credentials - after credentials assignment");
+        }
+
         let success_msg = "[CredUI] Credentials stored successfully";
         eprintln!("{}", success_msg);
         #[cfg(feature = "std")]
         log_to_file(success_msg);
-        Ok(())
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::prompt_for_windows_credentials", "Success");
+            log_memory_info("prompt_for_windows_credentials - end (success)");
+        }
+
+        Ok(save_flag != 0)
     }
 
     #[cfg(not(windows))]
@@ -571,20 +910,70 @@ impl WindowsAuthClient {
         _caption: &str,
         _message: &str,
         _save: bool,
-    ) -> AuthResult<()> {
-        Err(AuthError::NotInitialized(
+    ) -> AuthResult<bool> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::prompt_for_windows_credentials (non-Windows)", 
+                              "caption, message, save parameters");
+            log_memory_info("prompt_for_windows_credentials (non-Windows) - start");
+        }
+
+        let result = Err(AuthError::NotInitialized(
             "Credential prompt only available on Windows".to_string(),
-        ))
+        ));
+
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("WindowsAuthClient::prompt_for_windows_credentials (non-Windows)", 
+                             "Error - not available on this platform");
+            log_memory_info("prompt_for_windows_credentials (non-Windows) - end");
+        }
+
+        result
     }
 
     #[cfg(windows)]
     fn to_wide(s: &str) -> Vec<u16> {
-        s.encode_utf16().chain(core::iter::once(0)).collect()
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("to_wide", &format!("input string length: {}", s.len()));
+            log_string_info("input string", s);
+            log_memory_info("to_wide - start");
+        }
+
+        let result: Vec<u16> = s.encode_utf16().chain(core::iter::once(0)).collect();
+
+        #[cfg(feature = "std")]
+        {
+            log_vec_u16_info("result Vec<u16>", &result);
+            log_object_size("result Vec", core::mem::size_of::<Vec<u16>>());
+            log_function_exit("to_wide", &format!("Success - output length: {}", result.len()));
+            log_memory_info("to_wide - end");
+        }
+
+        result
     }
 
     #[cfg(windows)]
     fn from_wide(wide: &[u16]) -> String {
-        String::from_utf16_lossy(wide.split(|c| *c == 0).next().unwrap_or(wide))
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("from_wide", &format!("input slice length: {}", wide.len()));
+            log_vec_u16_info("input slice", wide);
+            log_memory_info("from_wide - start");
+        }
+
+        let result = String::from_utf16_lossy(wide.split(|c| *c == 0).next().unwrap_or(wide));
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("result string", &result);
+            log_object_size("result String", core::mem::size_of::<String>());
+            log_function_exit("from_wide", &format!("Success - output length: {}", result.len()));
+            log_memory_info("from_wide - end");
+        }
+
+        result
     }
 }
 
