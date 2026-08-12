@@ -19,3 +19,30 @@
 [1786563929] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
 [1786563929] [TLS] TLS connector built successfully
 [1786563929] [TLS] Connector ready for secure connections
+[1786564287] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786564287] [TLS] Setting handshake timeout to: 30s
+[1786564287] [TLS] Configuration validation passed
+[1786564287] [TLS] Building TLS connector with current configuration
+[1786564287] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786564287] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786564287] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786564287] [TLS] TLS connector built successfully
+[1786564287] [TLS] Connector ready for secure connections
+[1786564289] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786564289] [TLS] Setting handshake timeout to: 30s
+[1786564289] [TLS] Configuration validation passed
+[1786564289] [TLS] Building TLS connector with current configuration
+[1786564289] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786564289] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786564289] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786564289] [TLS] TLS connector built successfully
+[1786564289] [TLS] Connector ready for secure connections
+[1786564290] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786564290] [TLS] Setting handshake timeout to: 30s
+[1786564290] [TLS] Configuration validation passed
+[1786564290] [TLS] Building TLS connector with current configuration
+[1786564290] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786564290] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786564290] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786564290] [TLS] TLS connector built successfully
+[1786564290] [TLS] Connector ready for secure connections

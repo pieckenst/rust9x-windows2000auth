@@ -250,6 +250,7 @@ impl core::fmt::Display for AuthError {
 pub struct WindowsAuthClient {
     credentials: Option<AuthCredentials>,
     ntlm: Option<Ntlm>,
+    credentials_handle: Option<sspi::AuthIdentityBuffers>,
 }
 
 impl WindowsAuthClient {
@@ -264,6 +265,7 @@ impl WindowsAuthClient {
         let result = Ok(Self {
             credentials: None,
             ntlm: Some(Ntlm::new()),
+            credentials_handle: None,
         });
 
         #[cfg(feature = "std")]
@@ -273,6 +275,7 @@ impl WindowsAuthClient {
                 log_function_exit("WindowsAuthClient::new", "Success");
                 log_option_info("credentials", client.credentials.is_some());
                 log_option_info("ntlm", client.ntlm.is_some());
+                log_option_info("credentials_handle", client.credentials_handle.is_some());
             }
             Err(e) => {
                 log_function_exit("WindowsAuthClient::new", &format!("Error: {}", e));
@@ -367,18 +370,6 @@ impl WindowsAuthClient {
             log_memory_info("generate_negotiate_token - start");
         }
 
-        let msgs = vec![
-            "[SSPI] API: AcquireCredentialsHandle".to_string(),
-            "[SSPI] Package: NTLM".to_string(),
-            "[SSPI] Principal: NULL".to_string(),
-            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
-        ];
-        for msg in &msgs {
-            eprintln!("{}", msg);
-            #[cfg(feature = "std")]
-            log_to_file(msg);
-        }
-
         let ntlm = self
             .ntlm
             .as_mut()
@@ -412,40 +403,64 @@ impl WindowsAuthClient {
             log_to_file(msg);
         }
 
-        let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
-            AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
-        })?;
+        // Only acquire credentials handle once and reuse it
+        if self.credentials_handle.is_none() {
+            let msgs = vec![
+                "[SSPI] API: AcquireCredentialsHandle".to_string(),
+                "[SSPI] Package: NTLM".to_string(),
+                "[SSPI] Principal: NULL".to_string(),
+                "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
+            ];
+            for msg in &msgs {
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(msg);
+            }
 
-        #[cfg(feature = "std")]
-        {
-            log_object_size("Username struct", core::mem::size_of::<Username>());
-        }
+            let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
+                AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
+            })?;
 
-        let identity = AuthIdentity {
-            username,
-            password: creds.password.clone().into(),
-        };
+            #[cfg(feature = "std")]
+            {
+                log_object_size("Username struct", core::mem::size_of::<Username>());
+            }
 
-        #[cfg(feature = "std")]
-        {
-            log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
-            log_memory_info("generate_negotiate_token - before acquire_credentials_handle");
-        }
+            let identity = AuthIdentity {
+                username,
+                password: creds.password.clone().into(),
+            };
 
-        let acq_cred_result = ntlm
-            .acquire_credentials_handle()
-            .with_credential_use(CredentialUse::Outbound)
-            .with_auth_data(&identity)
-            .execute(ntlm);
+            #[cfg(feature = "std")]
+            {
+                log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
+                log_memory_info("generate_negotiate_token - before acquire_credentials_handle");
+            }
 
-        log_security_status(&acq_cred_result, "AcquireCredentialsHandle");
-        let mut acq_cred_result = acq_cred_result.map_err(|e| {
-            AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
-        })?;
+            let acq_cred_result = ntlm
+                .acquire_credentials_handle()
+                .with_credential_use(CredentialUse::Outbound)
+                .with_auth_data(&identity)
+                .execute(ntlm);
 
-        #[cfg(feature = "std")]
-        {
-            log_memory_info("generate_negotiate_token - after acquire_credentials_handle");
+            log_security_status(&acq_cred_result, "AcquireCredentialsHandle");
+            let acq_cred_result = acq_cred_result.map_err(|e| {
+                AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
+            })?;
+
+            // Store the credentials handle for reuse
+            self.credentials_handle = acq_cred_result.credentials_handle;
+
+            #[cfg(feature = "std")]
+            {
+                log_memory_info("generate_negotiate_token - after acquire_credentials_handle");
+                log_option_info("credentials_handle", self.credentials_handle.is_some());
+            }
+        } else {
+            #[cfg(feature = "std")]
+            {
+                log_memory_info("generate_negotiate_token - reusing existing credentials handle");
+            }
         }
 
         let init_msgs = vec![
@@ -479,7 +494,7 @@ impl WindowsAuthClient {
             sspi::builders::WithoutTargetDataRepresentation,
             sspi::builders::WithoutOutput,
         >::default()
-            .with_credentials_handle(&mut acq_cred_result.credentials_handle)
+            .with_credentials_handle(&mut self.credentials_handle)
             .with_context_requirements(ClientRequestFlags::CONNECTION | ClientRequestFlags::ALLOCATE_MEMORY)
             .with_target_data_representation(DataRepresentation::Native)
             .with_target_name(target_name)
@@ -538,18 +553,6 @@ impl WindowsAuthClient {
             log_memory_info("process_challenge - start");
         }
 
-        let msgs = vec![
-            "[SSPI] API: AcquireCredentialsHandle (challenge)".to_string(),
-            "[SSPI] Package: NTLM".to_string(),
-            "[SSPI] Principal: NULL".to_string(),
-            "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
-        ];
-        for msg in &msgs {
-            eprintln!("{}", msg);
-            #[cfg(feature = "std")]
-            log_to_file(msg);
-        }
-
         let ntlm = self
             .ntlm
             .as_mut()
@@ -561,62 +564,85 @@ impl WindowsAuthClient {
             log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
         }
 
-        let creds = self
-            .credentials
-            .as_ref()
-            .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
+        // Ensure we have credentials handle
+        if self.credentials_handle.is_none() {
+            let creds = self
+                .credentials
+                .as_ref()
+                .ok_or_else(|| AuthError::InvalidCredentials("No credentials set".to_string()))?;
 
-        #[cfg(feature = "std")]
-        {
-            log_option_info("credentials", true);
-            log_string_info("creds.username", &creds.username);
-            log_object_size("String struct", core::mem::size_of::<String>());
-        }
-
-        let user_msgs = vec![
-            format!("[SSPI] Username: {}", creds.username),
-            format!("[SSPI] Domain: {:?}", creds.domain.as_deref()),
-        ];
-        for msg in &user_msgs {
-            eprintln!("{}", msg);
             #[cfg(feature = "std")]
-            log_to_file(msg);
-        }
+            {
+                log_option_info("credentials", true);
+                log_string_info("creds.username", &creds.username);
+                log_object_size("String struct", core::mem::size_of::<String>());
+            }
 
-        let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
-            AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
-        })?;
+            let user_msgs = vec![
+                format!("[SSPI] Username: {}", creds.username),
+                format!("[SSPI] Domain: {:?}", creds.domain.as_deref()),
+            ];
+            for msg in &user_msgs {
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(msg);
+            }
 
-        #[cfg(feature = "std")]
-        {
-            log_object_size("Username struct", core::mem::size_of::<Username>());
-        }
+            let msgs = vec![
+                "[SSPI] API: AcquireCredentialsHandle (challenge)".to_string(),
+                "[SSPI] Package: NTLM".to_string(),
+                "[SSPI] Principal: NULL".to_string(),
+                "[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND".to_string(),
+            ];
+            for msg in &msgs {
+                eprintln!("{}", msg);
+                #[cfg(feature = "std")]
+                log_to_file(msg);
+            }
 
-        let identity = AuthIdentity {
-            username,
-            password: creds.password.clone().into(),
-        };
+            let username = Username::new(&creds.username, creds.domain.as_deref()).map_err(|e| {
+                AuthError::InvalidCredentials(format!("Invalid username format: {}", e))
+            })?;
 
-        #[cfg(feature = "std")]
-        {
-            log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
-            log_memory_info("process_challenge - before acquire_credentials_handle");
-        }
+            #[cfg(feature = "std")]
+            {
+                log_object_size("Username struct", core::mem::size_of::<Username>());
+            }
 
-        let acq_cred_result = ntlm
-            .acquire_credentials_handle()
-            .with_credential_use(CredentialUse::Outbound)
-            .with_auth_data(&identity)
-            .execute(ntlm);
+            let identity = AuthIdentity {
+                username,
+                password: creds.password.clone().into(),
+            };
 
-        log_security_status(&acq_cred_result, "AcquireCredentialsHandle (challenge)");
-        let mut acq_cred_result = acq_cred_result.map_err(|e| {
-            AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
-        })?;
+            #[cfg(feature = "std")]
+            {
+                log_object_size("AuthIdentity struct", core::mem::size_of::<AuthIdentity>());
+                log_memory_info("process_challenge - before acquire_credentials_handle");
+            }
 
-        #[cfg(feature = "std")]
-        {
-            log_memory_info("process_challenge - after acquire_credentials_handle");
+            let acq_cred_result = ntlm
+                .acquire_credentials_handle()
+                .with_credential_use(CredentialUse::Outbound)
+                .with_auth_data(&identity)
+                .execute(ntlm);
+
+            log_security_status(&acq_cred_result, "AcquireCredentialsHandle (challenge)");
+            let acq_cred_result = acq_cred_result.map_err(|e| {
+                AuthError::AuthFailed(format!("Failed to acquire credentials: {}", e))
+            })?;
+
+            self.credentials_handle = acq_cred_result.credentials_handle;
+
+            #[cfg(feature = "std")]
+            {
+                log_memory_info("process_challenge - after acquire_credentials_handle");
+                log_option_info("credentials_handle", self.credentials_handle.is_some());
+            }
+        } else {
+            #[cfg(feature = "std")]
+            {
+                log_memory_info("process_challenge - reusing existing credentials handle");
+            }
         }
 
         let init_msgs = vec![
@@ -652,7 +678,7 @@ impl WindowsAuthClient {
             sspi::builders::WithoutTargetDataRepresentation,
             sspi::builders::WithoutOutput,
         >::default()
-            .with_credentials_handle(&mut acq_cred_result.credentials_handle)
+            .with_credentials_handle(&mut self.credentials_handle)
             .with_context_requirements(ClientRequestFlags::CONNECTION | ClientRequestFlags::ALLOCATE_MEMORY)
             .with_target_data_representation(DataRepresentation::Native)
             .with_target_name(target_name)

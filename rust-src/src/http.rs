@@ -398,15 +398,24 @@ impl HttpClient {
             #[cfg(feature = "std")]
             log_to_file(&tls_msg);
 
-            let tls_stream = tls_connector.connect(&url.host, stream)
-                .map_err(|e| AuthError::TlsError(format!("TLS handshake failed: {}", e)))?;
+            match tls_connector.connect(&url.host, stream) {
+                Ok(tls_stream) => {
+                    let tls_success_msg = format!("[HTTP] TLS handshake successful with {}", url.host);
+                    eprintln!("{}", tls_success_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(&tls_success_msg);
 
-            let tls_success_msg = format!("[HTTP] TLS handshake successful with {}", url.host);
-            eprintln!("{}", tls_success_msg);
-            #[cfg(feature = "std")]
-            log_to_file(&tls_success_msg);
-
-            Box::new(tls_stream) as Box<dyn ReadWrite>
+                    Box::new(tls_stream) as Box<dyn ReadWrite>
+                }
+                Err(e) => {
+                    let error_msg = format!("[HTTP] TLS handshake failed with {}: {}. This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.", url.host, e);
+                    eprintln!("{}", error_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(&error_msg);
+                    
+                    return Err(AuthError::TlsError(format!("TLS handshake failed: {}. For Windows 2000 compatibility, use HTTP instead of HTTPS or ensure the system has the required TLS support.", e)));
+                }
+            }
         } else {
             Box::new(stream) as Box<dyn ReadWrite>
         };
