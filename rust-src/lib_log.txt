@@ -226,3 +226,163 @@
 [1786562156] [MEMORY_FREE] CString freed 0 bytes
 [1786562156] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x17125a4
 [1786562156] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786563786] [FUNCTION_ENTRY] auth_init
+[1786563786] [LIB] auth_init called
+[1786563786] [OBJECT_SIZE] WindowsAuthClient = 880 bytes
+[1786563786] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786563786] [MEMORY_ALLOC] AUTH_CLIENT allocated 880 bytes
+[1786563786] [OBJECT_SIZE] client instance = 880 bytes
+[1786563786] [LIB] Auth client initialized successfully
+[1786563786] [FUNCTION_EXIT] auth_init -> Success
+[1786563909] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786563909] [LIB] auth_prompt_credentials called
+[1786563909] [PARAM] caption = 0x692d4d8
+[1786563909] [PARAM] message = 0x692d3d8
+[1786563909] [PARAM] save_credentials = 0x692d860
+[1786563909] [PARAM] result = 0x692d850
+[1786563909] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786563909] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786563909] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786563909] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786563909] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786563909] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786563909] [PARAM] save = false (size: 4 bytes)
+[1786563909] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786563918] [LIB] Credential prompt successful
+[1786563918] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786563918] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786563918] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786563918] [PARAM] error_code = Success (size: 4 bytes)
+[1786563918] [PARAM] error_message = null_mut()
+[1786563918] [PARAM] response_data = null_mut()
+[1786563918] [PARAM] response_length = 0 (size: 4 bytes)
+[1786563918] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786563918] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786563918] [LIB] auth_prompt_credentials called
+[1786563918] [PARAM] caption = 0x8a0e8a0
+[1786563918] [PARAM] message = 0x8a0e7a0
+[1786563918] [PARAM] save_credentials = 0x8a0ec28
+[1786563918] [PARAM] result = 0x8a0ec18
+[1786563918] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786563918] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786563918] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786563918] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786563918] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786563918] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786563918] [PARAM] save = false (size: 4 bytes)
+[1786563918] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786563926] [LIB] Credential prompt successful
+[1786563926] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786563926] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786563926] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786563926] [PARAM] error_code = Success (size: 4 bytes)
+[1786563926] [PARAM] error_message = null_mut()
+[1786563926] [PARAM] response_data = null_mut()
+[1786563926] [PARAM] response_length = 0 (size: 4 bytes)
+[1786563926] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786563926] [FUNCTION_ENTRY] auth_http_request
+[1786563926] [LIB] auth_http_request called
+[1786563926] [PARAM] url = 0x8a0e6d4
+[1786563926] [PARAM] method = 0x8a0e5d4
+[1786563926] [PARAM] body_data = NULL
+[1786563926] [PARAM] body_length = 0 (size: 0 bytes)
+[1786563926] [PARAM] result = 0x8a0e8b8
+[1786563926] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786563926] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786563926] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786563926] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786563926] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786563926] [LIB] HTTP request: GET https://example.com/api/auth
+[1786563926] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786563926] [PARAM] body = None
+[1786563926] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786563926] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786563927] [LIB] HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563927] [FUNCTION_EXIT] auth_http_request -> NetworkError: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563927] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786563927] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786563927] [PARAM] message = 'HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)' (144 bytes) (size: 144 bytes)
+[1786563927] [MEMORY_ALLOC] CString (error message) allocated 144 bytes
+[1786563927] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xd8c4b0
+[1786563927] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786563927] [PARAM] error_message = ptr=0xd8c4b0 (leaked)
+[1786563927] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786563928] [FUNCTION_ENTRY] auth_http_request
+[1786563928] [LIB] auth_http_request called
+[1786563928] [PARAM] url = 0x8a0e6d4
+[1786563928] [PARAM] method = 0x8a0e5d4
+[1786563928] [PARAM] body_data = NULL
+[1786563928] [PARAM] body_length = 0 (size: 0 bytes)
+[1786563928] [PARAM] result = 0x8a0e8b8
+[1786563928] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786563928] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786563928] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786563928] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786563928] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786563928] [LIB] HTTP request: GET https://example.com/api/auth
+[1786563928] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786563928] [PARAM] body = None
+[1786563928] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786563928] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786563928] [LIB] HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563928] [FUNCTION_EXIT] auth_http_request -> NetworkError: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563928] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786563928] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786563928] [PARAM] message = 'HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)' (144 bytes) (size: 144 bytes)
+[1786563928] [MEMORY_ALLOC] CString (error message) allocated 144 bytes
+[1786563928] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xd8cc30
+[1786563928] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786563928] [PARAM] error_message = ptr=0xd8cc30 (leaked)
+[1786563928] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786563929] [FUNCTION_ENTRY] auth_http_request
+[1786563929] [LIB] auth_http_request called
+[1786563929] [PARAM] url = 0x8a0e6d4
+[1786563929] [PARAM] method = 0x8a0e5d4
+[1786563929] [PARAM] body_data = NULL
+[1786563929] [PARAM] body_length = 0 (size: 0 bytes)
+[1786563929] [PARAM] result = 0x8a0e8b8
+[1786563929] [OBJECT_SIZE] AUTH_CLIENT = 880 bytes
+[1786563929] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786563929] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786563929] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786563929] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786563929] [LIB] HTTP request: GET https://example.com/api/auth
+[1786563929] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786563929] [PARAM] body = None
+[1786563929] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786563929] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786563929] [LIB] HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563929] [FUNCTION_EXIT] auth_http_request -> NetworkError: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)
+[1786563929] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786563929] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786563929] [PARAM] message = 'HTTP request failed: TLS error: TLS handshake failed: Указанная функция не поддерживается (os error -2146893054)' (144 bytes) (size: 144 bytes)
+[1786563929] [MEMORY_ALLOC] CString (error message) allocated 144 bytes
+[1786563929] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xd8d3b0
+[1786563929] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786563929] [PARAM] error_message = ptr=0xd8d3b0 (leaked)
+[1786563929] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786563946] [FUNCTION_ENTRY] auth_free_string
+[1786563946] [PARAM] ptr = 0xd8d3b0
+[1786563946] [PARAM] return_type = void
+[1786563946] [MEMORY_FREE] CString freed 144 bytes
+[1786563946] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xd8d3b0
+[1786563946] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786563946] [FUNCTION_ENTRY] auth_free_string
+[1786563946] [PARAM] ptr = 0xd8c4b0
+[1786563946] [PARAM] return_type = void
+[1786563946] [MEMORY_FREE] CString freed 144 bytes
+[1786563946] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xd8c4b0
+[1786563946] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786563946] [FUNCTION_ENTRY] auth_free_string
+[1786563946] [PARAM] ptr = 0xd8cc30
+[1786563946] [PARAM] return_type = void
+[1786563946] [MEMORY_FREE] CString freed 144 bytes
+[1786563946] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xd8cc30
+[1786563946] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786563959] [FUNCTION_ENTRY] auth_cleanup
+[1786563959] [LIB] auth_cleanup called
+[1786563959] [PARAM] return_type = void
+[1786563959] [MEMORY_FREE] AUTH_CLIENT freed 880 bytes
+[1786563959] [OBJECT_SIZE] client being dropped = 880 bytes
+[1786563959] [LIB] Auth client cleaned up
+[1786563959] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)

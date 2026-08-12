@@ -112,13 +112,13 @@ impl TlsConfig {
         log_to_file(msg);
         
         Self {
-            verify_certs: true,
+            verify_certs: false, // Disable cert verification for old systems
             min_protocol: TlsProtocol::Tls1_0,
             max_protocol: TlsProtocol::Auto,
             use_sni: true,
             handshake_timeout: Duration::from_secs(30),
-            danger_accept_invalid_hostnames: false,
-            danger_accept_invalid_certs: false,
+            danger_accept_invalid_hostnames: true, // Accept invalid hostnames for old systems
+            danger_accept_invalid_certs: true, // Accept invalid certs for old systems
         }
     }
 

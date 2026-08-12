@@ -1,0 +1,21 @@
+[1786563926] [TLS] Creating new TlsConfig with secure defaults
+[1786563926] [TLS] Setting handshake timeout to: 30s
+[1786563926] [TLS] Configuration validation passed
+[1786563926] [TLS] Building TLS connector with current configuration
+[1786563926] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786563926] [TLS] TLS connector built successfully
+[1786563926] [TLS] Connector ready for secure connections
+[1786563928] [TLS] Creating new TlsConfig with secure defaults
+[1786563928] [TLS] Setting handshake timeout to: 30s
+[1786563928] [TLS] Configuration validation passed
+[1786563928] [TLS] Building TLS connector with current configuration
+[1786563928] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786563928] [TLS] TLS connector built successfully
+[1786563928] [TLS] Connector ready for secure connections
+[1786563929] [TLS] Creating new TlsConfig with secure defaults
+[1786563929] [TLS] Setting handshake timeout to: 30s
+[1786563929] [TLS] Configuration validation passed
+[1786563929] [TLS] Building TLS connector with current configuration
+[1786563929] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786563929] [TLS] TLS connector built successfully
+[1786563929] [TLS] Connector ready for secure connections
