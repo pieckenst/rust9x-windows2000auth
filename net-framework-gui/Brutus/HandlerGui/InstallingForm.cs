@@ -17,6 +17,13 @@ namespace HandlerGui
         private string applicationName = "WindowsApplication1";
         private string publisher = "Unknown Publisher";
 
+        // UI Control references (these should be defined in the designer)
+        // private ProgressBar progressBar;
+        // private Label lblStatus;
+        // private Label lblName;
+        // private Label lblPublisher;
+        // private Button btnCancel;
+
         public InstallingForm()
         {
             InitializeComponent();
@@ -33,16 +40,52 @@ namespace HandlerGui
         private void InitializeForm()
         {
             // Update form UI with application info
-            // This would typically be set via properties or constructor
+            // This would typically update labels and progress bars
+            UpdateApplicationInfo();
+        }
+
+        private void UpdateApplicationInfo()
+        {
+            // Update labels with application information
+            // This would typically update the form's UI elements
+            // Using reflection to safely access controls that may not exist
+            try
+            {
+                Control lblName = this.Controls.Find("lblName", true).Length > 0 ? 
+                    this.Controls.Find("lblName", true)[0] : null;
+                Control lblPublisher = this.Controls.Find("lblPublisher", true).Length > 0 ? 
+                    this.Controls.Find("lblPublisher", true)[0] : null;
+
+                if (lblName != null && lblName is Label)
+                {
+                    ((Label)lblName).Text = applicationName;
+                }
+                if (lblPublisher != null && lblPublisher is Label)
+                {
+                    ((Label)lblPublisher).Text = publisher;
+                }
+            }
+            catch
+            {
+                // Controls may not exist, ignore errors
+            }
+
+            // Log the information
+            if (authManager != null)
+            {
+                authManager.Config.Log("InstallingForm: Application=" + applicationName + 
+                                     ", Publisher=" + publisher);
+            }
         }
 
         private void InitializeAuthWorker()
         {
             authWorker = new BackgroundWorker();
-            authWorker.DoWork += AuthWorker_DoWork;
-            authWorker.RunWorkerCompleted += AuthWorker_RunWorkerCompleted;
+            authWorker.DoWork += new DoWorkEventHandler(AuthWorker_DoWork);
+            authWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(AuthWorker_RunWorkerCompleted);
             authWorker.WorkerReportsProgress = true;
             authWorker.WorkerSupportsCancellation = true;
+            authWorker.ProgressChanged += new ProgressChangedEventHandler(AuthWorker_ProgressChanged);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -50,8 +93,20 @@ namespace HandlerGui
             base.OnLoad(e);
             
             // Initialize AuthManager with current configuration
-            authManager = new AuthManager();
+            authManager = Program.AuthManager;
             
+            if (authManager == null)
+            {
+                MessageBox.Show(
+                    "Authentication manager not available.",
+                    "Authentication Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                DialogResult = DialogResult.Cancel;
+                Close();
+                return;
+            }
+
             // Start authentication process when form loads
             authWorker.RunWorkerAsync();
         }
@@ -60,8 +115,10 @@ namespace HandlerGui
         {
             try
             {
+                authManager.Config.Log("InstallingForm: Starting authentication process");
+
                 // Initialize the authentication library
-                authWorker.ReportProgress(10, "Initializing authentication library...");
+                authWorker.ReportProgress(5, "Initializing authentication library...");
                 
                 if (!authManager.Initialize())
                 {
@@ -69,10 +126,10 @@ namespace HandlerGui
                     return;
                 }
 
-                authWorker.ReportProgress(20, "Authentication library initialized");
+                authWorker.ReportProgress(15, "Authentication library initialized");
 
                 // Perform authentication with automatic retry logic
-                authWorker.ReportProgress(30, "Authenticating with server...");
+                authWorker.ReportProgress(25, "Authenticating with server...");
                 
                 AuthResult authResult = authManager.Authenticate();
 
@@ -82,12 +139,12 @@ namespace HandlerGui
                     return;
                 }
 
-                authWorker.ReportProgress(70, "Authentication successful");
+                authWorker.ReportProgress(75, "Authentication successful");
 
                 // Process response if available
                 if (authResult.ResponseData != null && authResult.ResponseData.Length > 0)
                 {
-                    authWorker.ReportProgress(80, "Processing authentication response...");
+                    authWorker.ReportProgress(85, "Processing authentication response...");
                     
                     // In a real implementation, you would process the response data
                     // For example, validate tokens, extract user info, etc.
@@ -95,21 +152,46 @@ namespace HandlerGui
                     authManager.Config.Log("Server response: " + response);
                 }
 
-                authWorker.ReportProgress(90, "Finalizing authentication...");
+                authWorker.ReportProgress(95, "Finalizing authentication...");
 
                 // Simulate final processing steps
                 Thread.Sleep(500);
 
                 authWorker.ReportProgress(100, "Authentication completed successfully");
                 e.Result = "Authentication completed successfully";
+                
+                authManager.Config.Log("InstallingForm: Authentication process completed successfully");
             }
             catch (Exception ex)
             {
                 e.Result = "Authentication error: " + ex.Message;
                 if (authManager != null)
                 {
-                    authManager.Config.Log("Exception during authentication: " + ex.ToString());
+                    authManager.Config.Log("InstallingForm: Exception during authentication: " + ex.ToString());
                 }
+            }
+        }
+
+        private void AuthWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            // Update progress bar and status label
+            try
+            {
+                Control[] progressBars = this.Controls.Find("progressBar", true);
+                if (progressBars.Length > 0 && progressBars[0] is ProgressBar)
+                {
+                    ((ProgressBar)progressBars[0]).Value = e.ProgressPercentage;
+                }
+                
+                Control[] statusLabels = this.Controls.Find("lblStatus", true);
+                if (statusLabels.Length > 0 && statusLabels[0] is Label)
+                {
+                    ((Label)statusLabels[0]).Text = e.UserState as string;
+                }
+            }
+            catch
+            {
+                // Controls may not exist, ignore errors
             }
         }
 
@@ -117,11 +199,13 @@ namespace HandlerGui
         {
             if (e.Cancelled)
             {
+                authManager.Config.Log("InstallingForm: Authentication cancelled by user");
                 DialogResult = DialogResult.Cancel;
                 Close();
             }
             else if (e.Error != null)
             {
+                authManager.Config.Log("InstallingForm: Authentication error: " + e.Error.Message);
                 MessageBox.Show(
                     "Error during authentication: " + e.Error.Message,
                     "Authentication Error",
@@ -135,14 +219,48 @@ namespace HandlerGui
                 string result = e.Result as string;
                 if (result != null)
                 {
-                    // Show success message
-                    MessageBox.Show(
-                        result,
-                        "Authentication Complete",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    authManager.Config.Log("InstallingForm: Authentication result: " + result);
+                    
+                    // Check if authentication was successful
+                    if (result.IndexOf("successfully") >= 0)
+                    {
+                        // Success - don't show message box, just close with OK
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        // Failure - show error message
+                        MessageBox.Show(
+                            result,
+                            "Authentication Failed",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        DialogResult = DialogResult.Cancel;
+                        Close();
+                    }
                 }
-                DialogResult = DialogResult.OK;
+                else
+                {
+                    // No result - treat as failure
+                    authManager.Config.Log("InstallingForm: No authentication result received");
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                }
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            // Cancel the authentication process
+            if (authWorker != null && authWorker.IsBusy)
+            {
+                authWorker.CancelAsync();
+                authManager.Config.Log("InstallingForm: User requested cancellation");
+            }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
                 Close();
             }
         }
@@ -180,10 +298,7 @@ namespace HandlerGui
                 {
                     authWorker.Dispose();
                 }
-                if (authManager != null)
-                {
-                    authManager.Dispose();
-                }
+                // Don't dispose authManager here as it's managed by Program
             }
             base.Dispose(disposing);
         }
