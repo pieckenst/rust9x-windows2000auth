@@ -7,3 +7,5 @@
 [1785947218] [LIB] Auth client cleaned up
 [1786547056] [LIB] auth_init called
 [1786547056] [LIB] Auth client initialized successfully
+[1786549506] [LIB] auth_init called
+[1786549506] [LIB] Auth client initialized successfully

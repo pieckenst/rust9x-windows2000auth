@@ -216,11 +216,12 @@ Console application that automates the copying of compiled Rust DLLs to .NET out
 
 **Detailed Workflow:**
 
-1. **Argument Processing** (Lines 23-38):
-   - Accepts 0, 1, or 2 arguments
-   - 0 args: Uses current directory as project directory
-   - 1 arg: Uses specified directory as project directory
-   - 2 args: Uses first as project directory, second as target directory
+1. **Argument Processing** (Lines 23-45):
+   - Accepts 0, 1, 2, or 3 arguments
+   - 0 args: Uses current directory as project directory, auto-detects configuration
+   - 1 arg: Uses specified directory as project directory, auto-detects configuration
+   - 2 args: Uses first as project directory, second as target directory, auto-detects configuration
+   - 3 args: Uses first as project directory, second as target directory, third as configuration (Debug/Release)
 
 2. **Path Resolution** (Lines 40-51):
    - Normalizes paths (removes quotes, converts to full paths)
@@ -233,25 +234,37 @@ Console application that automates the copying of compiled Rust DLLs to .NET out
    - Looks for "rust-src" subdirectory at each level
    - Returns full path when found
 
-4. **DLL Search** (Lines 63-82, 315-427):
+4. **DLL Search** (Lines 79-100, 328-415):
    - Searches in `rust-src/target` directory
    - Recursively searches subdirectories (max depth 6)
    - Collects all `rust9x_windows_auth.dll` files found
+   - **Configuration Filtering**: If configuration is specified, filters DLLs by matching build configuration (Debug/Release)
    - Sorts by modification time (newest first)
-   - Displays top 5 candidates for verification
-   - Selects and returns the most recently modified DLL
+   - Displays top 5 candidates with configuration info for verification
+   - Selects and returns the most recently modified DLL matching the configuration
 
-5. **Configuration Detection** (Lines 84-86, 429-446):
-   - Analyzes DLL path for configuration indicators
-   - Checks for "dll-debug", "dll-release", "debug", "release" in path
-   - Returns "Debug", "Release", or "Unknown"
+5. **Configuration Detection** (Lines 59-74, 102-120, 517-652):
+   - **Multiple Detection Methods**:
+     - **MSBuild Auto-detection**: Checks bin/Debug, bin/Release, obj/Debug, obj/Release directories for recent activity
+     - **Project File Analysis**: Examines .csproj files for default Configuration property
+     - **Environment Variables**: Checks Configuration and BuildConfiguration environment variables
+     - **DLL Path Analysis**: Checks Rust DLL path for "dll-debug", "dll-release", "debug", "release" indicators
+   - **Priority System**: 
+     1. Explicitly provided configuration parameter
+     2. Auto-detected MSBuild configuration
+     3. DLL path-based detection
+   - **Verification**: Warns if provided configuration differs from detected configuration
+   - **Priority**: Uses provided configuration for output directory, even if DLL detection differs
+   - **Result**: Returns "Debug", "Release", or "Unknown"
 
-6. **Output Directory Location** (Lines 92-104, 448-519):
-   - If target directory not provided, auto-detects:
-   - Walks up directory tree from project directory
-   - Looks for "HandlerGui" or "Rust9xWindowsAuth" projects
-   - Checks for `bin/Debug` or `bin/Release` directories
-   - Prefers configuration-specific directory, falls back to available
+6. **Output Directory Location** (Lines 126-138, 677-776):
+   - **Configuration Priority**:
+     1. Uses specified configuration directory if provided (bin/Debug or bin/Release)
+     2. Auto-detects based on most recent file activity in Debug vs Release directories
+     3. Falls back to available Debug or Release directory
+   - **Project Search**: Walks up directory tree looking for "HandlerGui" or "Rust9xWindowsAuth" projects
+   - **Directory Validation**: Ensures target directories exist and are accessible
+   - **Auto-detection Logic**: Compares file modification times to determine most recently used configuration
 
 7. **File Copying** (Lines 106-117, 521-619):
    - Creates destination directory if needed
@@ -263,17 +276,21 @@ Console application that automates the copying of compiled Rust DLLs to .NET out
 
 **Usage Examples:**
 ```bash
-# Automatic mode (uses current directory)
+# Automatic mode (uses current directory, auto-detects MSBuild configuration)
 BuildCopyTool.exe
 
-# Specify project directory
+# Specify project directory (auto-detects MSBuild configuration)
 BuildCopyTool.exe "E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\HandlerGui"
 
-# Specify both project and target directories
+# Specify both project and target directories (auto-detects MSBuild configuration)
 BuildCopyTool.exe "$(ProjectDir)" "$(TargetDir)"
 
-# With Visual Studio macros in build events
-BuildCopyTool.exe "$(ProjectDir)" "$(TargetDir)"
+# Specify project, target, and configuration explicitly
+BuildCopyTool.exe "$(ProjectDir)" "$(TargetDir)" "Debug"
+BuildCopyTool.exe "$(ProjectDir)" "$(TargetDir)" "Release"
+
+# With Visual Studio macros in build events for configuration-aware copying
+BuildCopyTool.exe "$(ProjectDir)" "$(TargetDir)" "$(ConfigurationName)"
 ```
 
 **Build Integration:**

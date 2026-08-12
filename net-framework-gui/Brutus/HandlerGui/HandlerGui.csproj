@@ -146,8 +146,9 @@
     <Message Text="Tool: $(BuildCopyToolExe)" Importance="high" />
     <Message Text="ProjectDir: $(ProjectDir)" Importance="high" />
     <Message Text="TargetDir: $(TargetDir)" Importance="high" />
+    <Message Text="Configuration: $(Configuration)" Importance="high" />
     <Error Text="BuildCopyTool not found: $(BuildCopyToolExe)" Condition="!Exists('$(BuildCopyToolExe)')" />
-    <Exec Command="$(BuildCopyToolExe) &quot;$(ProjectDir)&quot; &quot;$(TargetDir)&quot;" />
+    <Exec Command="$(BuildCopyToolExe) &quot;$(ProjectDir)&quot; &quot;$(TargetDir)&quot; &quot;$(Configuration)&quot;" />
   </Target>
   <Target Name="CleanRustFiles">
     <Delete Files="$(OutputPath)$(RustDllName)" Condition="Exists('$(OutputPath)$(RustDllName)')" />
