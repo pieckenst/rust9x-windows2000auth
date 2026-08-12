@@ -86,14 +86,27 @@ namespace Rust9xWindowsAuth
 
         #region Windows API for DLL Loading
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private static extern IntPtr LoadLibrary(string lpFileName);
+        [DllImport("kernel32.dll",
+    EntryPoint = "LoadLibraryA",
+    ExactSpelling = true,
+    SetLastError = true)]
+        private static extern IntPtr LoadLibrary(
+            [MarshalAs(UnmanagedType.LPStr)] string lpFileName);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport("kernel32.dll",
+            EntryPoint = "FreeLibrary",
+            ExactSpelling = true,
+            SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private static extern IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+        [DllImport("kernel32.dll",
+            EntryPoint = "GetProcAddress",
+            ExactSpelling = true,
+            SetLastError = true)]
+        private static extern IntPtr GetProcAddress(
+            IntPtr hModule,
+            [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
         #endregion
 

@@ -5,3 +5,5 @@
 [1785947218] [LIB] Credential prompt successful
 [1785947218] [LIB] auth_cleanup called
 [1785947218] [LIB] Auth client cleaned up
+[1786547056] [LIB] auth_init called
+[1786547056] [LIB] Auth client initialized successfully

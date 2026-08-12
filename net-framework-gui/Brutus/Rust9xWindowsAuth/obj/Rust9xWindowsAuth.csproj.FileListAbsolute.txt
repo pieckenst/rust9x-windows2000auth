@@ -1,0 +1,6 @@
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\bin\Debug\Rust9xWindowsAuth.dll.config
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\bin\Debug\Rust9xWindowsAuth.dll
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\bin\Debug\Rust9xWindowsAuth.pdb
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\obj\x86\Debug\Rust9xWindowsAuth.dll
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\Rust9xWindowsAuth\obj\x86\Debug\Rust9xWindowsAuth.pdb

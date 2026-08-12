@@ -1,0 +1,5 @@
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\BuildCopyTool\bin\Debug\BuildCopyTool.exe
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\BuildCopyTool\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\BuildCopyTool\bin\Debug\BuildCopyTool.pdb
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\BuildCopyTool\obj\x86\Debug\BuildCopyTool.exe
+E:\code\rust9x-windows2000auth\net-framework-gui\Brutus\BuildCopyTool\obj\x86\Debug\BuildCopyTool.pdb
