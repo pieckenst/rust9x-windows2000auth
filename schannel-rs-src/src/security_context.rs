@@ -142,7 +142,6 @@ impl SecurityContext {
                     debug!("    ASC_RET_USED_DCE_STYLE: {}", (attributes & Identity::ASC_RET_USED_DCE_STYLE) != 0);
                     debug!("    ASC_RET_SEQUENCE_DETECT: {}", (attributes & Identity::ASC_RET_SEQUENCE_DETECT) != 0);
                     debug!("    ASC_RET_REPLAY_DETECT: {}", (attributes & Identity::ASC_RET_REPLAY_DETECT) != 0);
-                    debug!("    ASC_RET_CONFIDENTIALITY_ONLY: {}", (attributes & Identity::ASC_RET_CONFIDENTIALITY_ONLY) != 0);
                     debug!("    ASC_RET_EXTENDED_ERROR: {}", (attributes & Identity::ASC_RET_EXTENDED_ERROR) != 0);
                     debug!("    ASC_RET_STREAM: {}", (attributes & Identity::ASC_RET_STREAM) != 0);
                     debug!("    ASC_RET_INTEGRITY: {}", (attributes & Identity::ASC_RET_INTEGRITY) != 0);

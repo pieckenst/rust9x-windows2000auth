@@ -1,7 +1,6 @@
 //! Schannel TLS streams.
-use std::any::Any;
 use std::cmp;
-use std::error::Error;
+use std::error::Error as StdError;
 use std::fmt;
 use std::io::{self, BufRead, Cursor, Read, Write};
 use std::mem;
@@ -9,7 +8,7 @@ use std::ptr;
 use std::slice;
 use std::sync::Arc;
 
-use log::{debug, error, info, trace, warn};
+use log::{debug, error, info, trace};
 use windows_sys::Win32::Foundation;
 use windows_sys::Win32::Security::Authentication::Identity;
 use windows_sys::Win32::Security::Cryptography;
@@ -285,13 +284,21 @@ fn _is_sync() {
 
 /// A failure which can happen during the `Builder::initialize` phase, either an
 /// I/O error or an intermediate stream which has not completed its handshake.
-#[derive(Debug)]
 pub enum HandshakeError<S> {
     /// A fatal I/O error occurred
     Failure(io::Error),
     /// The stream connection is in progress, but the handshake is not completed
     /// yet.
     Interrupted(MidHandshakeTlsStream<S>),
+}
+
+impl<S> fmt::Debug for HandshakeError<S> {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            HandshakeError::Failure(e) => fmt.debug_tuple("Failure").field(e).finish(),
+            HandshakeError::Interrupted(_) => fmt.debug_tuple("Interrupted").field(&"..").finish(),
+        }
+    }
 }
 
 /// A struct used to wrap various cert chain validation results for callback processing.
@@ -326,18 +333,18 @@ impl CertValidationResult {
     }
 }
 
-impl<S: fmt::Debug + Any> Error for HandshakeError<S> {
-    fn source(&self) -> Option<&(dyn Error + 'static)> {
-        match *self {
-            HandshakeError::Failure(ref e) => Some(e),
+impl<S> StdError for HandshakeError<S> {
+    fn source(&self) -> Option<&(dyn StdError + 'static)> {
+        match self {
+            HandshakeError::Failure(e) => Some(e),
             HandshakeError::Interrupted(_) => None,
         }
     }
 }
 
-impl<S: fmt::Debug + Any> fmt::Display for HandshakeError<S> {
+impl<S> fmt::Display for HandshakeError<S> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let desc = match *self {
+        let desc = match self {
             HandshakeError::Failure(_) => "failed to perform handshake",
             HandshakeError::Interrupted(_) => "interrupted performing handshake",
         };

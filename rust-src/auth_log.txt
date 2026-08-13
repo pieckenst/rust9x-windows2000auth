@@ -3505,3 +3505,10 @@
 [1786626924] [SSPI] Negotiate token generated (40 bytes)
 [1786626924] [FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
 [1786626924] [MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[1786632755] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1786632755] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1786632755] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1786632755] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1786632755] [OPTION_INFO] credentials - Status: None
+[1786632755] [OPTION_INFO] ntlm - Status: Some
+[1786632755] [OPTION_INFO] credentials_handle - Status: None

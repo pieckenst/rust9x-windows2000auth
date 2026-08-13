@@ -6,7 +6,7 @@
 use std::ffi::c_void;
 use std::ptr;
 
-use log::{debug, error, info, trace, warn};
+use log::{debug, info, trace};
 use windows_sys::Win32::Security::Authentication::Identity;
 
 macro_rules! inner {

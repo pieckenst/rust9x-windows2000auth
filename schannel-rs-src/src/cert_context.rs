@@ -7,7 +7,7 @@ use std::os::windows::prelude::*;
 use std::ptr;
 use std::slice;
 
-use log::{debug, error, info, trace, warn};
+use log::{debug, error, info, trace};
 use windows_sys::Win32::Foundation;
 use windows_sys::Win32::Security::Cryptography;
 

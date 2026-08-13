@@ -5,7 +5,7 @@ use schannel::schannel_cred::{Direction, Protocol, SchannelCred};
 use schannel::tls_stream;
 use std::{error, fmt, io, str};
 
-use log::{debug, error, info, trace, warn};
+use log::{debug, error, info};
 use crate::{TlsAcceptorBuilder, TlsConnectorBuilder};
 
 const SEC_E_NO_CREDENTIALS: u32 = 0x8009030E;
@@ -202,7 +202,7 @@ impl Certificate {
 
     pub fn stack_from_pem(buf: &[u8]) -> Result<Vec<Certificate>, Error> {
         debug!("Certificate::stack_from_pem called with {} bytes of PEM data", buf.len());
-        let certs = pem::PemBlock::new(buf)
+        let certs: Result<Vec<Certificate>, Error> = pem::PemBlock::new(buf)
             .map(|pem| {
                 CertContext::from_pem(std::str::from_utf8(pem).map_err(io::Error::other)?)
                     .map(Certificate)
@@ -260,6 +260,36 @@ where
 pub enum HandshakeError<S> {
     Failure(Error),
     WouldBlock(MidHandshakeTlsStream<S>),
+}
+
+impl<S> fmt::Debug for HandshakeError<S> {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            HandshakeError::Failure(e) => fmt.debug_tuple("Failure").field(e).finish(),
+            HandshakeError::WouldBlock(_) => fmt.debug_tuple("WouldBlock").field(&"..").finish(),
+        }
+    }
+}
+
+impl<S> fmt::Display for HandshakeError<S> {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            HandshakeError::Failure(e) => write!(fmt, "TLS handshake failure: {}", e),
+            HandshakeError::WouldBlock(_) => write!(fmt, "TLS handshake would block"),
+        }
+    }
+}
+
+impl<S> error::Error for HandshakeError<S>
+where
+    Self: fmt::Debug + fmt::Display,
+{
+    fn source(&self) -> Option<&(dyn error::Error + 'static)> {
+        match self {
+            HandshakeError::Failure(e) => Some(e),
+            HandshakeError::WouldBlock(_) => None,
+        }
+    }
 }
 
 impl<S> From<tls_stream::HandshakeError<S>> for HandshakeError<S> {
