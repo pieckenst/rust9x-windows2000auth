@@ -109,85 +109,85 @@ impl From<HostnameError> for io::Error {
 /// - Explicitly fails on conversion errors rather than using lossy conversion
 /// - Validates IDN conversion according to RFC 3490 security guidelines
 pub fn utf16_domain_to_ansi(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameError> {
-    info!("Starting UTF-16 domain to ANSI conversion");
-    debug!("Input UTF-16 length: {} characters", domain_utf16.len());
+    eprintln!("Starting UTF-16 domain to ANSI conversion");
+    eprintln!("Input UTF-16 length: {} characters", domain_utf16.len());
 
     // Remove null terminator if present
     let (domain_utf16, had_null) = if domain_utf16.last() == Some(&0) {
-        debug!("Detected null terminator in input, removing it");
+        eprintln!("Detected null terminator in input, removing it");
         (&domain_utf16[..domain_utf16.len() - 1], true)
     } else {
-        debug!("No null terminator detected in input");
+        eprintln!("No null terminator detected in input");
         (domain_utf16, false)
     };
 
     // Empty check
     if domain_utf16.is_empty() {
-        warn!("Empty domain name provided after null terminator removal");
-        error!("Hostname conversion failed: empty domain name");
+        eprintln!("Empty domain name provided after null terminator removal");
+        eprintln!("Hostname conversion failed: empty domain name");
         return Err(HostnameError::EmptyDomain);
     }
 
-    debug!("Processing domain with {} characters (null terminator: {})", domain_utf16.len(), had_null);
+    eprintln!("Processing domain with {} characters (null terminator: {})", domain_utf16.len(), had_null);
 
     // Validate that the UTF-16 is valid (it should be since it comes from Rust String)
     let utf16_validation = String::from_utf16(domain_utf16);
     match utf16_validation {
         Ok(ref valid_str) => {
-            debug!("UTF-16 validation successful: {:?}", valid_str);
+            eprintln!("UTF-16 validation successful: {:?}", valid_str);
         }
         Err(_) => {
-            error!("UTF-16 validation failed: invalid UTF-16 sequence");
+            eprintln!("UTF-16 validation failed: invalid UTF-16 sequence");
             return Err(HostnameError::InvalidUtf16);
         }
     }
 
     // Check if the domain is pure ASCII (quick path)
     let is_pure_ascii = domain_utf16.iter().all(|&c| c < 128);
-    debug!("Domain is pure ASCII: {}", is_pure_ascii);
+    eprintln!("Domain is pure ASCII: {}", is_pure_ascii);
 
     let ascii_domain = if is_pure_ascii {
         // For pure ASCII, we can convert directly to the system code page
         // But first, convert UTF-16 to a Rust string for validation
         let domain_str = String::from_utf16_lossy(domain_utf16);
-        debug!("ASCII domain string: {:?}", domain_str);
+        eprintln!("ASCII domain string: {:?}", domain_str);
 
         // Basic hostname validation
         let validation_result = is_valid_ascii_hostname(&domain_str);
-        debug!("ASCII hostname validation result: {}", validation_result);
+        eprintln!("ASCII hostname validation result: {}", validation_result);
 
         if !validation_result {
-            error!("Hostname validation failed for ASCII domain: {:?}", domain_str);
+            eprintln!("Hostname validation failed for ASCII domain: {:?}", domain_str);
             return Err(HostnameError::InvalidHostname);
         }
 
-        info!("Using ASCII path for domain conversion");
+        eprintln!("Using ASCII path for domain conversion");
         domain_str
     } else {
         // For non-ASCII, use IDN conversion to Punycode
-        info!("Using IDN path for domain conversion (contains non-ASCII characters)");
+        eprintln!("Using IDN path for domain conversion (contains non-ASCII characters)");
         match convert_idn_to_ascii(domain_utf16) {
             Ok(punycode) => {
-                debug!("IDN conversion successful: {:?}", punycode);
+                eprintln!("IDN conversion successful: {:?}", punycode);
                 punycode
             }
             Err(e) => {
-                error!("IDN conversion failed: {:?}", e);
+                eprintln!("IDN conversion failed: {:?}", e);
                 return Err(e);
             }
         }
     };
 
     // Now convert the ASCII (possibly Punycode) string to ANSI using the system code page
-    debug!("Converting ASCII string to system ANSI code page: {:?}", ascii_domain);
+    eprintln!("Converting ASCII string to system ANSI code page: {:?}", ascii_domain);
     match utf8_to_system_ansi(&ascii_domain) {
         Ok(ansi) => {
-            debug!("ANSI conversion successful, length: {} bytes", ansi.len());
-            info!("UTF-16 to ANSI conversion completed successfully");
+            eprintln!("ANSI conversion successful, length: {} bytes", ansi.len());
+            eprintln!("UTF-16 to ANSI conversion completed successfully");
             Ok(ansi)
         }
         Err(e) => {
-            error!("ANSI conversion failed: {:?}", e);
+            eprintln!("ANSI conversion failed: {:?}", e);
             Err(e)
         }
     }
@@ -207,12 +207,12 @@ pub fn utf16_domain_to_ansi(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameErr
 /// * `Ok(String)` - ASCII Punycode representation
 /// * `Err(HostnameError)` - If IDN conversion fails
 fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
-    debug!("Starting IDN to ASCII (Punycode) conversion");
-    debug!("Input length: {} UTF-16 characters", domain_utf16.len());
+    eprintln!("Starting IDN to ASCII (Punycode) conversion");
+    eprintln!("Input length: {} UTF-16 characters", domain_utf16.len());
 
     unsafe {
         // First, get the required buffer size
-        debug!("Calling IdnToAscii to determine required buffer size");
+        eprintln!("Calling IdnToAscii to determine required buffer size");
         let required_size = Globalization::IdnToAscii(
             0, // No special flags
             domain_utf16.as_ptr(),
@@ -223,23 +223,23 @@ fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
 
         if required_size == 0 {
             let error = GetLastError();
-            error!("IdnToAscii buffer size query failed with error: 0x{:08X}", error);
+            eprintln!("IdnToAscii buffer size query failed with error: 0x{:08X}", error);
             return Err(HostnameError::IdnConversionFailed(error));
         }
 
-        debug!("IdnToAscii requires buffer size: {} characters", required_size);
+        eprintln!("IdnToAscii requires buffer size: {} characters", required_size);
 
         // Validate buffer size is reasonable
         if required_size > 1024 {
-            warn!("Unusually large buffer size requested: {} characters", required_size);
+            eprintln!("Unusually large buffer size requested: {} characters", required_size);
         }
 
         // Allocate buffer for the ASCII result
         let mut ascii_buffer = vec![0u16; required_size as usize];
-        debug!("Allocated buffer of {} UTF-16 characters for output", ascii_buffer.len());
+        eprintln!("Allocated buffer of {} UTF-16 characters for output", ascii_buffer.len());
 
         // Perform the actual conversion
-        debug!("Calling IdnToAscii for actual conversion");
+        eprintln!("Calling IdnToAscii for actual conversion");
         let result = Globalization::IdnToAscii(
             0, // No special flags
             domain_utf16.as_ptr(),
@@ -250,33 +250,33 @@ fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
 
         if result == 0 {
             let error = GetLastError();
-            error!("IdnToAscii conversion failed with error: 0x{:08X}", error);
+            eprintln!("IdnToAscii conversion failed with error: 0x{:08X}", error);
             return Err(HostnameError::IdnConversionFailed(error));
         }
 
-        debug!("IdnToAscii conversion successful, produced {} characters", result);
+        eprintln!("IdnToAscii conversion successful, produced {} characters", result);
 
         // Sanity check: result should not exceed buffer size
         if result as usize > ascii_buffer.len() {
-            error!("IdnToAscii result size ({}) exceeds buffer size ({})", result, ascii_buffer.len());
+            eprintln!("IdnToAscii result size ({}) exceeds buffer size ({})", result, ascii_buffer.len());
             return Err(HostnameError::IdnConversionFailed(0));
         }
 
         // Convert the result UTF-16 (which should be pure ASCII) to a Rust string
         let ascii_utf16 = &ascii_buffer[..result as usize];
-        debug!("Converting result UTF-16 to Rust string");
+        eprintln!("Converting result UTF-16 to Rust string");
 
         match String::from_utf16(ascii_utf16) {
             Ok(punycode) => {
-                debug!("Successfully converted to Punycode: {:?}", punycode);
+                eprintln!("Successfully converted to Punycode: {:?}", punycode);
                 // Additional validation: ensure it's actually ASCII
                 if !punycode.is_ascii() {
-                    warn!("IdnToAscii produced non-ASCII output: {:?}", punycode);
+                    eprintln!("IdnToAscii produced non-ASCII output: {:?}", punycode);
                 }
                 Ok(punycode)
             }
             Err(e) => {
-                error!("Failed to convert IdnToAscii result to UTF-8: {:?}", e);
+                eprintln!("Failed to convert IdnToAscii result to UTF-8: {:?}", e);
                 Err(HostnameError::InvalidUtf16)
             }
         }
@@ -299,20 +299,20 @@ fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
 /// * `Ok(Vec<i8>)` - NUL-terminated ANSI string
 /// * `Err(HostnameError)` - If conversion fails
 fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
-    debug!("Starting UTF-8 to system ANSI code page conversion");
-    debug!("Input UTF-8 string: {:?} ({} bytes)", utf8_str, utf8_str.len());
+    eprintln!("Starting UTF-8 to system ANSI code page conversion");
+    eprintln!("Input UTF-8 string: {:?} ({} bytes)", utf8_str, utf8_str.len());
 
     // Convert UTF-8 to UTF-16 for the Windows API
     let utf16: Vec<u16> = utf8_str.encode_utf16().collect();
-    debug!("Converted to UTF-16: {} characters", utf16.len());
+    eprintln!("Converted to UTF-16: {} characters", utf16.len());
 
     unsafe {
         // Get the system ANSI code page
         let code_page = Globalization::GetACP();
-        debug!("System ANSI code page: {}", code_page);
+        eprintln!("System ANSI code page: {}", code_page);
 
         // First, get the required buffer size
-        debug!("Calling WideCharToMultiByte to determine required buffer size");
+        eprintln!("Calling WideCharToMultiByte to determine required buffer size");
         let required_size = Globalization::WideCharToMultiByte(
             code_page,
             Globalization::WC_NO_BEST_FIT_CHARS, // Security: prevent best-fit mapping
@@ -326,23 +326,23 @@ fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
 
         if required_size == 0 {
             let error = GetLastError();
-            error!("WideCharToMultiByte buffer size query failed with error: 0x{:08X}", error);
+            eprintln!("WideCharToMultiByte buffer size query failed with error: 0x{:08X}", error);
             return Err(HostnameError::CodePageConversionFailed(error));
         }
 
-        debug!("WideCharToMultiByte requires buffer size: {} bytes", required_size);
+        eprintln!("WideCharToMultiByte requires buffer size: {} bytes", required_size);
 
         // Validate buffer size is reasonable
         if required_size > 1024 {
-            warn!("Unusually large buffer size requested: {} bytes", required_size);
+            eprintln!("Unusually large buffer size requested: {} bytes", required_size);
         }
 
         // Allocate buffer for the ANSI result
         let mut ansi_buffer = vec![0i8; required_size as usize];
-        debug!("Allocated buffer of {} bytes for ANSI output", ansi_buffer.len());
+        eprintln!("Allocated buffer of {} bytes for ANSI output", ansi_buffer.len());
 
         // Perform the actual conversion
-        debug!("Calling WideCharToMultiByte for actual conversion");
+        eprintln!("Calling WideCharToMultiByte for actual conversion");
         let result = Globalization::WideCharToMultiByte(
             code_page,
             Globalization::WC_NO_BEST_FIT_CHARS, // Security: prevent best-fit mapping
@@ -356,27 +356,27 @@ fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
 
         if result == 0 {
             let error = GetLastError();
-            error!("WideCharToMultiByte conversion failed with error: 0x{:08X}", error);
+            eprintln!("WideCharToMultiByte conversion failed with error: 0x{:08X}", error);
             return Err(HostnameError::CodePageConversionFailed(error));
         }
 
-        debug!("WideCharToMultiByte conversion successful, produced {} bytes", result);
+        eprintln!("WideCharToMultiByte conversion successful, produced {} bytes", result);
 
         // Sanity check: result should not exceed buffer size
         if result as usize > ansi_buffer.len() {
-            error!("WideCharToMultiByte result size ({}) exceeds buffer size ({})", result, ansi_buffer.len());
+            eprintln!("WideCharToMultiByte result size ({}) exceeds buffer size ({})", result, ansi_buffer.len());
             return Err(HostnameError::CodePageConversionFailed(0));
         }
 
         // Resize to actual size and add null terminator
         ansi_buffer.truncate(result as usize);
         ansi_buffer.push(0);
-        debug!("Final ANSI buffer size: {} bytes (including null terminator)", ansi_buffer.len());
+        eprintln!("Final ANSI buffer size: {} bytes (including null terminator)", ansi_buffer.len());
 
         // Log the resulting ANSI string for debugging
         let ansi_bytes: Vec<u8> = ansi_buffer.iter().map(|&b| b as u8).collect();
         let ansi_display = String::from_utf8_lossy(&ansi_bytes);
-        debug!("Resulting ANSI string: {:?}", ansi_display);
+        eprintln!("Resulting ANSI string: {:?}", ansi_display);
 
         Ok(ansi_buffer)
     }
@@ -400,39 +400,39 @@ fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
 /// * `true` if the hostname is valid
 /// * `false` otherwise
 fn is_valid_ascii_hostname(hostname: &str) -> bool {
-    debug!("Validating ASCII hostname: {:?}", hostname);
+    eprintln!("Validating ASCII hostname: {:?}", hostname);
 
     // Basic length checks
     if hostname.is_empty() {
-        debug!("Hostname validation failed: empty hostname");
+        eprintln!("Hostname validation failed: empty hostname");
         return false;
     }
 
     if hostname.len() > 253 {
-        debug!("Hostname validation failed: length {} exceeds maximum 253", hostname.len());
+        eprintln!("Hostname validation failed: length {} exceeds maximum 253", hostname.len());
         return false;
     }
 
     // Check for ASCII only
     if !hostname.is_ascii() {
-        debug!("Hostname validation failed: contains non-ASCII characters");
+        eprintln!("Hostname validation failed: contains non-ASCII characters");
         return false;
     }
 
     // Split into labels and validate each
     let labels: Vec<&str> = hostname.split('.').collect();
-    debug!("Hostname has {} labels", labels.len());
+    eprintln!("Hostname has {} labels", labels.len());
 
     for (i, label) in labels.iter().enumerate() {
-        debug!("Validating label {}: {:?}", i, label);
+        eprintln!("Validating label {}: {:?}", i, label);
 
         if label.is_empty() {
-            debug!("Label {} validation failed: empty label", i);
+            eprintln!("Label {} validation failed: empty label", i);
             return false;
         }
 
         if label.len() > 63 {
-            debug!("Label {} validation failed: length {} exceeds maximum 63", i, label.len());
+            eprintln!("Label {} validation failed: length {} exceeds maximum 63", i, label.len());
             return false;
         }
 
@@ -441,25 +441,25 @@ fn is_valid_ascii_hostname(hostname: &str) -> bool {
         let last_char = label.chars().last();
 
         if !first_char.map(|c| c.is_alphanumeric()).unwrap_or(false) {
-            debug!("Label {} validation failed: does not start with alphanumeric character", i);
+            eprintln!("Label {} validation failed: does not start with alphanumeric character", i);
             return false;
         }
 
         if !last_char.map(|c| c.is_alphanumeric()).unwrap_or(false) {
-            debug!("Label {} validation failed: does not end with alphanumeric character", i);
+            eprintln!("Label {} validation failed: does not end with alphanumeric character", i);
             return false;
         }
 
         // Label must contain only alphanumeric characters and hyphens
         if !label.chars().all(|c| c.is_alphanumeric() || c == '-') {
-            debug!("Label {} validation failed: contains invalid characters", i);
+            eprintln!("Label {} validation failed: contains invalid characters", i);
             return false;
         }
 
-        debug!("Label {} validation passed", i);
+        eprintln!("Label {} validation passed", i);
     }
 
-    debug!("Hostname validation passed");
+    eprintln!("Hostname validation passed");
     true
 }
 
