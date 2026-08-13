@@ -124,7 +124,7 @@ dll-release = [
     "--release",
     "--lib",
     "--features", "dll-build,network,tls",
-    "--target-dir", "target/dll-debug",
+    "--target-dir", "target/dll-release",
     "--",
     "-Ctarget-feature=+crt-static",
     "-Clink-arg=/ENTRY:_DllMainCRTStartup@12",
