@@ -124,10 +124,13 @@ dll-release = [
     "--release",
     "--lib",
     "--features", "dll-build,network,tls",
-    "--target-dir", "target/dll-release",
+    "--target-dir", "target/dll-debug",
     "--",
     "-Ctarget-feature=+crt-static",
-    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12"
+    "-Clink-arg=/ENTRY:_DllMainCRTStartup@12",
+    "-Clink-arg=/NODEFAULTLIB:libcmt.lib",
+    "-Clink-arg=libcmt-dll.lib",
+    "-Clink-arg=/LIBPATH:E:\\code\\rust9x-windows2000auth\\libs"
 ]
 
 dll-debug = [

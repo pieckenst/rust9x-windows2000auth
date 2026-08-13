@@ -106,3 +106,42 @@
 [1786565737] [TLS] WARNING: Invalid hostname acceptance enabled
 [1786565737] [TLS] TLS connector built successfully
 [1786565737] [TLS] Connector ready for secure connections
+[1786566258] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786566258] [TLS] Setting handshake timeout to: 30s
+[1786566258] [TLS] Configuration validation passed
+[1786566258] [TLS] Building TLS connector with current configuration
+[1786566258] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786566258] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786566258] [TLS] Setting max protocol to Some(Tlsv10) to force legacy Schannel interface
+[1786566258] [TLS] Setting minimum protocol to Tlsv10
+[1786566258] [TLS] Setting maximum protocol to Tlsv10
+[1786566258] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786566258] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786566258] [TLS] TLS connector built successfully
+[1786566258] [TLS] Connector ready for secure connections
+[1786566259] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786566259] [TLS] Setting handshake timeout to: 30s
+[1786566259] [TLS] Configuration validation passed
+[1786566259] [TLS] Building TLS connector with current configuration
+[1786566259] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786566259] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786566259] [TLS] Setting max protocol to Some(Tlsv10) to force legacy Schannel interface
+[1786566259] [TLS] Setting minimum protocol to Tlsv10
+[1786566259] [TLS] Setting maximum protocol to Tlsv10
+[1786566259] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786566259] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786566259] [TLS] TLS connector built successfully
+[1786566259] [TLS] Connector ready for secure connections
+[1786566260] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786566260] [TLS] Setting handshake timeout to: 30s
+[1786566260] [TLS] Configuration validation passed
+[1786566260] [TLS] Building TLS connector with current configuration
+[1786566260] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Auto, use_sni=true, timeout=30s
+[1786566260] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786566260] [TLS] Setting max protocol to Some(Tlsv10) to force legacy Schannel interface
+[1786566260] [TLS] Setting minimum protocol to Tlsv10
+[1786566260] [TLS] Setting maximum protocol to Tlsv10
+[1786566260] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786566260] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786566260] [TLS] TLS connector built successfully
+[1786566260] [TLS] Connector ready for secure connections
