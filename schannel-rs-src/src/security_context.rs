@@ -91,16 +91,29 @@ impl SecurityContext {
                 return Ok((SecurityContext(ctxt), None));
             }
 
-             /*
-         * IMPORTANT:
-         *
-         * We are deliberately using the ANSI InitializeSecurityContextA path.
-         * The public API currently gives us UTF-16 here, so convert the target
-         * name to a NUL-terminated ANSI byte string.
-         *
-         * For normal HTTPS hostnames this is ASCII, so this is sufficient for
-         * the current Schannel test.
-         */
+            /*
+             * ARCHITECTURE NOTE:
+             *
+             * UTF-16 public API
+             *        ↓
+             * hostname/domain normalization
+             *        ↓
+             * ANSI representation for legacy Schannel entry points
+             *        ↓
+             * InitializeSecurityContextA
+             *        ↓
+             * Schannel
+             *
+             * We use the ANSI InitializeSecurityContextA path for compatibility
+             * with legacy Schannel. The public API provides UTF-16, which we convert
+             * to the ANSI representation expected by the legacy Schannel entry points.
+             *
+             * TODO: Replace the current lossy UTF-16 → ANSI conversion with proper
+             * hostname handling that respects the system code page and handles
+             * non-ASCII hostnames correctly. The current String::from_utf16_lossy()
+             * will silently convert non-representable characters to '?', which is
+             * acceptable for ASCII hostnames but not for internationalized domain names.
+             */
         let domain_ansi_storage: Option<Vec<i8>> = domain
             .map(|d| {
                 let s = String::from_utf16_lossy(d);

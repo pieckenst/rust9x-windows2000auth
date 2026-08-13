@@ -456,3 +456,30 @@
 [1786648633] [HTTP] Connected to example.com:443
 [1786648633] [HTTP] Starting TLS handshake with example.com
 [1786648633] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786649088] [HTTP] TLS connector built successfully
+[1786649088] [HTTP] Starting GET request to example.com:443
+[1786649088] [HTTP] Target name for NTLM: HTTP/example.com
+[1786649088] [HTTP] NTLM negotiate token: 40 bytes
+[1786649089] [HTTP] Connected to example.com:443
+[1786649089] [HTTP] Starting TLS handshake with example.com
+[1786649089] [HTTP] TLS handshake successful with example.com
+[1786649089] [HTTP] Sending initial request (197 bytes)
+[1786649090] [HTTP] Initial response: 404 Not Found
+[1786649091] [HTTP] TLS connector built successfully
+[1786649091] [HTTP] Starting GET request to example.com:443
+[1786649091] [HTTP] Target name for NTLM: HTTP/example.com
+[1786649091] [HTTP] NTLM negotiate token: 40 bytes
+[1786649091] [HTTP] Connected to example.com:443
+[1786649091] [HTTP] Starting TLS handshake with example.com
+[1786649091] [HTTP] TLS handshake successful with example.com
+[1786649091] [HTTP] Sending initial request (197 bytes)
+[1786649092] [HTTP] Initial response: 404 Not Found
+[1786649093] [HTTP] TLS connector built successfully
+[1786649093] [HTTP] Starting GET request to example.com:443
+[1786649093] [HTTP] Target name for NTLM: HTTP/example.com
+[1786649093] [HTTP] NTLM negotiate token: 40 bytes
+[1786649093] [HTTP] Connected to example.com:443
+[1786649093] [HTTP] Starting TLS handshake with example.com
+[1786649094] [HTTP] TLS handshake successful with example.com
+[1786649094] [HTTP] Sending initial request (197 bytes)
+[1786649094] [HTTP] Initial response: 404 Not Found

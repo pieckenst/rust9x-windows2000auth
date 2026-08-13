@@ -3670,3 +3670,163 @@
 [1786648661] [MEMORY_FREE] CString freed 254 bytes
 [1786648661] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x652fc28
 [1786648661] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786648945] [FUNCTION_ENTRY] auth_init
+[1786648945] [LIB] auth_init called
+[1786648945] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786648945] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786648945] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786648945] [OBJECT_SIZE] client instance = 912 bytes
+[1786648945] [LIB] Auth client initialized successfully
+[1786648945] [FUNCTION_EXIT] auth_init -> Success
+[1786649073] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786649073] [LIB] auth_prompt_credentials called
+[1786649073] [PARAM] caption = 0x65cd028
+[1786649073] [PARAM] message = 0x65ccf28
+[1786649073] [PARAM] save_credentials = 0x65cd3b0
+[1786649073] [PARAM] result = 0x65cd3a0
+[1786649073] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786649073] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786649073] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786649073] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786649073] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786649073] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786649073] [PARAM] save = false (size: 4 bytes)
+[1786649073] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786649082] [LIB] Credential prompt successful
+[1786649082] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786649082] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786649082] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786649082] [PARAM] error_code = Success (size: 4 bytes)
+[1786649082] [PARAM] error_message = null_mut()
+[1786649082] [PARAM] response_data = null_mut()
+[1786649082] [PARAM] response_length = 0 (size: 4 bytes)
+[1786649082] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786649082] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786649082] [LIB] auth_prompt_credentials called
+[1786649082] [PARAM] caption = 0x625e7f0
+[1786649082] [PARAM] message = 0x625e6f0
+[1786649082] [PARAM] save_credentials = 0x625eb78
+[1786649082] [PARAM] result = 0x625eb68
+[1786649082] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786649082] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1786649082] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1786649082] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[1786649082] [PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[1786649082] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786649082] [PARAM] save = false (size: 4 bytes)
+[1786649082] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[1786649088] [LIB] Credential prompt successful
+[1786649088] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786649088] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786649088] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786649088] [PARAM] error_code = Success (size: 4 bytes)
+[1786649088] [PARAM] error_message = null_mut()
+[1786649088] [PARAM] response_data = null_mut()
+[1786649088] [PARAM] response_length = 0 (size: 4 bytes)
+[1786649088] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786649088] [FUNCTION_ENTRY] auth_http_request
+[1786649088] [LIB] auth_http_request called
+[1786649088] [PARAM] url = 0x625e624
+[1786649088] [PARAM] method = 0x625e524
+[1786649088] [PARAM] body_data = NULL
+[1786649088] [PARAM] body_length = 0 (size: 0 bytes)
+[1786649088] [PARAM] result = 0x625e808
+[1786649088] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786649088] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786649088] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786649088] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786649088] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786649088] [LIB] HTTP request: GET https://example.com/api/auth
+[1786649088] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786649088] [PARAM] body = None
+[1786649088] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786649088] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786649090] [LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[1786649090] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[1786649090] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786649090] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786649090] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[1786649090] [MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[1786649090] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xdd66d8
+[1786649090] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786649090] [PARAM] error_message = ptr=0xdd66d8 (leaked)
+[1786649090] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786649091] [FUNCTION_ENTRY] auth_http_request
+[1786649091] [LIB] auth_http_request called
+[1786649091] [PARAM] url = 0x625e624
+[1786649091] [PARAM] method = 0x625e524
+[1786649091] [PARAM] body_data = NULL
+[1786649091] [PARAM] body_length = 0 (size: 0 bytes)
+[1786649091] [PARAM] result = 0x625e808
+[1786649091] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786649091] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786649091] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786649091] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786649091] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786649091] [LIB] HTTP request: GET https://example.com/api/auth
+[1786649091] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786649091] [PARAM] body = None
+[1786649091] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786649091] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786649092] [LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[1786649092] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[1786649092] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786649092] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786649092] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[1786649092] [MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[1786649092] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xdd6618
+[1786649092] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786649092] [PARAM] error_message = ptr=0xdd6618 (leaked)
+[1786649092] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786649093] [FUNCTION_ENTRY] auth_http_request
+[1786649093] [LIB] auth_http_request called
+[1786649093] [PARAM] url = 0x625e624
+[1786649093] [PARAM] method = 0x625e524
+[1786649093] [PARAM] body_data = NULL
+[1786649093] [PARAM] body_length = 0 (size: 0 bytes)
+[1786649093] [PARAM] result = 0x625e808
+[1786649093] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786649093] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[1786649093] [PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[1786649093] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786649093] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786649093] [LIB] HTTP request: GET https://example.com/api/auth
+[1786649093] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786649093] [PARAM] body = None
+[1786649093] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786649093] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786649094] [LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[1786649094] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[1786649094] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786649094] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786649094] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[1786649094] [MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[1786649094] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0xdd60d8
+[1786649094] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786649094] [PARAM] error_message = ptr=0xdd60d8 (leaked)
+[1786649094] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786649115] [FUNCTION_ENTRY] auth_free_string
+[1786649115] [PARAM] ptr = 0xdd6618
+[1786649115] [PARAM] return_type = void
+[1786649115] [MEMORY_FREE] CString freed 82 bytes
+[1786649115] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xdd6618
+[1786649115] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786649115] [FUNCTION_ENTRY] auth_free_string
+[1786649115] [PARAM] ptr = 0xdd60d8
+[1786649115] [PARAM] return_type = void
+[1786649115] [MEMORY_FREE] CString freed 82 bytes
+[1786649115] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xdd60d8
+[1786649115] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786649115] [FUNCTION_ENTRY] auth_free_string
+[1786649115] [PARAM] ptr = 0xdd66d8
+[1786649115] [PARAM] return_type = void
+[1786649115] [MEMORY_FREE] CString freed 82 bytes
+[1786649115] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0xdd66d8
+[1786649115] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786649259] [FUNCTION_ENTRY] auth_cleanup
+[1786649259] [LIB] auth_cleanup called
+[1786649259] [PARAM] return_type = void
+[1786649259] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786649259] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786649259] [LIB] Auth client cleaned up
+[1786649259] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)

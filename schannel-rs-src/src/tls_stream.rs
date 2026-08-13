@@ -548,6 +548,21 @@ where
             } else {
                 eprintln!("Calling InitializeSecurityContextA (client mode)");
 
+                /*
+                 * ARCHITECTURE NOTE:
+                 *
+                 * UTF-16 public API (self.domain)
+                 *        ↓
+                 * ANSI representation for legacy Schannel entry points
+                 *        ↓
+                 * InitializeSecurityContextA
+                 *        ↓
+                 * Schannel
+                 *
+                 * We convert UTF-16 domain to ANSI for the legacy Schannel A API.
+                 * See security_context.rs for the full architectural description.
+                 * TODO: Replace lossy conversion with proper hostname handling.
+                 */
                 let domain_ansi_storage: Option<Vec<i8>> = match self.domain {
                     Some(ref domain) if self.use_sni => {
                         let s = String::from_utf16_lossy(domain);
