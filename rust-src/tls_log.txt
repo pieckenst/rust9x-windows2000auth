@@ -184,3 +184,156 @@
 [1786622726] [TLS] WARNING: Invalid hostname acceptance enabled
 [1786622726] [TLS] TLS connector built successfully
 [1786622726] [TLS] Connector ready for secure connections
+[1786624851] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786624851] [TLS] Setting handshake timeout to: 30s
+[1786624851] [TLS] Configuration validation passed
+[1786624851] [TLS] Building TLS connector with current configuration
+[1786624851] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Tls1_0, use_sni=false, timeout=30s
+[1786624851] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624851] [TLS] Mapping max_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624851] [TLS] Setting minimum protocol to Tlsv10
+[1786624851] [TLS] Setting maximum protocol to Tlsv10
+[1786624851] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786624851] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786624851] [TLS] SNI disabled (native_tls uses SNI by default, this may not have effect)
+[1786624851] [TLS] TLS connector built successfully
+[1786624851] [TLS] Connector ready for secure connections
+[1786624852] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786624852] [TLS] Setting handshake timeout to: 30s
+[1786624852] [TLS] Configuration validation passed
+[1786624852] [TLS] Building TLS connector with current configuration
+[1786624852] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Tls1_0, use_sni=false, timeout=30s
+[1786624852] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624852] [TLS] Mapping max_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624852] [TLS] Setting minimum protocol to Tlsv10
+[1786624852] [TLS] Setting maximum protocol to Tlsv10
+[1786624852] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786624852] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786624852] [TLS] SNI disabled (native_tls uses SNI by default, this may not have effect)
+[1786624852] [TLS] TLS connector built successfully
+[1786624852] [TLS] Connector ready for secure connections
+[1786624854] [TLS] Creating legacy-compatible TlsConfig for old systems
+[1786624854] [TLS] Setting handshake timeout to: 30s
+[1786624854] [TLS] Configuration validation passed
+[1786624854] [TLS] Building TLS connector with current configuration
+[1786624854] [TLS] Configuration: verify_certs=false, min_protocol=Tls1_0, max_protocol=Tls1_0, use_sni=false, timeout=30s
+[1786624854] [TLS] Mapping min_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624854] [TLS] Mapping max_protocol Tls1_0 to native_tls Some(Tlsv10)
+[1786624854] [TLS] Setting minimum protocol to Tlsv10
+[1786624854] [TLS] Setting maximum protocol to Tlsv10
+[1786624854] [TLS] WARNING: Certificate verification disabled or invalid certs accepted
+[1786624854] [TLS] WARNING: Invalid hostname acceptance enabled
+[1786624854] [TLS] SNI disabled (native_tls uses SNI by default, this may not have effect)
+[1786624854] [TLS] TLS connector built successfully
+[1786624854] [TLS] Connector ready for secure connections
+[1786625264] [OS_DETECT] Detected Windows version: 6.2
+[1786625264] [TLS] Auto-selecting config based on OS version: Windows8
+[1786625264] [TLS] OS supports modern TLS configuration
+[1786625264] [TLS] Creating new TlsConfig with secure defaults
+[1786625264] [TLS] Setting handshake timeout to: 30s
+[1786625264] [TLS] Configuration validation passed
+[1786625264] [TLS] Building TLS connector with current configuration
+[1786625264] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786625264] [TLS] Mapping min_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1786625264] [TLS] Mapping max_protocol Auto to native_tls None
+[1786625264] [TLS] Setting minimum protocol to Tlsv12
+[1786625264] [TLS] TLS connector built successfully
+[1786625264] [TLS] Connector ready for secure connections
+[1786625265] [OS_DETECT] Detected Windows version: 6.2
+[1786625265] [TLS] Auto-selecting config based on OS version: Windows8
+[1786625265] [TLS] OS supports modern TLS configuration
+[1786625265] [TLS] Creating new TlsConfig with secure defaults
+[1786625265] [TLS] Setting handshake timeout to: 30s
+[1786625265] [TLS] Configuration validation passed
+[1786625265] [TLS] Building TLS connector with current configuration
+[1786625265] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786625265] [TLS] Mapping min_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1786625265] [TLS] Mapping max_protocol Auto to native_tls None
+[1786625265] [TLS] Setting minimum protocol to Tlsv12
+[1786625265] [TLS] TLS connector built successfully
+[1786625265] [TLS] Connector ready for secure connections
+[1786625267] [OS_DETECT] Detected Windows version: 6.2
+[1786625267] [TLS] Auto-selecting config based on OS version: Windows8
+[1786625267] [TLS] OS supports modern TLS configuration
+[1786625267] [TLS] Creating new TlsConfig with secure defaults
+[1786625267] [TLS] Setting handshake timeout to: 30s
+[1786625267] [TLS] Configuration validation passed
+[1786625267] [TLS] Building TLS connector with current configuration
+[1786625267] [TLS] Configuration: verify_certs=true, min_protocol=Tls1_2, max_protocol=Auto, use_sni=true, timeout=30s
+[1786625267] [TLS] Mapping min_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1786625267] [TLS] Mapping max_protocol Auto to native_tls None
+[1786625267] [TLS] Setting minimum protocol to Tlsv12
+[1786625267] [TLS] TLS connector built successfully
+[1786625267] [TLS] Connector ready for secure connections
+[1786626129] [OS_DETECT] Detected Windows version: 6.2
+[1786626129] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626129] [TLS] OS supports modern TLS configuration
+[1786626129] [TLS] Creating new TlsConfig with secure defaults
+[1786626129] [TLS] Setting handshake timeout to: 30s
+[1786626129] [TLS] Configuration validation passed
+[1786626129] [TLS] Building TLS connector with current configuration
+[1786626129] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626129] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626129] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626129] [TLS] TLS connector built successfully
+[1786626129] [TLS] Connector ready for secure connections
+[1786626131] [OS_DETECT] Detected Windows version: 6.2
+[1786626131] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626131] [TLS] OS supports modern TLS configuration
+[1786626131] [TLS] Creating new TlsConfig with secure defaults
+[1786626131] [TLS] Setting handshake timeout to: 30s
+[1786626131] [TLS] Configuration validation passed
+[1786626131] [TLS] Building TLS connector with current configuration
+[1786626131] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626131] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626131] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626131] [TLS] TLS connector built successfully
+[1786626131] [TLS] Connector ready for secure connections
+[1786626132] [OS_DETECT] Detected Windows version: 6.2
+[1786626132] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626132] [TLS] OS supports modern TLS configuration
+[1786626132] [TLS] Creating new TlsConfig with secure defaults
+[1786626132] [TLS] Setting handshake timeout to: 30s
+[1786626132] [TLS] Configuration validation passed
+[1786626132] [TLS] Building TLS connector with current configuration
+[1786626132] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626132] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626132] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626132] [TLS] TLS connector built successfully
+[1786626132] [TLS] Connector ready for secure connections
+[1786626921] [OS_DETECT] Detected Windows version: 6.2
+[1786626921] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626921] [TLS] OS supports modern TLS configuration
+[1786626921] [TLS] Creating new TlsConfig with secure defaults
+[1786626921] [TLS] Setting handshake timeout to: 30s
+[1786626921] [TLS] Configuration validation passed
+[1786626921] [TLS] Building TLS connector with current configuration
+[1786626921] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626921] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626921] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626921] [TLS] TLS connector built successfully
+[1786626921] [TLS] Connector ready for secure connections
+[1786626922] [OS_DETECT] Detected Windows version: 6.2
+[1786626922] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626922] [TLS] OS supports modern TLS configuration
+[1786626922] [TLS] Creating new TlsConfig with secure defaults
+[1786626922] [TLS] Setting handshake timeout to: 30s
+[1786626922] [TLS] Configuration validation passed
+[1786626922] [TLS] Building TLS connector with current configuration
+[1786626922] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626922] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626922] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626922] [TLS] TLS connector built successfully
+[1786626922] [TLS] Connector ready for secure connections
+[1786626924] [OS_DETECT] Detected Windows version: 6.2
+[1786626924] [TLS] Auto-selecting config based on OS version: Windows8
+[1786626924] [TLS] OS supports modern TLS configuration
+[1786626924] [TLS] Creating new TlsConfig with secure defaults
+[1786626924] [TLS] Setting handshake timeout to: 30s
+[1786626924] [TLS] Configuration validation passed
+[1786626924] [TLS] Building TLS connector with current configuration
+[1786626924] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786626924] [TLS] Mapping min_protocol Auto to native_tls None
+[1786626924] [TLS] Mapping max_protocol Auto to native_tls None
+[1786626924] [TLS] TLS connector built successfully
+[1786626924] [TLS] Connector ready for secure connections

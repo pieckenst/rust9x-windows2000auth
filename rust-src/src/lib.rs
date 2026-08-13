@@ -703,9 +703,9 @@ pub extern "C" fn auth_http_request(
         
         #[cfg(feature = "tls")]
         {
-            // Use legacy TLS configuration for Windows 2000/9x compatibility
-            // Windows 2000 only supports TLS 1.0, not TLS 1.2+
-            let tls_config = crate::tls::TlsConfig::legacy()
+            // Auto-detect OS version and select appropriate TLS configuration
+            // Will use legacy config for Windows 2000/XP/2003, modern config for newer systems
+            let tls_config = crate::tls::TlsConfig::auto()
                 .with_handshake_timeout(Duration::from_secs(30));
             http_client = http_client.with_tls(tls_config);
         }

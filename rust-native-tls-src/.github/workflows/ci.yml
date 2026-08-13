@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+env:
+  RUSTFLAGS: -Dwarnings
+  RUST_BACKTRACE: 1
+  CARGO_PROFILE_DEV_DEBUG: 0
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    name: test-${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.80.0
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+          key: cratesio-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+      - run: cargo update -p getrandom --precise 0.3.1 # MSRV
+      - uses: actions/cache@v4
+        with:
+          path: target
+          key: target-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+      - run: cargo test --no-default-features --features vendored
+      - run: cargo test --all-features
+  check:
+    name: check-only
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+          targets: aarch64-apple-ios,x86_64-pc-windows-gnu
+          components: clippy
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+          key: cratesio-check-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+      - run: cargo fetch --target aarch64-apple-ios --target x86_64-pc-windows-gnu
+      - uses: actions/cache@v4
+        with:
+          path: target
+          key: check-${{ runner.os }}-${{ hashFiles('Cargo.lock') }}
+      - run: cargo check -v --all --no-default-features --target aarch64-apple-ios --target x86_64-pc-windows-gnu
+      - run: cargo check -v --all --all-features --target aarch64-apple-ios --target x86_64-pc-windows-gnu
+      - run: cargo clippy --target aarch64-apple-ios --target x86_64-pc-windows-gnu
+
+  package:
+    name: package-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            target
+          key: package-target-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+      - run: cargo package -v --all-features
+      - uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.cargo/registry/index
+            ~/.cargo/registry/cache
+            target
+          key: package-target-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+      - run: cargo package -v --no-default-features
+
+  android-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: dtolnay/rust-toolchain@master
+      with:
+        toolchain: stable
+        targets: x86_64-linux-android
+        components: clippy
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/registry/index
+          ~/.cargo/registry/cache
+        key: cratesio-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+    - uses: actions/cache@v4
+      with:
+        path: |
+          ~/.cargo/bin
+          ~/.cargo/.crates*
+          target
+        key: android-bin-${{ runner.os }}-${{ hashFiles('Cargo.toml') }}
+    - name: Install cargo ndk
+      run: cargo install --locked cargo-ndk
+    - name: clippy
+      run: cargo ndk -t x86_64 clippy --features vendored -- -D warnings
+    - name: Build
+      run: |
+        cargo ndk -t x86_64 rustc --verbose --features vendored --lib --crate-type=cdylib

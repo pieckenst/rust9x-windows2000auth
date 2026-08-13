@@ -120,3 +120,87 @@
 [1786622747] [HTTP] Connected to example.com:443
 [1786622747] [HTTP] Starting TLS handshake with example.com
 [1786622747] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786624851] [HTTP] TLS connector built successfully
+[1786624851] [HTTP] Starting GET request to example.com:443
+[1786624851] [HTTP] Target name for NTLM: HTTP/example.com
+[1786624851] [HTTP] NTLM negotiate token: 40 bytes
+[1786624851] [HTTP] Connected to example.com:443
+[1786624851] [HTTP] Starting TLS handshake with example.com
+[1786624851] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786624852] [HTTP] TLS connector built successfully
+[1786624852] [HTTP] Starting GET request to example.com:443
+[1786624852] [HTTP] Target name for NTLM: HTTP/example.com
+[1786624852] [HTTP] NTLM negotiate token: 40 bytes
+[1786624853] [HTTP] Connected to example.com:443
+[1786624853] [HTTP] Starting TLS handshake with example.com
+[1786624853] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786624854] [HTTP] TLS connector built successfully
+[1786624854] [HTTP] Starting GET request to example.com:443
+[1786624854] [HTTP] Target name for NTLM: HTTP/example.com
+[1786624854] [HTTP] NTLM negotiate token: 40 bytes
+[1786624854] [HTTP] Connected to example.com:443
+[1786624854] [HTTP] Starting TLS handshake with example.com
+[1786624854] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786625264] [HTTP] TLS connector built successfully
+[1786625264] [HTTP] Starting GET request to example.com:443
+[1786625264] [HTTP] Target name for NTLM: HTTP/example.com
+[1786625264] [HTTP] NTLM negotiate token: 40 bytes
+[1786625264] [HTTP] Connected to example.com:443
+[1786625264] [HTTP] Starting TLS handshake with example.com
+[1786625264] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786625265] [HTTP] TLS connector built successfully
+[1786625265] [HTTP] Starting GET request to example.com:443
+[1786625265] [HTTP] Target name for NTLM: HTTP/example.com
+[1786625265] [HTTP] NTLM negotiate token: 40 bytes
+[1786625265] [HTTP] Connected to example.com:443
+[1786625265] [HTTP] Starting TLS handshake with example.com
+[1786625265] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786625267] [HTTP] TLS connector built successfully
+[1786625267] [HTTP] Starting GET request to example.com:443
+[1786625267] [HTTP] Target name for NTLM: HTTP/example.com
+[1786625267] [HTTP] NTLM negotiate token: 40 bytes
+[1786625267] [HTTP] Connected to example.com:443
+[1786625267] [HTTP] Starting TLS handshake with example.com
+[1786625267] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626129] [HTTP] TLS connector built successfully
+[1786626129] [HTTP] Starting GET request to example.com:443
+[1786626129] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626129] [HTTP] NTLM negotiate token: 40 bytes
+[1786626130] [HTTP] Connected to example.com:443
+[1786626130] [HTTP] Starting TLS handshake with example.com
+[1786626130] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626131] [HTTP] TLS connector built successfully
+[1786626131] [HTTP] Starting GET request to example.com:443
+[1786626131] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626131] [HTTP] NTLM negotiate token: 40 bytes
+[1786626131] [HTTP] Connected to example.com:443
+[1786626131] [HTTP] Starting TLS handshake with example.com
+[1786626131] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626132] [HTTP] TLS connector built successfully
+[1786626132] [HTTP] Starting GET request to example.com:443
+[1786626132] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626132] [HTTP] NTLM negotiate token: 40 bytes
+[1786626132] [HTTP] Connected to example.com:443
+[1786626132] [HTTP] Starting TLS handshake with example.com
+[1786626132] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626921] [HTTP] TLS connector built successfully
+[1786626921] [HTTP] Starting GET request to example.com:443
+[1786626921] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626921] [HTTP] NTLM negotiate token: 40 bytes
+[1786626921] [HTTP] Connected to example.com:443
+[1786626921] [HTTP] Starting TLS handshake with example.com
+[1786626921] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626922] [HTTP] TLS connector built successfully
+[1786626922] [HTTP] Starting GET request to example.com:443
+[1786626922] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626922] [HTTP] NTLM negotiate token: 40 bytes
+[1786626923] [HTTP] Connected to example.com:443
+[1786626923] [HTTP] Starting TLS handshake with example.com
+[1786626923] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786626924] [HTTP] TLS connector built successfully
+[1786626924] [HTTP] Starting GET request to example.com:443
+[1786626924] [HTTP] Target name for NTLM: HTTP/example.com
+[1786626924] [HTTP] NTLM negotiate token: 40 bytes
+[1786626924] [HTTP] Connected to example.com:443
+[1786626924] [HTTP] Starting TLS handshake with example.com
+[1786626924] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
