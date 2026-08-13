@@ -110,8 +110,16 @@ impl SecurityContext {
                 &secbuf_desc(&mut inbufs[..]) as *const _
             };
 
-            let mut outbuf = [secbuf(Identity::SECBUFFER_EMPTY, None)];
-            eprintln!("Creating output buffer: SECBUFFER_EMPTY");
+            // When ISC_REQ_ALLOCATE_MEMORY is specified, Microsoft requires:
+            // - SECBUFFER_TOKEN for Schannel to allocate the output token
+            // - SECBUFFER_ALERT for alert data
+            // - SECBUFFER_EMPTY as a spare buffer
+            let mut outbuf = [
+                secbuf(Identity::SECBUFFER_TOKEN, None),
+                secbuf(Identity::SECBUFFER_ALERT, None),
+                secbuf(Identity::SECBUFFER_EMPTY, None),
+            ];
+            eprintln!("Creating output buffers: TOKEN, ALERT, EMPTY");
             let mut outbuf_desc = secbuf_desc(&mut outbuf);
 
             let mut attributes = 0;
@@ -163,9 +171,15 @@ impl SecurityContext {
                     eprintln!("    ASC_RET_INTEGRITY: {}", (attributes & Identity::ASC_RET_INTEGRITY) != 0);
 
                     eprintln!("Output buffer state:");
-                    eprintln!("  Buffer type: 0x{:X}", outbuf[0].BufferType);
-                    eprintln!("  Buffer length: {}", outbuf[0].cbBuffer);
-                    eprintln!("  Buffer pointer: {:p}", outbuf[0].pvBuffer);
+                    eprintln!("  Buffer[0] (TOKEN) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[0].BufferType, outbuf[0].cbBuffer, outbuf[0].pvBuffer);
+                    eprintln!("  Buffer[1] (ALERT) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[1].BufferType, outbuf[1].cbBuffer, outbuf[1].pvBuffer);
+                    eprintln!("  Buffer[2] (EMPTY) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[2].BufferType, outbuf[2].cbBuffer, outbuf[2].pvBuffer);
+
+                    // Free the alert buffer if Schannel allocated it
+                    if !outbuf[1].pvBuffer.is_null() {
+                        eprintln!("Freeing alert buffer at {:p}", outbuf[1].pvBuffer);
+                        Identity::FreeContextBuffer(outbuf[1].pvBuffer);
+                    }
 
                     Ok((SecurityContext(ctxt), Some(ContextBuffer(outbuf[0]))))
                 }
@@ -173,11 +187,47 @@ impl SecurityContext {
                     eprintln!("InitializeSecurityContextW returned SEC_E_OK (0x{:08X})", Foundation::SEC_E_OK);
                     eprintln!("  Handshake completed immediately");
                     eprintln!("  Attributes: 0x{:08X}", attributes);
+                    
+                    eprintln!("Output buffer state:");
+                    eprintln!("  Buffer[0] (TOKEN) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[0].BufferType, outbuf[0].cbBuffer, outbuf[0].pvBuffer);
+                    eprintln!("  Buffer[1] (ALERT) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[1].BufferType, outbuf[1].cbBuffer, outbuf[1].pvBuffer);
+                    eprintln!("  Buffer[2] (EMPTY) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[2].BufferType, outbuf[2].cbBuffer, outbuf[2].pvBuffer);
+
+                    // Free the alert buffer if Schannel allocated it
+                    if !outbuf[1].pvBuffer.is_null() {
+                        eprintln!("Freeing alert buffer at {:p}", outbuf[1].pvBuffer);
+                        Identity::FreeContextBuffer(outbuf[1].pvBuffer);
+                    }
+                    
+                    // Free the token buffer if Schannel allocated it (immediate completion case)
+                    if !outbuf[0].pvBuffer.is_null() {
+                        eprintln!("Freeing token buffer at {:p}", outbuf[0].pvBuffer);
+                        Identity::FreeContextBuffer(outbuf[0].pvBuffer);
+                    }
+
                     Ok((SecurityContext(ctxt), None))
                 }
                 err => {
                     eprintln!("InitializeSecurityContextW failed with error: 0x{:08X}", err);
                     eprintln!("Error description: {}", io::Error::from_raw_os_error(err));
+                    
+                    eprintln!("Output buffer state on error:");
+                    eprintln!("  Buffer[0] (TOKEN) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[0].BufferType, outbuf[0].cbBuffer, outbuf[0].pvBuffer);
+                    eprintln!("  Buffer[1] (ALERT) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[1].BufferType, outbuf[1].cbBuffer, outbuf[1].pvBuffer);
+                    eprintln!("  Buffer[2] (EMPTY) type: 0x{:X}, length: {}, ptr: {:p}", outbuf[2].BufferType, outbuf[2].cbBuffer, outbuf[2].pvBuffer);
+
+                    // Free the alert buffer if Schannel allocated it even on error
+                    if !outbuf[1].pvBuffer.is_null() {
+                        eprintln!("Freeing alert buffer at {:p}", outbuf[1].pvBuffer);
+                        Identity::FreeContextBuffer(outbuf[1].pvBuffer);
+                    }
+                    
+                    // Free the token buffer if Schannel allocated it even on error
+                    if !outbuf[0].pvBuffer.is_null() {
+                        eprintln!("Freeing token buffer at {:p}", outbuf[0].pvBuffer);
+                        Identity::FreeContextBuffer(outbuf[0].pvBuffer);
+                    }
+
                     Err(io::Error::from_raw_os_error(err))
                 },
             }

@@ -83,8 +83,7 @@ const INIT_REQUESTS: u32 = Identity::ISC_REQ_CONFIDENTIALITY
     | Identity::ISC_REQ_SEQUENCE_DETECT
     | Identity::ISC_REQ_MANUAL_CRED_VALIDATION
     | Identity::ISC_REQ_ALLOCATE_MEMORY
-    | Identity::ISC_REQ_STREAM
-    | Identity::ISC_REQ_USE_SUPPLIED_CREDS;
+    | Identity::ISC_REQ_STREAM;
 
 /// Log the INIT_REQUESTS flags for debugging
 pub fn log_init_requests() {
@@ -96,7 +95,6 @@ pub fn log_init_requests() {
     eprintln!("  ISC_REQ_MANUAL_CRED_VALIDATION: {}", (INIT_REQUESTS & Identity::ISC_REQ_MANUAL_CRED_VALIDATION) != 0);
     eprintln!("  ISC_REQ_ALLOCATE_MEMORY: {}", (INIT_REQUESTS & Identity::ISC_REQ_ALLOCATE_MEMORY) != 0);
     eprintln!("  ISC_REQ_STREAM: {}", (INIT_REQUESTS & Identity::ISC_REQ_STREAM) != 0);
-    eprintln!("  ISC_REQ_USE_SUPPLIED_CREDS: {}", (INIT_REQUESTS & Identity::ISC_REQ_USE_SUPPLIED_CREDS) != 0);
 }
 
 /// Log the ACCEPT_REQUESTS flags for debugging
