@@ -98,7 +98,17 @@ impl SecurityContext {
             };
 
             eprintln!("Input buffer count: {}", inbufs.len());
-            let inbuf_desc = secbuf_desc(&mut inbufs[..]);
+            
+            // Microsoft requires pInput == NULL on the first client call to
+            // InitializeSecurityContext when there are no input buffers.
+            // Passing a non-NULL descriptor with zero buffers violates the API contract.
+            let inbuf_desc_ptr = if inbufs.is_empty() {
+                eprintln!("No input buffers - passing NULL for pInput (first call requirement)");
+                ptr::null()
+            } else {
+                eprintln!("Creating SecBufferDesc with {} buffers", inbufs.len());
+                &secbuf_desc(&mut inbufs[..]) as *const _
+            };
 
             let mut outbuf = [secbuf(Identity::SECBUFFER_EMPTY, None)];
             eprintln!("Creating output buffer: SECBUFFER_EMPTY");
@@ -113,6 +123,7 @@ impl SecurityContext {
             eprintln!("  Reserved1: 0");
             eprintln!("  TargetDataRep: 0");
             eprintln!("  Input buffers: {} buffers", inbufs.len());
+            eprintln!("  pInput pointer: {:p}", inbuf_desc_ptr);
             eprintln!("  Reserved2: 0");
             eprintln!("  Output context: {:p}", &mut ctxt);
             eprintln!("  Output buffers: 1 buffer");
@@ -127,7 +138,7 @@ impl SecurityContext {
                 INIT_REQUESTS,
                 0,
                 0,
-                &inbuf_desc,
+                inbuf_desc_ptr,
                 0,
                 &mut ctxt,
                 &mut outbuf_desc,

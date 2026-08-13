@@ -225,3 +225,24 @@
 [1786632898] [HTTP] Connected to example.com:443
 [1786632898] [HTTP] Starting TLS handshake with example.com
 [1786632898] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786633545] [HTTP] TLS connector built successfully
+[1786633545] [HTTP] Starting GET request to example.com:443
+[1786633545] [HTTP] Target name for NTLM: HTTP/example.com
+[1786633545] [HTTP] NTLM negotiate token: 40 bytes
+[1786633545] [HTTP] Connected to example.com:443
+[1786633545] [HTTP] Starting TLS handshake with example.com
+[1786633545] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786633546] [HTTP] TLS connector built successfully
+[1786633546] [HTTP] Starting GET request to example.com:443
+[1786633546] [HTTP] Target name for NTLM: HTTP/example.com
+[1786633546] [HTTP] NTLM negotiate token: 40 bytes
+[1786633547] [HTTP] Connected to example.com:443
+[1786633547] [HTTP] Starting TLS handshake with example.com
+[1786633547] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
+[1786633548] [HTTP] TLS connector built successfully
+[1786633548] [HTTP] Starting GET request to example.com:443
+[1786633548] [HTTP] Target name for NTLM: HTTP/example.com
+[1786633548] [HTTP] NTLM negotiate token: 40 bytes
+[1786633548] [HTTP] Connected to example.com:443
+[1786633548] [HTTP] Starting TLS handshake with example.com
+[1786633548] [HTTP] TLS handshake failed with example.com: Указанная функция не поддерживается (os error -2146893054). This may indicate the system doesn't support the required TLS version. For Windows 2000, consider using HTTP instead of HTTPS.
