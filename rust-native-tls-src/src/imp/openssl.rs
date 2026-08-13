@@ -105,7 +105,7 @@ fn load_android_root_certs(connector: &mut SslContextBuilder) -> Result<(), Erro
             .filter_map(|b| X509::from_pem(&b).ok());
         for cert in certs {
             if let Err(err) = connector.cert_store_mut().add_cert(cert) {
-                debug!("load_android_root_certs error: {:?}", err);
+                eprintln!("load_android_root_certs error: {:?}", err);
             }
         }
     }
@@ -165,18 +165,18 @@ pub struct Identity {
 
 impl Identity {
     pub fn from_pkcs12(buf: &[u8], pass: &str) -> Result<Identity, Error> {
-        info!("Identity::from_pkcs12 called with {} bytes of PKCS#12 data", buf.len());
+        eprintln!("Identity::from_pkcs12 called with {} bytes of PKCS#12 data", buf.len());
         let pkcs12 = Pkcs12::from_der(buf)?;
-        debug!("PKCS#12 DER parsed successfully");
+        eprintln!("PKCS#12 DER parsed successfully");
         let parsed = pkcs12.parse2(pass)?;
-        debug!("PKCS#12 parsed with password");
+        eprintln!("PKCS#12 parsed with password");
         Ok(Identity {
             pkey: parsed.pkey.ok_or_else(|| {
-                error!("No private key found in PKCS#12");
+                eprintln!("No private key found in PKCS#12");
                 Error::EmptyChain
             })?,
             cert: parsed.cert.ok_or_else(|| {
-                error!("No certificate found in PKCS#12");
+                eprintln!("No certificate found in PKCS#12");
                 Error::EmptyChain
             })?,
             // > The stack is the reverse of what you might expect due to the way
@@ -187,21 +187,21 @@ impl Identity {
     }
 
     pub fn from_pkcs8(buf: &[u8], key: &[u8]) -> Result<Identity, Error> {
-        info!("Identity::from_pkcs8 called with {} bytes of PEM data and {} bytes of key data", buf.len(), key.len());
+        eprintln!("Identity::from_pkcs8 called with {} bytes of PEM data and {} bytes of key data", buf.len(), key.len());
         if !key.starts_with(b"-----BEGIN PRIVATE KEY-----") {
-            error!("Key is not in PKCS#8 format");
+            eprintln!("Key is not in PKCS#8 format");
             return Err(Error::NotPkcs8);
         }
 
         let pkey = PKey::private_key_from_pem(key)?;
-        debug!("Private key parsed from PEM");
+        eprintln!("Private key parsed from PEM");
         let mut cert_chain = X509::stack_from_pem(buf)?.into_iter();
         let cert = cert_chain.next().ok_or_else(|| {
-            error!("No certificate found in PEM data");
+            eprintln!("No certificate found in PEM data");
             Error::EmptyChain
         })?;
         let chain = cert_chain.collect();
-        debug!("Certificate chain loaded with {} intermediate certificates", chain.len());
+        eprintln!("Certificate chain loaded with {} intermediate certificates", chain.len());
         Ok(Identity { pkey, cert, chain })
     }
 }
@@ -211,30 +211,30 @@ pub struct Certificate(X509);
 
 impl Certificate {
     pub fn from_der(buf: &[u8]) -> Result<Certificate, Error> {
-        debug!("Certificate::from_der called with {} bytes of DER data", buf.len());
+        eprintln!("Certificate::from_der called with {} bytes of DER data", buf.len());
         let cert = X509::from_der(buf)?;
-        info!("Certificate created successfully from DER");
+        eprintln!("Certificate created successfully from DER");
         Ok(Certificate(cert))
     }
 
     pub fn from_pem(buf: &[u8]) -> Result<Certificate, Error> {
-        debug!("Certificate::from_pem called with {} bytes of PEM data", buf.len());
+        eprintln!("Certificate::from_pem called with {} bytes of PEM data", buf.len());
         let cert = X509::from_pem(buf)?;
-        info!("Certificate created successfully from PEM");
+        eprintln!("Certificate created successfully from PEM");
         Ok(Certificate(cert))
     }
 
     pub fn stack_from_pem(buf: &[u8]) -> Result<Vec<Certificate>, Error> {
-        debug!("Certificate::stack_from_pem called with {} bytes of PEM data", buf.len());
+        eprintln!("Certificate::stack_from_pem called with {} bytes of PEM data", buf.len());
         let certs = X509::stack_from_pem(buf)?;
-        info!("Successfully created {} certificates from PEM stack", certs.len());
+        eprintln!("Successfully created {} certificates from PEM stack", certs.len());
         Ok(certs.into_iter().map(Certificate).collect())
     }
 
     pub fn to_der(&self) -> Result<Vec<u8>, Error> {
-        debug!("Certificate::to_der called");
+        eprintln!("Certificate::to_der called");
         let der = self.0.to_der()?;
-        info!("Certificate converted to DER, length: {}", der.len());
+        eprintln!("Certificate converted to DER, length: {}", der.len());
         Ok(der)
     }
 }
@@ -308,29 +308,29 @@ pub struct TlsConnector {
 
 impl TlsConnector {
     pub fn new(builder: &TlsConnectorBuilder) -> Result<TlsConnector, Error> {
-        info!("TlsConnector::new called");
+        eprintln!("TlsConnector::new called");
         let mut connector = SslConnector::builder(SslMethod::tls())?;
-        debug!("Created SSL connector builder");
+        eprintln!("Created SSL connector builder");
 
         // We need to load these separately so an error on one doesn't prevent the other from loading.
         if let Some(cert_file) = &PROBE_RESULT.cert_file {
-            debug!("Loading cert file: {:?}", cert_file);
+            eprintln!("Loading cert file: {:?}", cert_file);
             if let Err(e) = connector.load_verify_locations(Some(cert_file), None) {
-                debug!("load_verify_locations cert file error: {:?}", e);
+                eprintln!("load_verify_locations cert file error: {:?}", e);
             }
         }
         for cert_dir in &PROBE_RESULT.cert_dir {
-            debug!("Loading cert dir: {:?}", cert_dir);
+            eprintln!("Loading cert dir: {:?}", cert_dir);
             if let Err(e) = connector.load_verify_locations(None, Some(cert_dir)) {
-                debug!("load_verify_locations cert dir error: {:?}", e);
+                eprintln!("load_verify_locations cert dir error: {:?}", e);
             }
         }
 
         if let Some(ref identity) = builder.identity {
-            debug!("Setting identity certificate and private key");
+            eprintln!("Setting identity certificate and private key");
             connector.set_certificate(&identity.0.cert)?;
             connector.set_private_key(&identity.0.pkey)?;
-            debug!("Adding {} chain certificates", identity.0.chain.len());
+            eprintln!("Adding {} chain certificates", identity.0.chain.len());
             for cert in identity.0.chain.iter() {
                 // https://www.openssl.org/docs/manmaster/man3/SSL_CTX_add_extra_chain_cert.html
                 // specifies that "When sending a certificate chain, extra chain certificates are
@@ -338,34 +338,34 @@ impl TlsConnector {
                 connector.add_extra_chain_cert(cert.to_owned())?;
             }
         }
-        debug!("Setting supported protocols: min={:?}, max={:?}", builder.min_protocol, builder.max_protocol);
+        eprintln!("Setting supported protocols: min={:?}, max={:?}", builder.min_protocol, builder.max_protocol);
         supported_protocols(builder.min_protocol, builder.max_protocol, &mut connector)?;
 
         if builder.disable_built_in_roots {
-            debug!("Disabling built-in root certificates");
+            eprintln!("Disabling built-in root certificates");
             connector.set_cert_store(X509StoreBuilder::new()?.build());
         }
 
-        debug!("Adding {} root certificates", builder.root_certificates.len());
+        eprintln!("Adding {} root certificates", builder.root_certificates.len());
         for cert in &builder.root_certificates {
             if let Err(err) = connector.cert_store_mut().add_cert((cert.0).0.clone()) {
-                debug!("add_cert error: {:?}", err);
+                eprintln!("add_cert error: {:?}", err);
             }
         }
 
         #[cfg(feature = "alpn")]
         if !builder.alpn.is_empty() {
-            debug!("Setting ALPN protocols: {:?}", builder.alpn);
+            eprintln!("Setting ALPN protocols: {:?}", builder.alpn);
             connector.set_alpn_protos(&alpn_wire_format(&builder.alpn)?)?;
         }
 
         #[cfg(target_os = "android")]
         load_android_root_certs(&mut connector)?;
 
-        info!("TlsConnector created with configuration:");
-        debug!("  use_sni: {}", builder.use_sni);
-        debug!("  accept_invalid_hostnames: {}", builder.accept_invalid_hostnames);
-        debug!("  accept_invalid_certs: {}", builder.accept_invalid_certs);
+        eprintln!("TlsConnector created with configuration:");
+        eprintln!("  use_sni: {}", builder.use_sni);
+        eprintln!("  accept_invalid_hostnames: {}", builder.accept_invalid_hostnames);
+        eprintln!("  accept_invalid_certs: {}", builder.accept_invalid_certs);
 
         Ok(TlsConnector {
             connector: connector.build(),
@@ -379,21 +379,21 @@ impl TlsConnector {
     where
         S: io::Read + io::Write,
     {
-        info!("TlsConnector::connect called with domain: {}", domain);
+        eprintln!("TlsConnector::connect called with domain: {}", domain);
         let mut ssl = self
             .connector
             .configure()?
             .use_server_name_indication(self.use_sni)
             .verify_hostname(!self.accept_invalid_hostnames);
-        debug!("  SNI: {}, hostname verification: {}", self.use_sni, !self.accept_invalid_hostnames);
+        eprintln!("  SNI: {}, hostname verification: {}", self.use_sni, !self.accept_invalid_hostnames);
         if self.accept_invalid_certs {
-            debug!("  Disabling certificate verification");
+            eprintln!("  Disabling certificate verification");
             ssl.set_verify(SslVerifyMode::NONE);
         }
 
-        debug!("  Initiating TLS handshake");
+        eprintln!("  Initiating TLS handshake");
         let s = ssl.connect(domain, stream)?;
-        info!("  TLS connection established successfully");
+        eprintln!("  TLS connection established successfully");
         Ok(TlsStream(s))
     }
 }
@@ -432,20 +432,20 @@ pub struct TlsAcceptor(SslAcceptor);
 
 impl TlsAcceptor {
     pub fn new(builder: &TlsAcceptorBuilder) -> Result<TlsAcceptor, Error> {
-        info!("TlsAcceptor::new called");
+        eprintln!("TlsAcceptor::new called");
         let mut acceptor = SslAcceptor::mozilla_intermediate(SslMethod::tls())?;
-        debug!("Created SSL acceptor builder with Mozilla intermediate configuration");
-        debug!("Setting private key and certificate");
+        eprintln!("Created SSL acceptor builder with Mozilla intermediate configuration");
+        eprintln!("Setting private key and certificate");
         acceptor.set_private_key(&builder.identity.0.pkey)?;
         acceptor.set_certificate(&builder.identity.0.cert)?;
         #[cfg(feature = "alpn-accept")]
         if !builder.accept_alpn.is_empty() {
-            debug!("Setting ALPN accept protocols: {:?}", builder.accept_alpn);
+            eprintln!("Setting ALPN accept protocols: {:?}", builder.accept_alpn);
             let alpn_wire_format = alpn_wire_format(&builder.accept_alpn)?;
             acceptor.set_alpn_protos(&alpn_wire_format)?;
             // set up ALPN selection routine - as select_next_proto
             acceptor.set_alpn_select_callback(move |_: &mut openssl::ssl::SslRef, client_list: &[u8]| {
-                debug!("ALPN select callback called with client list length: {}", client_list.len());
+                eprintln!("ALPN select callback called with client list length: {}", client_list.len());
                 openssl::ssl::select_next_proto(&alpn_wire_format, client_list).and_then(|selected| {
                     if selected.is_empty() || selected.len() > client_list.len() {
                         return None;
@@ -457,17 +457,17 @@ impl TlsAcceptor {
                 .ok_or(openssl::ssl::AlpnError::NOACK)
             });
         }
-        debug!("Adding {} chain certificates", builder.identity.0.chain.len());
+        eprintln!("Adding {} chain certificates", builder.identity.0.chain.len());
         for cert in builder.identity.0.chain.iter() {
             // https://www.openssl.org/docs/manmaster/man3/SSL_CTX_add_extra_chain_cert.html
             // specifies that "When sending a certificate chain, extra chain certificates are
             // sent in order following the end entity certificate."
             acceptor.add_extra_chain_cert(cert.to_owned())?;
         }
-        debug!("Setting supported protocols: min={:?}, max={:?}", builder.min_protocol, builder.max_protocol);
+        eprintln!("Setting supported protocols: min={:?}, max={:?}", builder.min_protocol, builder.max_protocol);
         supported_protocols(builder.min_protocol, builder.max_protocol, &mut acceptor)?;
 
-        info!("TlsAcceptor created successfully");
+        eprintln!("TlsAcceptor created successfully");
         Ok(TlsAcceptor(acceptor.build()))
     }
 
@@ -475,10 +475,10 @@ impl TlsAcceptor {
     where
         S: io::Read + io::Write,
     {
-        info!("TlsAcceptor::accept called");
-        debug!("  Accepting TLS connection");
+        eprintln!("TlsAcceptor::accept called");
+        eprintln!("  Accepting TLS connection");
         let s = self.0.accept(stream)?;
-        info!("  TLS connection accepted successfully");
+        eprintln!("  TLS connection accepted successfully");
         Ok(TlsStream(s))
     }
 }
@@ -503,92 +503,92 @@ impl<S> TlsStream<S> {
 
 impl<S: io::Read + io::Write> TlsStream<S> {
     pub fn buffered_read_size(&self) -> Result<usize, Error> {
-        trace!("TlsStream::buffered_read_size called");
+        eprintln!("TlsStream::buffered_read_size called");
         Ok(self.0.ssl().pending())
     }
 
     pub fn peer_certificate(&self) -> Result<Option<Certificate>, Error> {
-        debug!("TlsStream::peer_certificate called");
+        eprintln!("TlsStream::peer_certificate called");
         Ok(self.0.ssl().peer_certificate().map(Certificate))
     }
 
     #[cfg(feature = "alpn")]
     pub fn negotiated_alpn(&self) -> Result<Option<Vec<u8>>, Error> {
-        debug!("TlsStream::negotiated_alpn called");
+        eprintln!("TlsStream::negotiated_alpn called");
         Ok(self
             .0
             .ssl()
             .selected_alpn_protocol()
             .map(|alpn| {
-                debug!("  Negotiated ALPN: {:?}", String::from_utf8_lossy(alpn));
+                eprintln!("  Negotiated ALPN: {:?}", String::from_utf8_lossy(alpn));
                 alpn.to_vec()
             }))
     }
 
     pub fn tls_server_end_point(&self) -> Result<Option<Vec<u8>>, Error> {
-        debug!("TlsStream::tls_server_end_point called");
+        eprintln!("TlsStream::tls_server_end_point called");
         let cert = if self.0.ssl().is_server() {
-            debug!("  Using server certificate");
+            eprintln!("  Using server certificate");
             self.0.ssl().certificate().map(|x| x.to_owned())
         } else {
-            debug!("  Using peer certificate");
+            eprintln!("  Using peer certificate");
             self.0.ssl().peer_certificate()
         };
 
         let cert = match cert {
             Some(cert) => cert,
             None => {
-                debug!("  No certificate available");
+                eprintln!("  No certificate available");
                 return Ok(None);
             },
         };
 
         let algo_nid = cert.signature_algorithm().object().nid();
-        debug!("  Signature algorithm NID: {:?}", algo_nid);
+        eprintln!("  Signature algorithm NID: {:?}", algo_nid);
         let signature_algorithms = match algo_nid.signature_algorithms() {
             Some(algs) => algs,
             None => {
-                debug!("  No signature algorithms available");
+                eprintln!("  No signature algorithms available");
                 return Ok(None);
             },
         };
 
         let md = match signature_algorithms.digest {
             Nid::MD5 | Nid::SHA1 => {
-                debug!("  Using SHA256 for MD5/SHA1 signature");
+                eprintln!("  Using SHA256 for MD5/SHA1 signature");
                 MessageDigest::sha256()
             },
             nid => match MessageDigest::from_nid(nid) {
                 Some(md) => {
-                    debug!("  Using digest from NID: {:?}", nid);
+                    eprintln!("  Using digest from NID: {:?}", nid);
                     md
                 },
                 None => {
-                    debug!("  Could not create MessageDigest from NID");
+                    eprintln!("  Could not create MessageDigest from NID");
                     return Ok(None);
                 },
             },
         };
 
         let digest = cert.digest(md)?;
-        debug!("  Computed digest, length: {}", digest.len());
+        eprintln!("  Computed digest, length: {}", digest.len());
 
         Ok(Some(digest.to_vec()))
     }
 
     pub fn shutdown(&mut self) -> io::Result<()> {
-        info!("TlsStream::shutdown called");
+        eprintln!("TlsStream::shutdown called");
         match self.0.shutdown() {
             Ok(_) => {
-                info!("  TLS shutdown completed successfully");
+                eprintln!("  TLS shutdown completed successfully");
                 Ok(())
             },
             Err(ref e) if e.code() == ssl::ErrorCode::ZERO_RETURN => {
-                info!("  TLS shutdown with ZERO_RETURN");
+                eprintln!("  TLS shutdown with ZERO_RETURN");
                 Ok(())
             },
             Err(e) => {
-                error!("  TLS shutdown failed: {:?}", e);
+                eprintln!("  TLS shutdown failed: {:?}", e);
                 Err(e.into_io_error().unwrap_or_else(io::Error::other))
             },
         }

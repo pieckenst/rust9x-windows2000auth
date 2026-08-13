@@ -165,9 +165,9 @@ impl Identity {
     /// openssl pkcs12 -export -out identity.pfx -inkey key.pem -in cert.pem -certfile chain_certs.pem
     /// ```
     pub fn from_pkcs12(der: &[u8], password: &str) -> Result<Identity> {
-        debug!("Identity::from_pkcs12 called with der length: {}, password length: {}", der.len(), password.len());
+        eprintln!("Identity::from_pkcs12 called with der length: {}, password length: {}", der.len(), password.len());
         let identity = imp::Identity::from_pkcs12(der, password)?;
-        info!("Identity::from_pkcs12 successfully created identity");
+        eprintln!("Identity::from_pkcs12 successfully created identity");
         Ok(Identity(identity))
     }
 
@@ -180,9 +180,9 @@ impl Identity {
     /// A certificate chain here means a series of PEM encoded certificates concatenated together.
     #[cfg_attr(all(target_vendor = "apple", not(target_os = "macos")), deprecated(note = "Not available on iOS"))]
     pub fn from_pkcs8(pem: &[u8], key: &[u8]) -> Result<Identity> {
-        debug!("Identity::from_pkcs8 called with pem length: {}, key length: {}", pem.len(), key.len());
+        eprintln!("Identity::from_pkcs8 called with pem length: {}, key length: {}", pem.len(), key.len());
         let identity = imp::Identity::from_pkcs8(pem, key)?;
-        info!("Identity::from_pkcs8 successfully created identity");
+        eprintln!("Identity::from_pkcs8 successfully created identity");
         Ok(Identity(identity))
     }
 }
@@ -194,35 +194,35 @@ pub struct Certificate(imp::Certificate);
 impl Certificate {
     /// Parses a DER-formatted X509 certificate.
     pub fn from_der(der: &[u8]) -> Result<Certificate> {
-        debug!("Certificate::from_der called with der length: {}", der.len());
+        eprintln!("Certificate::from_der called with der length: {}", der.len());
         let cert = imp::Certificate::from_der(der)?;
-        info!("Certificate::from_der successfully created certificate");
+        eprintln!("Certificate::from_der successfully created certificate");
         Ok(Certificate(cert))
     }
 
     /// Parses a PEM-formatted X509 certificate.
     #[cfg_attr(all(target_vendor = "apple", not(target_os = "macos")), deprecated(note = "Not available on iOS"))]
     pub fn from_pem(pem: &[u8]) -> Result<Certificate> {
-        debug!("Certificate::from_pem called with pem length: {}", pem.len());
+        eprintln!("Certificate::from_pem called with pem length: {}", pem.len());
         let cert = imp::Certificate::from_pem(pem)?;
-        info!("Certificate::from_pem successfully created certificate");
+        eprintln!("Certificate::from_pem successfully created certificate");
         Ok(Certificate(cert))
     }
 
     /// Parses some PEM-formatted X509 certificates.
     #[cfg_attr(all(target_vendor = "apple", not(target_os = "macos")), deprecated(note = "Not available on iOS"))]
     pub fn stack_from_pem(buf: &[u8]) -> Result<Vec<Certificate>> {
-        debug!("Certificate::stack_from_pem called with buf length: {}", buf.len());
+        eprintln!("Certificate::stack_from_pem called with buf length: {}", buf.len());
         let certs = imp::Certificate::stack_from_pem(buf)?;
-        info!("Certificate::stack_from_pem successfully created {} certificates", certs.len());
+        eprintln!("Certificate::stack_from_pem successfully created {} certificates", certs.len());
         Ok(certs.into_iter().map(Certificate).collect())
     }
 
     /// Returns the DER-encoded representation of this certificate.
     pub fn to_der(&self) -> Result<Vec<u8>> {
-        debug!("Certificate::to_der called");
+        eprintln!("Certificate::to_der called");
         let der = self.0.to_der()?;
-        info!("Certificate::to_der successfully converted to DER, length: {}", der.len());
+        eprintln!("Certificate::to_der successfully converted to DER, length: {}", der.len());
         Ok(der)
     }
 }
@@ -243,14 +243,14 @@ impl<S> MidHandshakeTlsStream<S> {
     /// Returns a shared reference to the inner stream.
     #[must_use]
     pub fn get_ref(&self) -> &S {
-        trace!("MidHandshakeTlsStream::get_ref called");
+        eprintln!("MidHandshakeTlsStream::get_ref called");
         self.0.get_ref()
     }
 
     /// Returns a mutable reference to the inner stream.
     #[must_use]
     pub fn get_mut(&mut self) -> &mut S {
-        trace!("MidHandshakeTlsStream::get_mut called");
+        eprintln!("MidHandshakeTlsStream::get_mut called");
         self.0.get_mut()
     }
 }
@@ -376,7 +376,7 @@ pub struct TlsConnectorBuilder {
 impl TlsConnectorBuilder {
     /// Sets the identity to be used for client certificate authentication.
     pub fn identity(&mut self, identity: Identity) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::identity called");
+        eprintln!("TlsConnectorBuilder::identity called");
         self.identity = Some(identity);
         self
     }
@@ -387,7 +387,7 @@ impl TlsConnectorBuilder {
     ///
     /// Defaults to `Some(Protocol::Tlsv12)`.
     pub fn min_protocol_version(&mut self, protocol: Option<Protocol>) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::min_protocol_version called with protocol: {:?}", protocol);
+        eprintln!("TlsConnectorBuilder::min_protocol_version called with protocol: {:?}", protocol);
         self.min_protocol = protocol;
         self
     }
@@ -398,7 +398,7 @@ impl TlsConnectorBuilder {
     ///
     /// Defaults to `None`.
     pub fn max_protocol_version(&mut self, protocol: Option<Protocol>) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::max_protocol_version called with protocol: {:?}", protocol);
+        eprintln!("TlsConnectorBuilder::max_protocol_version called with protocol: {:?}", protocol);
         self.max_protocol = protocol;
         self
     }
@@ -410,9 +410,9 @@ impl TlsConnectorBuilder {
     ///
     /// Defaults to an empty set.
     pub fn add_root_certificate(&mut self, cert: Certificate) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::add_root_certificate called");
+        eprintln!("TlsConnectorBuilder::add_root_certificate called");
         self.root_certificates.push(cert);
-        info!("TlsConnectorBuilder::add_root_certificate added certificate, total roots: {}", self.root_certificates.len());
+        eprintln!("TlsConnectorBuilder::add_root_certificate added certificate, total roots: {}", self.root_certificates.len());
         self
     }
 
@@ -420,7 +420,7 @@ impl TlsConnectorBuilder {
     ///
     /// Defaults to `false` -- built-in system certs will be used.
     pub fn disable_built_in_roots(&mut self, disable: bool) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::disable_built_in_roots called with disable: {}", disable);
+        eprintln!("TlsConnectorBuilder::disable_built_in_roots called with disable: {}", disable);
         self.disable_built_in_roots = disable;
         self
     }
@@ -431,7 +431,7 @@ impl TlsConnectorBuilder {
     #[cfg(feature = "alpn")]
     #[cfg_attr(docsrs, doc(cfg(feature = "alpn")))]
     pub fn request_alpns(&mut self, protocols: &[&str]) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::request_alpns called with protocols: {:?}", protocols);
+        eprintln!("TlsConnectorBuilder::request_alpns called with protocols: {:?}", protocols);
         self.alpn = protocols.iter().copied().map(Box::from).collect();
         self
     }
@@ -446,7 +446,7 @@ impl TlsConnectorBuilder {
     /// certificate for *any* site will be trusted for use. This includes expired certificates. This introduces
     /// significant vulnerabilities, and should only be used as a last resort.
     pub fn danger_accept_invalid_certs(&mut self, accept_invalid_certs: bool) -> &mut Self {
-        debug!("TlsConnectorBuilder::danger_accept_invalid_certs called with accept_invalid_certs: {}", accept_invalid_certs);
+        eprintln!("TlsConnectorBuilder::danger_accept_invalid_certs called with accept_invalid_certs: {}", accept_invalid_certs);
         self.accept_invalid_certs = accept_invalid_certs;
         self
     }
@@ -455,7 +455,7 @@ impl TlsConnectorBuilder {
     ///
     /// Defaults to `true`.
     pub fn use_sni(&mut self, use_sni: bool) -> &mut TlsConnectorBuilder {
-        debug!("TlsConnectorBuilder::use_sni called with use_sni: {}", use_sni);
+        eprintln!("TlsConnectorBuilder::use_sni called with use_sni: {}", use_sni);
         self.use_sni = use_sni;
         self
     }
@@ -470,16 +470,16 @@ impl TlsConnectorBuilder {
     /// certificate for *any* site will be trusted for use. This introduces significant vulnerabilities, and should
     /// only be used as a last resort.
     pub fn danger_accept_invalid_hostnames(&mut self, accept_invalid_hostnames: bool) -> &mut Self {
-        debug!("TlsConnectorBuilder::danger_accept_invalid_hostnames called with accept_invalid_hostnames: {}", accept_invalid_hostnames);
+        eprintln!("TlsConnectorBuilder::danger_accept_invalid_hostnames called with accept_invalid_hostnames: {}", accept_invalid_hostnames);
         self.accept_invalid_hostnames = accept_invalid_hostnames;
         self
     }
 
     /// Creates a new `TlsConnector`.
     pub fn build(&self) -> Result<TlsConnector> {
-        debug!("TlsConnectorBuilder::build called");
+        eprintln!("TlsConnectorBuilder::build called");
         let connector = imp::TlsConnector::new(self)?;
-        info!("TlsConnectorBuilder::build successfully created TlsConnector");
+        eprintln!("TlsConnectorBuilder::build successfully created TlsConnector");
         Ok(TlsConnector(connector))
     }
 }
@@ -509,14 +509,14 @@ pub struct TlsConnector(imp::TlsConnector);
 impl TlsConnector {
     /// Returns a new connector with default settings.
     pub fn new() -> Result<TlsConnector> {
-        debug!("TlsConnector::new called");
+        eprintln!("TlsConnector::new called");
         TlsConnector::builder().build()
     }
 
     /// Returns a new builder for a `TlsConnector`.
     #[must_use]
     pub fn builder() -> TlsConnectorBuilder {
-        debug!("TlsConnector::builder called");
+        eprintln!("TlsConnector::builder called");
         TlsConnectorBuilder {
             identity: None,
             min_protocol: Some(Protocol::Tlsv12),
@@ -552,9 +552,9 @@ impl TlsConnector {
     where
         S: io::Read + io::Write,
     {
-        debug!("TlsConnector::connect called with domain: {}", domain);
+        eprintln!("TlsConnector::connect called with domain: {}", domain);
         let s = self.0.connect(domain, stream)?;
-        info!("TlsConnector::connect successfully established TLS connection to {}", domain);
+        eprintln!("TlsConnector::connect successfully established TLS connection to {}", domain);
         Ok(TlsStream(s))
     }
 }
@@ -577,7 +577,7 @@ impl TlsAcceptorBuilder {
     ///
     /// Defaults to `Some(Protocol::Tlsv12)`.
     pub fn min_protocol_version(&mut self, protocol: Option<Protocol>) -> &mut TlsAcceptorBuilder {
-        debug!("TlsAcceptorBuilder::min_protocol_version called with protocol: {:?}", protocol);
+        eprintln!("TlsAcceptorBuilder::min_protocol_version called with protocol: {:?}", protocol);
         self.min_protocol = protocol;
         self
     }
@@ -588,7 +588,7 @@ impl TlsAcceptorBuilder {
     ///
     /// Defaults to `None`.
     pub fn max_protocol_version(&mut self, protocol: Option<Protocol>) -> &mut TlsAcceptorBuilder {
-        debug!("TlsAcceptorBuilder::max_protocol_version called with protocol: {:?}", protocol);
+        eprintln!("TlsAcceptorBuilder::max_protocol_version called with protocol: {:?}", protocol);
         self.max_protocol = protocol;
         self
     }
@@ -599,16 +599,16 @@ impl TlsAcceptorBuilder {
     #[cfg(feature = "alpn-accept")]
     #[cfg_attr(docsrs, doc(cfg(feature = "alpn-accept")))]
     pub fn accept_alpn(&mut self, protocols: &[impl AsRef<str>]) -> &mut TlsAcceptorBuilder {
-        debug!("TlsAcceptorBuilder::accept_alpn called with protocols: {:?}", protocols);
+        eprintln!("TlsAcceptorBuilder::accept_alpn called with protocols: {:?}", protocols);
         self.accept_alpn = protocols.iter().map(|s| Box::from(s.as_ref())).collect();
         self
     }
 
     /// Creates a new `TlsAcceptor`.
     pub fn build(&self) -> Result<TlsAcceptor> {
-        debug!("TlsAcceptorBuilder::build called");
+        eprintln!("TlsAcceptorBuilder::build called");
         let acceptor = imp::TlsAcceptor::new(self)?;
-        info!("TlsAcceptorBuilder::build successfully created TlsAcceptor");
+        eprintln!("TlsAcceptorBuilder::build successfully created TlsAcceptor");
         Ok(TlsAcceptor(acceptor))
     }
 }
@@ -659,7 +659,7 @@ impl TlsAcceptor {
     ///
     /// The identity acts as the server's private key/certificate chain.
     pub fn new(identity: Identity) -> Result<TlsAcceptor> {
-        debug!("TlsAcceptor::new called");
+        eprintln!("TlsAcceptor::new called");
         TlsAcceptor::builder(identity).build()
     }
 
@@ -668,7 +668,7 @@ impl TlsAcceptor {
     /// The identity acts as the server's private key/certificate chain.
     #[must_use]
     pub fn builder(identity: Identity) -> TlsAcceptorBuilder {
-        debug!("TlsAcceptor::builder called");
+        eprintln!("TlsAcceptor::builder called");
         TlsAcceptorBuilder {
             identity,
             min_protocol: Some(Protocol::Tlsv12),
@@ -689,14 +689,14 @@ impl TlsAcceptor {
     where
         S: io::Read + io::Write,
     {
-        debug!("TlsAcceptor::accept called");
+        eprintln!("TlsAcceptor::accept called");
         match self.0.accept(stream) {
             Ok(s) => {
-                info!("TlsAcceptor::accept successfully established TLS connection");
+                eprintln!("TlsAcceptor::accept successfully established TLS connection");
                 Ok(TlsStream(s))
             },
             Err(e) => {
-                error!("TlsAcceptor::accept failed with error: {:?}", e);
+                eprintln!("TlsAcceptor::accept failed with error: {:?}", e);
                 Err(e.into())
             },
         }
@@ -716,14 +716,14 @@ impl<S> TlsStream<S> {
     /// Returns a shared reference to the inner stream.
     #[must_use]
     pub fn get_ref(&self) -> &S {
-        trace!("TlsStream::get_ref called");
+        eprintln!("TlsStream::get_ref called");
         self.0.get_ref()
     }
 
     /// Returns a mutable reference to the inner stream.
     #[must_use]
     pub fn get_mut(&mut self) -> &mut S {
-        trace!("TlsStream::get_mut called");
+        eprintln!("TlsStream::get_mut called");
         self.0.get_mut()
     }
 }
@@ -732,13 +732,13 @@ impl<S: io::Read + io::Write> TlsStream<S> {
     /// Returns the number of bytes that can be read without resulting in any
     /// network calls.
     pub fn buffered_read_size(&self) -> Result<usize> {
-        trace!("TlsStream::buffered_read_size called");
+        eprintln!("TlsStream::buffered_read_size called");
         Ok(self.0.buffered_read_size()?)
     }
 
     /// Returns the peer's leaf certificate, if available.
     pub fn peer_certificate(&self) -> Result<Option<Certificate>> {
-        debug!("TlsStream::peer_certificate called");
+        eprintln!("TlsStream::peer_certificate called");
         Ok(self.0.peer_certificate()?.map(Certificate))
     }
 
@@ -746,7 +746,7 @@ impl<S: io::Read + io::Write> TlsStream<S> {
     ///
     /// [RFC 5929]: https://tools.ietf.org/html/rfc5929
     pub fn tls_server_end_point(&self) -> Result<Option<Vec<u8>>> {
-        debug!("TlsStream::tls_server_end_point called");
+        eprintln!("TlsStream::tls_server_end_point called");
         Ok(self.0.tls_server_end_point()?)
     }
 
@@ -754,15 +754,15 @@ impl<S: io::Read + io::Write> TlsStream<S> {
     #[cfg(feature = "alpn")]
     #[cfg_attr(docsrs, doc(cfg(feature = "alpn")))]
     pub fn negotiated_alpn(&self) -> Result<Option<Vec<u8>>> {
-        debug!("TlsStream::negotiated_alpn called");
+        eprintln!("TlsStream::negotiated_alpn called");
         Ok(self.0.negotiated_alpn()?)
     }
 
     /// Shuts down the TLS session.
     pub fn shutdown(&mut self) -> io::Result<()> {
-        debug!("TlsStream::shutdown called");
+        eprintln!("TlsStream::shutdown called");
         self.0.shutdown()?;
-        info!("TlsStream::shutdown successfully shut down TLS session");
+        eprintln!("TlsStream::shutdown successfully shut down TLS session");
         Ok(())
     }
 }

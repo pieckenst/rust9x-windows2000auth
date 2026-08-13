@@ -337,3 +337,39 @@
 [1786626924] [TLS] Mapping max_protocol Auto to native_tls None
 [1786626924] [TLS] TLS connector built successfully
 [1786626924] [TLS] Connector ready for secure connections
+[1786632895] [OS_DETECT] Detected Windows version: 6.2
+[1786632895] [TLS] Auto-selecting config based on OS version: Windows8
+[1786632895] [TLS] OS supports modern TLS configuration
+[1786632895] [TLS] Creating new TlsConfig with secure defaults
+[1786632895] [TLS] Setting handshake timeout to: 30s
+[1786632895] [TLS] Configuration validation passed
+[1786632895] [TLS] Building TLS connector with current configuration
+[1786632895] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786632895] [TLS] Mapping min_protocol Auto to native_tls None
+[1786632895] [TLS] Mapping max_protocol Auto to native_tls None
+[1786632895] [TLS] TLS connector built successfully
+[1786632895] [TLS] Connector ready for secure connections
+[1786632896] [OS_DETECT] Detected Windows version: 6.2
+[1786632896] [TLS] Auto-selecting config based on OS version: Windows8
+[1786632896] [TLS] OS supports modern TLS configuration
+[1786632896] [TLS] Creating new TlsConfig with secure defaults
+[1786632896] [TLS] Setting handshake timeout to: 30s
+[1786632896] [TLS] Configuration validation passed
+[1786632896] [TLS] Building TLS connector with current configuration
+[1786632896] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786632896] [TLS] Mapping min_protocol Auto to native_tls None
+[1786632896] [TLS] Mapping max_protocol Auto to native_tls None
+[1786632896] [TLS] TLS connector built successfully
+[1786632896] [TLS] Connector ready for secure connections
+[1786632898] [OS_DETECT] Detected Windows version: 6.2
+[1786632898] [TLS] Auto-selecting config based on OS version: Windows8
+[1786632898] [TLS] OS supports modern TLS configuration
+[1786632898] [TLS] Creating new TlsConfig with secure defaults
+[1786632898] [TLS] Setting handshake timeout to: 30s
+[1786632898] [TLS] Configuration validation passed
+[1786632898] [TLS] Building TLS connector with current configuration
+[1786632898] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Auto, use_sni=true, timeout=30s
+[1786632898] [TLS] Mapping min_protocol Auto to native_tls None
+[1786632898] [TLS] Mapping max_protocol Auto to native_tls None
+[1786632898] [TLS] TLS connector built successfully
+[1786632898] [TLS] Connector ready for secure connections

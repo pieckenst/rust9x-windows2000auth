@@ -65,13 +65,13 @@ pub struct Identity {
 
 impl Identity {
     pub fn from_pkcs12(buf: &[u8], pass: &str) -> Result<Identity, Error> {
-        info!("Identity::from_pkcs12 called with {} bytes of PKCS#12 data", buf.len());
+        eprintln!("Identity::from_pkcs12 called with {} bytes of PKCS#12 data", buf.len());
         let store = PfxImportOptions::new().password(pass).import(buf)?;
-        debug!("PKCS#12 imported successfully, searching for certificate with private key");
+        eprintln!("PKCS#12 imported successfully, searching for certificate with private key");
         let mut identity = None;
 
         for cert in store.certs() {
-            debug!("Checking certificate for private key");
+            eprintln!("Checking certificate for private key");
             if cert
                 .private_key()
                 .silent(true)
@@ -79,7 +79,7 @@ impl Identity {
                 .acquire()
                 .is_ok()
             {
-                info!("Found certificate with matching private key");
+                eprintln!("Found certificate with matching private key");
                 identity = Some(cert);
                 break;
             }
@@ -88,7 +88,7 @@ impl Identity {
         let identity = match identity {
             Some(identity) => identity,
             None => {
-                error!("No identity found in PKCS #12 archive");
+                eprintln!("No identity found in PKCS #12 archive");
                 return Err(io::Error::new(
                     io::ErrorKind::InvalidInput,
                     "No identity found in PKCS #12 archive",
@@ -97,28 +97,28 @@ impl Identity {
             }
         };
 
-        info!("Identity created successfully from PKCS#12");
+        eprintln!("Identity created successfully from PKCS#12");
         Ok(Identity { cert: identity })
     }
 
     pub fn from_pkcs8(pem: &[u8], key: &[u8]) -> Result<Identity, Error> {
-        info!("Identity::from_pkcs8 called with {} bytes of PEM data and {} bytes of key data", pem.len(), key.len());
+        eprintln!("Identity::from_pkcs8 called with {} bytes of PEM data and {} bytes of key data", pem.len(), key.len());
         if !key.starts_with(b"-----BEGIN PRIVATE KEY-----") {
-            error!("Key is not in PKCS#8 format");
+            eprintln!("Key is not in PKCS#8 format");
             return Err(io::Error::new(io::ErrorKind::InvalidInput, "not a PKCS#8 key").into());
         }
 
         let mut store = Memory::new()?.into_store();
         let mut cert_iter = pem::PemBlock::new(pem);
         let leaf = cert_iter.next().ok_or_else(|| {
-            error!("No certificate found in PEM data");
+            eprintln!("No certificate found in PEM data");
             io::Error::new(
                 io::ErrorKind::InvalidInput,
                 "at least one certificate must be provided to create an identity",
             )
         })?;
         let cert = CertContext::from_pem(std::str::from_utf8(leaf).map_err(|_| {
-            error!("Leaf certificate contains invalid UTF-8");
+            eprintln!("Leaf certificate contains invalid UTF-8");
             io::Error::new(
                 io::ErrorKind::InvalidInput,
                 "leaf cert contains invalid utf8",
@@ -126,18 +126,18 @@ impl Identity {
         })?)?;
 
         let name = gen_container_name();
-        debug!("Generated container name: {}", name);
+        eprintln!("Generated container name: {}", name);
         let mut options = AcquireOptions::new();
         options.container(&name);
         let type_ = ProviderType::rsa_full();
 
         let mut container = match options.acquire(type_) {
             Ok(container) => {
-                debug!("Acquired existing cryptographic container");
+                eprintln!("Acquired existing cryptographic container");
                 container
             },
             Err(_) => {
-                debug!("Creating new cryptographic container");
+                eprintln!("Creating new cryptographic container");
                 options.new_keyset(true).acquire(type_)?
             },
         };
@@ -153,12 +153,12 @@ impl Identity {
 
         let mut cert_count = 1;
         for int_cert in cert_iter {
-            debug!("Adding intermediate certificate {}", cert_count);
+            eprintln!("Adding intermediate certificate {}", cert_count);
             let certificate = Certificate::from_pem(int_cert)?;
             context = store.add_cert(&certificate.0, CertAdd::Always)?;
             cert_count += 1;
         }
-        info!("Identity created successfully from PKCS#8 with {} certificates", cert_count);
+        eprintln!("Identity created successfully from PKCS#8 with {} certificates", cert_count);
         Ok(Identity { cert: context })
     }
 }
@@ -175,22 +175,22 @@ pub struct Certificate(CertContext);
 
 impl Certificate {
     pub fn from_der(buf: &[u8]) -> Result<Certificate, Error> {
-        debug!("Certificate::from_der called with {} bytes of DER data", buf.len());
+        eprintln!("Certificate::from_der called with {} bytes of DER data", buf.len());
         let cert = CertContext::new(buf)?;
-        info!("Certificate created successfully from DER");
+        eprintln!("Certificate created successfully from DER");
         Ok(Certificate(cert))
     }
 
     pub fn from_pem(buf: &[u8]) -> Result<Certificate, Error> {
-        debug!("Certificate::from_pem called with {} bytes of PEM data", buf.len());
+        eprintln!("Certificate::from_pem called with {} bytes of PEM data", buf.len());
         match str::from_utf8(buf) {
             Ok(s) => {
                 let cert = CertContext::from_pem(s)?;
-                info!("Certificate created successfully from PEM");
+                eprintln!("Certificate created successfully from PEM");
                 Ok(Certificate(cert))
             }
             Err(_) => {
-                error!("PEM representation contains non-UTF-8 bytes");
+                eprintln!("PEM representation contains non-UTF-8 bytes");
                 Err(io::Error::new(
                     io::ErrorKind::InvalidInput,
                     "PEM representation contains non-UTF-8 bytes",
@@ -201,7 +201,7 @@ impl Certificate {
     }
 
     pub fn stack_from_pem(buf: &[u8]) -> Result<Vec<Certificate>, Error> {
-        debug!("Certificate::stack_from_pem called with {} bytes of PEM data", buf.len());
+        eprintln!("Certificate::stack_from_pem called with {} bytes of PEM data", buf.len());
         let certs: Result<Vec<Certificate>, Error> = pem::PemBlock::new(buf)
             .map(|pem| {
                 CertContext::from_pem(std::str::from_utf8(pem).map_err(io::Error::other)?)
@@ -210,14 +210,14 @@ impl Certificate {
             .map(|res| res.map_err(Error))
             .collect();
         match &certs {
-            Ok(certs) => info!("Successfully created {} certificates from PEM stack", certs.len()),
-            Err(e) => error!("Failed to create certificate stack: {:?}", e),
+            Ok(certs) => eprintln!("Successfully created {} certificates from PEM stack", certs.len()),
+            Err(e) => eprintln!("Failed to create certificate stack: {:?}", e),
         }
         certs
     }
 
     pub fn to_der(&self) -> Result<Vec<u8>, Error> {
-        debug!("Certificate::to_der called");
+        eprintln!("Certificate::to_der called");
         Ok(self.0.to_der().to_vec())
     }
 }
@@ -325,26 +325,26 @@ pub struct TlsConnector {
 
 impl TlsConnector {
     pub fn new(builder: &TlsConnectorBuilder) -> Result<TlsConnector, Error> {
-        info!("TlsConnector::new called");
+        eprintln!("TlsConnector::new called");
         let cert = builder.identity.as_ref().map(|i| {
-            debug!("  Identity certificate provided");
+            eprintln!("  Identity certificate provided");
             i.0.cert.clone()
         });
         let mut roots = Memory::new()?.into_store();
-        debug!("  Adding {} root certificates", builder.root_certificates.len());
+        eprintln!("  Adding {} root certificates", builder.root_certificates.len());
         for cert in &builder.root_certificates {
             roots.add_cert(&(cert.0).0, CertAdd::ReplaceExisting)?;
         }
 
-        info!("TlsConnector created with configuration:");
-        debug!("  min_protocol: {:?}", builder.min_protocol);
-        debug!("  max_protocol: {:?}", builder.max_protocol);
-        debug!("  use_sni: {}", builder.use_sni);
-        debug!("  accept_invalid_hostnames: {}", builder.accept_invalid_hostnames);
-        debug!("  accept_invalid_certs: {}", builder.accept_invalid_certs);
-        debug!("  disable_built_in_roots: {}", builder.disable_built_in_roots);
+        eprintln!("TlsConnector created with configuration:");
+        eprintln!("  min_protocol: {:?}", builder.min_protocol);
+        eprintln!("  max_protocol: {:?}", builder.max_protocol);
+        eprintln!("  use_sni: {}", builder.use_sni);
+        eprintln!("  accept_invalid_hostnames: {}", builder.accept_invalid_hostnames);
+        eprintln!("  accept_invalid_certs: {}", builder.accept_invalid_certs);
+        eprintln!("  disable_built_in_roots: {}", builder.disable_built_in_roots);
         #[cfg(feature = "alpn")]
-        debug!("  alpn protocols: {}", builder.alpn.len());
+        eprintln!("  alpn protocols: {}", builder.alpn.len());
 
         Ok(TlsConnector {
             cert,
@@ -365,17 +365,17 @@ impl TlsConnector {
     where
         S: io::Read + io::Write,
     {
-        info!("TlsConnector::connect called with domain: {}", domain);
+        eprintln!("TlsConnector::connect called with domain: {}", domain);
         let protocols = convert_protocols(self.min_protocol, self.max_protocol);
-        debug!("  Enabled protocols: {:?}", protocols);
+        eprintln!("  Enabled protocols: {:?}", protocols);
         
         let mut builder = SchannelCred::builder();
         builder.enabled_protocols(protocols);
         if let Some(cert) = self.cert.as_ref() {
-            debug!("  Setting client certificate");
+            eprintln!("  Setting client certificate");
             builder.cert(cert.clone());
         }
-        debug!("  Acquiring Schannel credentials (Outbound)");
+        eprintln!("  Acquiring Schannel credentials (Outbound)");
         let cred = builder.acquire(Direction::Outbound)?;
         
         let mut builder = tls_stream::Builder::new();
@@ -386,10 +386,10 @@ impl TlsConnector {
             .accept_invalid_hostnames(self.accept_invalid_hostnames);
         
         if self.accept_invalid_certs {
-            debug!("  Setting verify callback to accept all certificates");
+            eprintln!("  Setting verify callback to accept all certificates");
             builder.verify_callback(|_| Ok(()));
         } else if self.disable_built_in_roots {
-            debug!("  Setting verify callback to only trust user-specified roots");
+            eprintln!("  Setting verify callback to only trust user-specified roots");
             let roots_copy = self.roots.clone();
             builder.verify_callback(move |res| {
                 // Propagate previous error encountered during normal cert validation.
@@ -412,21 +412,21 @@ impl TlsConnector {
         #[cfg(feature = "alpn")]
         {
             if !self.alpn.is_empty() {
-                debug!("  Setting ALPN protocols: {:?}", self.alpn);
+                eprintln!("  Setting ALPN protocols: {:?}", self.alpn);
                 builder.request_application_protocols(
                     &self.alpn.iter().map(|s| s.as_bytes()).collect::<Vec<_>>(),
                 );
             }
         }
         
-        info!("  Initiating TLS connection");
+        eprintln!("  Initiating TLS connection");
         match builder.connect(cred, stream) {
             Ok(s) => {
-                info!("  TLS connection established successfully");
+                eprintln!("  TLS connection established successfully");
                 Ok(TlsStream(s))
             },
             Err(e) => {
-                error!("  TLS connection failed: {:?}", e);
+                eprintln!("  TLS connection failed: {:?}", e);
                 Err(e.into())
             },
         }
@@ -444,12 +444,12 @@ pub struct TlsAcceptor {
 
 impl TlsAcceptor {
     pub fn new(builder: &TlsAcceptorBuilder) -> Result<TlsAcceptor, Error> {
-        info!("TlsAcceptor::new called");
-        info!("TlsAcceptor created with configuration:");
-        debug!("  min_protocol: {:?}", builder.min_protocol);
-        debug!("  max_protocol: {:?}", builder.max_protocol);
+        eprintln!("TlsAcceptor::new called");
+        eprintln!("TlsAcceptor created with configuration:");
+        eprintln!("  min_protocol: {:?}", builder.min_protocol);
+        eprintln!("  max_protocol: {:?}", builder.max_protocol);
         #[cfg(feature = "alpn-accept")]
-        debug!("  accept_alpn protocols: {}", builder.accept_alpn.len());
+        eprintln!("  accept_alpn protocols: {}", builder.accept_alpn.len());
         
         Ok(TlsAcceptor {
             cert: builder.identity.0.cert.clone(),
@@ -465,34 +465,34 @@ impl TlsAcceptor {
     where
         S: io::Read + io::Write,
     {
-        info!("TlsAcceptor::accept called");
+        eprintln!("TlsAcceptor::accept called");
         let protocols = convert_protocols(self.min_protocol, self.max_protocol);
-        debug!("  Enabled protocols: {:?}", protocols);
+        eprintln!("  Enabled protocols: {:?}", protocols);
         
         let mut builder = SchannelCred::builder();
         builder.enabled_protocols(protocols);
-        debug!("  Setting server certificate");
+        eprintln!("  Setting server certificate");
         builder.cert(self.cert.clone());
         // FIXME we're probably missing the certificate chain?
-        debug!("  Acquiring Schannel credentials (Inbound)");
+        eprintln!("  Acquiring Schannel credentials (Inbound)");
         let cred = builder.acquire(Direction::Inbound)?;
         
         let mut builder = tls_stream::Builder::new();
         #[cfg(feature = "alpn-accept")]
         if !self.accept_alpn.is_empty() {
-            debug!("  Setting ALPN accept protocols: {:?}", self.accept_alpn);
+            eprintln!("  Setting ALPN accept protocols: {:?}", self.accept_alpn);
             let accept_alpn: Vec<&[u8]> = self.accept_alpn.iter().map(|s| s.as_bytes()).collect();
             builder.request_application_protocols(accept_alpn.as_slice());
         }
         
-        info!("  Accepting TLS connection");
+        eprintln!("  Accepting TLS connection");
         match builder.accept(cred, stream) {
             Ok(s) => {
-                info!("  TLS connection accepted successfully");
+                eprintln!("  TLS connection accepted successfully");
                 Ok(TlsStream(s))
             },
             Err(e) => {
-                error!("  TLS connection accept failed: {:?}", e);
+                eprintln!("  TLS connection accept failed: {:?}", e);
                 Err(e.into())
             },
         }

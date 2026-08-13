@@ -88,25 +88,25 @@ const INIT_REQUESTS: u32 = Identity::ISC_REQ_CONFIDENTIALITY
 
 /// Log the INIT_REQUESTS flags for debugging
 pub fn log_init_requests() {
-    info!("INIT_REQUESTS flags: 0x{:08X}", INIT_REQUESTS);
-    debug!("  ISC_REQ_CONFIDENTIALITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_CONFIDENTIALITY) != 0);
-    debug!("  ISC_REQ_INTEGRITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_INTEGRITY) != 0);
-    debug!("  ISC_REQ_REPLAY_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_REPLAY_DETECT) != 0);
-    debug!("  ISC_REQ_SEQUENCE_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_SEQUENCE_DETECT) != 0);
-    debug!("  ISC_REQ_MANUAL_CRED_VALIDATION: {}", (INIT_REQUESTS & Identity::ISC_REQ_MANUAL_CRED_VALIDATION) != 0);
-    debug!("  ISC_REQ_ALLOCATE_MEMORY: {}", (INIT_REQUESTS & Identity::ISC_REQ_ALLOCATE_MEMORY) != 0);
-    debug!("  ISC_REQ_STREAM: {}", (INIT_REQUESTS & Identity::ISC_REQ_STREAM) != 0);
-    debug!("  ISC_REQ_USE_SUPPLIED_CREDS: {}", (INIT_REQUESTS & Identity::ISC_REQ_USE_SUPPLIED_CREDS) != 0);
+    eprintln!("INIT_REQUESTS flags: 0x{:08X}", INIT_REQUESTS);
+    eprintln!("  ISC_REQ_CONFIDENTIALITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_CONFIDENTIALITY) != 0);
+    eprintln!("  ISC_REQ_INTEGRITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_INTEGRITY) != 0);
+    eprintln!("  ISC_REQ_REPLAY_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_REPLAY_DETECT) != 0);
+    eprintln!("  ISC_REQ_SEQUENCE_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_SEQUENCE_DETECT) != 0);
+    eprintln!("  ISC_REQ_MANUAL_CRED_VALIDATION: {}", (INIT_REQUESTS & Identity::ISC_REQ_MANUAL_CRED_VALIDATION) != 0);
+    eprintln!("  ISC_REQ_ALLOCATE_MEMORY: {}", (INIT_REQUESTS & Identity::ISC_REQ_ALLOCATE_MEMORY) != 0);
+    eprintln!("  ISC_REQ_STREAM: {}", (INIT_REQUESTS & Identity::ISC_REQ_STREAM) != 0);
+    eprintln!("  ISC_REQ_USE_SUPPLIED_CREDS: {}", (INIT_REQUESTS & Identity::ISC_REQ_USE_SUPPLIED_CREDS) != 0);
 }
 
 /// Log the ACCEPT_REQUESTS flags for debugging
 pub fn log_accept_requests() {
-    info!("ACCEPT_REQUESTS flags: 0x{:08X}", ACCEPT_REQUESTS);
-    debug!("  ASC_REQ_ALLOCATE_MEMORY: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_ALLOCATE_MEMORY) != 0);
-    debug!("  ASC_REQ_CONFIDENTIALITY: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_CONFIDENTIALITY) != 0);
-    debug!("  ASC_REQ_SEQUENCE_DETECT: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_SEQUENCE_DETECT) != 0);
-    debug!("  ASC_REQ_STREAM: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_STREAM) != 0);
-    debug!("  ASC_REQ_REPLAY_DETECT: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_REPLAY_DETECT) != 0);
+    eprintln!("ACCEPT_REQUESTS flags: 0x{:08X}", ACCEPT_REQUESTS);
+    eprintln!("  ASC_REQ_ALLOCATE_MEMORY: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_ALLOCATE_MEMORY) != 0);
+    eprintln!("  ASC_REQ_CONFIDENTIALITY: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_CONFIDENTIALITY) != 0);
+    eprintln!("  ASC_REQ_SEQUENCE_DETECT: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_SEQUENCE_DETECT) != 0);
+    eprintln!("  ASC_REQ_STREAM: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_STREAM) != 0);
+    eprintln!("  ASC_REQ_REPLAY_DETECT: {}", (ACCEPT_REQUESTS & Identity::ASC_REQ_REPLAY_DETECT) != 0);
 }
 
 trait Inner<T> {
@@ -120,11 +120,11 @@ trait Inner<T> {
 unsafe fn secbuf(buftype: u32, bytes: Option<&mut [u8]>) -> Identity::SecBuffer {
     let (ptr, len) = match bytes {
         Some(bytes) => {
-            trace!("Creating SecBuffer with type 0x{:X}, length: {}", buftype, bytes.len());
+            eprintln!("Creating SecBuffer with type 0x{:X}, length: {}", buftype, bytes.len());
             (bytes.as_mut_ptr(), bytes.len() as u32)
         },
         None => {
-            trace!("Creating SecBuffer with type 0x{:X}, no data (null)", buftype);
+            eprintln!("Creating SecBuffer with type 0x{:X}, no data (null)", buftype);
             (ptr::null_mut(), 0)
         },
     };
@@ -136,9 +136,9 @@ unsafe fn secbuf(buftype: u32, bytes: Option<&mut [u8]>) -> Identity::SecBuffer 
 }
 
 unsafe fn secbuf_desc(bufs: &mut [Identity::SecBuffer]) -> Identity::SecBufferDesc {
-    debug!("Creating SecBufferDesc with {} buffers, version: SECBUFFER_VERSION", bufs.len());
+    eprintln!("Creating SecBufferDesc with {} buffers, version: SECBUFFER_VERSION", bufs.len());
     for (i, buf) in bufs.iter().enumerate() {
-        trace!("  Buffer[{}]: type=0x{:X}, length={}, ptr={:p}", i, buf.BufferType, buf.cbBuffer, buf.pvBuffer);
+        eprintln!("  Buffer[{}]: type=0x{:X}, length={}, ptr={:p}", i, buf.BufferType, buf.cbBuffer, buf.pvBuffer);
     }
     Identity::SecBufferDesc {
         ulVersion: Identity::SECBUFFER_VERSION,

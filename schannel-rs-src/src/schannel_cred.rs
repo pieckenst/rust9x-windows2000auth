@@ -214,15 +214,15 @@ pub struct Builder {
 impl Builder {
     /// Returns a new `Builder`.
     pub fn new() -> Builder {
-        debug!("SchannelCred::Builder::new called");
+        eprintln!("SchannelCred::Builder::new called");
         Builder::default()
     }
 
     /// Sets the algorithms supported for credentials created from this builder.
     pub fn supported_algorithms(&mut self, supported_algorithms: &[Algorithm]) -> &mut Builder {
-        debug!("Builder::supported_algorithms called with {} algorithms", supported_algorithms.len());
+        eprintln!("Builder::supported_algorithms called with {} algorithms", supported_algorithms.len());
         for (i, alg) in supported_algorithms.iter().enumerate() {
-            trace!("  Algorithm[{}]: {:?}", i, alg);
+            eprintln!("  Algorithm[{}]: {:?}", i, alg);
         }
         self.supported_algorithms = Some(supported_algorithms.to_owned());
         self
@@ -230,9 +230,9 @@ impl Builder {
 
     /// Sets the protocols enabled for credentials created from this builder.
     pub fn enabled_protocols(&mut self, enabled_protocols: &[Protocol]) -> &mut Builder {
-        debug!("Builder::enabled_protocols called with {} protocols", enabled_protocols.len());
+        eprintln!("Builder::enabled_protocols called with {} protocols", enabled_protocols.len());
         for (i, proto) in enabled_protocols.iter().enumerate() {
-            trace!("  Protocol[{}]: {:?}", i, proto);
+            eprintln!("  Protocol[{}]: {:?}", i, proto);
         }
         self.enabled_protocols = Some(enabled_protocols.to_owned());
         self
@@ -248,26 +248,27 @@ impl Builder {
     /// Clients often do not call this function and either depend on Schannel to
     /// find an appropriate certificate or create a certificate later if needed.
     pub fn cert(&mut self, cx: CertContext) -> &mut Builder {
-        debug!("Builder::cert called, adding certificate. Total certs: {}", self.certs.len() + 1);
+        eprintln!("Builder::cert called, adding certificate. Total certs: {}", self.certs.len() + 1);
         self.certs.push(cx);
         self
     }
 
     /// Creates a new `SchannelCred`.
     pub fn acquire(&self, direction: Direction) -> io::Result<SchannelCred> {
-        info!("Builder::acquire called with direction: {:?}", direction);
+        eprintln!("=== LOCAL SCHANNEL Builder::acquire ENTERED ===");
+        eprintln!("Builder::acquire called with direction: {:?}", direction);
         let mut enabled_protocols: u32 = 0;
         if let Some(ref enable_list) = self.enabled_protocols {
             enabled_protocols = enable_list
                 .iter()
                 .map(|p| p.dword(direction))
                 .fold(0, |acc, p| acc | p);
-            debug!("Enabled protocols: 0x{:08X}", enabled_protocols);
+            eprintln!("Enabled protocols: 0x{:08X}", enabled_protocols);
             for proto in enable_list {
-                debug!("  - {:?} -> 0x{:08X}", proto, proto.dword(direction));
+                eprintln!("  - {:?} -> 0x{:08X}", proto, proto.dword(direction));
             }
         } else {
-            debug!("No specific protocols enabled, will use system defaults");
+            eprintln!("No specific protocols enabled, will use system defaults");
         }
 
         unsafe {
@@ -279,33 +280,33 @@ impl Builder {
             cred_data.cCreds = certs.len() as u32;
             cred_data.paCred = certs.as_mut_ptr() as _;
 
-            info!("SCHANNEL_CRED configuration:");
-            info!("  dwVersion: 0x{:08X} (SCHANNEL_CRED_VERSION)", cred_data.dwVersion);
-            info!("  dwFlags: 0x{:08X}", cred_data.dwFlags);
-            debug!("    SCH_USE_STRONG_CRYPTO: {}", (cred_data.dwFlags & Identity::SCH_USE_STRONG_CRYPTO) != 0);
-            debug!("    SCH_CRED_NO_DEFAULT_CREDS: {}", (cred_data.dwFlags & Identity::SCH_CRED_NO_DEFAULT_CREDS) != 0);
-            info!("  grbitEnabledProtocols: 0x{:08X}", cred_data.grbitEnabledProtocols);
-            info!("  cCreds: {}", cred_data.cCreds);
-            info!("  paCred: {:p}", cred_data.paCred);
+            eprintln!("SCHANNEL_CRED configuration:");
+            eprintln!("  dwVersion: 0x{:08X} (SCHANNEL_CRED_VERSION)", cred_data.dwVersion);
+            eprintln!("  dwFlags: 0x{:08X}", cred_data.dwFlags);
+            eprintln!("    SCH_USE_STRONG_CRYPTO: {}", (cred_data.dwFlags & Identity::SCH_USE_STRONG_CRYPTO) != 0);
+            eprintln!("    SCH_CRED_NO_DEFAULT_CREDS: {}", (cred_data.dwFlags & Identity::SCH_CRED_NO_DEFAULT_CREDS) != 0);
+            eprintln!("  grbitEnabledProtocols: 0x{:08X}", cred_data.grbitEnabledProtocols);
+            eprintln!("  cCreds: {}", cred_data.cCreds);
+            eprintln!("  paCred: {:p}", cred_data.paCred);
 
             let mut tls_param: Identity::TLS_PARAMETERS = mem::zeroed();
             let mut cred_data2: Identity::SCH_CREDENTIALS = mem::zeroed();
 
             let mut pauthdata: *const core::ffi::c_void = ptr::null();
             if let Some(ref supported_algorithms) = self.supported_algorithms {
-                debug!("Using custom supported algorithms: {} algorithms", supported_algorithms.len());
+                eprintln!("Using custom supported algorithms: {} algorithms", supported_algorithms.len());
                 for (i, alg) in supported_algorithms.iter().enumerate() {
-                    debug!("  Algorithm[{}]: {:?} (0x{:08X})", i, alg, *alg as u32);
+                    eprintln!("  Algorithm[{}]: {:?} (0x{:08X})", i, alg, *alg as u32);
                 }
                 cred_data.cSupportedAlgs = supported_algorithms.len() as u32;
                 cred_data.palgSupportedAlgs = supported_algorithms.as_ptr() as *mut _;
             } else if verify_min_os_build(10, 17763).is_some() {
                 // If no algorithms specified and should be supported, use new SCH_CREDENTIALS interface which supports TLS1.3.
                 // Although we check for win10 build 17763 above, I have only seen this work on win 11.
-                info!("OS supports SCH_CREDENTIALS (Windows 10 build 17763+), using new interface for TLS 1.3 support");
+                eprintln!("OS supports SCH_CREDENTIALS (Windows 10 build 17763+), using new interface for TLS 1.3 support");
                 if enabled_protocols != 0 {
                     tls_param.grbitDisabledProtocols = !enabled_protocols;
-                    info!("TLS_PARAMETERS.grbitDisabledProtocols: 0x{:08X}", tls_param.grbitDisabledProtocols);
+                    eprintln!("TLS_PARAMETERS.grbitDisabledProtocols: 0x{:08X}", tls_param.grbitDisabledProtocols);
                 }
                 // TODO: support something to select tls13-ciphers
                 cred_data2.dwVersion = Identity::SCH_CREDENTIALS_VERSION;
@@ -316,45 +317,54 @@ impl Builder {
                 cred_data2.pTlsParameters = &mut tls_param;
                 pauthdata = &mut cred_data2 as *const _ as *const _;
 
-                info!("SCH_CREDENTIALS configuration:");
-                info!("  dwVersion: 0x{:08X} (SCH_CREDENTIALS_VERSION)", cred_data2.dwVersion);
-                info!("  dwFlags: 0x{:08X}", cred_data2.dwFlags);
-                debug!("    SCH_USE_STRONG_CRYPTO: {}", (cred_data2.dwFlags & Identity::SCH_USE_STRONG_CRYPTO) != 0);
-                debug!("    SCH_CRED_NO_DEFAULT_CREDS: {}", (cred_data2.dwFlags & Identity::SCH_CRED_NO_DEFAULT_CREDS) != 0);
-                info!("  cCreds: {}", cred_data2.cCreds);
-                info!("  paCred: {:p}", cred_data2.paCred);
-                info!("  cTlsParameters: {}", cred_data2.cTlsParameters);
-                info!("  pTlsParameters: {:p}", cred_data2.pTlsParameters);
+                eprintln!("SCH_CREDENTIALS configuration:");
+                eprintln!("  dwVersion: 0x{:08X} (SCH_CREDENTIALS_VERSION)", cred_data2.dwVersion);
+                eprintln!("  dwFlags: 0x{:08X}", cred_data2.dwFlags);
+                eprintln!("    SCH_USE_STRONG_CRYPTO: {}", (cred_data2.dwFlags & Identity::SCH_USE_STRONG_CRYPTO) != 0);
+                eprintln!("    SCH_CRED_NO_DEFAULT_CREDS: {}", (cred_data2.dwFlags & Identity::SCH_CRED_NO_DEFAULT_CREDS) != 0);
+                eprintln!("  cCreds: {}", cred_data2.cCreds);
+                eprintln!("  paCred: {:p}", cred_data2.paCred);
+                eprintln!("  cTlsParameters: {}", cred_data2.cTlsParameters);
+                eprintln!("  pTlsParameters: {:p}", cred_data2.pTlsParameters);
             } else {
-                info!("OS does not support SCH_CREDENTIALS, using legacy SCHANNEL_CRED interface");
+                eprintln!("OS does not support SCH_CREDENTIALS, using legacy SCHANNEL_CRED interface");
             }
 
             if pauthdata.is_null() {
-                info!("Using SCHANNEL_CRED structure");
+                eprintln!("Using SCHANNEL_CRED structure");
+                eprintln!("[SCHANNEL] credential interface = SCHANNEL_CRED");
+                eprintln!("[SCHANNEL] enabled_protocols = 0x{:08X}", cred_data.grbitEnabledProtocols);
+                eprintln!("[SCHANNEL] dwFlags = 0x{:08X}", cred_data.dwFlags);
+                eprintln!("[SCHANNEL] dwVersion = {}", cred_data.dwVersion);
                 pauthdata = &mut cred_data as *const _ as *const _;
             } else {
-                info!("Using SCH_CREDENTIALS structure");
+                eprintln!("Using SCH_CREDENTIALS structure");
+                eprintln!("[SCHANNEL] credential interface = SCH_CREDENTIALS");
+                eprintln!("[SCHANNEL] enabled_protocols = 0x{:08X}", enabled_protocols);
+                eprintln!("[SCHANNEL] dwFlags = 0x{:08X}", cred_data2.dwFlags);
+                eprintln!("[SCHANNEL] dwVersion = {}", cred_data2.dwVersion);
             }
 
             let direction_flag = match direction {
                 Direction::Inbound => {
-                    info!("Direction: Inbound (SECPKG_CRED_INBOUND)");
+                    eprintln!("Direction: Inbound (SECPKG_CRED_INBOUND)");
                     Identity::SECPKG_CRED_INBOUND
                 },
                 Direction::Outbound => {
-                    info!("Direction: Outbound (SECPKG_CRED_OUTBOUND)");
+                    eprintln!("Direction: Outbound (SECPKG_CRED_OUTBOUND)");
                     Identity::SECPKG_CRED_OUTBOUND
                 },
             };
             let mut handle: Credentials::SecHandle = mem::zeroed();
 
-            info!("Calling AcquireCredentialsHandleA with UNISP_NAME_A");
-            info!("  Principal: NULL");
-            info!("  Package: UNISP_NAME_A");
-            info!("  Direction: 0x{:08X}", direction_flag);
-            info!("  pAuthData: {:p}", pauthdata);
+            eprintln!("Calling AcquireCredentialsHandleA with UNISP_NAME_A");
+            eprintln!("  Principal: NULL");
+            eprintln!("  Package: UNISP_NAME_A");
+            eprintln!("  Direction: 0x{:08X}", direction_flag);
+            eprintln!("  pAuthData: {:p}", pauthdata);
 
-            match Identity::AcquireCredentialsHandleA(
+            eprintln!("=== BEFORE AcquireCredentialsHandleA ===");
+            let status = Identity::AcquireCredentialsHandleA(
                 ptr::null(),
                 Identity::UNISP_NAME_A,
                 direction_flag,
@@ -364,14 +374,17 @@ impl Builder {
                 ptr::null_mut(),
                 &mut handle,
                 ptr::null_mut(),
-            ) {
+            );
+            eprintln!("=== AFTER AcquireCredentialsHandleA: 0x{:08X} ===", status as u32);
+
+            match status {
                 Foundation::SEC_E_OK => {
-                    info!("AcquireCredentialsHandleA succeeded (SEC_E_OK)");
+                    eprintln!("AcquireCredentialsHandleA succeeded (SEC_E_OK)");
                     Ok(SchannelCred::from_inner(handle))
                 },
                 err => {
-                    error!("AcquireCredentialsHandleA failed with error code: 0x{:08X}", err);
-                    error!("Error description: {}", io::Error::from_raw_os_error(err));
+                    eprintln!("AcquireCredentialsHandleA failed with error code: 0x{:08X}", err);
+                    eprintln!("Error description: {}", io::Error::from_raw_os_error(err));
                     Err(io::Error::from_raw_os_error(err))
                 },
             }
@@ -387,13 +400,13 @@ struct RawCredHandle(Credentials::SecHandle);
 
 impl Drop for RawCredHandle {
     fn drop(&mut self) {
-        debug!("RawCredHandle::drop called, freeing credentials handle");
+        eprintln!("RawCredHandle::drop called, freeing credentials handle");
         unsafe {
             let result = Identity::FreeCredentialsHandle(&self.0);
             if result != Foundation::SEC_E_OK {
-                warn!("FreeCredentialsHandle failed with error: 0x{:08X}", result);
+                eprintln!("FreeCredentialsHandle failed with error: 0x{:08X}", result);
             } else {
-                debug!("FreeCredentialsHandle succeeded");
+                eprintln!("FreeCredentialsHandle succeeded");
             }
         }
     }
@@ -402,17 +415,17 @@ impl Drop for RawCredHandle {
 impl SchannelCred {
     /// Returns a builder.
     pub fn builder() -> Builder {
-        debug!("SchannelCred::builder called");
+        eprintln!("SchannelCred::builder called");
         Builder::new()
     }
 
     unsafe fn from_inner(inner: Credentials::SecHandle) -> SchannelCred {
-        debug!("SchannelCred::from_inner called, creating Arc<RawCredHandle>");
+        eprintln!("SchannelCred::from_inner called, creating Arc<RawCredHandle>");
         SchannelCred(Arc::new(RawCredHandle(inner)))
     }
 
     pub(crate) fn as_inner(&self) -> Credentials::SecHandle {
-        trace!("SchannelCred::as_inner called");
+        eprintln!("SchannelCred::as_inner called");
         self.0.as_ref().0
     }
 }
