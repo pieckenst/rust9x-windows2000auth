@@ -15,6 +15,7 @@ use windows_sys::Win32::System::LibraryLoader::{
 use crate::alpn_list::AlpnList;
 use crate::cert_context::CertContext;
 use crate::context_buffer::ContextBuffer;
+use crate::hostname::{utf16_domain_to_ansi, HostnameError};
 use crate::schannel_cred::SchannelCred;
 use crate::{log_init_requests, secbuf, secbuf_desc, Inner, INIT_REQUESTS};
 
@@ -108,40 +109,64 @@ impl SecurityContext {
              * with legacy Schannel. The public API provides UTF-16, which we convert
              * to the ANSI representation expected by the legacy Schannel entry points.
              *
-             * TODO: Replace the current lossy UTF-16 → ANSI conversion with proper
-             * hostname handling that respects the system code page and handles
-             * non-ASCII hostnames correctly. The current String::from_utf16_lossy()
-             * will silently convert non-representable characters to '?', which is
-             * acceptable for ASCII hostnames but not for internationalized domain names.
+             * The conversion is now implemented using proper Windows APIs:
+             * - For IDNs: IdnToAscii (RFC 3490) converts to Punycode
+             * - For ASCII: WideCharToMultiByte with WC_NO_BEST_FIT_CHARS flag
+             * - All conversions are explicit about failures rather than lossy
+             * - Errors are handled gracefully by returning None (no SNI)
              */
-        let domain_ansi_storage: Option<Vec<i8>> = domain
-            .map(|d| {
-                let s = String::from_utf16_lossy(d);
-
-                eprintln!("Target/domain UTF-16 string: {:?}", s);
-
-                let mut bytes = s
-                    .as_bytes()
-                    .iter()
-                    .map(|&b| b as i8)
-                    .collect::<Vec<i8>>();
-
-                if !bytes.last().map(|&b| b == 0).unwrap_or(false) {
-                    bytes.push(0);
+        let domain_ansi_storage: Option<Vec<i8>> = match domain {
+            Some(d) => {
+                eprintln!("Converting UTF-16 domain to ANSI for Schannel");
+                match utf16_domain_to_ansi(d) {
+                    Ok(ansi) => {
+                        eprintln!(
+                            "Domain conversion successful: {:?}",
+                            String::from_utf8_lossy(
+                                &ansi.iter().map(|&b| b as u8).collect::<Vec<u8>>()
+                            )
+                        );
+                        Some(ansi)
+                    }
+                    Err(e) => {
+                        eprintln!("Domain conversion failed: {:?}", e);
+                        // Handle conversion errors gracefully by logging and returning None
+                        // This will cause Schannel to proceed without SNI, which is better than
+                        // failing the entire connection attempt
+                        match e {
+                            HostnameError::InvalidUtf16 => {
+                                eprintln!("  Error type: Invalid UTF-16 - falling back to no SNI");
+                            }
+                            HostnameError::InvalidHostname => {
+                                eprintln!("  Error type: Invalid hostname - falling back to no SNI");
+                            }
+                            HostnameError::IdnConversionFailed(code) => {
+                                eprintln!("  Error type: IDN conversion failed (0x{:08X}) - falling back to no SNI", code);
+                            }
+                            HostnameError::CodePageConversionFailed(code) => {
+                                eprintln!("  Error type: Code page conversion failed (0x{:08X}) - falling back to no SNI", code);
+                            }
+                            HostnameError::AnsiStringTooLong => {
+                                eprintln!("  Error type: ANSI string too long - falling back to no SNI");
+                            }
+                            HostnameError::EmptyDomain => {
+                                eprintln!("  Error type: Empty domain - falling back to no SNI");
+                            }
+                            HostnameError::UnexpectedError => {
+                                eprintln!("  Error type: Unexpected error - falling back to no SNI");
+                            }
+                        }
+                        // Return None to indicate no valid ANSI representation
+                        // This is handled gracefully by the caller
+                        None
+                    }
                 }
-
-                eprintln!(
-                    "Target/domain ANSI string: {:?}",
-                    String::from_utf8_lossy(
-                        &bytes
-                            .iter()
-                            .map(|&b| b as u8)
-                            .collect::<Vec<u8>>()
-                    )
-                );
-
-                bytes
-            });
+            }
+            None => {
+                eprintln!("No domain provided for conversion");
+                None
+            }
+        };
 
         let domain_ptr: *const i8 = domain_ansi_storage
             .as_ref()

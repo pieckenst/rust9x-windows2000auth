@@ -66,6 +66,7 @@ pub mod tls_stream;
 
 mod alpn_list;
 mod context_buffer;
+mod hostname;
 mod security_context;
 
 #[cfg(test)]

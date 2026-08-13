@@ -18,6 +18,7 @@ use crate::cert_chain::{CertChain, CertChainContext};
 use crate::cert_context::CertContext;
 use crate::cert_store::{CertAdd, CertStore};
 use crate::context_buffer::ContextBuffer;
+use crate::hostname::{utf16_domain_to_ansi, HostnameError};
 use crate::schannel_cred::SchannelCred;
 use crate::security_context::SecurityContext;
 use crate::{log_accept_requests, log_init_requests, secbuf, secbuf_desc, Inner, ACCEPT_REQUESTS, INIT_REQUESTS};
@@ -561,36 +562,57 @@ where
                  *
                  * We convert UTF-16 domain to ANSI for the legacy Schannel A API.
                  * See security_context.rs for the full architectural description.
-                 * TODO: Replace lossy conversion with proper hostname handling.
+                 * The conversion now uses proper Windows APIs with explicit error handling.
+                 * Errors are handled gracefully by falling back to no SNI rather than failing.
                  */
                 let domain_ansi_storage: Option<Vec<i8>> = match self.domain {
                     Some(ref domain) if self.use_sni => {
-                        let s = String::from_utf16_lossy(domain);
-
-                        eprintln!("  Using SNI domain: {:?}", s);
-
-                        let mut bytes: Vec<i8> = s
-                            .as_bytes()
-                            .iter()
-                            .map(|&b| b as i8)
-                            .collect();
-
-                        if !bytes.last().map(|&b| b == 0).unwrap_or(false) {
-                            bytes.push(0);
+                        eprintln!("  Converting SNI domain from UTF-16 to ANSI");
+                        match utf16_domain_to_ansi(domain) {
+                            Ok(ansi) => {
+                                eprintln!(
+                                    "  SNI domain conversion successful: {:?}",
+                                    String::from_utf8_lossy(
+                                        &ansi.iter().map(|&b| b as u8).collect::<Vec<u8>>()
+                                    )
+                                );
+                                Some(ansi)
+                            }
+                            Err(e) => {
+                                eprintln!("  SNI domain conversion failed: {:?}", e);
+                                // Handle conversion errors gracefully by logging and falling back to no SNI
+                                // This is better than failing the entire connection attempt
+                                match e {
+                                    HostnameError::InvalidUtf16 => {
+                                        eprintln!("    Error type: Invalid UTF-16 - falling back to no SNI");
+                                    }
+                                    HostnameError::InvalidHostname => {
+                                        eprintln!("    Error type: Invalid hostname - falling back to no SNI");
+                                    }
+                                    HostnameError::IdnConversionFailed(code) => {
+                                        eprintln!("    Error type: IDN conversion failed (0x{:08X}) - falling back to no SNI", code);
+                                    }
+                                    HostnameError::CodePageConversionFailed(code) => {
+                                        eprintln!("    Error type: Code page conversion failed (0x{:08X}) - falling back to no SNI", code);
+                                    }
+                                    HostnameError::AnsiStringTooLong => {
+                                        eprintln!("    Error type: ANSI string too long - falling back to no SNI");
+                                    }
+                                    HostnameError::EmptyDomain => {
+                                        eprintln!("    Error type: Empty domain - falling back to no SNI");
+                                    }
+                                    HostnameError::UnexpectedError => {
+                                        eprintln!("    Error type: Unexpected error - falling back to no SNI");
+                                    }
+                                }
+                                // Return None to proceed without SNI
+                                None
+                            }
                         }
-
-                        eprintln!(
-                            "  ANSI SNI domain: {:?}",
-                            String::from_utf8_lossy(
-                                &bytes.iter().map(|&b| b as u8).collect::<Vec<u8>>()
-                            )
-                        );
-
-                        Some(bytes)
                     }
 
                     _ => {
-                        eprintln!("  No SNI domain");
+                        eprintln!("  No SNI domain (SNI disabled or no domain set)");
                         None
                     }
                 };
