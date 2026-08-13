@@ -18,14 +18,14 @@ use crate::cert_chain::{CertChain, CertChainContext};
 use crate::cert_context::CertContext;
 use crate::cert_store::{CertAdd, CertStore};
 use crate::context_buffer::ContextBuffer;
-use crate::hostname::{utf16_domain_to_ansi, HostnameError};
+use crate::hostname::{utf16_domain_to_ascii, HostnameError};
 use crate::schannel_cred::SchannelCred;
 use crate::security_context::SecurityContext;
 use crate::{log_accept_requests, log_init_requests, secbuf, secbuf_desc, Inner, ACCEPT_REQUESTS, INIT_REQUESTS};
 
 /// A builder type for `TlsStream`s.
 pub struct Builder {
-    domain: Option<Vec<u16>>,
+    domain: Option<Vec<i8>>, // Now stores pre-converted ASCII bytes + NUL
     use_sni: bool,
     accept_invalid_hostnames: bool,
     verify_callback: Option<Arc<dyn Fn(CertValidationResult) -> io::Result<()> + Sync + Send>>,
@@ -58,9 +58,52 @@ impl Builder {
     ///
     /// The domain will be used for Server Name Indication as well as
     /// certificate validation.
+    ///
+    /// The domain is converted once to ASCII bytes + NUL at this point, following:
+    /// - For IDNs: IdnToAscii (RFC 3490) converts to Punycode
+    /// - For ASCII: validation and direct byte conversion
+    /// - Result: pure ASCII bytes + NUL (no code page dependency)
     pub fn domain(&mut self, domain: &str) -> &mut Builder {
         eprintln!("Builder::domain called with domain: {}", domain);
-        self.domain = Some(domain.encode_utf16().chain(Some(0)).collect());
+        eprintln!("Converting domain to ASCII bytes + NUL (one-time conversion)");
+
+        let domain_utf16: Vec<u16> = domain.encode_utf16().collect();
+        match utf16_domain_to_ascii(&domain_utf16) {
+            Ok(ascii_bytes) => {
+                eprintln!("Domain conversion successful: {:?}",
+                    String::from_utf8_lossy(&ascii_bytes.iter().map(|&b| b as u8).collect::<Vec<u8>>()));
+                self.domain = Some(ascii_bytes);
+            }
+            Err(e) => {
+                eprintln!("Domain conversion failed: {:?}", e);
+                // Handle conversion errors gracefully by logging and setting to None
+                // This will cause Schannel to proceed without SNI
+                match e {
+                    HostnameError::InvalidUtf16 => {
+                        eprintln!("  Error type: Invalid UTF-16 - SNI will be disabled");
+                    }
+                    HostnameError::InvalidHostname => {
+                        eprintln!("  Error type: Invalid hostname - SNI will be disabled");
+                    }
+                    HostnameError::IdnConversionFailed(code) => {
+                        eprintln!("  Error type: IDN conversion failed (0x{:08X}) - SNI will be disabled", code);
+                    }
+                    HostnameError::CodePageConversionFailed(code) => {
+                        eprintln!("  Error type: Code page conversion failed (0x{:08X}) - SNI will be disabled (unexpected in ASCII path)", code);
+                    }
+                    HostnameError::AnsiStringTooLong => {
+                        eprintln!("  Error type: ANSI string too long - SNI will be disabled");
+                    }
+                    HostnameError::EmptyDomain => {
+                        eprintln!("  Error type: Empty domain - SNI will be disabled");
+                    }
+                    HostnameError::UnexpectedError => {
+                        eprintln!("  Error type: Unexpected error - SNI will be disabled");
+                    }
+                }
+                self.domain = None;
+            }
+        }
         self
     }
 
@@ -180,7 +223,8 @@ impl Builder {
         eprintln!("Builder::initialize called - server: {}", server);
         let domain = match self.domain {
             Some(ref domain) if self.use_sni => {
-                eprintln!("Using SNI with domain: {:?}", String::from_utf16_lossy(domain));
+                eprintln!("Using SNI with pre-converted ASCII domain: {:?}",
+                    String::from_utf8_lossy(&domain.iter().map(|&b| b as u8).collect::<Vec<u8>>()));
                 Some(&domain[..])
             },
             _ => {
@@ -254,7 +298,7 @@ pub struct TlsStream<S> {
     cred: SchannelCred,
     context: SecurityContext,
     cert_store: Option<CertStore>,
-    domain: Option<Vec<u16>>,
+    domain: Option<Vec<i8>>, // Now stores pre-converted ASCII bytes + NUL
     use_sni: bool,
     accept_invalid_hostnames: bool,
     verify_callback: Option<Arc<dyn Fn(CertValidationResult) -> io::Result<()> + Sync + Send>>,
@@ -552,63 +596,26 @@ where
                 /*
                  * ARCHITECTURE NOTE:
                  *
-                 * UTF-16 public API (self.domain)
+                 * UTF-16 public API (converted once in Builder::domain)
                  *        ↓
-                 * ANSI representation for legacy Schannel entry points
+                 * ASCII bytes + NUL (stored in self.domain)
                  *        ↓
                  * InitializeSecurityContextA
                  *        ↓
                  * Schannel
                  *
-                 * We convert UTF-16 domain to ANSI for the legacy Schannel A API.
-                 * See security_context.rs for the full architectural description.
-                 * The conversion now uses proper Windows APIs with explicit error handling.
-                 * Errors are handled gracefully by falling back to no SNI rather than failing.
+                 * We use pre-converted ASCII bytes for the legacy Schannel A API.
+                 * Conversion happens once during Builder::domain() to avoid:
+                 * - Repeated conversion on every handshake continuation
+                 * - Potential inconsistent representations across calls
+                 * - System code page dependency
                  */
                 let domain_ansi_storage: Option<Vec<i8>> = match self.domain {
                     Some(ref domain) if self.use_sni => {
-                        eprintln!("  Converting SNI domain from UTF-16 to ANSI");
-                        match utf16_domain_to_ansi(domain) {
-                            Ok(ansi) => {
-                                eprintln!(
-                                    "  SNI domain conversion successful: {:?}",
-                                    String::from_utf8_lossy(
-                                        &ansi.iter().map(|&b| b as u8).collect::<Vec<u8>>()
-                                    )
-                                );
-                                Some(ansi)
-                            }
-                            Err(e) => {
-                                eprintln!("  SNI domain conversion failed: {:?}", e);
-                                // Handle conversion errors gracefully by logging and falling back to no SNI
-                                // This is better than failing the entire connection attempt
-                                match e {
-                                    HostnameError::InvalidUtf16 => {
-                                        eprintln!("    Error type: Invalid UTF-16 - falling back to no SNI");
-                                    }
-                                    HostnameError::InvalidHostname => {
-                                        eprintln!("    Error type: Invalid hostname - falling back to no SNI");
-                                    }
-                                    HostnameError::IdnConversionFailed(code) => {
-                                        eprintln!("    Error type: IDN conversion failed (0x{:08X}) - falling back to no SNI", code);
-                                    }
-                                    HostnameError::CodePageConversionFailed(code) => {
-                                        eprintln!("    Error type: Code page conversion failed (0x{:08X}) - falling back to no SNI", code);
-                                    }
-                                    HostnameError::AnsiStringTooLong => {
-                                        eprintln!("    Error type: ANSI string too long - falling back to no SNI");
-                                    }
-                                    HostnameError::EmptyDomain => {
-                                        eprintln!("    Error type: Empty domain - falling back to no SNI");
-                                    }
-                                    HostnameError::UnexpectedError => {
-                                        eprintln!("    Error type: Unexpected error - falling back to no SNI");
-                                    }
-                                }
-                                // Return None to proceed without SNI
-                                None
-                            }
-                        }
+                        eprintln!("  Using pre-converted SNI domain bytes");
+                        eprintln!("  Domain bytes: {:?}",
+                            String::from_utf8_lossy(&domain.iter().map(|&b| b as u8).collect::<Vec<u8>>()));
+                        Some(domain.clone())
                     }
 
                     _ => {
@@ -933,17 +940,29 @@ where
             }
             eprintln!("  CertVerifyCertificateChainPolicy flags: 0x{:08X}", para_flags);
 
+            // Convert ASCII domain back to UTF-16 for certificate validation API if needed
+            // We need to keep the UTF-16 allocation alive for the duration of the API call
+            let domain_utf16_for_validation: Option<Vec<u16>> = if let Some(ref domain) = self.domain {
+                if !self.accept_invalid_hostnames {
+                    let domain_bytes: Vec<u8> = domain.iter().map(|&b| b as u8).collect();
+                    let domain_str = String::from_utf8_lossy(&domain_bytes);
+                    eprintln!("  Setting server name for validation: {:?}", domain_str);
+                    Some(domain_str.encode_utf16().chain(Some(0)).collect())
+                } else {
+                    eprintln!("  Skipping server name validation (accept_invalid_hostnames)");
+                    None
+                }
+            } else {
+                eprintln!("  No server name validation (no domain)");
+                None
+            };
+
             let mut extra_para: Cryptography::HTTPSPolicyCallbackData = mem::zeroed();
             extra_para.Anonymous.cbSize = mem::size_of_val(&extra_para) as u32;
             extra_para.dwAuthType = Cryptography::AUTHTYPE_SERVER;
-            match self.domain {
-                Some(ref mut domain) if !self.accept_invalid_hostnames => {
-                    eprintln!("  Setting server name for validation: {:?}", String::from_utf16_lossy(domain));
-                    extra_para.pwszServerName = domain.as_mut_ptr();
-                }
-                _ => {
-                    eprintln!("  No server name validation (accept_invalid_hostnames or no domain)");
-                }
+
+            if let Some(ref domain_utf16) = domain_utf16_for_validation {
+                extra_para.pwszServerName = domain_utf16.as_ptr() as *mut u16;
             }
 
             let mut para: Cryptography::CERT_CHAIN_POLICY_PARA = mem::zeroed();

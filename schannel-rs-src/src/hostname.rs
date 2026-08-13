@@ -62,7 +62,7 @@ impl std::fmt::Display for HostnameError {
                 write!(f, "IDN conversion failed (RFC 3490) with Windows error code: 0x{:08X} - domain may contain prohibited characters or invalid IDN format", code)
             }
             HostnameError::CodePageConversionFailed(code) => {
-                write!(f, "Code page conversion failed with Windows error code: 0x{:08X} - characters may not be representable in system ANSI code page", code)
+                write!(f, "Code page conversion failed with Windows error code: 0x{:08X} - characters may not be representable in system ANSI code page (utility function)", code)
             }
             HostnameError::AnsiStringTooLong => {
                 write!(f, "ANSI string exceeds maximum length for Schannel API")
@@ -85,13 +85,13 @@ impl From<HostnameError> for io::Error {
     }
 }
 
-/// Converts a UTF-16 domain name to an ANSI string suitable for Schannel's
+/// Converts a UTF-16 domain name to ASCII bytes + NUL suitable for Schannel's
 /// InitializeSecurityContextA function.
 ///
 /// This function handles both ASCII and internationalized domain names (IDNs):
-/// - For IDNs, it converts to Punycode first using IdnToAscii
-/// - For ASCII names, it converts directly to the system ANSI code page
-/// - Uses security-conscious conversion flags to prevent "best fit" mapping
+/// - For IDNs, it converts to Punycode first using IdnToAscii (RFC 3490)
+/// - For ASCII names, it validates and uses them directly
+/// - Returns pure ASCII bytes + NUL, avoiding system code page dependency
 ///
 /// # Arguments
 ///
@@ -100,16 +100,16 @@ impl From<HostnameError> for io::Error {
 ///
 /// # Returns
 ///
-/// * `Ok(Vec<i8>)` - A NUL-terminated ANSI string suitable for Schannel
+/// * `Ok(Vec<i8>)` - A NUL-terminated ASCII byte string suitable for Schannel
 /// * `Err(HostnameError)` - If conversion fails
 ///
 /// # Security Considerations
 ///
-/// - Uses WC_NO_BEST_FIT_CHARS flag to prevent ambiguous character mappings
+/// - Uses IdnToAscii for IDN conversion (RFC 3490 security guidelines)
 /// - Explicitly fails on conversion errors rather than using lossy conversion
-/// - Validates IDN conversion according to RFC 3490 security guidelines
-pub fn utf16_domain_to_ansi(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameError> {
-    eprintln!("Starting UTF-16 domain to ANSI conversion");
+/// - Returns pure ASCII to avoid system code page dependency
+pub fn utf16_domain_to_ascii(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameError> {
+    eprintln!("Starting UTF-16 domain to ASCII conversion");
     eprintln!("Input UTF-16 length: {} characters", domain_utf16.len());
 
     // Remove null terminator if present
@@ -147,8 +147,7 @@ pub fn utf16_domain_to_ansi(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameErr
     eprintln!("Domain is pure ASCII: {}", is_pure_ascii);
 
     let ascii_domain = if is_pure_ascii {
-        // For pure ASCII, we can convert directly to the system code page
-        // But first, convert UTF-16 to a Rust string for validation
+        // For pure ASCII, validate and use directly
         let domain_str = String::from_utf16_lossy(domain_utf16);
         eprintln!("ASCII domain string: {:?}", domain_str);
 
@@ -178,19 +177,13 @@ pub fn utf16_domain_to_ansi(domain_utf16: &[u16]) -> Result<Vec<i8>, HostnameErr
         }
     };
 
-    // Now convert the ASCII (possibly Punycode) string to ANSI using the system code page
-    eprintln!("Converting ASCII string to system ANSI code page: {:?}", ascii_domain);
-    match utf8_to_system_ansi(&ascii_domain) {
-        Ok(ansi) => {
-            eprintln!("ANSI conversion successful, length: {} bytes", ansi.len());
-            eprintln!("UTF-16 to ANSI conversion completed successfully");
-            Ok(ansi)
-        }
-        Err(e) => {
-            eprintln!("ANSI conversion failed: {:?}", e);
-            Err(e)
-        }
-    }
+    // Convert ASCII string to bytes + NUL (pure ASCII, no code page conversion)
+    eprintln!("Converting ASCII string to bytes + NUL: {:?}", ascii_domain);
+    let mut bytes: Vec<i8> = ascii_domain.bytes().map(|b| b as i8).collect();
+    bytes.push(0); // Add NUL terminator
+    eprintln!("ASCII conversion successful, length: {} bytes (including NUL)", bytes.len());
+    eprintln!("UTF-16 to ASCII conversion completed successfully");
+    Ok(bytes)
 }
 
 /// Converts an internationalized domain name (IDN) to its ASCII Punycode representation.
@@ -285,6 +278,10 @@ fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
 
 /// Converts a UTF-8 string to the system ANSI code page representation.
 ///
+/// This is a utility function for scenarios where system ANSI code page conversion
+/// is needed. For hostname conversion specifically, use `utf16_domain_to_ascii` instead
+/// to avoid code page dependency.
+///
 /// Uses WideCharToMultiByte with security-conscious flags:
 /// - CP_ACP: Use the system ANSI code page
 /// - WC_NO_BEST_FIT_CHARS: Prevent ambiguous character mappings
@@ -292,13 +289,13 @@ fn convert_idn_to_ascii(domain_utf16: &[u16]) -> Result<String, HostnameError> {
 ///
 /// # Arguments
 ///
-/// * `utf8_str` - UTF-8 string (should be ASCII-compatible after IDN conversion)
+/// * `utf8_str` - UTF-8 string to convert
 ///
 /// # Returns
 ///
 /// * `Ok(Vec<i8>)` - NUL-terminated ANSI string
 /// * `Err(HostnameError)` - If conversion fails
-fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
+pub fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
     eprintln!("Starting UTF-8 to system ANSI code page conversion");
     eprintln!("Input UTF-8 string: {:?} ({} bytes)", utf8_str, utf8_str.len());
 
@@ -487,16 +484,16 @@ mod tests {
     }
 
     #[test]
-    fn test_utf16_domain_to_ansi_ascii() {
+    fn test_utf16_domain_to_ascii_ascii() {
         let domain: Vec<u16> = "example.com".encode_utf16().collect();
-        let result = utf16_domain_to_ansi(&domain);
+        let result = utf16_domain_to_ascii(&domain);
         assert!(result.is_ok());
     }
 
     #[test]
-    fn test_utf16_domain_to_ansi_with_null() {
+    fn test_utf16_domain_to_ascii_with_null() {
         let domain: Vec<u16> = "example.com".encode_utf16().chain(Some(0)).collect();
-        let result = utf16_domain_to_ansi(&domain);
+        let result = utf16_domain_to_ascii(&domain);
         assert!(result.is_ok());
     }
 

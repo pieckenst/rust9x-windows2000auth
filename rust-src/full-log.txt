@@ -1,0 +1,2382 @@
+[FUNCTION_ENTRY] auth_init
+[LIB] auth_init called
+[OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[OPTION_INFO] credentials - Status: None
+[OPTION_INFO] ntlm - Status: Some
+[OPTION_INFO] credentials_handle - Status: None
+[MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[OBJECT_SIZE] client instance = 912 bytes
+[LIB] Auth client initialized successfully
+[FUNCTION_EXIT] auth_init -> Success
+[FUNCTION_ENTRY] auth_prompt_credentials
+[LIB] auth_prompt_credentials called
+[PARAM] caption = 0x733d258
+[PARAM] message = 0x733d158
+[PARAM] save_credentials = 0x733d5e0
+[PARAM] result = 0x733d5d0
+[OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[PARAM] save = false (size: 4 bytes)
+[LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate', save: false
+[STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[STRING_INFO] message - Length: 46 bytes, Content: 'Enter your network credentials to authenticate'
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[CredUI] API: CredUICmdLinePromptForCredentialsW
+[CredUI] Caption: Windows Authentication Required
+[CredUI] Message: Enter your network credentials to authenticate
+[CredUI] Save checkbox: false
+[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 46
+[STRING_INFO] input string - Length: 46 bytes, Content: 'Enter your network credentials to authenticate'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 47 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 47
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[VEC_U16_INFO] caption_wide - Length: 32 elements
+[VEC_U16_INFO] message_wide - Length: 47 elements
+[OBJECT_SIZE] caption_wide Vec - 12 bytes
+[OBJECT_SIZE] message_wide Vec - 12 bytes
+[OBJECT_SIZE] username_buf - 512 bytes
+[OBJECT_SIZE] password_buf - 512 bytes
+[OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[CredUI] HRESULT: 0x00000000
+[FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[VEC_U16_INFO] input slice - Length: 13 elements
+[MEMORY] from_wide - start - Context: Memory tracking enabled
+[STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[OBJECT_SIZE] result String - 12 bytes
+[FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[MEMORY] from_wide - end - Context: Memory tracking enabled
+[FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[VEC_U16_INFO] input slice - Length: 8 elements
+[MEMORY] from_wide - start - Context: Memory tracking enabled
+[STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[OBJECT_SIZE] result String - 12 bytes
+[FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[MEMORY] from_wide - end - Context: Memory tracking enabled
+[STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[OBJECT_SIZE] username String - 12 bytes
+[OBJECT_SIZE] password String - 12 bytes
+[CredUI] Username length: 13
+[CredUI] Password length: 8
+[CredUI] Save flag result: 0
+[CredUI] Parsed username: rsncra
+[CredUI] Parsed domain: Some("rust9x")
+[STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[OPTION_INFO] parsed domain - Status: Some
+[MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[CredUI] Credentials stored successfully
+[FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[LIB] Credential prompt successful
+[FUNCTION_EXIT] auth_prompt_credentials -> Success
+[FUNCTION_ENTRY] AuthInteropResult::success
+[OBJECT_SIZE] AuthInteropResult = 16 bytes
+[PARAM] error_code = Success (size: 4 bytes)
+[PARAM] error_message = null_mut()
+[PARAM] response_data = null_mut()
+[PARAM] response_length = 0 (size: 4 bytes)
+[FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[FUNCTION_ENTRY] auth_prompt_credentials
+[LIB] auth_prompt_credentials called
+[PARAM] caption = 0xadfe420
+[PARAM] message = 0xadfe320
+[PARAM] save_credentials = 0xadfe7a8
+[PARAM] result = 0xadfe798
+[OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate'
+[PARAM] message_str = 'Enter your network credentials to authenticate' (size: 46 bytes)
+[INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[PARAM] save = false (size: 4 bytes)
+[LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate, Save: false
+[FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate', save: false
+[STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[STRING_INFO] message - Length: 46 bytes, Content: 'Enter your network credentials to authenticate'
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[CredUI] API: CredUICmdLinePromptForCredentialsW
+[CredUI] Caption: Windows Authentication Required
+[CredUI] Message: Enter your network credentials to authenticate
+[CredUI] Save checkbox: false
+[CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 46
+[STRING_INFO] input string - Length: 46 bytes, Content: 'Enter your network credentials to authenticate'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 47 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 47
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[VEC_U16_INFO] caption_wide - Length: 32 elements
+[VEC_U16_INFO] message_wide - Length: 47 elements
+[OBJECT_SIZE] caption_wide Vec - 12 bytes
+[OBJECT_SIZE] message_wide Vec - 12 bytes
+[OBJECT_SIZE] username_buf - 512 bytes
+[OBJECT_SIZE] password_buf - 512 bytes
+[OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[MEMORY] to_wide - start - Context: Memory tracking enabled
+[VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[OBJECT_SIZE] result Vec - 12 bytes
+[FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[MEMORY] to_wide - end - Context: Memory tracking enabled
+[MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[CredUI] HRESULT: 0x00000000
+[FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[VEC_U16_INFO] input slice - Length: 13 elements
+[MEMORY] from_wide - start - Context: Memory tracking enabled
+[STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[OBJECT_SIZE] result String - 12 bytes
+[FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[MEMORY] from_wide - end - Context: Memory tracking enabled
+[FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[VEC_U16_INFO] input slice - Length: 8 elements
+[MEMORY] from_wide - start - Context: Memory tracking enabled
+[STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[OBJECT_SIZE] result String - 12 bytes
+[FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[MEMORY] from_wide - end - Context: Memory tracking enabled
+[STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[OBJECT_SIZE] username String - 12 bytes
+[OBJECT_SIZE] password String - 12 bytes
+[CredUI] Username length: 13
+[CredUI] Password length: 8
+[CredUI] Save flag result: 0
+[CredUI] Parsed username: rsncra
+[CredUI] Parsed domain: Some("rust9x")
+[STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[OPTION_INFO] parsed domain - Status: Some
+[MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[CredUI] Credentials stored successfully
+[FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[LIB] Credential prompt successful
+[FUNCTION_EXIT] auth_prompt_credentials -> Success
+[FUNCTION_ENTRY] AuthInteropResult::success
+[OBJECT_SIZE] AuthInteropResult = 16 bytes
+[PARAM] error_code = Success (size: 4 bytes)
+[PARAM] error_message = null_mut()
+[PARAM] response_data = null_mut()
+[PARAM] response_length = 0 (size: 4 bytes)
+[FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[FUNCTION_ENTRY] auth_http_request
+[LIB] auth_http_request called
+[PARAM] url = 0xadfe254
+[PARAM] method = 0xadfe154
+[PARAM] body_data = NULL
+[PARAM] body_length = 0 (size: 0 bytes)
+[PARAM] result = 0xadfe438
+[OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[PARAM] method_str = 'GET' (size: 3 bytes)
+[LIB] HTTP request: GET https://example.com/api/auth
+[INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[PARAM] body = None
+[OBJECT_SIZE] HttpClient = 96 bytes
+[MEMORY_ALLOC] HttpClient allocated 96 bytes
+[OS_DETECT] RtlGetVersion -> 10.0.26200
+[TLS] Auto-selecting config based on OS version: Windows10OrLater
+[TLS] OS uses modern TLS configuration
+[TLS] Creating new TlsConfig with secure defaults
+[TLS] Setting handshake timeout to: 30s
+[TLS] Configuration validation passed
+[TLS] Building TLS connector with current configuration
+[TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+TlsConnector::builder called
+[TLS] Mapping min_protocol Auto to native_tls None
+[TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[TLS] Setting maximum protocol to Tlsv12
+TlsConnectorBuilder::max_protocol_version called with protocol: Some(Tlsv12)
+TlsConnectorBuilder::build called
+TlsConnector::new called
+  Adding 0 root certificates
+TlsConnector created with configuration:
+  min_protocol: Some(Tlsv12)
+  max_protocol: Some(Tlsv12)
+  use_sni: true
+  accept_invalid_hostnames: false
+  accept_invalid_certs: false
+  disable_built_in_roots: false
+TlsConnectorBuilder::build successfully created TlsConnector
+[TLS] TLS connector built successfully
+[TLS] Connector ready for secure connections
+[HTTP] TLS connector built successfully
+[HTTP] Starting GET request to example.com:443
+[HTTP] Target name for NTLM: HTTP/example.com
+[FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/example.com', length: 16
+[STRING_INFO] target_name - Length: 16 bytes, Content: 'HTTP/example.com'
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[OPTION_INFO] credentials - Status: Some
+[STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[OBJECT_SIZE] String struct - 12 bytes
+[SSPI] Username: rsncra
+[SSPI] Domain: Some("rust9x")
+[MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[OPTION_INFO] ntlm - Status: Some
+[OBJECT_SIZE] Ntlm struct - 840 bytes
+[SSPI] API: AcquireCredentialsHandle
+[SSPI] Package: NTLM
+[SSPI] Principal: NULL
+[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[OBJECT_SIZE] Username struct - 24 bytes
+[OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] AcquireCredentialsHandle -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[OPTION_INFO] credentials_handle - Status: Some
+[SSPI] API: InitializeSecurityContext
+[SSPI] TargetName: HTTP/example.com
+[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[SSPI] DataRepresentation: Native
+[OBJECT_SIZE] output_buffer - 12 bytes
+[OBJECT_SIZE] input_buffer - 12 bytes
+[OBJECT_SIZE] output_buffer Vec - 12 bytes
+[OBJECT_SIZE] input_buffer Vec - 12 bytes
+[MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] InitializeSecurityContext -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[VEC_INFO] token - Length: 40 bytes
+[OBJECT_SIZE] token Vec - 12 bytes
+[OBJECT_SIZE] token Vec<u8> - 12 bytes
+[SSPI] Negotiate token generated (40 bytes)
+[FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[HTTP] NTLM negotiate token: 40 bytes
+[HTTP] Connected to example.com:443
+[HTTP] Starting TLS handshake with example.com
+TlsConnector::connect called with domain: example.com
+TlsConnector::connect called with domain: example.com
+  Enabled protocols: [Tls12]
+SchannelCred::builder called
+SchannelCred::Builder::new called
+Builder::enabled_protocols called with 1 protocols
+  Protocol[0]: Tls12
+  Acquiring Schannel credentials (Outbound)
+=== LOCAL SCHANNEL Builder::acquire ENTERED ===
+Builder::acquire called with direction: Outbound
+Enabled protocols: 0x00000800
+  - Tls12 -> 0x00000800
+UNISP_NAME_W ptr = 0x6a000cc8
+UNISP_NAME_W[0] = 0x004D
+UNISP_NAME_W[1] = 0x0069
+UNISP_NAME_W[2] = 0x0063
+UNISP_NAME_W[3] = 0x0072
+UNISP_NAME_W[4] = 0x006F
+UNISP_NAME_W[5] = 0x0073
+UNISP_NAME_W[6] = 0x006F
+UNISP_NAME_W[7] = 0x0066
+UNISP_NAME_W[8] = 0x0074
+UNISP_NAME_W[9] = 0x0020
+UNISP_NAME_W[10] = 0x0055
+UNISP_NAME_W[11] = 0x006E
+UNISP_NAME_W[12] = 0x0069
+UNISP_NAME_W[13] = 0x0066
+UNISP_NAME_W[14] = 0x0069
+UNISP_NAME_W[15] = 0x0065
+SCHANNEL_CRED configuration:
+  dwVersion: 0x00000004 (SCHANNEL_CRED_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  grbitEnabledProtocols: 0x00000800
+  cCreds: 0
+  paCred: 0x0
+RtlGetVersion: major=10 minor=0 build=26200
+OS supports SCH_CREDENTIALS (Windows 10 build 17763+), using new interface for TLS 1.3 support
+TLS_PARAMETERS.grbitDisabledProtocols: 0xFFFFF7FF
+SCH_CREDENTIALS configuration:
+  dwVersion: 0x00000005 (SCH_CREDENTIALS_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  cCreds: 0
+  paCred: 0x4
+  cTlsParameters: 1
+  pTlsParameters: 0xadfbc1c
+Using SCH_CREDENTIALS structure
+[SCHANNEL] credential interface = SCH_CREDENTIALS
+[SCHANNEL] enabled_protocols = 0x00000800
+[SCHANNEL] dwFlags = 0x00400010
+[SCHANNEL] dwVersion = 5
+Direction: Outbound (SECPKG_CRED_OUTBOUND)
+Calling AcquireCredentialsHandleA with UNISP_NAME_A
+  Principal: NULL
+  Package: UNISP_NAME_A
+  Direction: 0x00000002
+  pAuthData: 0xadfbc34
+=== BEFORE AcquireCredentialsHandleA ===
+=== AFTER AcquireCredentialsHandleA: 0x00000000 ===
+AcquireCredentialsHandleA succeeded (SEC_E_OK)
+SchannelCred::from_inner called, creating Arc<RawCredHandle>
+Builder::new called
+Builder::default called
+Builder::cert_store called
+Builder::domain called with domain: example.com
+Builder::use_sni called with use_sni: true
+Builder::accept_invalid_hostnames called with accept_invalid_hostnames: false
+  Initiating TLS connection
+Builder::connect called - starting client TLS connection
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+Builder::initialize called - server: false
+Using SNI with domain: "example.com\0"
+=== LOCAL SCHANNEL SecurityContext::initialize ENTERED ===
+SecurityContext::initialize called
+  accept: false
+  domain: Some("example.com\0")
+  requested_application_protocols: 0 protocols
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+secur32.dll handle = 0x71210000
+secur32.dll path = C:\WINDOWS\SYSTEM32\secur32.dll
+Converting UTF-16 domain to ANSI for Schannel
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+Domain conversion successful: "example.com\0"
+Domain/SNI ANSI pointer: 0x740fc80
+Creating input buffers
+Input buffer count: 0
+No input buffers - passing NULL for pInput (first call requirement)
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating output buffers: TOKEN, ALERT, EMPTY
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+SchannelCred::as_inner called
+Calling InitializeSecurityContextA
+CredHandle: lower=0x073E3D88 upper=0x00013088
+  Context: NULL (first call)
+  Domain: 0x740fc80
+  INIT_REQUESTS: 0x0009811C
+  Reserved1: 0
+  TargetDataRep: 0
+  Input buffers: 0 buffers
+  pInput pointer: 0x0
+  Reserved2: 0
+  Output context: 0xadfb498
+  Output buffers: 1 buffer
+  Attributes: 0xadfb620
+  Expiration: NULL
+SecHandle size = 8 align = 4
+SecBuffer size = 12 align = 4
+SecBufferDesc size = 12 align = 4
+usize=4 pointer=4
+=== BEFORE InitializeSecurityContextA ===
+=== AFTER InitializeSecurityContextA: 0x00090312 ===
+InitializeSecurityContextA returned SEC_I_CONTINUE_NEEDED (0x00090312)
+  Attributes: 0x0008811C
+  Context attributes:
+    ASC_RET_ALLOCATED_MEMORY: true
+    ASC_RET_CONFIDENTIALITY: true
+    ASC_RET_CONNECTION: false
+    ASC_RET_USED_DCE_STYLE: false
+    ASC_RET_SEQUENCE_DETECT: true
+    ASC_RET_REPLAY_DETECT: true
+    ASC_RET_EXTENDED_ERROR: true
+    ASC_RET_STREAM: false
+    ASC_RET_INTEGRITY: false
+Output buffer state:
+  Buffer[0] (TOKEN) type: 0x2, length: 167, ptr: 0x737f508
+  Buffer[1] (ALERT) type: 0x11, length: 0, ptr: 0x0
+  Buffer[2] (EMPTY) type: 0x0, length: 0, ptr: 0x0
+SecurityContext::initialize succeeded
+Creating TlsStream with state: Initializing
+Starting handshake process
+MidHandshakeTlsStream::handshake called
+TlsStream::initialize called
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 167 bytes to write (position: 0, total: 167)
+  write_out: wrote 167 bytes this call, total: 167
+  write_out: completed, wrote 167 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Resizing buffer from 0 to 1024
+    Read 1024 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 1024
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 1024
+Creating SecBuffer with type 0x2, length: 1024
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=1024, ptr=0x74184f0
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x740fec0
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  SECBUFFER_EXTRA detected, consuming 952 bytes
+  Output data to write: 0 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 952
+Creating SecBuffer with type 0x2, length: 952
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=952, ptr=0x74184f0
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x740fda0
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x80090318
+  Attributes: 0x0008811C
+Incomplete message (SEC_E_INCOMPLETE_MESSAGE)
+  SECBUFFER_MISSING - need 2730 more bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 2730 bytes
+  read_in called, needs_read: 2730
+    Resizing buffer from 952 to 2730
+    Read 1778 bytes, remaining needs_read: 952
+    Resizing buffer from 2730 to 5460
+    Read 1081 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 2859
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 3811
+Creating SecBuffer with type 0x2, length: 3811
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=3811, ptr=0x741a978
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x740fda0
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  No SECBUFFER_EXTRA, consuming all input
+  Output data to write: 93 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 93 bytes to write (position: 167, total: 260)
+  write_out: wrote 93 bytes this call, total: 93
+  write_out: completed, wrote 93 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Read 258 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 258
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 258
+Creating SecBuffer with type 0x2, length: 258
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=258, ptr=0x741a978
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x740fda0
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00000000
+  Attributes: 0x0008811C
+Handshake completed successfully (SEC_E_OK)
+  No SECBUFFER_EXTRA, consuming all input
+  No output data to write
+  State: Initializing
+    needs_flush: false
+    more_calls: false
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 260, total: 260)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: true)
+TlsStream::validate called with require_cert: true
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+Successfully retrieved remote certificate context
+  Retrieved remote certificate context
+  Adding 0 extra certificates to chain store
+  CertGetCertificateChain flags: 0xC0000001
+  Certificate usage identifiers: 3
+  Calling CertGetCertificateChain
+  CertGetCertificateChain succeeded
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+  CertVerifyCertificateChainPolicy flags: 0x00000F00
+  Setting server name for validation: "example.com\0"
+  Calling CertVerifyCertificateChainPolicy with SSL policy
+  Certificate verification status: 0x00000000
+  Certificate verification succeeded
+  Certificate validation completed successfully
+CertContext::drop called
+  Certificate validated successfully
+  No more calls needed, transitioning to final state
+  Transitioning to Streaming state
+SecurityContext::stream_sizes called
+SecurityContext::attribute called with attr: 0x00000004
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+    Stream sizes: header=13, trailer=16, max_msg=16384
+  Already in Streaming state
+Handshake completed successfully
+  TLS connection established successfully
+TlsConnector::connect successfully established TLS connection to example.com
+[HTTP] TLS handshake successful with example.com
+[HTTP] Sending initial request (197 bytes)
+TlsStream::initialize called
+  Already in Streaming state
+  encrypt called with 197 bytes of data
+    Total encrypted size: header=13 + data=197 + trailer=16 = 226
+Creating SecBuffer with type 0x7, length: 13
+Creating SecBuffer with type 0x1, length: 197
+Creating SecBuffer with type 0x6, length: 50
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x7, length=13, ptr=0x740a488
+  Buffer[1]: type=0x1, length=197, ptr=0x740a495
+  Buffer[2]: type=0x6, length=50, ptr=0x740a55a
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling EncryptMessage
+SecurityContext::get_mut called
+    EncryptMessage succeeded, total output: 226 bytes
+  write_out: 226 bytes to write (position: 0, total: 226)
+  write_out: wrote 226 bytes this call, total: 226
+  write_out: completed, wrote 226 bytes total
+TlsStream::initialize called
+  Already in Streaming state
+  read_in called, needs_read: 1
+    Read 853 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 853
+  decrypt called
+    Encrypted data length: 853
+Creating SecBuffer with type 0x1, length: 853
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=853, ptr=0x741a978
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 790 bytes (start: 13, end: 803)
+    SECBUFFER_EXTRA detected: 34 bytes
+TlsStream::initialize called
+  Already in Streaming state
+  decrypt called
+    Encrypted data length: 34
+Creating SecBuffer with type 0x1, length: 34
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=34, ptr=0x741a978
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 5 bytes (start: 13, end: 18)
+    No SECBUFFER_EXTRA
+[HTTP] Initial response: 404 Not Found
+[LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_ENTRY] AuthInteropResult::error
+[PARAM] error_code = NetworkError (size: 4 bytes)
+[PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x73d1a28
+[OBJECT_SIZE] AuthInteropResult = 16 bytes
+[PARAM] error_message = ptr=0x73d1a28 (leaked)
+[FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+RawCredHandle::drop called, freeing credentials handle
+FreeCredentialsHandle succeeded
+SecurityContext::drop called, deleting security context
+DeleteSecurityContext succeeded
+[FUNCTION_ENTRY] auth_http_request
+[LIB] auth_http_request called
+[PARAM] url = 0xadfe254
+[PARAM] method = 0xadfe154
+[PARAM] body_data = NULL
+[PARAM] body_length = 0 (size: 0 bytes)
+[PARAM] result = 0xadfe438
+[OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[PARAM] method_str = 'GET' (size: 3 bytes)
+[LIB] HTTP request: GET https://example.com/api/auth
+[INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[PARAM] body = None
+[OBJECT_SIZE] HttpClient = 96 bytes
+[MEMORY_ALLOC] HttpClient allocated 96 bytes
+[OS_DETECT] RtlGetVersion -> 10.0.26200
+[TLS] Auto-selecting config based on OS version: Windows10OrLater
+[TLS] OS uses modern TLS configuration
+[TLS] Creating new TlsConfig with secure defaults
+[TLS] Setting handshake timeout to: 30s
+[TLS] Configuration validation passed
+[TLS] Building TLS connector with current configuration
+[TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+TlsConnector::builder called
+[TLS] Mapping min_protocol Auto to native_tls None
+[TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[TLS] Setting maximum protocol to Tlsv12
+TlsConnectorBuilder::max_protocol_version called with protocol: Some(Tlsv12)
+TlsConnectorBuilder::build called
+TlsConnector::new called
+  Adding 0 root certificates
+TlsConnector created with configuration:
+  min_protocol: Some(Tlsv12)
+  max_protocol: Some(Tlsv12)
+  use_sni: true
+  accept_invalid_hostnames: false
+  accept_invalid_certs: false
+  disable_built_in_roots: false
+TlsConnectorBuilder::build successfully created TlsConnector
+[TLS] TLS connector built successfully
+[TLS] Connector ready for secure connections
+[HTTP] TLS connector built successfully
+[HTTP] Starting GET request to example.com:443
+[HTTP] Target name for NTLM: HTTP/example.com
+[FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/example.com', length: 16
+[STRING_INFO] target_name - Length: 16 bytes, Content: 'HTTP/example.com'
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[OPTION_INFO] credentials - Status: Some
+[STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[OBJECT_SIZE] String struct - 12 bytes
+[SSPI] Username: rsncra
+[SSPI] Domain: Some("rust9x")
+[MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[OPTION_INFO] ntlm - Status: Some
+[OBJECT_SIZE] Ntlm struct - 840 bytes
+[SSPI] API: AcquireCredentialsHandle
+[SSPI] Package: NTLM
+[SSPI] Principal: NULL
+[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[OBJECT_SIZE] Username struct - 24 bytes
+[OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] AcquireCredentialsHandle -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[OPTION_INFO] credentials_handle - Status: Some
+[SSPI] API: InitializeSecurityContext
+[SSPI] TargetName: HTTP/example.com
+[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[SSPI] DataRepresentation: Native
+[OBJECT_SIZE] output_buffer - 12 bytes
+[OBJECT_SIZE] input_buffer - 12 bytes
+[OBJECT_SIZE] output_buffer Vec - 12 bytes
+[OBJECT_SIZE] input_buffer Vec - 12 bytes
+[MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] InitializeSecurityContext -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[VEC_INFO] token - Length: 40 bytes
+[OBJECT_SIZE] token Vec - 12 bytes
+[OBJECT_SIZE] token Vec<u8> - 12 bytes
+[SSPI] Negotiate token generated (40 bytes)
+[FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[HTTP] NTLM negotiate token: 40 bytes
+[HTTP] Connected to example.com:443
+[HTTP] Starting TLS handshake with example.com
+TlsConnector::connect called with domain: example.com
+TlsConnector::connect called with domain: example.com
+  Enabled protocols: [Tls12]
+SchannelCred::builder called
+SchannelCred::Builder::new called
+Builder::enabled_protocols called with 1 protocols
+  Protocol[0]: Tls12
+  Acquiring Schannel credentials (Outbound)
+=== LOCAL SCHANNEL Builder::acquire ENTERED ===
+Builder::acquire called with direction: Outbound
+Enabled protocols: 0x00000800
+  - Tls12 -> 0x00000800
+UNISP_NAME_W ptr = 0x6a000cc8
+UNISP_NAME_W[0] = 0x004D
+UNISP_NAME_W[1] = 0x0069
+UNISP_NAME_W[2] = 0x0063
+UNISP_NAME_W[3] = 0x0072
+UNISP_NAME_W[4] = 0x006F
+UNISP_NAME_W[5] = 0x0073
+UNISP_NAME_W[6] = 0x006F
+UNISP_NAME_W[7] = 0x0066
+UNISP_NAME_W[8] = 0x0074
+UNISP_NAME_W[9] = 0x0020
+UNISP_NAME_W[10] = 0x0055
+UNISP_NAME_W[11] = 0x006E
+UNISP_NAME_W[12] = 0x0069
+UNISP_NAME_W[13] = 0x0066
+UNISP_NAME_W[14] = 0x0069
+UNISP_NAME_W[15] = 0x0065
+SCHANNEL_CRED configuration:
+  dwVersion: 0x00000004 (SCHANNEL_CRED_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  grbitEnabledProtocols: 0x00000800
+  cCreds: 0
+  paCred: 0x0
+RtlGetVersion: major=10 minor=0 build=26200
+OS supports SCH_CREDENTIALS (Windows 10 build 17763+), using new interface for TLS 1.3 support
+TLS_PARAMETERS.grbitDisabledProtocols: 0xFFFFF7FF
+SCH_CREDENTIALS configuration:
+  dwVersion: 0x00000005 (SCH_CREDENTIALS_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  cCreds: 0
+  paCred: 0x4
+  cTlsParameters: 1
+  pTlsParameters: 0xadfbc1c
+Using SCH_CREDENTIALS structure
+[SCHANNEL] credential interface = SCH_CREDENTIALS
+[SCHANNEL] enabled_protocols = 0x00000800
+[SCHANNEL] dwFlags = 0x00400010
+[SCHANNEL] dwVersion = 5
+Direction: Outbound (SECPKG_CRED_OUTBOUND)
+Calling AcquireCredentialsHandleA with UNISP_NAME_A
+  Principal: NULL
+  Package: UNISP_NAME_A
+  Direction: 0x00000002
+  pAuthData: 0xadfbc34
+=== BEFORE AcquireCredentialsHandleA ===
+=== AFTER AcquireCredentialsHandleA: 0x00000000 ===
+AcquireCredentialsHandleA succeeded (SEC_E_OK)
+SchannelCred::from_inner called, creating Arc<RawCredHandle>
+Builder::new called
+Builder::default called
+Builder::cert_store called
+Builder::domain called with domain: example.com
+Builder::use_sni called with use_sni: true
+Builder::accept_invalid_hostnames called with accept_invalid_hostnames: false
+  Initiating TLS connection
+Builder::connect called - starting client TLS connection
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+Builder::initialize called - server: false
+Using SNI with domain: "example.com\0"
+=== LOCAL SCHANNEL SecurityContext::initialize ENTERED ===
+SecurityContext::initialize called
+  accept: false
+  domain: Some("example.com\0")
+  requested_application_protocols: 0 protocols
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+secur32.dll handle = 0x71210000
+secur32.dll path = C:\WINDOWS\SYSTEM32\secur32.dll
+Converting UTF-16 domain to ANSI for Schannel
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+Domain conversion successful: "example.com\0"
+Domain/SNI ANSI pointer: 0x7425960
+Creating input buffers
+Input buffer count: 0
+No input buffers - passing NULL for pInput (first call requirement)
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating output buffers: TOKEN, ALERT, EMPTY
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+SchannelCred::as_inner called
+Calling InitializeSecurityContextA
+CredHandle: lower=0x073E3D88 upper=0x00013098
+  Context: NULL (first call)
+  Domain: 0x7425960
+  INIT_REQUESTS: 0x0009811C
+  Reserved1: 0
+  TargetDataRep: 0
+  Input buffers: 0 buffers
+  pInput pointer: 0x0
+  Reserved2: 0
+  Output context: 0xadfb498
+  Output buffers: 1 buffer
+  Attributes: 0xadfb620
+  Expiration: NULL
+SecHandle size = 8 align = 4
+SecBuffer size = 12 align = 4
+SecBufferDesc size = 12 align = 4
+usize=4 pointer=4
+=== BEFORE InitializeSecurityContextA ===
+=== AFTER InitializeSecurityContextA: 0x00090312 ===
+InitializeSecurityContextA returned SEC_I_CONTINUE_NEEDED (0x00090312)
+  Attributes: 0x0008811C
+  Context attributes:
+    ASC_RET_ALLOCATED_MEMORY: true
+    ASC_RET_CONFIDENTIALITY: true
+    ASC_RET_CONNECTION: false
+    ASC_RET_USED_DCE_STYLE: false
+    ASC_RET_SEQUENCE_DETECT: true
+    ASC_RET_REPLAY_DETECT: true
+    ASC_RET_EXTENDED_ERROR: true
+    ASC_RET_STREAM: false
+    ASC_RET_INTEGRITY: false
+Output buffer state:
+  Buffer[0] (TOKEN) type: 0x2, length: 167, ptr: 0x7380c48
+  Buffer[1] (ALERT) type: 0x11, length: 0, ptr: 0x0
+  Buffer[2] (EMPTY) type: 0x0, length: 0, ptr: 0x0
+SecurityContext::initialize succeeded
+Creating TlsStream with state: Initializing
+Starting handshake process
+MidHandshakeTlsStream::handshake called
+TlsStream::initialize called
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 167 bytes to write (position: 0, total: 167)
+  write_out: wrote 167 bytes this call, total: 167
+  write_out: completed, wrote 167 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Resizing buffer from 0 to 1024
+    Read 1024 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 1024
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 1024
+Creating SecBuffer with type 0x2, length: 1024
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=1024, ptr=0x7428dd8
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x7425960
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  SECBUFFER_EXTRA detected, consuming 952 bytes
+  Output data to write: 0 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 952
+Creating SecBuffer with type 0x2, length: 952
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=952, ptr=0x7428dd8
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x7425c40
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x80090318
+  Attributes: 0x0008811C
+Incomplete message (SEC_E_INCOMPLETE_MESSAGE)
+  SECBUFFER_MISSING - need 2730 more bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 2730 bytes
+  read_in called, needs_read: 2730
+    Resizing buffer from 952 to 2730
+    Read 1778 bytes, remaining needs_read: 952
+    Resizing buffer from 2730 to 5460
+    Read 1082 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 2860
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 3812
+Creating SecBuffer with type 0x2, length: 3812
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=3812, ptr=0x741ea10
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x7425c80
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  No SECBUFFER_EXTRA, consuming all input
+  Output data to write: 93 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 93 bytes to write (position: 167, total: 260)
+  write_out: wrote 93 bytes this call, total: 93
+  write_out: completed, wrote 93 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Read 258 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 258
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 258
+Creating SecBuffer with type 0x2, length: 258
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=258, ptr=0x741ea10
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x74259c0
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00000000
+  Attributes: 0x0008811C
+Handshake completed successfully (SEC_E_OK)
+  No SECBUFFER_EXTRA, consuming all input
+  No output data to write
+  State: Initializing
+    needs_flush: false
+    more_calls: false
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 260, total: 260)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: true)
+TlsStream::validate called with require_cert: true
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+Successfully retrieved remote certificate context
+  Retrieved remote certificate context
+  Adding 0 extra certificates to chain store
+  CertGetCertificateChain flags: 0xC0000001
+  Certificate usage identifiers: 3
+  Calling CertGetCertificateChain
+  CertGetCertificateChain succeeded
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+  CertVerifyCertificateChainPolicy flags: 0x00000F00
+  Setting server name for validation: "example.com\0"
+  Calling CertVerifyCertificateChainPolicy with SSL policy
+  Certificate verification status: 0x00000000
+  Certificate verification succeeded
+  Certificate validation completed successfully
+CertContext::drop called
+  Certificate validated successfully
+  No more calls needed, transitioning to final state
+  Transitioning to Streaming state
+SecurityContext::stream_sizes called
+SecurityContext::attribute called with attr: 0x00000004
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+    Stream sizes: header=13, trailer=16, max_msg=16384
+  Already in Streaming state
+Handshake completed successfully
+  TLS connection established successfully
+TlsConnector::connect successfully established TLS connection to example.com
+[HTTP] TLS handshake successful with example.com
+[HTTP] Sending initial request (197 bytes)
+TlsStream::initialize called
+  Already in Streaming state
+  encrypt called with 197 bytes of data
+    Total encrypted size: header=13 + data=197 + trailer=16 = 226
+Creating SecBuffer with type 0x7, length: 13
+Creating SecBuffer with type 0x1, length: 197
+Creating SecBuffer with type 0x6, length: 50
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x7, length=13, ptr=0x740a488
+  Buffer[1]: type=0x1, length=197, ptr=0x740a495
+  Buffer[2]: type=0x6, length=50, ptr=0x740a55a
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling EncryptMessage
+SecurityContext::get_mut called
+    EncryptMessage succeeded, total output: 226 bytes
+  write_out: 226 bytes to write (position: 0, total: 226)
+  write_out: wrote 226 bytes this call, total: 226
+  write_out: completed, wrote 226 bytes total
+TlsStream::initialize called
+  Already in Streaming state
+  read_in called, needs_read: 1
+    Read 853 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 853
+  decrypt called
+    Encrypted data length: 853
+Creating SecBuffer with type 0x1, length: 853
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=853, ptr=0x741ea10
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 790 bytes (start: 13, end: 803)
+    SECBUFFER_EXTRA detected: 34 bytes
+TlsStream::initialize called
+  Already in Streaming state
+  decrypt called
+    Encrypted data length: 34
+Creating SecBuffer with type 0x1, length: 34
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=34, ptr=0x741ea10
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 5 bytes (start: 13, end: 18)
+    No SECBUFFER_EXTRA
+[HTTP] Initial response: 404 Not Found
+[LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_ENTRY] AuthInteropResult::error
+[PARAM] error_code = NetworkError (size: 4 bytes)
+[PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x73d20e8
+[OBJECT_SIZE] AuthInteropResult = 16 bytes
+[PARAM] error_message = ptr=0x73d20e8 (leaked)
+[FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+RawCredHandle::drop called, freeing credentials handle
+FreeCredentialsHandle succeeded
+SecurityContext::drop called, deleting security context
+DeleteSecurityContext succeeded
+[FUNCTION_ENTRY] auth_http_request
+[LIB] auth_http_request called
+[PARAM] url = 0xadfe254
+[PARAM] method = 0xadfe154
+[PARAM] body_data = NULL
+[PARAM] body_length = 0 (size: 0 bytes)
+[PARAM] result = 0xadfe438
+[OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'https://example.com/api/auth' (28 bytes)
+[PARAM] url_str = 'https://example.com/api/auth' (size: 28 bytes)
+[INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[PARAM] method_str = 'GET' (size: 3 bytes)
+[LIB] HTTP request: GET https://example.com/api/auth
+[INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[PARAM] body = None
+[OBJECT_SIZE] HttpClient = 96 bytes
+[MEMORY_ALLOC] HttpClient allocated 96 bytes
+[OS_DETECT] RtlGetVersion -> 10.0.26200
+[TLS] Auto-selecting config based on OS version: Windows10OrLater
+[TLS] OS uses modern TLS configuration
+[TLS] Creating new TlsConfig with secure defaults
+[TLS] Setting handshake timeout to: 30s
+[TLS] Configuration validation passed
+[TLS] Building TLS connector with current configuration
+[TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+TlsConnector::builder called
+[TLS] Mapping min_protocol Auto to native_tls None
+[TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[TLS] Setting maximum protocol to Tlsv12
+TlsConnectorBuilder::max_protocol_version called with protocol: Some(Tlsv12)
+TlsConnectorBuilder::build called
+TlsConnector::new called
+  Adding 0 root certificates
+TlsConnector created with configuration:
+  min_protocol: Some(Tlsv12)
+  max_protocol: Some(Tlsv12)
+  use_sni: true
+  accept_invalid_hostnames: false
+  accept_invalid_certs: false
+  disable_built_in_roots: false
+TlsConnectorBuilder::build successfully created TlsConnector
+[TLS] TLS connector built successfully
+[TLS] Connector ready for secure connections
+[HTTP] TLS connector built successfully
+[HTTP] Starting GET request to example.com:443
+[HTTP] Target name for NTLM: HTTP/example.com
+[FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/example.com', length: 16
+[STRING_INFO] target_name - Length: 16 bytes, Content: 'HTTP/example.com'
+[OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[OPTION_INFO] credentials - Status: Some
+[STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[OBJECT_SIZE] String struct - 12 bytes
+[SSPI] Username: rsncra
+[SSPI] Domain: Some("rust9x")
+[MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[OPTION_INFO] ntlm - Status: Some
+[OBJECT_SIZE] Ntlm struct - 840 bytes
+[SSPI] API: AcquireCredentialsHandle
+[SSPI] Package: NTLM
+[SSPI] Principal: NULL
+[SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[OBJECT_SIZE] Username struct - 24 bytes
+[OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] AcquireCredentialsHandle -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[OPTION_INFO] credentials_handle - Status: Some
+[SSPI] API: InitializeSecurityContext
+[SSPI] TargetName: HTTP/example.com
+[SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[SSPI] DataRepresentation: Native
+[OBJECT_SIZE] output_buffer - 12 bytes
+[OBJECT_SIZE] input_buffer - 12 bytes
+[OBJECT_SIZE] output_buffer Vec - 12 bytes
+[OBJECT_SIZE] input_buffer Vec - 12 bytes
+[MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[SSPI] InitializeSecurityContext -> SUCCESS
+[FUNCTION_EXIT] log_security_status - Result: completed
+[MEMORY] log_security_status - end - Context: Memory tracking enabled
+[MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[VEC_INFO] token - Length: 40 bytes
+[OBJECT_SIZE] token Vec - 12 bytes
+[OBJECT_SIZE] token Vec<u8> - 12 bytes
+[SSPI] Negotiate token generated (40 bytes)
+[FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[HTTP] NTLM negotiate token: 40 bytes
+[HTTP] Connected to example.com:443
+[HTTP] Starting TLS handshake with example.com
+TlsConnector::connect called with domain: example.com
+TlsConnector::connect called with domain: example.com
+  Enabled protocols: [Tls12]
+SchannelCred::builder called
+SchannelCred::Builder::new called
+Builder::enabled_protocols called with 1 protocols
+  Protocol[0]: Tls12
+  Acquiring Schannel credentials (Outbound)
+=== LOCAL SCHANNEL Builder::acquire ENTERED ===
+Builder::acquire called with direction: Outbound
+Enabled protocols: 0x00000800
+  - Tls12 -> 0x00000800
+UNISP_NAME_W ptr = 0x6a000cc8
+UNISP_NAME_W[0] = 0x004D
+UNISP_NAME_W[1] = 0x0069
+UNISP_NAME_W[2] = 0x0063
+UNISP_NAME_W[3] = 0x0072
+UNISP_NAME_W[4] = 0x006F
+UNISP_NAME_W[5] = 0x0073
+UNISP_NAME_W[6] = 0x006F
+UNISP_NAME_W[7] = 0x0066
+UNISP_NAME_W[8] = 0x0074
+UNISP_NAME_W[9] = 0x0020
+UNISP_NAME_W[10] = 0x0055
+UNISP_NAME_W[11] = 0x006E
+UNISP_NAME_W[12] = 0x0069
+UNISP_NAME_W[13] = 0x0066
+UNISP_NAME_W[14] = 0x0069
+UNISP_NAME_W[15] = 0x0065
+SCHANNEL_CRED configuration:
+  dwVersion: 0x00000004 (SCHANNEL_CRED_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  grbitEnabledProtocols: 0x00000800
+  cCreds: 0
+  paCred: 0x0
+RtlGetVersion: major=10 minor=0 build=26200
+OS supports SCH_CREDENTIALS (Windows 10 build 17763+), using new interface for TLS 1.3 support
+TLS_PARAMETERS.grbitDisabledProtocols: 0xFFFFF7FF
+SCH_CREDENTIALS configuration:
+  dwVersion: 0x00000005 (SCH_CREDENTIALS_VERSION)
+  dwFlags: 0x00400010
+    SCH_USE_STRONG_CRYPTO: true
+    SCH_CRED_NO_DEFAULT_CREDS: true
+  cCreds: 0
+  paCred: 0x4
+  cTlsParameters: 1
+  pTlsParameters: 0xadfbc1c
+Using SCH_CREDENTIALS structure
+[SCHANNEL] credential interface = SCH_CREDENTIALS
+[SCHANNEL] enabled_protocols = 0x00000800
+[SCHANNEL] dwFlags = 0x00400010
+[SCHANNEL] dwVersion = 5
+Direction: Outbound (SECPKG_CRED_OUTBOUND)
+Calling AcquireCredentialsHandleA with UNISP_NAME_A
+  Principal: NULL
+  Package: UNISP_NAME_A
+  Direction: 0x00000002
+  pAuthData: 0xadfbc34
+=== BEFORE AcquireCredentialsHandleA ===
+=== AFTER AcquireCredentialsHandleA: 0x00000000 ===
+AcquireCredentialsHandleA succeeded (SEC_E_OK)
+SchannelCred::from_inner called, creating Arc<RawCredHandle>
+Builder::new called
+Builder::default called
+Builder::cert_store called
+Builder::domain called with domain: example.com
+Builder::use_sni called with use_sni: true
+Builder::accept_invalid_hostnames called with accept_invalid_hostnames: false
+  Initiating TLS connection
+Builder::connect called - starting client TLS connection
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+Builder::initialize called - server: false
+Using SNI with domain: "example.com\0"
+=== LOCAL SCHANNEL SecurityContext::initialize ENTERED ===
+SecurityContext::initialize called
+  accept: false
+  domain: Some("example.com\0")
+  requested_application_protocols: 0 protocols
+INIT_REQUESTS flags: 0x0009811C
+  ISC_REQ_CONFIDENTIALITY: true
+  ISC_REQ_INTEGRITY: true
+  ISC_REQ_REPLAY_DETECT: true
+  ISC_REQ_SEQUENCE_DETECT: true
+  ISC_REQ_MANUAL_CRED_VALIDATION: true
+  ISC_REQ_ALLOCATE_MEMORY: true
+  ISC_REQ_STREAM: true
+secur32.dll handle = 0x71210000
+secur32.dll path = C:\WINDOWS\SYSTEM32\secur32.dll
+Converting UTF-16 domain to ANSI for Schannel
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+Domain conversion successful: "example.com\0"
+Domain/SNI ANSI pointer: 0x74288b8
+Creating input buffers
+Input buffer count: 0
+No input buffers - passing NULL for pInput (first call requirement)
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating output buffers: TOKEN, ALERT, EMPTY
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+SchannelCred::as_inner called
+Calling InitializeSecurityContextA
+CredHandle: lower=0x073E3D88 upper=0x000130A8
+  Context: NULL (first call)
+  Domain: 0x74288b8
+  INIT_REQUESTS: 0x0009811C
+  Reserved1: 0
+  TargetDataRep: 0
+  Input buffers: 0 buffers
+  pInput pointer: 0x0
+  Reserved2: 0
+  Output context: 0xadfb498
+  Output buffers: 1 buffer
+  Attributes: 0xadfb620
+  Expiration: NULL
+SecHandle size = 8 align = 4
+SecBuffer size = 12 align = 4
+SecBufferDesc size = 12 align = 4
+usize=4 pointer=4
+=== BEFORE InitializeSecurityContextA ===
+=== AFTER InitializeSecurityContextA: 0x00090312 ===
+InitializeSecurityContextA returned SEC_I_CONTINUE_NEEDED (0x00090312)
+  Attributes: 0x0008811C
+  Context attributes:
+    ASC_RET_ALLOCATED_MEMORY: true
+    ASC_RET_CONFIDENTIALITY: true
+    ASC_RET_CONNECTION: false
+    ASC_RET_USED_DCE_STYLE: false
+    ASC_RET_SEQUENCE_DETECT: true
+    ASC_RET_REPLAY_DETECT: true
+    ASC_RET_EXTENDED_ERROR: true
+    ASC_RET_STREAM: false
+    ASC_RET_INTEGRITY: false
+Output buffer state:
+  Buffer[0] (TOKEN) type: 0x2, length: 167, ptr: 0x7380d08
+  Buffer[1] (ALERT) type: 0x11, length: 0, ptr: 0x0
+  Buffer[2] (EMPTY) type: 0x0, length: 0, ptr: 0x0
+SecurityContext::initialize succeeded
+Creating TlsStream with state: Initializing
+Starting handshake process
+MidHandshakeTlsStream::handshake called
+TlsStream::initialize called
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 167 bytes to write (position: 0, total: 167)
+  write_out: wrote 167 bytes this call, total: 167
+  write_out: completed, wrote 167 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Resizing buffer from 0 to 1024
+    Read 1024 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 1024
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 1024
+Creating SecBuffer with type 0x2, length: 1024
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=1024, ptr=0x7428dd8
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x74289d8
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  SECBUFFER_EXTRA detected, consuming 952 bytes
+  Output data to write: 0 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 952
+Creating SecBuffer with type 0x2, length: 952
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=952, ptr=0x7428dd8
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x7428bb8
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x80090318
+  Attributes: 0x0008811C
+Incomplete message (SEC_E_INCOMPLETE_MESSAGE)
+  SECBUFFER_MISSING - need 2730 more bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 167, total: 167)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 2730 bytes
+  read_in called, needs_read: 2730
+    Resizing buffer from 952 to 2730
+    Read 1778 bytes, remaining needs_read: 952
+    Resizing buffer from 2730 to 5460
+    Read 1082 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 2860
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 3812
+Creating SecBuffer with type 0x2, length: 3812
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=3812, ptr=0x742a640
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x74288f8
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00090312
+  Attributes: 0x0008811C
+Handshake continuation needed (SEC_I_CONTINUE_NEEDED)
+  No SECBUFFER_EXTRA, consuming all input
+  Output data to write: 93 bytes
+  State: Initializing
+    needs_flush: false
+    more_calls: true
+    shutting_down: false
+    validated: false
+  write_out: 93 bytes to write (position: 167, total: 260)
+  write_out: wrote 93 bytes this call, total: 93
+  write_out: completed, wrote 93 bytes total
+  Wrote data, setting needs_flush = true
+  Flushing stream
+  Validating certificate (require_cert: false)
+TlsStream::validate called with require_cert: false
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA failed with error: 0x80090301
+  Certificate not required yet, skipping validation
+  Need to read 1 bytes
+  read_in called, needs_read: 1
+    Read 258 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 258
+  Calling step_initialize
+TlsStream::step_initialize called
+  Encrypted input buffer position: 258
+Creating SecBuffer with type 0x2, length: 258
+Creating SecBuffer with type 0x0, no data (null)
+Input buffer count: 2
+Creating SecBufferDesc with 2 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=258, ptr=0x742a640
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+Creating SecBuffer with type 0x2, no data (null)
+Creating SecBuffer with type 0x11, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Output buffer count: 3
+Creating SecBufferDesc with 3 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x2, length=0, ptr=0x0
+  Buffer[1]: type=0x11, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+Calling InitializeSecurityContextA (client mode)
+  Converting SNI domain from UTF-16 to ANSI
+Starting UTF-16 domain to ANSI conversion
+Input UTF-16 length: 12 characters
+Detected null terminator in input, removing it
+Processing domain with 11 characters (null terminator: true)
+UTF-16 validation successful: "example.com"
+Domain is pure ASCII: true
+ASCII domain string: "example.com"
+Validating ASCII hostname: "example.com"
+Hostname has 2 labels
+Validating label 0: "example"
+Label 0 validation passed
+Validating label 1: "com"
+Label 1 validation passed
+Hostname validation passed
+ASCII hostname validation result: true
+Using ASCII path for domain conversion
+Converting ASCII string to system ANSI code page: "example.com"
+Starting UTF-8 to system ANSI code page conversion
+Input UTF-8 string: "example.com" (11 bytes)
+Converted to UTF-16: 11 characters
+System ANSI code page: 1251
+Calling WideCharToMultiByte to determine required buffer size
+WideCharToMultiByte requires buffer size: 11 bytes
+Allocated buffer of 11 bytes for ANSI output
+Calling WideCharToMultiByte for actual conversion
+WideCharToMultiByte conversion successful, produced 11 bytes
+Final ANSI buffer size: 12 bytes (including null terminator)
+Resulting ANSI string: "example.com\0"
+ANSI conversion successful, length: 12 bytes
+UTF-16 to ANSI conversion completed successfully
+  SNI domain conversion successful: "example.com\0"
+  ANSI domain pointer: 0x74288b8
+  INIT_REQUESTS: 0x0009811C
+SchannelCred::as_inner called
+SecurityContext::get_mut called
+Security context call returned status: 0x00000000
+  Attributes: 0x0008811C
+Handshake completed successfully (SEC_E_OK)
+  No SECBUFFER_EXTRA, consuming all input
+  No output data to write
+  State: Initializing
+    needs_flush: false
+    more_calls: false
+    shutting_down: false
+    validated: false
+  write_out: 0 bytes to write (position: 260, total: 260)
+  write_out: completed, wrote 0 bytes total
+  Validating certificate (require_cert: true)
+TlsStream::validate called with require_cert: true
+  Client mode - validating remote certificate
+SecurityContext::remote_cert called
+SecurityContext::attribute called with attr: 0x00000053
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+Successfully retrieved remote certificate context
+  Retrieved remote certificate context
+  Adding 0 extra certificates to chain store
+  CertGetCertificateChain flags: 0xC0000001
+  Certificate usage identifiers: 3
+  Calling CertGetCertificateChain
+  CertGetCertificateChain succeeded
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+CertContext::clone called
+CertContext::drop called
+  CertVerifyCertificateChainPolicy flags: 0x00000F00
+  Setting server name for validation: "example.com\0"
+  Calling CertVerifyCertificateChainPolicy with SSL policy
+  Certificate verification status: 0x00000000
+  Certificate verification succeeded
+  Certificate validation completed successfully
+CertContext::drop called
+  Certificate validated successfully
+  No more calls needed, transitioning to final state
+  Transitioning to Streaming state
+SecurityContext::stream_sizes called
+SecurityContext::attribute called with attr: 0x00000004
+Calling QueryContextAttributesA
+QueryContextAttributesA succeeded (SEC_E_OK)
+    Stream sizes: header=13, trailer=16, max_msg=16384
+  Already in Streaming state
+Handshake completed successfully
+  TLS connection established successfully
+TlsConnector::connect successfully established TLS connection to example.com
+[HTTP] TLS handshake successful with example.com
+[HTTP] Sending initial request (197 bytes)
+TlsStream::initialize called
+  Already in Streaming state
+  encrypt called with 197 bytes of data
+    Total encrypted size: header=13 + data=197 + trailer=16 = 226
+Creating SecBuffer with type 0x7, length: 13
+Creating SecBuffer with type 0x1, length: 197
+Creating SecBuffer with type 0x6, length: 50
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x7, length=13, ptr=0x740a488
+  Buffer[1]: type=0x1, length=197, ptr=0x740a495
+  Buffer[2]: type=0x6, length=50, ptr=0x740a55a
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling EncryptMessage
+SecurityContext::get_mut called
+    EncryptMessage succeeded, total output: 226 bytes
+  write_out: 226 bytes to write (position: 0, total: 226)
+  write_out: wrote 226 bytes this call, total: 226
+  write_out: completed, wrote 226 bytes total
+TlsStream::initialize called
+  Already in Streaming state
+  read_in called, needs_read: 1
+    Read 853 bytes, remaining needs_read: 0
+  read_in completed, total bytes read: 853
+  decrypt called
+    Encrypted data length: 853
+Creating SecBuffer with type 0x1, length: 853
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=853, ptr=0x742a640
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 790 bytes (start: 13, end: 803)
+    SECBUFFER_EXTRA detected: 34 bytes
+TlsStream::initialize called
+  Already in Streaming state
+  decrypt called
+    Encrypted data length: 34
+Creating SecBuffer with type 0x1, length: 34
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBuffer with type 0x0, no data (null)
+Creating SecBufferDesc with 4 buffers, version: SECBUFFER_VERSION
+  Buffer[0]: type=0x1, length=34, ptr=0x742a640
+  Buffer[1]: type=0x0, length=0, ptr=0x0
+  Buffer[2]: type=0x0, length=0, ptr=0x0
+  Buffer[3]: type=0x0, length=0, ptr=0x0
+    Calling DecryptMessage
+SecurityContext::get_mut called
+    DecryptMessage succeeded (SEC_E_OK)
+    Decrypted data: 5 bytes (start: 13, end: 18)
+    No SECBUFFER_EXTRA
+[HTTP] Initial response: 404 Not Found
+[LIB] HTTP request failed: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 404 Not Found
+[FUNCTION_ENTRY] AuthInteropResult::error
+[PARAM] error_code = NetworkError (size: 4 bytes)
+[PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 404 Not Found' (82 bytes) (size: 82 bytes)
+[MEMORY_ALLOC] CString (error message) allocated 82 bytes
+[INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x73d1a88
+[OBJECT_SIZE] AuthInteropResult = 16 bytes
+[PARAM] error_message = ptr=0x73d1a88 (leaked)
+[FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+RawCredHandle::drop called, freeing credentials handle
+FreeCredentialsHandle succeeded
+SecurityContext::drop called, deleting security context
+DeleteSecurityContext succeeded
+[FUNCTION_ENTRY] auth_free_string
+[PARAM] ptr = 0x73d1a28
+[PARAM] return_type = void
+[MEMORY_FREE] CString freed 82 bytes
+[INTEROP] *mut c_char -> CString [SUCCESS] value: 0x73d1a28
+[FUNCTION_EXIT] auth_free_string -> void (freed)
+[FUNCTION_ENTRY] auth_free_string
+[PARAM] ptr = 0x73d20e8
+[PARAM] return_type = void
+[MEMORY_FREE] CString freed 82 bytes
+[INTEROP] *mut c_char -> CString [SUCCESS] value: 0x73d20e8
+[FUNCTION_EXIT] auth_free_string -> void (freed)
+[FUNCTION_ENTRY] auth_free_string
+[PARAM] ptr = 0x73d1a88
+[PARAM] return_type = void
+[MEMORY_FREE] CString freed 82 bytes
+[INTEROP] *mut c_char -> CString [SUCCESS] value: 0x73d1a88
+[FUNCTION_EXIT] auth_free_string -> void (freed)

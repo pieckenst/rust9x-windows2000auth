@@ -15,7 +15,7 @@ use windows_sys::Win32::System::LibraryLoader::{
 use crate::alpn_list::AlpnList;
 use crate::cert_context::CertContext;
 use crate::context_buffer::ContextBuffer;
-use crate::hostname::{utf16_domain_to_ansi, HostnameError};
+use crate::hostname::{utf16_domain_to_ascii, HostnameError};
 use crate::schannel_cred::SchannelCred;
 use crate::{log_init_requests, secbuf, secbuf_desc, Inner, INIT_REQUESTS};
 
@@ -56,14 +56,19 @@ impl SecurityContext {
     pub fn initialize(
         cred: &mut SchannelCred,
         accept: bool,
-        domain: Option<&[u16]>,
+        domain: Option<&[i8]>,
         requested_application_protocols: &Option<Vec<Vec<u8>>>,
     ) -> io::Result<(SecurityContext, Option<ContextBuffer>)> {
         eprintln!("=== LOCAL SCHANNEL SecurityContext::initialize ENTERED ===");
         eprintln!("SecurityContext::initialize called");
         eprintln!("  accept: {}", accept);
-        eprintln!("  domain: {:?}", domain.map(|d| String::from_utf16_lossy(d)));
-        eprintln!("  requested_application_protocols: {} protocols", 
+        if let Some(d) = domain {
+            let bytes: Vec<u8> = d.iter().map(|&b| b as u8).collect();
+            eprintln!("  domain: {:?}", String::from_utf8_lossy(&bytes));
+        } else {
+            eprintln!("  domain: None");
+        }
+        eprintln!("  requested_application_protocols: {} protocols",
               requested_application_protocols.as_ref().map(|p| p.len()).unwrap_or(0));
 
         // Log INIT_REQUESTS flags
@@ -97,76 +102,60 @@ impl SecurityContext {
              *
              * UTF-16 public API
              *        ↓
-             * hostname/domain normalization
+             * hostname/domain normalization (done once in Builder::domain)
              *        ↓
-             * ANSI representation for legacy Schannel entry points
+             * ASCII bytes + NUL (stored in TlsStream)
              *        ↓
              * InitializeSecurityContextA
              *        ↓
              * Schannel
              *
              * We use the ANSI InitializeSecurityContextA path for compatibility
-             * with legacy Schannel. The public API provides UTF-16, which we convert
-             * to the ANSI representation expected by the legacy Schannel entry points.
+             * with legacy Schannel. The conversion happens once during Builder::domain()
+             * and the result is stored as ASCII bytes + NUL to avoid repeated conversion
+             * and system code page dependency.
              *
-             * The conversion is now implemented using proper Windows APIs:
+             * Conversion process:
              * - For IDNs: IdnToAscii (RFC 3490) converts to Punycode
-             * - For ASCII: WideCharToMultiByte with WC_NO_BEST_FIT_CHARS flag
-             * - All conversions are explicit about failures rather than lossy
+             * - For ASCII: validation and direct byte conversion
+             * - Result: pure ASCII bytes + NUL (no code page dependency)
              * - Errors are handled gracefully by returning None (no SNI)
              */
         let domain_ansi_storage: Option<Vec<i8>> = match domain {
             Some(d) => {
-                eprintln!("Converting UTF-16 domain to ANSI for Schannel");
-                match utf16_domain_to_ansi(d) {
-                    Ok(ansi) => {
-                        eprintln!(
-                            "Domain conversion successful: {:?}",
-                            String::from_utf8_lossy(
-                                &ansi.iter().map(|&b| b as u8).collect::<Vec<u8>>()
-                            )
-                        );
-                        Some(ansi)
-                    }
-                    Err(e) => {
-                        eprintln!("Domain conversion failed: {:?}", e);
-                        // Handle conversion errors gracefully by logging and returning None
-                        // This will cause Schannel to proceed without SNI, which is better than
-                        // failing the entire connection attempt
-                        match e {
-                            HostnameError::InvalidUtf16 => {
-                                eprintln!("  Error type: Invalid UTF-16 - falling back to no SNI");
-                            }
-                            HostnameError::InvalidHostname => {
-                                eprintln!("  Error type: Invalid hostname - falling back to no SNI");
-                            }
-                            HostnameError::IdnConversionFailed(code) => {
-                                eprintln!("  Error type: IDN conversion failed (0x{:08X}) - falling back to no SNI", code);
-                            }
-                            HostnameError::CodePageConversionFailed(code) => {
-                                eprintln!("  Error type: Code page conversion failed (0x{:08X}) - falling back to no SNI", code);
-                            }
-                            HostnameError::AnsiStringTooLong => {
-                                eprintln!("  Error type: ANSI string too long - falling back to no SNI");
-                            }
-                            HostnameError::EmptyDomain => {
-                                eprintln!("  Error type: Empty domain - falling back to no SNI");
-                            }
-                            HostnameError::UnexpectedError => {
-                                eprintln!("  Error type: Unexpected error - falling back to no SNI");
-                            }
-                        }
-                        // Return None to indicate no valid ANSI representation
-                        // This is handled gracefully by the caller
-                        None
-                    }
-                }
+                eprintln!("Using pre-converted ASCII domain bytes for Schannel");
+                eprintln!(
+                    "Domain bytes: {:?}",
+                    String::from_utf8_lossy(
+                        &d.iter().map(|&b| b as u8).collect::<Vec<u8>>()
+                    )
+                );
+                Some(d.to_vec())
             }
             None => {
-                eprintln!("No domain provided for conversion");
+                eprintln!("No domain provided");
                 None
             }
         };
+
+        // Validate the pre-converted domain bytes (safety check)
+        if let Some(ref domain_bytes) = domain_ansi_storage {
+            // Basic validation: ensure it's NUL-terminated and reasonable
+            if domain_bytes.is_empty() || domain_bytes.last() != Some(&0) {
+                eprintln!("Pre-converted domain bytes invalid: not NUL-terminated or empty");
+                eprintln!("Falling back to no SNI due to invalid pre-converted data");
+                // Don't return None here - let it fail gracefully later
+            }
+
+            // Ensure all bytes are valid ASCII (safety check)
+            if !domain_bytes.iter().all(|&b| b == 0 || (b >= 32 && b < 127)) {
+                eprintln!("Pre-converted domain bytes contain non-ASCII characters");
+                eprintln!("Falling back to no SNI due to invalid character data");
+                // Don't return None here - let it fail gracefully later
+            } else {
+                eprintln!("Pre-converted domain validation passed");
+            }
+        }
 
         let domain_ptr: *const i8 = domain_ansi_storage
             .as_ref()

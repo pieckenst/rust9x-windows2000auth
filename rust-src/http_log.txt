@@ -483,3 +483,57 @@
 [1786649094] [HTTP] TLS handshake successful with example.com
 [1786649094] [HTTP] Sending initial request (197 bytes)
 [1786649094] [HTTP] Initial response: 404 Not Found
+[1786650552] [HTTP] TLS connector built successfully
+[1786650552] [HTTP] Starting GET request to example.com:443
+[1786650552] [HTTP] Target name for NTLM: HTTP/example.com
+[1786650552] [HTTP] NTLM negotiate token: 40 bytes
+[1786650553] [HTTP] Connected to example.com:443
+[1786650553] [HTTP] Starting TLS handshake with example.com
+[1786650553] [HTTP] TLS handshake successful with example.com
+[1786650553] [HTTP] Sending initial request (197 bytes)
+[1786650553] [HTTP] Initial response: 404 Not Found
+[1786650554] [HTTP] TLS connector built successfully
+[1786650554] [HTTP] Starting GET request to example.com:443
+[1786650554] [HTTP] Target name for NTLM: HTTP/example.com
+[1786650554] [HTTP] NTLM negotiate token: 40 bytes
+[1786650555] [HTTP] Connected to example.com:443
+[1786650555] [HTTP] Starting TLS handshake with example.com
+[1786650555] [HTTP] TLS handshake successful with example.com
+[1786650555] [HTTP] Sending initial request (197 bytes)
+[1786650555] [HTTP] Initial response: 404 Not Found
+[1786650556] [HTTP] TLS connector built successfully
+[1786650556] [HTTP] Starting GET request to example.com:443
+[1786650556] [HTTP] Target name for NTLM: HTTP/example.com
+[1786650556] [HTTP] NTLM negotiate token: 40 bytes
+[1786650557] [HTTP] Connected to example.com:443
+[1786650557] [HTTP] Starting TLS handshake with example.com
+[1786650557] [HTTP] TLS handshake successful with example.com
+[1786650557] [HTTP] Sending initial request (197 bytes)
+[1786650558] [HTTP] Initial response: 404 Not Found
+[1786652167] [HTTP] TLS connector built successfully
+[1786652167] [HTTP] Starting GET request to example.com:443
+[1786652167] [HTTP] Target name for NTLM: HTTP/example.com
+[1786652167] [HTTP] NTLM negotiate token: 40 bytes
+[1786652168] [HTTP] Connected to example.com:443
+[1786652168] [HTTP] Starting TLS handshake with example.com
+[1786652169] [HTTP] TLS handshake successful with example.com
+[1786652169] [HTTP] Sending initial request (197 bytes)
+[1786652169] [HTTP] Initial response: 404 Not Found
+[1786652170] [HTTP] TLS connector built successfully
+[1786652170] [HTTP] Starting GET request to example.com:443
+[1786652170] [HTTP] Target name for NTLM: HTTP/example.com
+[1786652170] [HTTP] NTLM negotiate token: 40 bytes
+[1786652170] [HTTP] Connected to example.com:443
+[1786652170] [HTTP] Starting TLS handshake with example.com
+[1786652171] [HTTP] TLS handshake successful with example.com
+[1786652171] [HTTP] Sending initial request (197 bytes)
+[1786652171] [HTTP] Initial response: 404 Not Found
+[1786652172] [HTTP] TLS connector built successfully
+[1786652172] [HTTP] Starting GET request to example.com:443
+[1786652172] [HTTP] Target name for NTLM: HTTP/example.com
+[1786652172] [HTTP] NTLM negotiate token: 40 bytes
+[1786652172] [HTTP] Connected to example.com:443
+[1786652172] [HTTP] Starting TLS handshake with example.com
+[1786652173] [HTTP] TLS handshake successful with example.com
+[1786652173] [HTTP] Sending initial request (197 bytes)
+[1786652173] [HTTP] Initial response: 404 Not Found
