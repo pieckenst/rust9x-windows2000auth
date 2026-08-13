@@ -6,6 +6,11 @@ use log::{debug, error, info, trace, warn};
 use windows_sys::Win32::Foundation;
 use windows_sys::Win32::Security::Authentication::Identity;
 use windows_sys::Win32::Security::Credentials;
+use windows_sys::Win32::System::LibraryLoader::{
+    GetModuleHandleW,
+    GetModuleFileNameW,
+};
+
 
 use crate::alpn_list::AlpnList;
 use crate::cert_context::CertContext;
@@ -64,6 +69,19 @@ impl SecurityContext {
         log_init_requests();
 
         unsafe {
+              let h = GetModuleHandleW(windows_sys::w!("secur32.dll"));
+
+    eprintln!("secur32.dll handle = {:p}", h);
+
+    let mut path = [0u16; 512];
+    let len = GetModuleFileNameW(
+        h,
+        path.as_mut_ptr(),
+        path.len() as u32,
+    );
+
+    let path = String::from_utf16_lossy(&path[..len as usize]);
+    eprintln!("secur32.dll path = {}", path);
             let mut ctxt = mem::zeroed();
 
             if accept {
@@ -73,8 +91,51 @@ impl SecurityContext {
                 return Ok((SecurityContext(ctxt), None));
             }
 
-            let domain_ptr = domain.map(|b| b.as_ptr()).unwrap_or(ptr::null_mut());
-            eprintln!("Domain/SNI pointer: {:p}", domain_ptr);
+             /*
+         * IMPORTANT:
+         *
+         * We are deliberately using the ANSI InitializeSecurityContextA path.
+         * The public API currently gives us UTF-16 here, so convert the target
+         * name to a NUL-terminated ANSI byte string.
+         *
+         * For normal HTTPS hostnames this is ASCII, so this is sufficient for
+         * the current Schannel test.
+         */
+        let domain_ansi_storage: Option<Vec<i8>> = domain
+            .map(|d| {
+                let s = String::from_utf16_lossy(d);
+
+                eprintln!("Target/domain UTF-16 string: {:?}", s);
+
+                let mut bytes = s
+                    .as_bytes()
+                    .iter()
+                    .map(|&b| b as i8)
+                    .collect::<Vec<i8>>();
+
+                if !bytes.last().map(|&b| b == 0).unwrap_or(false) {
+                    bytes.push(0);
+                }
+
+                eprintln!(
+                    "Target/domain ANSI string: {:?}",
+                    String::from_utf8_lossy(
+                        &bytes
+                            .iter()
+                            .map(|&b| b as u8)
+                            .collect::<Vec<u8>>()
+                    )
+                );
+
+                bytes
+            });
+
+        let domain_ptr: *const i8 = domain_ansi_storage
+            .as_ref()
+            .map(|b| b.as_ptr())
+            .unwrap_or(ptr::null());
+
+        eprintln!("Domain/SNI ANSI pointer: {:p}", domain_ptr);
 
             let mut inbufs = vec![];
             eprintln!("Creating input buffers");
@@ -121,10 +182,15 @@ impl SecurityContext {
             ];
             eprintln!("Creating output buffers: TOKEN, ALERT, EMPTY");
             let mut outbuf_desc = secbuf_desc(&mut outbuf);
+            let cred_handle = cred.as_inner();
 
             let mut attributes = 0;
-            eprintln!("Calling InitializeSecurityContextW");
-            eprintln!("  Credential handle: {:p}", &cred.as_inner());
+            eprintln!("Calling InitializeSecurityContextA");
+            eprintln!(
+                "CredHandle: lower=0x{:08X} upper=0x{:08X}",
+                cred_handle.dwLower,
+                cred_handle.dwUpper,
+            );
             eprintln!("  Context: NULL (first call)");
             eprintln!("  Domain: {:p}", domain_ptr);
             eprintln!("  INIT_REQUESTS: 0x{:08X}", INIT_REQUESTS);
@@ -137,27 +203,49 @@ impl SecurityContext {
             eprintln!("  Output buffers: 1 buffer");
             eprintln!("  Attributes: {:p}", &mut attributes);
             eprintln!("  Expiration: NULL");
+            eprintln!(
+    "SecHandle size = {} align = {}",
+    mem::size_of::<Credentials::SecHandle>(),
+    mem::align_of::<Credentials::SecHandle>()
+);
 
-            eprintln!("=== BEFORE InitializeSecurityContextW ===");
-            let status = Identity::InitializeSecurityContextW(
-                &cred.as_inner(),
-                ptr::null_mut(),
-                domain_ptr,
-                INIT_REQUESTS,
-                0,
-                0,
-                inbuf_desc_ptr,
-                0,
-                &mut ctxt,
-                &mut outbuf_desc,
-                &mut attributes,
-                ptr::null_mut(),
-            );
-            eprintln!("=== AFTER InitializeSecurityContextW: 0x{:08X} ===", status as u32);
+eprintln!(
+    "SecBuffer size = {} align = {}",
+    mem::size_of::<Identity::SecBuffer>(),
+    mem::align_of::<Identity::SecBuffer>()
+);
+
+eprintln!(
+    "SecBufferDesc size = {} align = {}",
+    mem::size_of::<Identity::SecBufferDesc>(),
+    mem::align_of::<Identity::SecBufferDesc>()
+);
+eprintln!(
+    "usize={} pointer={}",
+    mem::size_of::<usize>(),
+    mem::size_of::<*const ()>()
+);
+
+            eprintln!("=== BEFORE InitializeSecurityContextA ===");
+            let status = Identity::InitializeSecurityContextA(
+    &cred_handle,
+    ptr::null_mut(),
+    domain_ptr,
+    INIT_REQUESTS,
+    0,
+    0,
+    inbuf_desc_ptr,
+    0,
+    &mut ctxt,
+    &mut outbuf_desc,
+    &mut attributes,
+    ptr::null_mut(),
+);
+            eprintln!("=== AFTER InitializeSecurityContextA: 0x{:08X} ===", status as u32);
 
             match status {
                 Foundation::SEC_I_CONTINUE_NEEDED => {
-                    eprintln!("InitializeSecurityContextW returned SEC_I_CONTINUE_NEEDED (0x{:08X})", Foundation::SEC_I_CONTINUE_NEEDED);
+                    eprintln!("InitializeSecurityContextA returned SEC_I_CONTINUE_NEEDED (0x{:08X})", Foundation::SEC_I_CONTINUE_NEEDED);
                     eprintln!("  Attributes: 0x{:08X}", attributes);
                     eprintln!("  Context attributes:");
                     eprintln!("    ASC_RET_ALLOCATED_MEMORY: {}", (attributes & Identity::ASC_RET_ALLOCATED_MEMORY) != 0);
@@ -184,7 +272,7 @@ impl SecurityContext {
                     Ok((SecurityContext(ctxt), Some(ContextBuffer(outbuf[0]))))
                 }
                 Foundation::SEC_E_OK => {
-                    eprintln!("InitializeSecurityContextW returned SEC_E_OK (0x{:08X})", Foundation::SEC_E_OK);
+                    eprintln!("InitializeSecurityContextA returned SEC_E_OK (0x{:08X})", Foundation::SEC_E_OK);
                     eprintln!("  Handshake completed immediately");
                     eprintln!("  Attributes: 0x{:08X}", attributes);
                     
@@ -208,7 +296,7 @@ impl SecurityContext {
                     Ok((SecurityContext(ctxt), None))
                 }
                 err => {
-                    eprintln!("InitializeSecurityContextW failed with error: 0x{:08X}", err);
+                    eprintln!("InitializeSecurityContextA failed with error: 0x{:08X}", err);
                     eprintln!("Error description: {}", io::Error::from_raw_os_error(err));
                     
                     eprintln!("Output buffer state on error:");
@@ -237,16 +325,16 @@ impl SecurityContext {
     unsafe fn attribute<T>(&self, attr: Identity::SECPKG_ATTR) -> io::Result<T> {
         eprintln!("SecurityContext::attribute called with attr: 0x{:08X}", attr);
         let mut value = mem::zeroed();
-        eprintln!("Calling QueryContextAttributesW");
+        eprintln!("Calling QueryContextAttributesA");
         let status =
-            Identity::QueryContextAttributesW(&self.0, attr, &mut value as *mut _ as *mut _);
+            Identity::QueryContextAttributesA(&self.0, attr, &mut value as *mut _ as *mut _);
         match status {
             Foundation::SEC_E_OK => {
-                eprintln!("QueryContextAttributesW succeeded (SEC_E_OK)");
+                eprintln!("QueryContextAttributesA succeeded (SEC_E_OK)");
                 Ok(value)
             },
             err => {
-                eprintln!("QueryContextAttributesW failed with error: 0x{:08X}", err);
+                eprintln!("QueryContextAttributesA failed with error: 0x{:08X}", err);
                 Err(io::Error::from_raw_os_error(err))
             },
         }

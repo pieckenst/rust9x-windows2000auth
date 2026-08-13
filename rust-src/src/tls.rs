@@ -32,13 +32,19 @@ use std::io::Write;
 use std::time::Duration;
 
 #[cfg(all(feature = "tls", target_os = "windows"))]
-use windows_sys::Win32::System::SystemInformation::{
-    GetVersionExW,
-    OSVERSIONINFOEXW,
+use windows_sys::Win32::Foundation::HMODULE;
+
+#[cfg(all(feature = "tls", target_os = "windows"))]
+use windows_sys::Win32::System::LibraryLoader::{
+    GetModuleHandleW,
+    GetProcAddress,
 };
 
 #[cfg(all(feature = "tls", target_os = "windows"))]
-use core::mem::zeroed;
+use windows_sys::Win32::System::SystemInformation::OSVERSIONINFOW;
+
+#[cfg(all(feature = "tls", target_os = "windows"))]
+use core::mem;
 
 #[cfg(feature = "tls")]
 fn log_to_file(message: &str) {
@@ -56,7 +62,82 @@ fn log_to_file(message: &str) {
     }
 }
 
-/// Windows OS version detection for TLS configuration
+#[cfg(all(feature = "tls", target_os = "windows"))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct OsVersion {
+    pub major: u32,
+    pub minor: u32,
+    pub build: u32,
+}
+
+#[cfg(all(feature = "tls", target_os = "windows"))]
+impl OsVersion {
+    pub fn detect() -> Option<Self> {
+        unsafe {
+            let ntdll: HMODULE = GetModuleHandleW(windows_sys::w!("ntdll.dll"));
+
+            if ntdll.is_null() {
+                let msg = "[OS_DETECT] GetModuleHandleW(ntdll.dll) failed";
+                eprintln!("{}", msg);
+                log_to_file(msg);
+                return None;
+            }
+
+            let proc = GetProcAddress(ntdll, windows_sys::s!("RtlGetVersion"));
+
+            let proc = match proc {
+                Some(proc) => proc,
+                None => {
+                    let msg = "[OS_DETECT] GetProcAddress(RtlGetVersion) failed";
+                    eprintln!("{}", msg);
+                    log_to_file(msg);
+                    return None;
+                }
+            };
+
+            type RtlGetVersionFn =
+                unsafe extern "system" fn(*mut OSVERSIONINFOW) -> i32;
+
+            let rtl_get_version: RtlGetVersionFn = mem::transmute(proc as *const ());
+
+            let mut info: OSVERSIONINFOW = mem::zeroed();
+            info.dwOSVersionInfoSize =
+                mem::size_of::<OSVERSIONINFOW>() as u32;
+
+            let status = rtl_get_version(&mut info);
+
+            if status != 0 {
+                let msg = format!(
+                    "[OS_DETECT] RtlGetVersion failed: NTSTATUS=0x{:08X}",
+                    status as u32
+                );
+                eprintln!("{}", msg);
+                log_to_file(&msg);
+                return None;
+            }
+
+            let version = OsVersion {
+                major: info.dwMajorVersion,
+                minor: info.dwMinorVersion,
+                build: info.dwBuildNumber,
+            };
+
+            let msg = format!(
+                "[OS_DETECT] RtlGetVersion -> {}.{}.{}",
+                version.major,
+                version.minor,
+                version.build
+            );
+
+            eprintln!("{}", msg);
+            log_to_file(&msg);
+
+            Some(version)
+        }
+    }
+}
+
+/// Windows OS version classification for TLS configuration.
 #[cfg(all(feature = "tls", target_os = "windows"))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WindowsVersion {
@@ -82,28 +163,16 @@ pub enum WindowsVersion {
 
 #[cfg(all(feature = "tls", target_os = "windows"))]
 impl WindowsVersion {
-    /// Detect the current Windows version
+    /// Detect the real Windows version using RtlGetVersion.
     pub fn detect() -> Self {
-        let mut osvi: OSVERSIONINFOEXW = unsafe { zeroed() };
-        osvi.dwOSVersionInfoSize = core::mem::size_of::<OSVERSIONINFOEXW>() as u32;
+        let version = match OsVersion::detect() {
+            Some(version) => version,
+            None => {
+                return WindowsVersion::Unknown;
+            }
+        };
 
-        let result = unsafe { GetVersionExW(&mut osvi as *mut OSVERSIONINFOEXW as *mut _) };
-
-        if result == 0 {
-            let msg = "[OS_DETECT] GetVersionExW failed, using default config";
-            eprintln!("{}", msg);
-            log_to_file(msg);
-            return WindowsVersion::Unknown;
-        }
-
-        let major = osvi.dwMajorVersion;
-        let minor = osvi.dwMinorVersion;
-
-        let version_msg = format!("[OS_DETECT] Detected Windows version: {}.{}", major, minor);
-        eprintln!("{}", version_msg);
-        log_to_file(&version_msg);
-
-        match (major, minor) {
+        match (version.major, version.minor) {
             (5, 0) => WindowsVersion::Windows2000,
             (5, 1) => WindowsVersion::WindowsXP,
             (5, 2) => WindowsVersion::WindowsServer2003,
@@ -112,26 +181,27 @@ impl WindowsVersion {
             (6, 2) => WindowsVersion::Windows8,
             (6, 3) => WindowsVersion::Windows81,
             (10, _) => WindowsVersion::Windows10OrLater,
-            (11.., _) => WindowsVersion::Windows10OrLater,
+            (major, _) if major >= 11 => WindowsVersion::Windows10OrLater,
             _ => WindowsVersion::Unknown,
         }
     }
 
-    /// Check if this version requires legacy TLS configuration
     pub fn requires_legacy_tls(&self) -> bool {
         matches!(
             self,
-            WindowsVersion::Windows2000 | WindowsVersion::WindowsXP | WindowsVersion::WindowsServer2003
+            WindowsVersion::Windows2000
+                | WindowsVersion::WindowsXP
+                | WindowsVersion::WindowsServer2003
         )
     }
 
-    /// Check if this version supports SNI
     pub fn supports_sni(&self) -> bool {
         !matches!(self, WindowsVersion::Windows2000)
     }
 }
 
 #[cfg(all(feature = "tls", not(target_os = "windows")))]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum WindowsVersion {
     Unknown,
 }
@@ -196,21 +266,32 @@ pub struct TlsConfig {
 #[cfg(feature = "tls")]
 impl TlsConfig {
     /// Create a TLS configuration automatically selected based on OS version
-    pub fn auto() -> Self {
+   pub fn auto() -> Self {
         let version = WindowsVersion::detect();
-        let msg = format!("[TLS] Auto-selecting config based on OS version: {:?}", version);
+
+        let msg = format!(
+            "[TLS] Auto-selecting config based on OS version: {:?}",
+            version
+        );
+
         eprintln!("{}", msg);
         log_to_file(&msg);
 
         if version.requires_legacy_tls() {
-            let legacy_msg = "[TLS] OS requires legacy TLS configuration (Windows 2000/XP/2003)";
+            let legacy_msg =
+                "[TLS] OS requires legacy TLS configuration";
+
             eprintln!("{}", legacy_msg);
             log_to_file(legacy_msg);
-            Self::legacy()
+
+            Self::legacy_for(version)
         } else {
-            let modern_msg = "[TLS] OS supports modern TLS configuration";
+            let modern_msg =
+                "[TLS] OS uses modern TLS configuration";
+
             eprintln!("{}", modern_msg);
             log_to_file(modern_msg);
+
             Self::new()
         }
     }
@@ -225,7 +306,7 @@ impl TlsConfig {
         Self {
             verify_certs: true,
             min_protocol: TlsProtocol::Auto,
-            max_protocol: TlsProtocol::Auto,
+            max_protocol: TlsProtocol::Tls1_2,
             use_sni: true,
             handshake_timeout: Duration::from_secs(30),
             danger_accept_invalid_hostnames: false,
@@ -254,25 +335,36 @@ impl TlsConfig {
     /// Create a legacy-compatible TLS configuration for old systems
     pub fn legacy() -> Self {
         let version = WindowsVersion::detect();
-        let msg = format!("[TLS] Creating legacy-compatible TlsConfig for old systems (detected: {:?})", version);
+        Self::legacy_for(version)
+    }
+
+    fn legacy_for(version: WindowsVersion) -> Self {
+        let msg = format!(
+            "[TLS] Creating legacy-compatible configuration for {:?}",
+            version
+        );
+
         eprintln!("{}", msg);
-        #[cfg(feature = "std")]
         log_to_file(&msg);
 
         let use_sni = version.supports_sni();
-        let sni_msg = format!("[TLS] SNI enabled: {} (based on OS version)", use_sni);
+
+        let sni_msg = format!(
+            "[TLS] Legacy configuration SNI enabled: {}",
+            use_sni
+        );
+
         eprintln!("{}", sni_msg);
-        #[cfg(feature = "std")]
         log_to_file(&sni_msg);
 
         Self {
-            verify_certs: false, // Disable cert verification for old systems
+            verify_certs: false,
             min_protocol: TlsProtocol::Tls1_0,
-            max_protocol: TlsProtocol::Tls1_0, // Explicitly force TLS 1.0 for Windows 2000/XP
-            use_sni, // Enable SNI only if OS supports it
+            max_protocol: TlsProtocol::Tls1_0,
+            use_sni,
             handshake_timeout: Duration::from_secs(30),
-            danger_accept_invalid_hostnames: true, // Accept invalid hostnames for old systems
-            danger_accept_invalid_certs: true, // Accept invalid certs for old systems
+            danger_accept_invalid_hostnames: true,
+            danger_accept_invalid_certs: true,
         }
     }
 

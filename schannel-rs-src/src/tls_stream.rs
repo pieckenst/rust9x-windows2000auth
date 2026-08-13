@@ -546,23 +546,52 @@ where
                     ptr::null_mut(),
                 )
             } else {
-                eprintln!("Calling InitializeSecurityContextW (client mode)");
-                let domain = match self.domain {
+                eprintln!("Calling InitializeSecurityContextA (client mode)");
+
+                let domain_ansi_storage: Option<Vec<i8>> = match self.domain {
                     Some(ref domain) if self.use_sni => {
-                        eprintln!("  Using SNI domain: {:?}", String::from_utf16_lossy(domain));
-                        domain.as_ptr() as *mut u16
-                    },
+                        let s = String::from_utf16_lossy(domain);
+
+                        eprintln!("  Using SNI domain: {:?}", s);
+
+                        let mut bytes: Vec<i8> = s
+                            .as_bytes()
+                            .iter()
+                            .map(|&b| b as i8)
+                            .collect();
+
+                        if !bytes.last().map(|&b| b == 0).unwrap_or(false) {
+                            bytes.push(0);
+                        }
+
+                        eprintln!(
+                            "  ANSI SNI domain: {:?}",
+                            String::from_utf8_lossy(
+                                &bytes.iter().map(|&b| b as u8).collect::<Vec<u8>>()
+                            )
+                        );
+
+                        Some(bytes)
+                    }
+
                     _ => {
                         eprintln!("  No SNI domain");
-                        ptr::null_mut()
-                    },
+                        None
+                    }
                 };
 
+                let domain_ptr = domain_ansi_storage
+                    .as_ref()
+                    .map(|d| d.as_ptr())
+                    .unwrap_or(ptr::null());
+
+                eprintln!("  ANSI domain pointer: {:p}", domain_ptr);
                 eprintln!("  INIT_REQUESTS: 0x{:08X}", INIT_REQUESTS);
-                Identity::InitializeSecurityContextW(
+
+                Identity::InitializeSecurityContextA(
                     &self.cred.as_inner(),
                     self.context.get_mut(),
-                    domain,
+                    domain_ptr,
                     INIT_REQUESTS,
                     0,
                     0,

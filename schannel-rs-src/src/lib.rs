@@ -89,9 +89,9 @@ const INIT_REQUESTS: u32 = Identity::ISC_REQ_CONFIDENTIALITY
 pub fn log_init_requests() {
     eprintln!("INIT_REQUESTS flags: 0x{:08X}", INIT_REQUESTS);
     eprintln!("  ISC_REQ_CONFIDENTIALITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_CONFIDENTIALITY) != 0);
-    eprintln!("  ISC_REQ_INTEGRITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_INTEGRITY) != 0);
+   eprintln!("  ISC_REQ_INTEGRITY: {}", (INIT_REQUESTS & Identity::ISC_REQ_INTEGRITY) != 0);
     eprintln!("  ISC_REQ_REPLAY_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_REPLAY_DETECT) != 0);
-    eprintln!("  ISC_REQ_SEQUENCE_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_SEQUENCE_DETECT) != 0);
+   eprintln!("  ISC_REQ_SEQUENCE_DETECT: {}", (INIT_REQUESTS & Identity::ISC_REQ_SEQUENCE_DETECT) != 0);
     eprintln!("  ISC_REQ_MANUAL_CRED_VALIDATION: {}", (INIT_REQUESTS & Identity::ISC_REQ_MANUAL_CRED_VALIDATION) != 0);
     eprintln!("  ISC_REQ_ALLOCATE_MEMORY: {}", (INIT_REQUESTS & Identity::ISC_REQ_ALLOCATE_MEMORY) != 0);
     eprintln!("  ISC_REQ_STREAM: {}", (INIT_REQUESTS & Identity::ISC_REQ_STREAM) != 0);

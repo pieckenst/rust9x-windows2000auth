@@ -195,6 +195,12 @@ fn verify_min_os_build(major: u32, build: u32) -> Option<()> {
     info.dwOSVersionInfoSize = mem::size_of::<OSVERSIONINFOW>() as u32;
 
     unsafe { proc(&mut info) };
+    eprintln!(
+        "RtlGetVersion: major={} minor={} build={}",
+        info.dwMajorVersion,
+        info.dwMinorVersion,
+        info.dwBuildNumber
+    );
 
     if info.dwMajorVersion > major || (info.dwMajorVersion == major && info.dwBuildNumber >= build) {
         Some(())
@@ -278,7 +284,25 @@ impl Builder {
             cred_data.grbitEnabledProtocols = enabled_protocols;
             let mut certs = self.certs.iter().map(|c| c.as_inner()).collect::<Vec<_>>();
             cred_data.cCreds = certs.len() as u32;
-            cred_data.paCred = certs.as_mut_ptr() as _;
+            cred_data.paCred = if certs.is_empty() {
+    ptr::null_mut()
+} else {
+    certs.as_mut_ptr() as _
+};
+
+  eprintln!("UNISP_NAME_W ptr = {:p}", Identity::UNISP_NAME_W);
+
+    if !Identity::UNISP_NAME_W.is_null() {
+        let mut p = Identity::UNISP_NAME_W;
+        for i in 0..16 {
+            let v = *p;
+            eprintln!("UNISP_NAME_W[{}] = 0x{:04X}", i, v);
+            if v == 0 {
+                break;
+            }
+            p = p.add(1);
+        }
+    }
 
             eprintln!("SCHANNEL_CRED configuration:");
             eprintln!("  dwVersion: 0x{:08X} (SCHANNEL_CRED_VERSION)", cred_data.dwVersion);
@@ -337,6 +361,7 @@ impl Builder {
                 eprintln!("[SCHANNEL] dwFlags = 0x{:08X}", cred_data.dwFlags);
                 eprintln!("[SCHANNEL] dwVersion = {}", cred_data.dwVersion);
                 pauthdata = &mut cred_data as *const _ as *const _;
+               //pauthdata = ptr::null();
             } else {
                 eprintln!("Using SCH_CREDENTIALS structure");
                 eprintln!("[SCHANNEL] credential interface = SCH_CREDENTIALS");
