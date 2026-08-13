@@ -374,7 +374,8 @@ fn utf8_to_system_ansi(utf8_str: &str) -> Result<Vec<i8>, HostnameError> {
         debug!("Final ANSI buffer size: {} bytes (including null terminator)", ansi_buffer.len());
 
         // Log the resulting ANSI string for debugging
-        let ansi_display = String::from_utf8_lossy(&ansi_buffer.iter().map(|&b| b as u8).collect::<Vec<u8>>());
+        let ansi_bytes: Vec<u8> = ansi_buffer.iter().map(|&b| b as u8).collect();
+        let ansi_display = String::from_utf8_lossy(&ansi_bytes);
         debug!("Resulting ANSI string: {:?}", ansi_display);
 
         Ok(ansi_buffer)
