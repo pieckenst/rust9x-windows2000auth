@@ -16,6 +16,7 @@ include = ["/src/", "LICENSE.md", "README.md"]
 default-target = "x86_64-pc-windows-msvc"
 
 [dependencies]
+log = "0.4"
 windows-sys = { version = "0.61", features = [
     "Win32_Foundation", "Win32_Security_Cryptography",
     "Win32_Security_Authentication_Identity", "Win32_Security_Credentials",
@@ -25,5 +26,5 @@ windows-sys = { version = "0.61", features = [
 [dev-dependencies]
 windows-sys = { version = "0.61", features = ["Win32_System_SystemInformation", "Win32_System_Time"] }
 
-[dependencies]
-log = "0.4"
+ 
+

@@ -50,6 +50,7 @@ impl Default for Builder {
 impl Builder {
     /// Returns a new `Builder`.
     pub fn new() -> Builder {
+        debug!("Builder::new called");
         Builder::default()
     }
 
@@ -58,6 +59,7 @@ impl Builder {
     /// The domain will be used for Server Name Indication as well as
     /// certificate validation.
     pub fn domain(&mut self, domain: &str) -> &mut Builder {
+        info!("Builder::domain called with domain: {}", domain);
         self.domain = Some(domain.encode_utf16().chain(Some(0)).collect());
         self
     }
@@ -66,6 +68,7 @@ impl Builder {
     ///
     /// Defaults to `true`.
     pub fn use_sni(&mut self, use_sni: bool) -> &mut Builder {
+        debug!("Builder::use_sni called with use_sni: {}", use_sni);
         self.use_sni = use_sni;
         self
     }
@@ -74,6 +77,7 @@ impl Builder {
     ///
     /// Defaults to `false`.
     pub fn accept_invalid_hostnames(&mut self, accept_invalid_hostnames: bool) -> &mut Builder {
+        debug!("Builder::accept_invalid_hostnames called with accept_invalid_hostnames: {}", accept_invalid_hostnames);
         self.accept_invalid_hostnames = accept_invalid_hostnames;
         self
     }
@@ -88,6 +92,7 @@ impl Builder {
     where
         F: Fn(CertValidationResult) -> io::Result<()> + 'static + Sync + Send,
     {
+        debug!("Builder::verify_callback called");
         self.verify_callback = Some(Arc::new(callback));
         self
     }
@@ -102,12 +107,17 @@ impl Builder {
     /// Note that adding certificates here means that they are
     /// implicitly trusted.
     pub fn cert_store(&mut self, cert_store: CertStore) -> &mut Builder {
+        debug!("Builder::cert_store called");
         self.cert_store = Some(cert_store);
         self
     }
 
     /// Requests one of a set of application protocols using alpn
     pub fn request_application_protocols(&mut self, alpns: &[&[u8]]) -> &mut Builder {
+        info!("Builder::request_application_protocols called with {} protocols", alpns.len());
+        for (i, proto) in alpns.iter().enumerate() {
+            debug!("  ALPN[{}]: {:?}", i, String::from_utf8_lossy(proto));
+        }
         self.requested_application_protocols =
             Some(alpns.iter().map(|bytes| bytes.to_vec()).collect::<Vec<_>>());
         self
@@ -129,6 +139,8 @@ impl Builder {
     where
         S: Read + Write,
     {
+        info!("Builder::connect called - starting client TLS connection");
+        log_init_requests();
         self.initialize(cred, false, stream)
     }
 
@@ -151,6 +163,8 @@ impl Builder {
     where
         S: Read + Write,
     {
+        info!("Builder::accept called - starting server TLS connection");
+        log_accept_requests();
         self.initialize(cred, true, stream)
     }
 
@@ -163,9 +177,16 @@ impl Builder {
     where
         S: Read + Write,
     {
+        info!("Builder::initialize called - server: {}", server);
         let domain = match self.domain {
-            Some(ref domain) if self.use_sni => Some(&domain[..]),
-            _ => None,
+            Some(ref domain) if self.use_sni => {
+                info!("Using SNI with domain: {:?}", String::from_utf16_lossy(domain));
+                Some(&domain[..])
+            },
+            _ => {
+                info!("SNI disabled or no domain set");
+                None
+            },
         };
         let (ctxt, buf) = match SecurityContext::initialize(
             &mut cred,
@@ -173,10 +194,17 @@ impl Builder {
             domain,
             &self.requested_application_protocols,
         ) {
-            Ok(pair) => pair,
-            Err(e) => return Err(HandshakeError::Failure(e)),
+            Ok(pair) => {
+                info!("SecurityContext::initialize succeeded");
+                pair
+            },
+            Err(e) => {
+                error!("SecurityContext::initialize failed: {:?}", e);
+                return Err(HandshakeError::Failure(e));
+            },
         };
 
+        info!("Creating TlsStream with state: Initializing");
         let stream = TlsStream {
             cred,
             context: ctxt,
@@ -203,6 +231,7 @@ impl Builder {
             is_renegotiating: false,
         };
 
+        info!("Starting handshake process");
         MidHandshakeTlsStream { inner: stream }.handshake()
     }
 }
@@ -404,13 +433,20 @@ where
 
     /// Shuts the TLS session down.
     pub fn shutdown(&mut self) -> io::Result<()> {
+        info!("TlsStream::shutdown called");
         match self.state {
-            State::Shutdown => return Ok(()),
+            State::Shutdown => {
+                info!("Already in shutdown state");
+                return Ok(());
+            },
             State::Initializing {
                 shutting_down: true,
                 ..
-            } => {}
+            } => {
+                info!("Already in initializing with shutdown");
+            },
             _ => {
+                info!("Applying shutdown control token");
                 unsafe {
                     let mut token = Identity::SCHANNEL_SHUTDOWN;
                     let ptr = &mut token as *mut _ as *mut u8;
@@ -420,8 +456,13 @@ where
                     let desc = secbuf_desc(&mut buf);
 
                     match Identity::ApplyControlToken(self.context.get_mut(), &desc) {
-                        Foundation::SEC_E_OK => {}
-                        err => return Err(io::Error::from_raw_os_error(err)),
+                        Foundation::SEC_E_OK => {
+                            info!("ApplyControlToken succeeded");
+                        },
+                        err => {
+                            error!("ApplyControlToken failed with error: 0x{:08X}", err);
+                            return Err(io::Error::from_raw_os_error(err));
+                        },
                     }
                 }
 
@@ -435,12 +476,15 @@ where
             }
         }
 
+        info!("Calling initialize to complete shutdown");
         self.initialize().map(|_| ())
     }
 
     fn step_initialize(&mut self) -> io::Result<()> {
+        info!("TlsStream::step_initialize called");
         unsafe {
             let pos = self.enc_in.position() as usize;
+            info!("  Encrypted input buffer position: {}", pos);
             let mut inbufs = vec![
                 secbuf(
                     Identity::SECBUFFER_TOKEN,
@@ -454,11 +498,13 @@ where
                 .as_ref()
                 .map(|alpn| AlpnList::new(alpn));
             if let Some(ref mut alpns) = alpns {
+                debug!("Adding ALPN buffer to input buffers");
                 inbufs.push(secbuf(
                     Identity::SECBUFFER_APPLICATION_PROTOCOLS,
                     Some(&mut alpns[..]),
                 ));
             };
+            info!("Input buffer count: {}", inbufs.len());
             let inbuf_desc = secbuf_desc(&mut inbufs[..]);
 
             let mut outbufs = [
@@ -466,16 +512,21 @@ where
                 secbuf(Identity::SECBUFFER_ALERT, None),
                 secbuf(Identity::SECBUFFER_EMPTY, None),
             ];
+            info!("Output buffer count: {}", outbufs.len());
             let mut outbuf_desc = secbuf_desc(&mut outbufs);
 
             let mut attributes = 0;
 
             let status = if self.server {
+                info!("Calling AcceptSecurityContext (server mode)");
                 let ptr = if self.accept_first {
+                    info!("  First call - context is NULL");
                     ptr::null_mut()
                 } else {
+                    info!("  Subsequent call - using existing context");
                     self.context.get_mut()
                 };
+                info!("  ACCEPT_REQUESTS: 0x{:08X}", ACCEPT_REQUESTS);
                 Identity::AcceptSecurityContext(
                     &self.cred.as_inner(),
                     ptr,
@@ -488,11 +539,19 @@ where
                     ptr::null_mut(),
                 )
             } else {
+                info!("Calling InitializeSecurityContextW (client mode)");
                 let domain = match self.domain {
-                    Some(ref domain) if self.use_sni => domain.as_ptr() as *mut u16,
-                    _ => ptr::null_mut(),
+                    Some(ref domain) if self.use_sni => {
+                        info!("  Using SNI domain: {:?}", String::from_utf16_lossy(domain));
+                        domain.as_ptr() as *mut u16
+                    },
+                    _ => {
+                        info!("  No SNI domain");
+                        ptr::null_mut()
+                    },
                 };
 
+                info!("  INIT_REQUESTS: 0x{:08X}", INIT_REQUESTS);
                 Identity::InitializeSecurityContextW(
                     &self.cred.as_inner(),
                     self.context.get_mut(),
@@ -509,22 +568,31 @@ where
                 )
             };
 
+            info!("Security context call returned status: 0x{:08X}", status);
+            info!("  Attributes: 0x{:08X}", attributes);
+
             for buf in &outbufs[1..] {
                 if !buf.pvBuffer.is_null() {
+                    debug!("Freeing context buffer at {:p}", buf.pvBuffer);
                     Identity::FreeContextBuffer(buf.pvBuffer);
                 }
             }
 
             match status {
                 Foundation::SEC_E_OK => {
+                    info!("Handshake completed successfully (SEC_E_OK)");
                     let nread = if inbufs[1].BufferType == Identity::SECBUFFER_EXTRA {
+                        info!("  SECBUFFER_EXTRA detected, consuming {} bytes", inbufs[1].cbBuffer);
                         self.enc_in.position() as usize - inbufs[1].cbBuffer as usize
                     } else {
+                        info!("  No SECBUFFER_EXTRA, consuming all input");
                         self.enc_in.position() as usize
                     };
                     let to_write = if outbufs[0].pvBuffer.is_null() {
+                        info!("  No output data to write");
                         None
                     } else {
+                        info!("  Output data available: {} bytes", outbufs[0].cbBuffer);
                         Some(ContextBuffer(outbufs[0]))
                     };
 
@@ -541,6 +609,7 @@ where
                     }
                 }
                 Foundation::SEC_I_CONTINUE_NEEDED => {
+                    info!("Handshake continuation needed (SEC_I_CONTINUE_NEEDED)");
                     // Windows apparently doesn't like AcceptSecurityContext
                     // being called as if it were the second time unless the
                     // first call to AcceptSecurityContext succeeded with
@@ -556,30 +625,40 @@ where
                     // "token" from the client.
                     self.accept_first = false;
                     let nread = if inbufs[1].BufferType == Identity::SECBUFFER_EXTRA {
+                        info!("  SECBUFFER_EXTRA detected, consuming {} bytes", inbufs[1].cbBuffer);
                         self.enc_in.position() as usize - inbufs[1].cbBuffer as usize
                     } else {
+                        info!("  No SECBUFFER_EXTRA, consuming all input");
                         self.enc_in.position() as usize
                     };
                     let to_write = ContextBuffer(outbufs[0]);
+                    info!("  Output data to write: {} bytes", to_write.0.cbBuffer);
 
                     self.consume_enc_in(nread);
                     self.needs_read = (self.enc_in.position() == 0) as usize;
                     self.out_buf.get_mut().extend_from_slice(&to_write);
                 }
                 Foundation::SEC_E_INCOMPLETE_MESSAGE => {
+                    info!("Incomplete message (SEC_E_INCOMPLETE_MESSAGE)");
                     self.needs_read = if inbufs[1].BufferType == Identity::SECBUFFER_MISSING {
+                        info!("  SECBUFFER_MISSING - need {} more bytes", inbufs[1].cbBuffer);
                         inbufs[1].cbBuffer as usize
                     } else {
+                        info!("  No SECBUFFER_MISSING - need 1 more byte");
                         1
                     };
                 }
-                err => return Err(io::Error::from_raw_os_error(err)),
+                err => {
+                    error!("Security context call failed with error: 0x{:08X}", err);
+                    return Err(io::Error::from_raw_os_error(err));
+                },
             }
             Ok(())
         }
     }
 
     fn initialize(&mut self) -> io::Result<Option<Identity::SecPkgContext_StreamSizes>> {
+        info!("TlsStream::initialize called");
         loop {
             match self.state {
                 State::Initializing {
@@ -588,7 +667,14 @@ where
                     shutting_down,
                     validated,
                 } => {
+                    debug!("  State: Initializing");
+                    debug!("    needs_flush: {}", needs_flush);
+                    debug!("    more_calls: {}", more_calls);
+                    debug!("    shutting_down: {}", shutting_down);
+                    debug!("    validated: {}", validated);
+
                     if self.write_out()? > 0 {
+                        debug!("  Wrote data, setting needs_flush = true");
                         needs_flush = true;
                         if let State::Initializing {
                             ref mut needs_flush,
@@ -600,6 +686,7 @@ where
                     }
 
                     if needs_flush {
+                        debug!("  Flushing stream");
                         self.stream.flush()?;
                         if let State::Initializing {
                             ref mut needs_flush,
@@ -611,6 +698,7 @@ where
                     }
 
                     if !shutting_down && !validated {
+                        debug!("  Validating certificate (require_cert: {})", !more_calls);
                         // on the last call, we require a valid certificate
                         if self.validate(!more_calls)? {
                             if let State::Initializing {
@@ -618,33 +706,51 @@ where
                             } = self.state
                             {
                                 *validated = true;
+                                debug!("  Certificate validated successfully");
                             }
                         }
                     }
 
                     if !more_calls {
+                        info!("  No more calls needed, transitioning to final state");
                         self.state = if shutting_down {
+                            info!("  Transitioning to Shutdown state");
                             State::Shutdown
                         } else {
+                            info!("  Transitioning to Streaming state");
+                            let sizes = self.context.stream_sizes()?;
+                            debug!("    Stream sizes: header={}, trailer={}, max_msg={}", 
+                                  sizes.cbHeader, sizes.cbTrailer, sizes.cbMaximumMessage);
                             State::Streaming {
-                                sizes: self.context.stream_sizes()?,
+                                sizes,
                             }
                         };
                         self.is_renegotiating = false;
                         continue;
                     }
 
-                    if self.needs_read > 0 && self.read_in()? == 0 {
-                        return Err(io::Error::new(
-                            io::ErrorKind::UnexpectedEof,
-                            "unexpected EOF during handshake",
-                        ));
+                    if self.needs_read > 0 {
+                        debug!("  Need to read {} bytes", self.needs_read);
+                        if self.read_in()? == 0 {
+                            error!("  Unexpected EOF during handshake");
+                            return Err(io::Error::new(
+                                io::ErrorKind::UnexpectedEof,
+                                "unexpected EOF during handshake",
+                            ));
+                        }
                     }
 
+                    debug!("  Calling step_initialize");
                     self.step_initialize()?;
                 }
-                State::Streaming { sizes } => return Ok(Some(sizes)),
-                State::Shutdown => return Ok(None),
+                State::Streaming { sizes } => {
+                    info!("  Already in Streaming state");
+                    return Ok(Some(sizes));
+                },
+                State::Shutdown => {
+                    info!("  Already in Shutdown state");
+                    return Ok(None);
+                },
             }
         }
     }
@@ -653,33 +759,53 @@ where
     /// Returns false, when a verification isn't necessary (yet)
     /// Returns an error when the verification failed
     fn validate(&mut self, require_cert: bool) -> io::Result<bool> {
+        info!("TlsStream::validate called with require_cert: {}", require_cert);
         // If we're accepting connections then we don't perform any validation
         // for the remote certificate, that's what they're doing!
         if self.server {
+            info!("  Server mode - skipping certificate validation");
             return Ok(false);
         }
 
+        info!("  Client mode - validating remote certificate");
         let cert_context = match self.context.remote_cert() {
-            Err(_) if !require_cert => return Ok(false),
-            ret => ret?,
+            Err(_) if !require_cert => {
+                info!("  Certificate not required yet, skipping validation");
+                return Ok(false);
+            },
+            ret => {
+                info!("  Retrieved remote certificate context");
+                ret?
+            },
         };
 
         let cert_chain = unsafe {
             let cert_store = match (cert_context.cert_store(), &self.cert_store) {
                 (Some(ref mut chain_certs), &Some(ref extra_certs)) => {
+                    info!("  Adding {} extra certificates to chain store", extra_certs.certs().count());
                     for extra_cert in extra_certs.certs() {
                         chain_certs.add_cert(&extra_cert, CertAdd::ReplaceExisting)?;
                     }
                     chain_certs.as_inner()
                 }
-                (Some(chain_certs), &None) => chain_certs.as_inner(),
-                (None, &Some(ref extra_certs)) => extra_certs.as_inner(),
-                (None, &None) => ptr::null_mut(),
+                (Some(chain_certs), &None) => {
+                    info!("  Using chain cert store only");
+                    chain_certs.as_inner()
+                },
+                (None, &Some(ref extra_certs)) => {
+                    info!("  Using extra cert store only");
+                    extra_certs.as_inner()
+                },
+                (None, &None) => {
+                    info!("  No cert store available");
+                    ptr::null_mut()
+                },
             };
 
             let flags = Cryptography::CERT_CHAIN_CACHE_END_CERT
                 | Cryptography::CERT_CHAIN_REVOCATION_CHECK_CACHE_ONLY
                 | Cryptography::CERT_CHAIN_REVOCATION_CHECK_CHAIN_EXCLUDE_ROOT;
+            info!("  CertGetCertificateChain flags: 0x{:08X}", flags);
 
             let mut para: Cryptography::CERT_CHAIN_PARA = mem::zeroed();
             para.cbSize = mem::size_of_val(&para) as u32;
@@ -692,9 +818,11 @@ where
             ];
             para.RequestedUsage.Usage.cUsageIdentifier = identifiers.len() as u32;
             para.RequestedUsage.Usage.rgpszUsageIdentifier = identifiers.as_mut_ptr();
+            info!("  Certificate usage identifiers: {}", identifiers.len());
 
             let mut cert_chain = mem::zeroed();
 
+            info!("  Calling CertGetCertificateChain");
             let res = Cryptography::CertGetCertificateChain(
                 ptr::null_mut(),
                 cert_context.as_inner(),
@@ -707,8 +835,10 @@ where
             );
 
             if res != 0 {
+                info!("  CertGetCertificateChain succeeded");
                 CertChainContext(cert_chain)
             } else {
+                error!("  CertGetCertificateChain failed: {:?}", io::Error::last_os_error());
                 return Err(io::Error::last_os_error());
             }
         };
@@ -723,19 +853,24 @@ where
                         .certificates()
                         .any(|cert| store.certs().any(|root_cert| root_cert == cert))
                     {
+                        info!("  Found trusted certificate in custom store");
                         para_flags |= Cryptography::CERT_CHAIN_POLICY_ALLOW_UNKNOWN_CA_FLAG;
                     }
                 }
             }
+            info!("  CertVerifyCertificateChainPolicy flags: 0x{:08X}", para_flags);
 
             let mut extra_para: Cryptography::HTTPSPolicyCallbackData = mem::zeroed();
             extra_para.Anonymous.cbSize = mem::size_of_val(&extra_para) as u32;
             extra_para.dwAuthType = Cryptography::AUTHTYPE_SERVER;
             match self.domain {
                 Some(ref mut domain) if !self.accept_invalid_hostnames => {
+                    info!("  Setting server name for validation: {:?}", String::from_utf16_lossy(domain));
                     extra_para.pwszServerName = domain.as_mut_ptr();
                 }
-                _ => {}
+                _ => {
+                    info!("  No server name validation (accept_invalid_hostnames or no domain)");
+                }
             }
 
             let mut para: Cryptography::CERT_CHAIN_POLICY_PARA = mem::zeroed();
@@ -747,6 +882,7 @@ where
             status.cbSize = mem::size_of_val(&status) as u32;
 
             let verify_chain_policy_structure = Cryptography::CERT_CHAIN_POLICY_SSL;
+            info!("  Calling CertVerifyCertificateChainPolicy with SSL policy");
             let res = Cryptography::CertVerifyCertificateChainPolicy(
                 verify_chain_policy_structure,
                 cert_chain.0,
@@ -754,17 +890,22 @@ where
                 &mut status,
             );
             if res == 0 {
+                error!("  CertVerifyCertificateChainPolicy failed: {:?}", io::Error::last_os_error());
                 return Err(io::Error::last_os_error());
             }
 
+            info!("  Certificate verification status: 0x{:08X}", status.dwError);
             let mut verify_result = if status.dwError != Foundation::ERROR_SUCCESS {
+                error!("  Certificate verification failed with error: 0x{:08X}", status.dwError);
                 Err(io::Error::from_raw_os_error(status.dwError as i32))
             } else {
+                info!("  Certificate verification succeeded");
                 Ok(())
             };
 
             // check if there's a user-specified verify callback
             if let Some(ref callback) = self.verify_callback {
+                info!("  Calling user verification callback");
                 verify_result = callback(CertValidationResult {
                     chain: cert_chain,
                     res: status.dwError as i32,
@@ -774,31 +915,42 @@ where
             }
             verify_result?;
         }
+        info!("  Certificate validation completed successfully");
         Ok(true)
     }
 
     fn write_out(&mut self) -> io::Result<usize> {
         if self.is_renegotiating {
+            trace!("  write_out: renegotiating, skipping write");
             return Ok(0);
         }
+        let out_buf_len = self.out_buf.get_ref().len();
+        let out_buf_pos = self.out_buf.position() as usize;
+        trace!("  write_out: {} bytes to write (position: {}, total: {})", 
+               out_buf_len - out_buf_pos, out_buf_pos, out_buf_len);
+        
         let mut out = 0;
         while self.out_buf.position() as usize != self.out_buf.get_ref().len() {
             let position = self.out_buf.position() as usize;
             let nwritten = self.stream.write(&self.out_buf.get_ref()[position..])?;
             out += nwritten;
             self.out_buf.set_position((position + nwritten) as u64);
+            trace!("  write_out: wrote {} bytes this call, total: {}", nwritten, out);
         }
 
+        trace!("  write_out: completed, wrote {} bytes total", out);
         Ok(out)
     }
 
     fn read_in(&mut self) -> io::Result<usize> {
+        trace!("  read_in called, needs_read: {}", self.needs_read);
         let mut sum_nread = 0;
 
         while self.needs_read > 0 {
             let existing_len = self.enc_in.position() as usize;
             let min_len = cmp::max(cmp::max(1024, 2 * existing_len), self.needs_read);
             if self.enc_in.get_ref().len() < min_len {
+                trace!("    Resizing buffer from {} to {}", self.enc_in.get_ref().len(), min_len);
                 self.enc_in.get_mut().resize(min_len, 0);
             }
             let nread = {
@@ -807,12 +959,15 @@ where
             };
             self.enc_in.set_position((existing_len + nread) as u64);
             self.needs_read = self.needs_read.saturating_sub(nread);
+            trace!("    Read {} bytes, remaining needs_read: {}", nread, self.needs_read);
             if nread == 0 {
+                debug!("    Read returned 0 bytes (EOF)");
                 break;
             }
             sum_nread += nread;
         }
 
+        trace!("  read_in completed, total bytes read: {}", sum_nread);
         Ok(sum_nread)
     }
 
@@ -829,8 +984,10 @@ where
     }
 
     fn decrypt(&mut self) -> io::Result<bool> {
+        trace!("  decrypt called");
         unsafe {
             let position = self.enc_in.position() as usize;
+            trace!("    Encrypted data length: {}", position);
             let mut bufs = [
                 secbuf(
                     Identity::SECBUFFER_DATA,
@@ -842,10 +999,13 @@ where
             ];
             let bufdesc = secbuf_desc(&mut bufs);
 
+            trace!("    Calling DecryptMessage");
             match Identity::DecryptMessage(self.context.get_mut(), &bufdesc, 0, ptr::null_mut()) {
                 Foundation::SEC_E_OK => {
+                    info!("    DecryptMessage succeeded (SEC_E_OK)");
                     let start = bufs[1].pvBuffer as usize - self.enc_in.get_ref().as_ptr() as usize;
                     let end = start + bufs[1].cbBuffer as usize;
+                    trace!("    Decrypted data: {} bytes (start: {}, end: {})", bufs[1].cbBuffer, start, end);
                     let dec_in_read_pos = self.dec_in.position() as usize;
                     self.dec_in.get_mut().drain(..dec_in_read_pos);
                     self.dec_in
@@ -854,8 +1014,10 @@ where
                     self.dec_in.set_position(0);
 
                     let nread = if bufs[3].BufferType == Identity::SECBUFFER_EXTRA {
+                        info!("    SECBUFFER_EXTRA detected: {} bytes", bufs[3].cbBuffer);
                         self.enc_in.position() as usize - bufs[3].cbBuffer as usize
                     } else {
+                        info!("    No SECBUFFER_EXTRA");
                         self.enc_in.position() as usize
                     };
                     self.consume_enc_in(nread);
@@ -863,15 +1025,22 @@ where
                     Ok(false)
                 }
                 Foundation::SEC_E_INCOMPLETE_MESSAGE => {
+                    info!("    DecryptMessage returned SEC_E_INCOMPLETE_MESSAGE");
                     self.needs_read = if bufs[1].BufferType == Identity::SECBUFFER_MISSING {
+                        info!("    SECBUFFER_MISSING: need {} more bytes", bufs[1].cbBuffer);
                         bufs[1].cbBuffer as usize
                     } else {
+                        info!("    No SECBUFFER_MISSING, need 1 more byte");
                         1
                     };
                     Ok(false)
                 }
-                Foundation::SEC_I_CONTEXT_EXPIRED => Ok(true),
+                Foundation::SEC_I_CONTEXT_EXPIRED => {
+                    info!("    DecryptMessage returned SEC_I_CONTEXT_EXPIRED");
+                    Ok(true)
+                }
                 Foundation::SEC_I_RENEGOTIATE => {
+                    info!("    DecryptMessage returned SEC_I_RENEGOTIATE");
                     self.state = State::Initializing {
                         needs_flush: false,
                         more_calls: true,
@@ -882,10 +1051,12 @@ where
                     // If there's unsent data in out_buf, flag it so write_out()
                     // skips sending during renegotiation (avoids double-send).
                     if (self.out_buf.position() as usize) < self.out_buf.get_ref().len() {
+                        info!("    Setting renegotiation flag (unsent data in out_buf)");
                         self.is_renegotiating = true;
                     }
 
                     let nread = if bufs[3].BufferType == Identity::SECBUFFER_EXTRA {
+                        info!("    SECBUFFER_EXTRA during renegotiate: {} bytes", bufs[3].cbBuffer);
                         self.enc_in.position() as usize - bufs[3].cbBuffer as usize
                     } else {
                         self.enc_in.position() as usize
@@ -894,7 +1065,10 @@ where
                     self.needs_read = 0;
                     Ok(false)
                 }
-                err => Err(io::Error::from_raw_os_error(err)),
+                err => {
+                    error!("    DecryptMessage failed with error: 0x{:08X}", err);
+                    Err(io::Error::from_raw_os_error(err))
+                },
             }
         }
     }
@@ -904,13 +1078,17 @@ where
         buf: &[u8],
         sizes: &Identity::SecPkgContext_StreamSizes,
     ) -> io::Result<()> {
+        trace!("  encrypt called with {} bytes of data", buf.len());
         assert!(buf.len() <= sizes.cbMaximumMessage as usize);
         debug_assert!(!self.is_renegotiating);
 
         unsafe {
             let len = sizes.cbHeader as usize + buf.len() + sizes.cbTrailer as usize;
+            trace!("    Total encrypted size: header={} + data={} + trailer={} = {}", 
+                   sizes.cbHeader, buf.len(), sizes.cbTrailer, len);
 
             if self.out_buf.get_ref().len() < len {
+                trace!("    Resizing output buffer to {} bytes", len);
                 self.out_buf.get_mut().resize(len, 0);
             }
 
@@ -938,14 +1116,19 @@ where
             };
             let bufdesc = secbuf_desc(&mut bufs);
 
+            trace!("    Calling EncryptMessage");
             match Identity::EncryptMessage(self.context.get_mut(), 0, &bufdesc, 0) {
                 Foundation::SEC_E_OK => {
                     let len = bufs[0].cbBuffer + bufs[1].cbBuffer + bufs[2].cbBuffer;
+                    trace!("    EncryptMessage succeeded, total output: {} bytes", len);
                     self.out_buf.get_mut().truncate(len as usize);
                     self.out_buf.set_position(0);
                     Ok(())
                 }
-                err => Err(io::Error::from_raw_os_error(err)),
+                err => {
+                    error!("    EncryptMessage failed with error: 0x{:08X}", err);
+                    Err(io::Error::from_raw_os_error(err))
+                },
             }
         }
     }
@@ -969,12 +1152,20 @@ where
 {
     /// Restarts the handshake process.
     pub fn handshake(mut self) -> Result<TlsStream<S>, HandshakeError<S>> {
+        info!("MidHandshakeTlsStream::handshake called");
         match self.inner.initialize() {
-            Ok(_) => Ok(self.inner),
+            Ok(_) => {
+                info!("Handshake completed successfully");
+                Ok(self.inner)
+            },
             Err(ref e) if e.kind() == io::ErrorKind::WouldBlock => {
+                info!("Handshake interrupted (WouldBlock)");
                 Err(HandshakeError::Interrupted(self))
             }
-            Err(e) => Err(HandshakeError::Failure(e)),
+            Err(e) => {
+                error!("Handshake failed: {:?}", e);
+                Err(HandshakeError::Failure(e))
+            },
         }
     }
 }

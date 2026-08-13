@@ -7,6 +7,7 @@ use std::os::windows::prelude::*;
 use std::ptr;
 use std::slice;
 
+use log::{debug, error, info, trace, warn};
 use windows_sys::Win32::Foundation;
 use windows_sys::Win32::Security::Cryptography;
 
@@ -72,6 +73,7 @@ unsafe impl Send for CertContext {}
 
 impl Drop for CertContext {
     fn drop(&mut self) {
+        trace!("CertContext::drop called");
         unsafe {
             Cryptography::CertFreeCertificateContext(self.0);
         }
@@ -80,6 +82,7 @@ impl Drop for CertContext {
 
 impl Clone for CertContext {
     fn clone(&self) -> CertContext {
+        trace!("CertContext::clone called");
         unsafe { CertContext(Cryptography::CertDuplicateCertificateContext(self.0)) }
     }
 }
@@ -89,6 +92,7 @@ inner!(CertContext, *const Cryptography::CERT_CONTEXT);
 impl CertContext {
     /// Decodes a DER-formatted X509 certificate.
     pub fn new(data: &[u8]) -> io::Result<CertContext> {
+        debug!("CertContext::new called with {} bytes of DER data", data.len());
         let ret = unsafe {
             Cryptography::CertCreateCertificateContext(
                 Cryptography::X509_ASN_ENCODING | Cryptography::PKCS_7_ASN_ENCODING,
@@ -97,8 +101,10 @@ impl CertContext {
             )
         };
         if ret.is_null() {
+            error!("CertCreateCertificateContext failed: {:?}", io::Error::last_os_error());
             Err(io::Error::last_os_error())
         } else {
+            info!("CertCreateCertificateContext succeeded");
             Ok(CertContext(ret))
         }
     }
@@ -148,6 +154,7 @@ impl CertContext {
 
     /// Decodes a PEM-formatted X509 certificate.
     pub fn from_pem(pem: &str) -> io::Result<CertContext> {
+        debug!("CertContext::from_pem called with {} bytes of PEM data", pem.len());
         unsafe {
             assert!(pem.len() <= u32::max_value() as usize);
 
@@ -162,6 +169,7 @@ impl CertContext {
                 ptr::null_mut(),
             );
             if ok == 0 {
+                error!("CryptStringToBinaryA (query length) failed: {:?}", io::Error::last_os_error());
                 return Err(io::Error::last_os_error());
             }
 
@@ -176,9 +184,11 @@ impl CertContext {
                 ptr::null_mut(),
             );
             if ok == 0 {
+                error!("CryptStringToBinaryA (decode) failed: {:?}", io::Error::last_os_error());
                 return Err(io::Error::last_os_error());
             }
 
+            info!("PEM decoded successfully to {} bytes of DER data", len);
             CertContext::new(&buf)
         }
     }
@@ -510,11 +520,13 @@ impl<'a> AcquirePrivateKeyOptions<'a> {
 
     /// Acquires the private key handle.
     pub fn acquire(&self) -> io::Result<PrivateKey> {
+        debug!("AcquirePrivateKeyOptions::acquire called with flags: 0x{:08X}", self.flags);
         unsafe {
             let flags = self.flags | Cryptography::CRYPT_ACQUIRE_ALLOW_NCRYPT_KEY_FLAG;
             let mut handle = Cryptography::HCRYPTPROV_OR_NCRYPT_KEY_HANDLE::default();
             let mut spec = Cryptography::CERT_KEY_SPEC::default();
             let mut free = windows_sys::core::BOOL::default();
+            debug!("Calling CryptAcquireCertificatePrivateKey");
             let res = Cryptography::CryptAcquireCertificatePrivateKey(
                 self.cert.0,
                 flags,
@@ -524,12 +536,16 @@ impl<'a> AcquirePrivateKeyOptions<'a> {
                 &mut free,
             );
             if res == 0 {
+                error!("CryptAcquireCertificatePrivateKey failed: {:?}", io::Error::last_os_error());
                 return Err(io::Error::last_os_error());
             }
             assert_ne!(free, 0);
+            info!("CryptAcquireCertificatePrivateKey succeeded, spec: {}", spec);
             if spec == Cryptography::CERT_NCRYPT_KEY_SPEC {
+                info!("Using NCRYPT key provider");
                 Ok(PrivateKey::NcryptKey(NcryptKey::from_inner(handle)))
             } else {
+                info!("Using CryptoAPI provider");
                 Ok(PrivateKey::CryptProv(CryptProv::from_inner(handle)))
             }
         }
