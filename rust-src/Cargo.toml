@@ -29,6 +29,7 @@ exe-static-build = []
 sspi = "0.21"
 native-tls = { path = "../rust-native-tls-src", optional = true }
 windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Security_Credentials"], optional = true }
+base64 = "0.21"
 
 [build-dependencies]
 winres = "0.1"

@@ -2,6 +2,7 @@
 // Debug-oriented standalone EXE
 
 use rust9x_windows_auth::AuthErrorCode;
+use rust9x_windows_auth::WindowsAuthTestServer;
 use std::time::Instant;
 
 struct TestConfig {
@@ -10,6 +11,10 @@ struct TestConfig {
     test_http: bool,
     test_schannel_aw: bool,
     test_init_sec_ctx: bool,
+    run_server: bool,
+    server_address: String,
+    server_port: u16,
+    test_with_local_server: bool,
 }
 
 impl Default for TestConfig {
@@ -20,6 +25,10 @@ impl Default for TestConfig {
             test_http: false,
             test_schannel_aw: false,
             test_init_sec_ctx: false,
+            run_server: false,
+            server_address: String::from("127.0.0.1"),
+            server_port: 8080,
+            test_with_local_server: false,
         }
     }
 }
@@ -53,6 +62,28 @@ fn parse_config() -> TestConfig {
         println!("[CONFIG] InitializeSecurityContext test enabled from env");
     }
 
+    if let Ok(_) = std::env::var("RUST9X_RUN_SERVER") {
+        config.run_server = true;
+        println!("[CONFIG] Test server mode enabled from env");
+    }
+
+    if let Ok(addr) = std::env::var("RUST9X_SERVER_ADDRESS") {
+        config.server_address = addr;
+        println!("[CONFIG] Server address from env: {}", config.server_address);
+    }
+
+    if let Ok(port) = std::env::var("RUST9X_SERVER_PORT") {
+        if let Ok(port_num) = port.parse::<u16>() {
+            config.server_port = port_num;
+            println!("[CONFIG] Server port from env: {}", config.server_port);
+        }
+    }
+
+    if let Ok(_) = std::env::var("RUST9X_TEST_WITH_LOCAL_SERVER") {
+        config.test_with_local_server = true;
+        println!("[CONFIG] Test with local server enabled from env");
+    }
+
     // Check command line arguments
     let args: Vec<String> = std::env::args().collect();
     for (i, arg) in args.iter().enumerate() {
@@ -81,6 +112,28 @@ fn parse_config() -> TestConfig {
                 config.test_init_sec_ctx = true;
                 println!("[CONFIG] InitializeSecurityContext test enabled from CLI");
             }
+            "--run-server" => {
+                config.run_server = true;
+                println!("[CONFIG] Test server mode enabled from CLI");
+            }
+            "--server-address" => {
+                if i + 1 < args.len() {
+                    config.server_address = args[i + 1].clone();
+                    println!("[CONFIG] Server address from CLI: {}", config.server_address);
+                }
+            }
+            "--server-port" => {
+                if i + 1 < args.len() {
+                    if let Ok(port) = args[i + 1].parse::<u16>() {
+                        config.server_port = port;
+                        println!("[CONFIG] Server port from CLI: {}", config.server_port);
+                    }
+                }
+            }
+            "--test-with-local-server" => {
+                config.test_with_local_server = true;
+                println!("[CONFIG] Test with local server enabled from CLI");
+            }
             "--help" => {
                 print_usage();
                 std::process::exit(0);
@@ -96,27 +149,39 @@ fn print_usage() {
     println!("Usage: test_harness [OPTIONS]");
     println!();
     println!("Options:");
-    println!("  --server-url <URL>      Set the server URL for HTTP testing");
-    println!("  --target-spn <SPN>       Set the target SPN for NTLM authentication");
-    println!("  --test-http              Enable HTTP testing (requires network feature)");
-    println!("  --test-schannel-aw        Enable Schannel AcquireCredentialsHandle A/W test");
-    println!("  --test-init-sec-ctx       Enable Schannel InitializeSecurityContext A/W test");
-    println!("  --help                   Print this help message");
+    println!("  --server-url <URL>            Set the server URL for HTTP testing");
+    println!("  --target-spn <SPN>             Set the target SPN for NTLM authentication");
+    println!("  --test-http                    Enable HTTP testing (requires network feature)");
+    println!("  --test-schannel-aw             Enable Schannel AcquireCredentialsHandle A/W test");
+    println!("  --test-init-sec-ctx            Enable Schannel InitializeSecurityContext A/W test");
+    println!("  --run-server                   Run Windows authentication test server");
+    println!("  --server-address <ADDR>        Set server address (default: 127.0.0.1)");
+    println!("  --server-port <PORT>          Set server port (default: 8080)");
+    println!("  --test-with-local-server       Test against local server (auto-configures URL/SPN)");
+    println!("  --help                         Print this help message");
     println!();
     println!("Environment Variables:");
-    println!("  RUST9X_SERVER_URL        Set the server URL for HTTP testing");
-    println!("  RUST9X_TARGET_SPN        Set the target SPN for NTLM authentication");
-    println!("  RUST9X_TEST_HTTP         Enable HTTP testing (requires network feature)");
-    println!("  RUST9X_TEST_SCHANNEL_AW  Enable Schannel AcquireCredentialsHandle A/W test");
-    println!("  RUST9X_TEST_INIT_SEC_CTX Enable Schannel InitializeSecurityContext A/W test");
+    println!("  RUST9X_SERVER_URL              Set the server URL for HTTP testing");
+    println!("  RUST9X_TARGET_SPN              Set the target SPN for NTLM authentication");
+    println!("  RUST9X_TEST_HTTP               Enable HTTP testing (requires network feature)");
+    println!("  RUST9X_TEST_SCHANNEL_AW       Enable Schannel AcquireCredentialsHandle A/W test");
+    println!("  RUST9X_TEST_INIT_SEC_CTX       Enable Schannel InitializeSecurityContext A/W test");
+    println!("  RUST9X_RUN_SERVER              Run Windows authentication test server");
+    println!("  RUST9X_SERVER_ADDRESS          Set server address (default: 127.0.0.1)");
+    println!("  RUST9X_SERVER_PORT             Set server port (default: 8080)");
+    println!("  RUST9X_TEST_WITH_LOCAL_SERVER  Test against local server");
     println!();
     println!("Examples:");
     println!("  test_harness --server-url http://localhost:8080/api --target-spn HTTP/localhost");
     println!("  test_harness --test-schannel-aw");
     println!("  test_harness --test-init-sec-ctx");
+    println!("  test_harness --run-server --server-port 9000");
+    println!("  test_harness --test-with-local-server --server-port 9000");
     println!("  RUST9X_SERVER_URL=http://localhost:8080/api test_harness");
     println!("  RUST9X_TEST_SCHANNEL_AW=1 test_harness");
     println!("  RUST9X_TEST_INIT_SEC_CTX=1 test_harness");
+    println!("  RUST9X_RUN_SERVER=1 test_harness");
+    println!("  RUST9X_TEST_WITH_LOCAL_SERVER=1 test_harness");
 }
 
 fn main() {
@@ -126,15 +191,81 @@ fn main() {
     println!("Target: Debug-oriented standalone EXE\n");
 
     let config = parse_config();
-    println!("[CONFIG] Server URL: {}", config.server_url);
-    println!("[CONFIG] Target SPN: {}", config.target_spn);
-    println!("[CONFIG] HTTP test: {}", if config.test_http { "enabled" } else { "disabled" });
-    println!("[CONFIG] Schannel A/W test: {}", if config.test_schannel_aw { "enabled" } else { "disabled" });
-    println!("[CONFIG] InitializeSecurityContext test: {}", if config.test_init_sec_ctx { "enabled" } else { "disabled" });
+    
+    // Auto-configure for local server testing if requested
+    let final_config = if config.test_with_local_server {
+        println!("[CONFIG] Auto-configuring for local server testing");
+        let local_url = format!("http://{}:{}/", config.server_address, config.server_port);
+        let local_spn = format!("HTTP/{}", config.server_address);
+        
+        println!("[CONFIG] Server URL: {} (auto-configured)", local_url);
+        println!("[CONFIG] Target SPN: {} (auto-configured)", local_spn);
+        println!("[CONFIG] HTTP test: auto-enabled for local server testing");
+        
+        TestConfig {
+            server_url: local_url,
+            target_spn: local_spn,
+            test_http: true, // Auto-enable HTTP test for local server
+            ..config
+        }
+    } else {
+        println!("[CONFIG] Server URL: {}", config.server_url);
+        println!("[CONFIG] Target SPN: {}", config.target_spn);
+        config
+    };
+    
+    println!("[CONFIG] HTTP test: {}", if final_config.test_http { "enabled" } else { "disabled" });
+    println!("[CONFIG] Schannel A/W test: {}", if final_config.test_schannel_aw { "enabled" } else { "disabled" });
+    println!("[CONFIG] InitializeSecurityContext test: {}", if final_config.test_init_sec_ctx { "enabled" } else { "disabled" });
+    println!("[CONFIG] Run server: {}", if final_config.run_server { "enabled" } else { "disabled" });
+    if final_config.run_server {
+        println!("[CONFIG] Server address: {}", final_config.server_address);
+        println!("[CONFIG] Server port: {}", final_config.server_port);
+    }
     println!();
 
+    // Run test server if requested
+    if final_config.run_server {
+        println!("[SERVER MODE] Windows Authentication Test Server");
+        println!("--------------------------------");
+        println!("[PROGRESS] Starting test server...");
+        println!("[DEBUG] This server implements NTLM authentication for testing clients");
+        
+        #[cfg(feature = "std")]
+        {
+            println!("[DEBUG] Platform: Windows - starting test server");
+            match WindowsAuthTestServer::new(&final_config.server_address, final_config.server_port) {
+                Ok(mut server) => {
+                    println!("[SERVER] Test server created successfully");
+                    println!("[SERVER] Listening on {}:{}", final_config.server_address, final_config.server_port);
+                    println!("[SERVER] Press Ctrl+C to stop");
+                    println!();
+                    
+                    if let Err(e) = server.start() {
+                        eprintln!("[ERROR] Server error: {:?}", e);
+                        std::process::exit(1);
+                    }
+                }
+                Err(e) => {
+                    eprintln!("[ERROR] Failed to create test server: {:?}", e);
+                    std::process::exit(1);
+                }
+            }
+        }
+        
+        #[cfg(not(feature = "std"))]
+        {
+            println!("[DEBUG] Platform: no std - cannot run server");
+            println!("[INFO] Test server requires std feature");
+            std::process::exit(1);
+        }
+        
+        // Server mode doesn't continue to other tests
+        return;
+    }
+
     // Run Schannel A/W test if requested (standalone test, doesn't require auth init)
-    if config.test_schannel_aw {
+    if final_config.test_schannel_aw {
         println!("[TEST 0] Schannel AcquireCredentialsHandle A/W Comparison");
         println!("--------------------------------");
         println!("[PROGRESS] Running standalone Schannel API test...");
@@ -158,7 +289,7 @@ fn main() {
     }
 
     // Run InitializeSecurityContext test if requested
-    if config.test_init_sec_ctx {
+    if final_config.test_init_sec_ctx {
         println!("[TEST 0] Schannel InitializeSecurityContext A/W Comparison");
         println!("--------------------------------");
         println!("[PROGRESS] Running standalone InitializeSecurityContext test...");
@@ -345,13 +476,13 @@ fn main() {
             rust9x_windows_auth::AUTH_CLIENT.as_mut()
         {
             println!("[DEBUG] AUTH_CLIENT is available for NTLM operations");
-            println!("[DEBUG] Target SPN: {}", config.target_spn);
+            println!("[DEBUG] Target SPN: {}", final_config.target_spn);
 
             println!("[PROGRESS] Generating NTLM negotiate token...");
             let ntlm_start = Instant::now();
 
             match client.generate_negotiate_token(
-                &config.target_spn
+                &final_config.target_spn
             ) {
 
                 Ok(token) => {
@@ -423,16 +554,16 @@ fn main() {
     // Test 5
     #[cfg(feature="network")]
     {
-        if config.test_http {
+        if final_config.test_http {
             println!("\n[TEST 5] HTTP NTLM request");
             println!("--------------------------------");
             println!("[DEBUG] Network feature is enabled");
             println!("[DEBUG] HTTP test is enabled via configuration");
 
-            let url = format!("{}\0", config.server_url);
+            let url = format!("{}\0", final_config.server_url);
             let method = "GET\0";
 
-            println!("[DEBUG] Target URL: {}", config.server_url);
+            println!("[DEBUG] Target URL: {}", final_config.server_url);
             println!("[DEBUG] HTTP method: GET");
             println!("[DEBUG] Request body: null (0 bytes)");
             println!("[PROGRESS] Preparing HTTP NTLM request...");

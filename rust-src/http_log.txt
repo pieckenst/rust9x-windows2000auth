@@ -537,3 +537,39 @@
 [1786652173] [HTTP] TLS handshake successful with example.com
 [1786652173] [HTTP] Sending initial request (197 bytes)
 [1786652173] [HTTP] Initial response: 404 Not Found
+[1786982219] [HTTP] TLS connector built successfully
+[1786982219] [HTTP] Starting GET request to 127.0.0.1:8080
+[1786982219] [HTTP] Target name for NTLM: HTTP/127.0.0.1
+[1786982219] [HTTP] NTLM negotiate token: 40 bytes
+[1786982272] [HTTP] TLS connector built successfully
+[1786982272] [HTTP] Starting GET request to 127.0.0.1:8080
+[1786982272] [HTTP] Target name for NTLM: HTTP/127.0.0.1
+[1786982272] [HTTP] NTLM negotiate token: 40 bytes
+[1786982272] [HTTP] Connected to 127.0.0.1:8080
+[1786982272] [HTTP] Sending initial request (187 bytes)
+[1786982676] [HTTP] TLS connector built successfully
+[1786982676] [HTTP] Starting GET request to 127.0.0.1:8080
+[1786982676] [HTTP] Target name for NTLM: HTTP/127.0.0.1
+[1786982676] [HTTP] NTLM negotiate token: 40 bytes
+[1786982676] [HTTP] Connected to 127.0.0.1:8080
+[1786982676] [HTTP] Sending initial request (187 bytes)
+[1786982676] [HTTP] Initial response: 401 Unauthorized
+[1786982676] [HTTP] Received 401 - extracting NTLM challenge
+[1786982676] [HTTP] NTLM challenge size: 90 bytes
+[1786982676] [HTTP] NTLM authenticate token: 224 bytes
+[1786982676] [HTTP] Sending auth request (426 bytes)
+[1786982676] [HTTP] Final response: 200 OK
+[1786982676] [HTTP] Request completed successfully, body size: 12 bytes
+[1786982688] [HTTP] TLS connector built successfully
+[1786982688] [HTTP] Starting GET request to 127.0.0.1:8080
+[1786982688] [HTTP] Target name for NTLM: HTTP/127.0.0.1
+[1786982688] [HTTP] NTLM negotiate token: 40 bytes
+[1786982688] [HTTP] Connected to 127.0.0.1:8080
+[1786982688] [HTTP] Sending initial request (187 bytes)
+[1786982688] [HTTP] Initial response: 401 Unauthorized
+[1786982688] [HTTP] Received 401 - extracting NTLM challenge
+[1786982688] [HTTP] NTLM challenge size: 90 bytes
+[1786982688] [HTTP] NTLM authenticate token: 224 bytes
+[1786982688] [HTTP] Sending auth request (426 bytes)
+[1786982688] [HTTP] Final response: 200 OK
+[1786982688] [HTTP] Request completed successfully, body size: 12 bytes

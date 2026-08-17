@@ -4143,3 +4143,399 @@
 [1786652190] [MEMORY_FREE] CString freed 82 bytes
 [1786652190] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6626470
 [1786652190] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1786982208] [FUNCTION_ENTRY] auth_init
+[1786982208] [LIB] auth_init called
+[1786982208] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982208] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982208] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982208] [OBJECT_SIZE] client instance = 912 bytes
+[1786982208] [LIB] Auth client initialized successfully
+[1786982208] [FUNCTION_EXIT] auth_init -> Success
+[1786982208] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982208] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982208] [PARAM] error_code = Success (size: 4 bytes)
+[1786982208] [PARAM] error_message = null_mut()
+[1786982208] [PARAM] response_data = null_mut()
+[1786982208] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982208] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982208] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982208] [LIB] auth_prompt_credentials called
+[1786982208] [PARAM] caption = 0x913458
+[1786982208] [PARAM] message = 0x913476
+[1786982208] [PARAM] save_credentials = 0x3ff4fc
+[1786982208] [PARAM] result = 0x3ff510
+[1786982208] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982208] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982208] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982208] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982208] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982208] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982208] [PARAM] save = false (size: 4 bytes)
+[1786982208] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982219] [LIB] Credential prompt successful
+[1786982219] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982219] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982219] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982219] [PARAM] error_code = Success (size: 4 bytes)
+[1786982219] [PARAM] error_message = null_mut()
+[1786982219] [PARAM] response_data = null_mut()
+[1786982219] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982219] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982219] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982219] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982219] [PARAM] error_code = Success (size: 4 bytes)
+[1786982219] [PARAM] error_message = null_mut()
+[1786982219] [PARAM] response_data = null_mut()
+[1786982219] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982219] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982219] [FUNCTION_ENTRY] auth_http_request
+[1786982219] [LIB] auth_http_request called
+[1786982219] [PARAM] url = 0x9eb390
+[1786982219] [PARAM] method = 0x9134a1
+[1786982219] [PARAM] body_data = NULL
+[1786982219] [PARAM] body_length = 0 (size: 0 bytes)
+[1786982219] [PARAM] result = 0x3ff770
+[1786982219] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982219] [INTEROP] *const c_char -> &str [SUCCESS] value: 'http://127.0.0.1:8080/' (22 bytes)
+[1786982219] [PARAM] url_str = 'http://127.0.0.1:8080/' (size: 22 bytes)
+[1786982219] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786982219] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786982219] [LIB] HTTP request: GET http://127.0.0.1:8080/
+[1786982219] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786982219] [PARAM] body = None
+[1786982219] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786982219] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786982221] [LIB] HTTP request failed: Network error: Failed to connect: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (os error 10061)
+[1786982221] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: Failed to connect: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (os error 10061)
+[1786982221] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786982221] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786982221] [PARAM] message = 'HTTP request failed: Network error: Failed to connect: Подключение не установлено, т.к. конечный компьютер отверг запрос на подключение. (os error 10061)' (221 bytes) (size: 221 bytes)
+[1786982221] [MEMORY_ALLOC] CString (error message) allocated 221 bytes
+[1786982221] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x9f13d8
+[1786982221] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982221] [PARAM] error_message = ptr=0x9f13d8 (leaked)
+[1786982221] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786982221] [FUNCTION_ENTRY] auth_cleanup
+[1786982221] [LIB] auth_cleanup called
+[1786982221] [PARAM] return_type = void
+[1786982221] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982221] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982221] [LIB] Auth client cleaned up
+[1786982221] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786982263] [FUNCTION_ENTRY] auth_init
+[1786982263] [LIB] auth_init called
+[1786982263] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982263] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982263] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982263] [OBJECT_SIZE] client instance = 912 bytes
+[1786982263] [LIB] Auth client initialized successfully
+[1786982263] [FUNCTION_EXIT] auth_init -> Success
+[1786982263] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982263] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982263] [PARAM] error_code = Success (size: 4 bytes)
+[1786982263] [PARAM] error_message = null_mut()
+[1786982263] [PARAM] response_data = null_mut()
+[1786982263] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982263] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982263] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982263] [LIB] auth_prompt_credentials called
+[1786982263] [PARAM] caption = 0x913458
+[1786982263] [PARAM] message = 0x913476
+[1786982263] [PARAM] save_credentials = 0x43f4ec
+[1786982263] [PARAM] result = 0x43f500
+[1786982263] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982263] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982263] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982263] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982263] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982263] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982263] [PARAM] save = false (size: 4 bytes)
+[1786982263] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982272] [LIB] Credential prompt successful
+[1786982272] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982272] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982272] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982272] [PARAM] error_code = Success (size: 4 bytes)
+[1786982272] [PARAM] error_message = null_mut()
+[1786982272] [PARAM] response_data = null_mut()
+[1786982272] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982272] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982272] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982272] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982272] [PARAM] error_code = Success (size: 4 bytes)
+[1786982272] [PARAM] error_message = null_mut()
+[1786982272] [PARAM] response_data = null_mut()
+[1786982272] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982272] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982272] [FUNCTION_ENTRY] auth_http_request
+[1786982272] [LIB] auth_http_request called
+[1786982272] [PARAM] url = 0x65a8b0
+[1786982272] [PARAM] method = 0x9134a1
+[1786982272] [PARAM] body_data = NULL
+[1786982272] [PARAM] body_length = 0 (size: 0 bytes)
+[1786982272] [PARAM] result = 0x43f760
+[1786982272] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982272] [INTEROP] *const c_char -> &str [SUCCESS] value: 'http://127.0.0.1:8080/' (22 bytes)
+[1786982272] [PARAM] url_str = 'http://127.0.0.1:8080/' (size: 22 bytes)
+[1786982272] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786982272] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786982272] [LIB] HTTP request: GET http://127.0.0.1:8080/
+[1786982272] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786982272] [PARAM] body = None
+[1786982272] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786982272] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786982272] [LIB] HTTP request failed: Network error: Invalid status line: 
+[1786982272] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: Invalid status line: 
+[1786982272] [FUNCTION_ENTRY] AuthInteropResult::error
+[1786982272] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1786982272] [PARAM] message = 'HTTP request failed: Network error: Invalid status line: ' (57 bytes) (size: 57 bytes)
+[1786982272] [MEMORY_ALLOC] CString (error message) allocated 57 bytes
+[1786982272] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x656b10
+[1786982272] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982272] [PARAM] error_message = ptr=0x656b10 (leaked)
+[1786982272] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1786982272] [FUNCTION_ENTRY] auth_cleanup
+[1786982272] [LIB] auth_cleanup called
+[1786982272] [PARAM] return_type = void
+[1786982272] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982272] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982272] [LIB] Auth client cleaned up
+[1786982272] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786982285] [FUNCTION_ENTRY] auth_init
+[1786982285] [LIB] auth_init called
+[1786982285] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982285] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982285] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982285] [OBJECT_SIZE] client instance = 912 bytes
+[1786982285] [LIB] Auth client initialized successfully
+[1786982285] [FUNCTION_EXIT] auth_init -> Success
+[1786982285] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982285] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982285] [PARAM] error_code = Success (size: 4 bytes)
+[1786982285] [PARAM] error_message = null_mut()
+[1786982285] [PARAM] response_data = null_mut()
+[1786982285] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982285] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982285] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982285] [LIB] auth_prompt_credentials called
+[1786982285] [PARAM] caption = 0x913458
+[1786982285] [PARAM] message = 0x913476
+[1786982285] [PARAM] save_credentials = 0x63f8c4
+[1786982285] [PARAM] result = 0x63f8d8
+[1786982285] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982285] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982285] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982285] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982285] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982285] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982285] [PARAM] save = false (size: 4 bytes)
+[1786982285] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982291] [LIB] Credential prompt successful
+[1786982291] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982291] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982291] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982291] [PARAM] error_code = Success (size: 4 bytes)
+[1786982291] [PARAM] error_message = null_mut()
+[1786982291] [PARAM] response_data = null_mut()
+[1786982291] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982291] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982292] [FUNCTION_ENTRY] auth_cleanup
+[1786982292] [LIB] auth_cleanup called
+[1786982292] [PARAM] return_type = void
+[1786982292] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982292] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982292] [LIB] Auth client cleaned up
+[1786982292] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786982644] [FUNCTION_ENTRY] auth_init
+[1786982644] [LIB] auth_init called
+[1786982644] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982644] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982644] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982644] [OBJECT_SIZE] client instance = 912 bytes
+[1786982644] [LIB] Auth client initialized successfully
+[1786982644] [FUNCTION_EXIT] auth_init -> Success
+[1786982644] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982644] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982644] [PARAM] error_code = Success (size: 4 bytes)
+[1786982644] [PARAM] error_message = null_mut()
+[1786982644] [PARAM] response_data = null_mut()
+[1786982644] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982644] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982644] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982644] [LIB] auth_prompt_credentials called
+[1786982644] [PARAM] caption = 0x8b13c4
+[1786982644] [PARAM] message = 0x8b13e2
+[1786982644] [PARAM] save_credentials = 0xe3f84c
+[1786982644] [PARAM] result = 0xe3f860
+[1786982644] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982644] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982644] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982644] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982644] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982644] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982644] [PARAM] save = false (size: 4 bytes)
+[1786982644] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982651] [LIB] Credential prompt successful
+[1786982651] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982651] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982651] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982651] [PARAM] error_code = Success (size: 4 bytes)
+[1786982651] [PARAM] error_message = null_mut()
+[1786982651] [PARAM] response_data = null_mut()
+[1786982651] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982651] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982651] [FUNCTION_ENTRY] auth_cleanup
+[1786982651] [LIB] auth_cleanup called
+[1786982651] [PARAM] return_type = void
+[1786982651] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982651] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982651] [LIB] Auth client cleaned up
+[1786982651] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786982670] [FUNCTION_ENTRY] auth_init
+[1786982670] [LIB] auth_init called
+[1786982670] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982670] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982670] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982670] [OBJECT_SIZE] client instance = 912 bytes
+[1786982670] [LIB] Auth client initialized successfully
+[1786982670] [FUNCTION_EXIT] auth_init -> Success
+[1786982670] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982670] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982670] [PARAM] error_code = Success (size: 4 bytes)
+[1786982670] [PARAM] error_message = null_mut()
+[1786982670] [PARAM] response_data = null_mut()
+[1786982670] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982670] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982670] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982670] [LIB] auth_prompt_credentials called
+[1786982670] [PARAM] caption = 0x8b13c4
+[1786982670] [PARAM] message = 0x8b13e2
+[1786982670] [PARAM] save_credentials = 0x9bf2b4
+[1786982670] [PARAM] result = 0x9bf2c8
+[1786982670] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982670] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982670] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982670] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982670] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982670] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982670] [PARAM] save = false (size: 4 bytes)
+[1786982670] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982676] [LIB] Credential prompt successful
+[1786982676] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982676] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982676] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982676] [PARAM] error_code = Success (size: 4 bytes)
+[1786982676] [PARAM] error_message = null_mut()
+[1786982676] [PARAM] response_data = null_mut()
+[1786982676] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982676] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982676] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982676] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982676] [PARAM] error_code = Success (size: 4 bytes)
+[1786982676] [PARAM] error_message = null_mut()
+[1786982676] [PARAM] response_data = null_mut()
+[1786982676] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982676] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982676] [FUNCTION_ENTRY] auth_http_request
+[1786982676] [LIB] auth_http_request called
+[1786982676] [PARAM] url = 0xe8ba10
+[1786982676] [PARAM] method = 0x8b140d
+[1786982676] [PARAM] body_data = NULL
+[1786982676] [PARAM] body_length = 0 (size: 0 bytes)
+[1786982676] [PARAM] result = 0x9bf528
+[1786982676] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982676] [INTEROP] *const c_char -> &str [SUCCESS] value: 'http://127.0.0.1:8080/' (22 bytes)
+[1786982676] [PARAM] url_str = 'http://127.0.0.1:8080/' (size: 22 bytes)
+[1786982676] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786982676] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786982676] [LIB] HTTP request: GET http://127.0.0.1:8080/
+[1786982676] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786982676] [PARAM] body = None
+[1786982676] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786982676] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786982676] [MEMORY_ALLOC] response_data (leaked) allocated 12 bytes
+[1786982676] [INTEROP] Vec<u8> -> *mut u8 [SUCCESS] value: leaked ptr=0xea7430, len=12
+[1786982676] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982676] [LIB] HTTP request successful: 12 bytes
+[1786982676] [FUNCTION_EXIT] auth_http_request -> Success (12 bytes)
+[1786982676] [FUNCTION_ENTRY] auth_cleanup
+[1786982676] [LIB] auth_cleanup called
+[1786982676] [PARAM] return_type = void
+[1786982676] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982676] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982676] [LIB] Auth client cleaned up
+[1786982676] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1786982682] [FUNCTION_ENTRY] auth_init
+[1786982682] [LIB] auth_init called
+[1786982682] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1786982682] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1786982682] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1786982682] [OBJECT_SIZE] client instance = 912 bytes
+[1786982682] [LIB] Auth client initialized successfully
+[1786982682] [FUNCTION_EXIT] auth_init -> Success
+[1786982682] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982682] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982682] [PARAM] error_code = Success (size: 4 bytes)
+[1786982682] [PARAM] error_message = null_mut()
+[1786982682] [PARAM] response_data = null_mut()
+[1786982682] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982682] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982682] [FUNCTION_ENTRY] auth_prompt_credentials
+[1786982682] [LIB] auth_prompt_credentials called
+[1786982682] [PARAM] caption = 0x8b13c4
+[1786982682] [PARAM] message = 0x8b13e2
+[1786982682] [PARAM] save_credentials = 0x63f8e4
+[1786982682] [PARAM] result = 0x63f8f8
+[1786982682] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982682] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rust9x Windows Authentication'
+[1786982682] [PARAM] caption_str = 'rust9x Windows Authentication' (size: 29 bytes)
+[1786982682] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter Windows credentials for NTLM testing'
+[1786982682] [PARAM] message_str = 'Enter Windows credentials for NTLM testing' (size: 42 bytes)
+[1786982682] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1786982682] [PARAM] save = false (size: 4 bytes)
+[1786982682] [LIB] Prompting for credentials - Caption: rust9x Windows Authentication, Message: Enter Windows credentials for NTLM testing, Save: false
+[1786982688] [LIB] Credential prompt successful
+[1786982688] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1786982688] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982688] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982688] [PARAM] error_code = Success (size: 4 bytes)
+[1786982688] [PARAM] error_message = null_mut()
+[1786982688] [PARAM] response_data = null_mut()
+[1786982688] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982688] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982688] [FUNCTION_ENTRY] AuthInteropResult::success
+[1786982688] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982688] [PARAM] error_code = Success (size: 4 bytes)
+[1786982688] [PARAM] error_message = null_mut()
+[1786982688] [PARAM] response_data = null_mut()
+[1786982688] [PARAM] response_length = 0 (size: 4 bytes)
+[1786982688] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1786982688] [FUNCTION_ENTRY] auth_http_request
+[1786982688] [LIB] auth_http_request called
+[1786982688] [PARAM] url = 0xb5cd58
+[1786982688] [PARAM] method = 0x8b140d
+[1786982688] [PARAM] body_data = NULL
+[1786982688] [PARAM] body_length = 0 (size: 0 bytes)
+[1786982688] [PARAM] result = 0x63fb58
+[1786982688] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1786982688] [INTEROP] *const c_char -> &str [SUCCESS] value: 'http://127.0.0.1:8080/' (22 bytes)
+[1786982688] [PARAM] url_str = 'http://127.0.0.1:8080/' (size: 22 bytes)
+[1786982688] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1786982688] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1786982688] [LIB] HTTP request: GET http://127.0.0.1:8080/
+[1786982688] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1786982688] [PARAM] body = None
+[1786982688] [OBJECT_SIZE] HttpClient = 96 bytes
+[1786982688] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1786982688] [MEMORY_ALLOC] response_data (leaked) allocated 12 bytes
+[1786982688] [INTEROP] Vec<u8> -> *mut u8 [SUCCESS] value: leaked ptr=0xb52440, len=12
+[1786982688] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1786982688] [LIB] HTTP request successful: 12 bytes
+[1786982688] [FUNCTION_EXIT] auth_http_request -> Success (12 bytes)
+[1786982688] [FUNCTION_ENTRY] auth_cleanup
+[1786982688] [LIB] auth_cleanup called
+[1786982688] [PARAM] return_type = void
+[1786982688] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1786982688] [OBJECT_SIZE] client being dropped = 912 bytes
+[1786982688] [LIB] Auth client cleaned up
+[1786982688] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)

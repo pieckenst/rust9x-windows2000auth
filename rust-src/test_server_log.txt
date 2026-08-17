@@ -1,0 +1,38 @@
+[1786982260] [FUNCTION_ENTRY] WindowsAuthTestServer::new - Parameters: address: '127.0.0.1', port: 8080
+[1786982260] [FUNCTION_EXIT] WindowsAuthTestServer::new - Result: Success
+[1786982260] [FUNCTION_ENTRY] WindowsAuthTestServer::start - Parameters: no parameters
+[1786982260] [SERVER] Test Windows Auth server listening on 127.0.0.1:8080
+[1786982260] [FUNCTION_EXIT] WindowsAuthTestServer::start - Result: Server started
+[1786982272] [FUNCTION_ENTRY] WindowsAuthTestServer::handle_client - Parameters: stream
+[1786982272] [SERVER] Client connected from 127.0.0.1:17547
+[1786982272] [SERVER] Received negotiate token (187 bytes)
+[1786982272] [SERVER] Error handling client: AuthFailed("Failed to accept security context: InvalidToken: Read NTLM signature is invalid: [71, 69, 84, 32, 47, 32, 72, 84]")
+[1786982641] [FUNCTION_ENTRY] WindowsAuthTestServer::new - Parameters: address: '127.0.0.1', port: 8080
+[1786982641] [FUNCTION_EXIT] WindowsAuthTestServer::new - Result: Success
+[1786982641] [FUNCTION_ENTRY] WindowsAuthTestServer::start - Parameters: no parameters
+[1786982641] [SERVER] Test Windows Auth server listening on 127.0.0.1:8080
+[1786982641] [FUNCTION_EXIT] WindowsAuthTestServer::start - Result: Server started
+[1786982676] [FUNCTION_ENTRY] WindowsAuthTestServer::handle_client - Parameters: stream
+[1786982676] [SERVER] Client connected from 127.0.0.1:20171
+[1786982676] [SERVER] Received HTTP request: GET /
+[1786982676] [SERVER] Found NTLM Authorization header
+[1786982676] [SERVER] Decoded Type 1 token (40 bytes)
+[1786982676] [SERVER] Generated Type 2 challenge (88 bytes)
+[1786982676] [SERVER] Sent 401 with NTLM challenge
+[1786982676] [SERVER] Received second HTTP request: GET /
+[1786982676] [SERVER] Decoded Type 3 token (224 bytes)
+[1786982676] [SERVER] Authentication result: success=true, username=Some("AuthenticatedUser")
+[1786982676] [SERVER] Authentication completed for 127.0.0.1:20171
+[1786982676] [FUNCTION_EXIT] WindowsAuthTestServer::handle_client - Result: Success
+[1786982688] [FUNCTION_ENTRY] WindowsAuthTestServer::handle_client - Parameters: stream
+[1786982688] [SERVER] Client connected from 127.0.0.1:11939
+[1786982688] [SERVER] Received HTTP request: GET /
+[1786982688] [SERVER] Found NTLM Authorization header
+[1786982688] [SERVER] Decoded Type 1 token (40 bytes)
+[1786982688] [SERVER] Generated Type 2 challenge (88 bytes)
+[1786982688] [SERVER] Sent 401 with NTLM challenge
+[1786982688] [SERVER] Received second HTTP request: GET /
+[1786982688] [SERVER] Decoded Type 3 token (224 bytes)
+[1786982688] [SERVER] Authentication result: success=true, username=Some("AuthenticatedUser")
+[1786982688] [SERVER] Authentication completed for 127.0.0.1:11939
+[1786982688] [FUNCTION_EXIT] WindowsAuthTestServer::handle_client - Result: Success

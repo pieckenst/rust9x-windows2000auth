@@ -102,10 +102,12 @@ fn log_object_size(object_name: &str, size: usize) {
 mod auth;
 mod http;
 mod tls;
+mod test_server;
 
-pub use auth::{AuthCredentials, AuthResult, WindowsAuthClient};
+pub use auth::{AuthCredentials, AuthResult, WindowsAuthClient, WindowsAuthServer, AuthResultInfo};
 pub use http::HttpClient;
 pub use tls::TlsConfig;
+pub use test_server::WindowsAuthTestServer;
 
 /// Error codes for .NET interop
 #[repr(C)]
