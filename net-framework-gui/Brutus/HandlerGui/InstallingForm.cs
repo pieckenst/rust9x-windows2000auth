@@ -16,6 +16,8 @@ namespace HandlerGui
         private AuthManager authManager;
         private string applicationName = "WindowsApplication1";
         private string publisher = "Unknown Publisher";
+        private CredentialContainer providedCredentials;
+        private bool credentialsRetrievedFromManager;
 
         // UI Control references (these should be defined in the designer)
         // private ProgressBar progressBar;
@@ -42,6 +44,10 @@ namespace HandlerGui
             // Update form UI with application info
             // This would typically update labels and progress bars
             UpdateApplicationInfo();
+            
+            // Initialize credential tracking
+            providedCredentials = null;
+            credentialsRetrievedFromManager = false;
         }
 
         private void UpdateApplicationInfo()
@@ -107,6 +113,35 @@ namespace HandlerGui
                 return;
             }
 
+            // Check if credentials were provided by ConfirmForm
+            if (CredentialManager.Instance.HasCredentials)
+            {
+                authManager.Config.Log("InstallingForm: Credentials available from CredentialManager");
+                try
+                {
+                    providedCredentials = CredentialManager.Instance.RetrieveAndClearCredentials();
+                    credentialsRetrievedFromManager = (providedCredentials != null);
+                    
+                    if (credentialsRetrievedFromManager)
+                    {
+                        authManager.Config.Log("InstallingForm: Successfully retrieved credentials from CredentialManager");
+                    }
+                    else
+                    {
+                        authManager.Config.Log("InstallingForm: Failed to retrieve credentials from CredentialManager");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    authManager.Config.Log("InstallingForm: Exception retrieving credentials: " + ex.Message);
+                    credentialsRetrievedFromManager = false;
+                }
+            }
+            else
+            {
+                authManager.Config.Log("InstallingForm: No credentials available from CredentialManager");
+            }
+
             // Start authentication process when form loads
             authWorker.RunWorkerAsync();
         }
@@ -128,10 +163,34 @@ namespace HandlerGui
 
                 authWorker.ReportProgress(15, "Authentication library initialized");
 
+                // Use provided credentials if available, otherwise authenticate normally
+                CredentialContainer credentialsToUse = null;
+                
+                if (credentialsRetrievedFromManager && providedCredentials != null && providedCredentials.IsValid)
+                {
+                    authWorker.ReportProgress(20, "Using provided credentials...");
+                    credentialsToUse = providedCredentials;
+                    authManager.Config.Log("InstallingForm: Using credentials provided by ConfirmForm");
+                }
+                else
+                {
+                    authManager.Config.Log("InstallingForm: No valid credentials provided, will authenticate normally");
+                }
+
                 // Perform authentication with automatic retry logic
                 authWorker.ReportProgress(25, "Authenticating with server...");
                 
-                AuthResult authResult = authManager.Authenticate();
+                AuthResult authResult;
+                if (credentialsToUse != null)
+                {
+                    // Use the overload that accepts credentials
+                    authResult = authManager.Authenticate(credentialsToUse);
+                }
+                else
+                {
+                    // Use normal authentication (may prompt if configured)
+                    authResult = authManager.Authenticate();
+                }
 
                 if (authResult.ErrorCode != AuthErrorCode.Success)
                 {
@@ -168,6 +227,24 @@ namespace HandlerGui
                 if (authManager != null)
                 {
                     authManager.Config.Log("InstallingForm: Exception during authentication: " + ex.ToString());
+                }
+            }
+            finally
+            {
+                // Clean up credentials after use
+                if (providedCredentials != null)
+                {
+                    try
+                    {
+                        providedCredentials.Clear();
+                        providedCredentials.Dispose();
+                        providedCredentials = null;
+                        authManager.Config.Log("InstallingForm: Credentials cleared after use");
+                    }
+                    catch (Exception cleanupEx)
+                    {
+                        authManager.Config.Log("InstallingForm: Error clearing credentials: " + cleanupEx.Message);
+                    }
                 }
             }
         }
@@ -298,6 +375,21 @@ namespace HandlerGui
                 {
                     authWorker.Dispose();
                 }
+                
+                // Clean up credentials if still present
+                if (providedCredentials != null)
+                {
+                    try
+                    {
+                        providedCredentials.Clear();
+                        providedCredentials.Dispose();
+                    }
+                    catch
+                    {
+                        // Ignore cleanup errors
+                    }
+                }
+                
                 // Don't dispose authManager here as it's managed by Program
             }
             base.Dispose(disposing);

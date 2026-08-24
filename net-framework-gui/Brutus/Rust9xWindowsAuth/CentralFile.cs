@@ -873,6 +873,9 @@ namespace Rust9xWindowsAuth
     {
         private AuthInteropResult _result;
         private bool _disposed;
+        private AuthErrorCode _directErrorCode;
+        private string _directErrorMessage;
+        private bool _useDirectValues;
 
         public AuthResult(AuthInteropResult result)
         {
@@ -883,7 +886,21 @@ namespace Rust9xWindowsAuth
             Trace.WriteLine("AuthResult: Result response_length: " + result.response_length);
             Trace.WriteLine("AuthResult: _result field assignment");
             _result = result;
+            _useDirectValues = false;
             Trace.WriteLine("AuthResult: Constructor completed successfully");
+        }
+
+        /// <summary>
+        /// Constructor for creating AuthResult with direct error code and message
+        /// </summary>
+        public AuthResult(AuthErrorCode errorCode, string errorMessage)
+        {
+            Trace.WriteLine("AuthResult: Direct constructor called with error code: " + errorCode);
+            _directErrorCode = errorCode;
+            _directErrorMessage = errorMessage;
+            _useDirectValues = true;
+            _result = new AuthInteropResult();
+            Trace.WriteLine("AuthResult: Direct constructor completed successfully");
         }
 
         /// <summary>
@@ -895,6 +912,11 @@ namespace Rust9xWindowsAuth
             { 
                 try
                 {
+                    if (_useDirectValues)
+                    {
+                        Trace.WriteLine("AuthResult: Getting direct ErrorCode: " + _directErrorCode);
+                        return _directErrorCode;
+                    }
                     Trace.WriteLine("AuthResult: Getting ErrorCode: " + _result.error_code);
                     return _result.error_code; 
                 }
@@ -915,6 +937,11 @@ namespace Rust9xWindowsAuth
             {
                 try
                 {
+                    if (_useDirectValues)
+                    {
+                        Trace.WriteLine("AuthResult: Getting direct ErrorMessage: " + _directErrorMessage);
+                        return _directErrorMessage;
+                    }
                     if (_result.error_message != IntPtr.Zero)
                     {
                         string message = Marshal.PtrToStringAnsi(_result.error_message);

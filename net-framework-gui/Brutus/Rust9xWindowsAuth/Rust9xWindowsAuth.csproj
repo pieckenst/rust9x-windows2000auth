@@ -63,7 +63,10 @@
     <Compile Include="AuthConfig.cs" />
     <Compile Include="AuthManager.cs" />
     <Compile Include="CentralFile.cs" />
+    <Compile Include="CredentialContainer.cs" />
+    <Compile Include="CredentialManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsAuthResponse.cs" />
   </ItemGroup>
 
   <ItemGroup>

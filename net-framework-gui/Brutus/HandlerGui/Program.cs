@@ -78,6 +78,16 @@ namespace HandlerGui
                 {
                     authManager.Dispose();
                 }
+                
+                // Cleanup credential manager to ensure secure credential cleanup
+                try
+                {
+                    CredentialManager.Instance.Shutdown();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine("Error shutting down CredentialManager: " + ex.Message);
+                }
             }
         }
 

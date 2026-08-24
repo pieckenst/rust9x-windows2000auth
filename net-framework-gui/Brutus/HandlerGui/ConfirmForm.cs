@@ -15,6 +15,8 @@ namespace HandlerGui
         private string applicationName;
         private string publisher;
         private string requestedUrl;
+        private bool isPromptingForCredentials;
+        private FormWindowState previousWindowState;
 
         public ConfirmForm()
         {
@@ -33,6 +35,8 @@ namespace HandlerGui
         {
             // Get the global auth manager from Program
             authManager = Program.AuthManager;
+            isPromptingForCredentials = false;
+            previousWindowState = FormWindowState.Normal;
 
             // Set default values if not provided
             if (string.IsNullOrEmpty(applicationName))
@@ -125,6 +129,12 @@ namespace HandlerGui
                     return;
                 }
 
+                authManager.Config.Log("ConfirmForm: Starting credential collection process");
+                isPromptingForCredentials = true;
+
+                // Hide the ConfirmForm UI to show only the Windows credentials dialog
+                HideFormForCredentialPrompt();
+
                 authManager.Config.Log("ConfirmForm: Prompting for Windows credentials");
 
                 // Use the AuthManager to prompt for credentials via Windows dialog
@@ -133,12 +143,48 @@ namespace HandlerGui
                 if (promptResult.ErrorCode == AuthErrorCode.Success)
                 {
                     authManager.Config.Log("ConfirmForm: Credentials provided successfully");
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    
+                    // Store credentials in CredentialManager for secure passing to InstallingForm
+                    try
+                    {
+                        CredentialContainer credentials = CreateCredentialContainerFromAuthResult(promptResult);
+                        if (credentials != null && credentials.HasCredentials())
+                        {
+                            CredentialManager.Instance.StoreCredentials(credentials, 120000); // 2 minutes
+                            authManager.Config.Log("ConfirmForm: Credentials stored securely in CredentialManager");
+                            
+                            // Show form briefly before proceeding
+                            ShowFormAfterCredentialPrompt();
+                            
+                            DialogResult = DialogResult.OK;
+                            Close();
+                        }
+                        else
+                        {
+                            authManager.Config.Log("ConfirmForm: Failed to create valid credential container");
+                            ShowFormAfterCredentialPrompt();
+                            MessageBox.Show(
+                                "Failed to process credentials properly.",
+                                "Credential Error",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                        }
+                    }
+                    catch (Exception credEx)
+                    {
+                        authManager.Config.Log("ConfirmForm: Exception storing credentials: " + credEx.Message);
+                        ShowFormAfterCredentialPrompt();
+                        MessageBox.Show(
+                            "Error processing credentials: " + credEx.Message,
+                            "Credential Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                    }
                 }
                 else
                 {
                     authManager.Config.Log("ConfirmForm: Credential prompt failed: " + promptResult.ErrorMessage);
+                    ShowFormAfterCredentialPrompt();
                     MessageBox.Show(
                         "Failed to obtain credentials: " + promptResult.ErrorMessage,
                         "Credential Error",
@@ -163,11 +209,106 @@ namespace HandlerGui
                     
                     authManager.Config.Log("ConfirmForm: Error prompting for credentials: " + ex.Message);
                 }
+                ShowFormAfterCredentialPrompt();
                 MessageBox.Show(
                     "Error prompting for credentials: " + ex.Message,
                     "Credential Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+            }
+            finally
+            {
+                isPromptingForCredentials = false;
+            }
+        }
+
+        /// <summary>
+        /// Hide the form during credential prompt to show only the Windows credentials dialog
+        /// </summary>
+        private void HideFormForCredentialPrompt()
+        {
+            try
+            {
+                // Store current window state
+                previousWindowState = this.WindowState;
+                
+                // Hide the form completely
+                this.Hide();
+                
+                // Disable the form to prevent any interaction
+                this.Enabled = false;
+                
+                authManager.Config.Log("ConfirmForm: Form hidden for credential prompt");
+            }
+            catch (Exception ex)
+            {
+                authManager.Config.Log("ConfirmForm: Error hiding form: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Show the form after credential prompt is complete
+        /// </summary>
+        private void ShowFormAfterCredentialPrompt()
+        {
+            try
+            {
+                // Re-enable the form
+                this.Enabled = true;
+                
+                // Show the form again
+                this.Show();
+                
+                // Restore previous window state
+                this.WindowState = previousWindowState;
+                
+                // Bring to front
+                this.BringToFront();
+                this.Activate();
+                
+                authManager.Config.Log("ConfirmForm: Form restored after credential prompt");
+            }
+            catch (Exception ex)
+            {
+                authManager.Config.Log("ConfirmForm: Error showing form: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Create a CredentialContainer from the current authentication configuration
+        /// This extracts credentials that were set by the credential prompt
+        /// </summary>
+        private CredentialContainer CreateCredentialContainerFromAuthResult(AuthResult authResult)
+        {
+            try
+            {
+                // Get credentials from the auth manager config (they were set by the prompt)
+                string username = authManager.Config.Username;
+                string password = authManager.Config.Password;
+                string domain = authManager.Config.Domain;
+
+                // Validate we have the necessary credentials
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    authManager.Config.Log("ConfirmForm: No credentials available in config after prompt");
+                    return null;
+                }
+
+                // Create secure credential container
+                CredentialContainer credentials = new CredentialContainer(username, password, domain);
+                authManager.Config.Log("ConfirmForm: Created credential container for user: " + username);
+
+                // Clear the credentials from config after creating container
+                authManager.Config.Username = null;
+                authManager.Config.Password = null;
+                authManager.Config.Domain = null;
+
+                return credentials;
+            }
+            catch (Exception ex)
+            {
+                authManager.Config.Log("ConfirmForm: Exception creating credential container: " + ex.Message);
+                return null;
             }
         }
 
@@ -194,6 +335,17 @@ namespace HandlerGui
         private void panelHeader_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Clean up credentials if form is closed during credential prompt
+            if (isPromptingForCredentials)
+            {
+                authManager.Config.Log("ConfirmForm: Form closing during credential prompt, cleaning up");
+                CredentialManager.Instance.ClearCredentials();
+            }
+            base.OnFormClosing(e);
         }
     }
 }

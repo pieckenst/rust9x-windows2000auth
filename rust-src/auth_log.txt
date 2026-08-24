@@ -9055,3 +9055,10 @@
 [1786982688] [SSPI] Authentication completed successfully
 [1786982688] [FUNCTION_EXIT] WindowsAuthServer::process_authenticate - Result: Success
 [1786982688] [MEMORY] process_authenticate - end - Context: Memory tracking enabled
+[1787603139] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787603139] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787603139] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787603139] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787603139] [OPTION_INFO] credentials - Status: None
+[1787603139] [OPTION_INFO] ntlm - Status: Some
+[1787603139] [OPTION_INFO] credentials_handle - Status: None

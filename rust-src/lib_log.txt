@@ -4539,3 +4539,11 @@
 [1786982688] [OBJECT_SIZE] client being dropped = 912 bytes
 [1786982688] [LIB] Auth client cleaned up
 [1786982688] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1787603139] [FUNCTION_ENTRY] auth_init
+[1787603139] [LIB] auth_init called
+[1787603139] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787603139] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787603139] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787603139] [OBJECT_SIZE] client instance = 912 bytes
+[1787603139] [LIB] Auth client initialized successfully
+[1787603139] [FUNCTION_EXIT] auth_init -> Success

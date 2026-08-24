@@ -29,6 +29,11 @@ namespace Rust9xWindowsAuth
         private int _retryDelayMs;
         private bool _enableVerboseLogging;
         private string _logFilePath;
+        private string _devServerHttp;
+        private string _devServerHttps;
+        private string _windowsAuthEndpoint;
+        private string _accountLinkEndpoint;
+        private string _linkStatusEndpoint;
 
         /// <summary>
         /// Current configuration instance
@@ -193,16 +198,61 @@ namespace Rust9xWindowsAuth
             set { _logFilePath = value; }
         }
 
+        /// <summary>
+        /// Development server HTTP endpoint
+        /// </summary>
+        public string DevServerHttp
+        {
+            get { return _devServerHttp; }
+            set { _devServerHttp = value; }
+        }
+
+        /// <summary>
+        /// Development server HTTPS endpoint
+        /// </summary>
+        public string DevServerHttps
+        {
+            get { return _devServerHttps; }
+            set { _devServerHttps = value; }
+        }
+
+        /// <summary>
+        /// Windows authentication endpoint path
+        /// </summary>
+        public string WindowsAuthEndpoint
+        {
+            get { return _windowsAuthEndpoint; }
+            set { _windowsAuthEndpoint = value; }
+        }
+
+        /// <summary>
+        /// Account linking endpoint path
+        /// </summary>
+        public string AccountLinkEndpoint
+        {
+            get { return _accountLinkEndpoint; }
+            set { _accountLinkEndpoint = value; }
+        }
+
+        /// <summary>
+        /// Link status endpoint path
+        /// </summary>
+        public string LinkStatusEndpoint
+        {
+            get { return _linkStatusEndpoint; }
+            set { _linkStatusEndpoint = value; }
+        }
+
         public AuthConfig()
         {
-            // Set defaults
-            AuthUrl = "https://example.com/api/auth";
+            // Set defaults for development server connection
+            AuthUrl = "https://localhost:5001/api/v1/auth/windows/windows-login";
             HttpMethod = "GET";
             RequestBody = null;
             TimeoutMs = 30000;
             AutoPromptCredentials = true;
             CredentialCaption = "Windows Authentication Required";
-            CredentialMessage = "Enter your network credentials to authenticate";
+            CredentialMessage = "Enter your network credentials to authenticate with BRU Avtopark";
             AllowSaveCredentials = false;
             Username = null;
             Password = null;
@@ -211,6 +261,13 @@ namespace Rust9xWindowsAuth
             RetryDelayMs = 1000;
             EnableVerboseLogging = true; // Enable by default for debugging
             LogFilePath = Path.Combine(Path.GetTempPath(), "rust9x_auth.log");
+            
+            // Development server endpoints
+            DevServerHttp = "http://localhost:5000";
+            DevServerHttps = "https://localhost:5001";
+            WindowsAuthEndpoint = "/api/v1/auth/windows/windows-login";
+            AccountLinkEndpoint = "/api/v1/auth/windows/link-windows-account";
+            LinkStatusEndpoint = "/api/v1/auth/windows/check-windows-link-status";
         }
 
         /// <summary>
@@ -238,6 +295,13 @@ namespace Rust9xWindowsAuth
                 config.RetryDelayMs = GetAppSettingInt("RetryDelayMs", config.RetryDelayMs);
                 config.EnableVerboseLogging = GetAppSettingBool("EnableVerboseLogging", config.EnableVerboseLogging);
                 config.LogFilePath = GetAppSetting("LogFilePath", config.LogFilePath);
+                
+                // Development server endpoints
+                config.DevServerHttp = GetAppSetting("DevServerHttp", config.DevServerHttp);
+                config.DevServerHttps = GetAppSetting("DevServerHttps", config.DevServerHttps);
+                config.WindowsAuthEndpoint = GetAppSetting("WindowsAuthEndpoint", config.WindowsAuthEndpoint);
+                config.AccountLinkEndpoint = GetAppSetting("AccountLinkEndpoint", config.AccountLinkEndpoint);
+                config.LinkStatusEndpoint = GetAppSetting("LinkStatusEndpoint", config.LinkStatusEndpoint);
             }
             catch (Exception ex)
             {
@@ -360,7 +424,22 @@ namespace Rust9xWindowsAuth
             clone.RetryDelayMs = this.RetryDelayMs;
             clone.EnableVerboseLogging = this.EnableVerboseLogging;
             clone.LogFilePath = this.LogFilePath;
+            clone.DevServerHttp = this.DevServerHttp;
+            clone.DevServerHttps = this.DevServerHttps;
+            clone.WindowsAuthEndpoint = this.WindowsAuthEndpoint;
+            clone.AccountLinkEndpoint = this.AccountLinkEndpoint;
+            clone.LinkStatusEndpoint = this.LinkStatusEndpoint;
             return clone;
+        }
+
+        /// <summary>
+        /// Clear sensitive data from configuration
+        /// </summary>
+        public void ClearSensitiveData()
+        {
+            _username = null;
+            _password = null;
+            _domain = null;
         }
     }
 }

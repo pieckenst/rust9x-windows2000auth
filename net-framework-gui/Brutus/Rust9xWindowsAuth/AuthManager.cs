@@ -74,6 +74,15 @@ namespace Rust9xWindowsAuth
         /// </summary>
         public AuthResult Authenticate()
         {
+            return Authenticate(null);
+        }
+
+        /// <summary>
+        /// Perform authentication with automatic retry logic and optional credential container
+        /// </summary>
+        /// <param name="credentialContainer">Optional pre-provided credentials</param>
+        public AuthResult Authenticate(CredentialContainer credentialContainer)
+        {
             if (!_initialized)
             {
                 if (!Initialize())
@@ -85,9 +94,19 @@ namespace Rust9xWindowsAuth
 
             _config.Log("Starting authentication process...");
 
+            // Use provided credentials if available
+            if (credentialContainer != null && credentialContainer.HasCredentials())
+            {
+                _config.Log("Using provided credential container");
+                AuthResult setCredsResult = SetCredentialsFromContainer(credentialContainer);
+                if (setCredsResult.ErrorCode != AuthErrorCode.Success)
+                {
+                    return setCredsResult;
+                }
+            }
             // Set credentials if pre-configured
-            if (!string.IsNullOrEmpty(_config.Username) && 
-                !string.IsNullOrEmpty(_config.Password))
+            else if (!string.IsNullOrEmpty(_config.Username) && 
+                     !string.IsNullOrEmpty(_config.Password))
             {
                 _config.Log("Setting pre-configured credentials for user: " + _config.Username);
                 AuthErrorCode credsResult = WindowsAuth.SetCredentials(
@@ -157,6 +176,101 @@ namespace Rust9xWindowsAuth
                 _config.Log("PromptForCredentials: Exception occurred: " + ex.Message);
                 throw;
             }
+        }
+
+        /// <summary>
+        /// Set credentials from a CredentialContainer (secure credential passing)
+        /// </summary>
+        /// <param name="credentialContainer">Container with credentials to set</param>
+        /// <returns>AuthResult indicating success or failure</returns>
+        public AuthResult SetCredentialsFromContainer(CredentialContainer credentialContainer)
+        {
+            if (credentialContainer == null)
+            {
+                _config.Log("SetCredentialsFromContainer: Credential container is null");
+                return AuthResult.FromError(AuthErrorCode.InvalidParameter, 
+                    "Credential container cannot be null");
+            }
+
+            if (!credentialContainer.HasCredentials())
+            {
+                _config.Log("SetCredentialsFromContainer: Credential container is empty or invalid");
+                return AuthResult.FromError(AuthErrorCode.InvalidParameter, 
+                    "Credential container does not contain valid credentials");
+            }
+
+            try
+            {
+                string username = credentialContainer.GetUsername();
+                string password = credentialContainer.GetPassword();
+                string domain = credentialContainer.GetDomain();
+
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                {
+                    _config.Log("SetCredentialsFromContainer: Username or password is empty");
+                    return AuthResult.FromError(AuthErrorCode.InvalidParameter, 
+                        "Username and password are required");
+                }
+
+                _config.Log("Setting credentials from container for user: " + username);
+
+                AuthErrorCode result = WindowsAuth.SetCredentials(username, password, domain);
+
+                // Clear sensitive data immediately
+                if (username != null)
+                {
+                    char[] usernameChars = username.ToCharArray();
+                    Array.Clear(usernameChars, 0, usernameChars.Length);
+                }
+                if (password != null)
+                {
+                    char[] passwordChars = password.ToCharArray();
+                    Array.Clear(passwordChars, 0, passwordChars.Length);
+                }
+                if (domain != null)
+                {
+                    char[] domainChars = domain.ToCharArray();
+                    Array.Clear(domainChars, 0, domainChars.Length);
+                }
+
+                if (result == AuthErrorCode.Success)
+                {
+                    _config.Log("Credentials set successfully from container");
+                    return AuthResult.FromError(AuthErrorCode.Success, "Credentials set successfully");
+                }
+                else
+                {
+                    _config.Log("Failed to set credentials from container: " + result);
+                    return AuthResult.FromError(result, "Failed to set credentials");
+                }
+            }
+            catch (Exception ex)
+            {
+                _config.Log("EXCEPTION TYPE: " + ex.GetType().FullName);
+                _config.Log("MESSAGE: " + ex.Message);
+                _config.Log("STACK TRACE:\r\n" + ex.StackTrace);
+                
+                if (ex.InnerException != null)
+                {
+                    _config.Log("INNER TYPE: " + ex.InnerException.GetType().FullName);
+                    _config.Log("INNER MESSAGE: " + ex.InnerException.Message);
+                    _config.Log("INNER STACK:\r\n" + ex.InnerException.StackTrace);
+                }
+                
+                _config.Log("SetCredentialsFromContainer: Exception occurred: " + ex.Message);
+                return AuthResult.FromError(AuthErrorCode.Unknown, 
+                    "Exception while setting credentials: " + ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Check if credentials are already configured and valid
+        /// </summary>
+        /// <returns>True if credentials are available</returns>
+        public bool HasCredentials()
+        {
+            return !string.IsNullOrEmpty(_config.Username) && 
+                   !string.IsNullOrEmpty(_config.Password);
         }
 
         /// <summary>
@@ -307,22 +421,44 @@ namespace Rust9xWindowsAuth
     }
 
     /// <summary>
-    /// Extended AuthResult with factory methods
+    /// Extended AuthResult with factory methods for .NET Framework 2.0 compatibility
     /// </summary>
     public partial class AuthResult
     {
         /// <summary>
-        /// Create an error result
+        /// Create an error result with proper error code and message
         /// </summary>
+        /// <param name="errorCode">The error code to return</param>
+        /// <param name="errorMessage">The error message to return</param>
+        /// <returns>A new AuthResult with the specified error details</returns>
         public static AuthResult FromError(AuthErrorCode errorCode, string errorMessage)
         {
-            AuthInteropResult result = new AuthInteropResult();
-            result.error_code = errorCode;
-            result.error_message = Marshal.StringToHGlobalAnsi(errorMessage);
-            result.response_data = IntPtr.Zero;
-            result.response_length = UIntPtr.Zero;
+            try
+            {
+                AuthInteropResult result = new AuthInteropResult();
+                result.error_code = errorCode;
+                
+                // Allocate memory for the error message
+                if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    result.error_message = Marshal.StringToHGlobalAnsi(errorMessage);
+                }
+                else
+                {
+                    result.error_message = IntPtr.Zero;
+                }
+                
+                result.response_data = IntPtr.Zero;
+                result.response_length = UIntPtr.Zero;
 
-            return new AuthResult(result);
+                return new AuthResult(result);
+            }
+            catch (Exception ex)
+            {
+                // Fallback to direct constructor if marshaling fails
+                System.Diagnostics.Debug.WriteLine("FromError: Exception during marshaling: " + ex.Message);
+                return new AuthResult(errorCode, errorMessage ?? "Unknown error");
+            }
         }
     }
 }
