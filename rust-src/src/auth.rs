@@ -386,7 +386,48 @@ impl WindowsAuthClient {
             log_memory_info("set_credentials - before assignment");
         }
 
-        self.credentials = Some(creds);
+        // On Windows, defensively rewrite missing / local-alias domains
+        // (., localhost, loopback) to the real NetBIOS computer name so that
+        // auth_get_credentials → auth_set_credentials cannot reintroduce a
+        // stale HTTP hostname as the NTLM account domain.
+        #[cfg(windows)]
+        {
+            let fallback = creds.clone();
+            match Self::normalize_stored_credentials(creds) {
+                Ok(normalized) => {
+                    #[cfg(feature = "std")]
+                    {
+                        log_string_info("set_credentials normalized username", &normalized.username);
+                        log_option_info(
+                            "set_credentials normalized domain present",
+                            normalized.domain.is_some(),
+                        );
+                        if let Some(ref d) = normalized.domain {
+                            log_string_info("set_credentials normalized domain", d);
+                        }
+                    }
+                    self.credentials = Some(normalized);
+                }
+                Err(e) => {
+                    // Normalization failure must not silently drop credentials.
+                    // Keep the original payload; SSPI will surface any remaining
+                    // domain problems at AcquireCredentialsHandle time.
+                    let err_msg = format!(
+                        "[AUTH] normalize_stored_credentials failed during set_credentials: {} — storing original credentials",
+                        e
+                    );
+                    eprintln!("{}", err_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(&err_msg);
+                    self.credentials = Some(fallback);
+                }
+            }
+        }
+
+        #[cfg(not(windows))]
+        {
+            self.credentials = Some(creds);
+        }
 
         #[cfg(feature = "std")]
         {
@@ -927,8 +968,52 @@ impl WindowsAuthClient {
         }
 
         let flags = CREDUI_FLAGS_DO_NOT_PERSIST;
-        // CredUI target name is a UI/persistence label only — not the NTLM account domain.
-        let target_name = Self::to_wide("localhost");
+
+        // IMPORTANT:
+        // CredUIPromptForCredentialsW uses pszTargetName as the default
+        // domain/server name when the user enters only a bare username.
+        // Microsoft documents that when the user does not explicitly supply a
+        // domain/server, CredUI forms DomainName\UserName from pszTargetName.
+        //
+        // For a local SAM account, pszTargetName MUST be the local machine's
+        // NetBIOS name (GetComputerNameExW / ComputerNameNetBIOS), NOT the
+        // HTTP/TLS hostname ("localhost") and NOT an application product name.
+        //
+        // These are intentionally different concepts:
+        //   CredUI target     -> local NetBIOS (account qualification)
+        //   NTLM account      -> NETBIOS\username
+        //   SSPI target/SPN   -> HTTP/localhost  (unchanged elsewhere)
+        //   TLS/HTTP hostname -> localhost       (unchanged elsewhere)
+        let local_netbios_name = get_local_netbios_name()?;
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("CredUI target / local NetBIOS name", &local_netbios_name);
+            log_object_size(
+                "local_netbios_name String",
+                core::mem::size_of::<String>(),
+            );
+            log_memory_info(
+                "prompt_for_windows_credentials - CredUI pszTargetName resolved to NetBIOS",
+            );
+        }
+
+        {
+            let target_msg = format!(
+                "[CredUI] pszTargetName (default domain/server) = {}",
+                local_netbios_name
+            );
+            eprintln!("{}", target_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&target_msg);
+        }
+
+        let target_name = Self::to_wide(&local_netbios_name);
+
+        #[cfg(feature = "std")]
+        {
+            log_vec_u16_info("CredUI target_name wide", &target_name);
+        }
 
         let result = unsafe {
             CredUIPromptForCredentialsW(
@@ -1073,15 +1158,38 @@ impl WindowsAuthClient {
     }
 
     /// Parse CredUI username via CredUIParseUserNameW (DOMAIN\user and UPN forms).
+    ///
+    /// This is the Windows-documented parser for strings returned by
+    /// CredUIPromptForCredentialsW. Do not replace with hand-rolled
+    /// `find('\\')` / `find('@')` splits.
     #[cfg(windows)]
     fn parse_windows_username(input: &str) -> AuthResult<(String, Option<String>)> {
         const USER_CAPACITY: usize = 512;
         const DOMAIN_CAPACITY: usize = 512;
 
+        #[cfg(feature = "std")]
+        {
+            log_function_entry(
+                "parse_windows_username",
+                &format!("input length: {}", input.len()),
+            );
+            log_string_info("CredUIParseUserNameW input", input);
+            log_memory_info("parse_windows_username - start");
+        }
+
         let input_wide = Self::to_wide(input);
 
         let mut user_buffer = vec![0u16; USER_CAPACITY];
         let mut domain_buffer = vec![0u16; DOMAIN_CAPACITY];
+
+        #[cfg(feature = "std")]
+        {
+            log_object_size("user_buffer", USER_CAPACITY * core::mem::size_of::<u16>());
+            log_object_size(
+                "domain_buffer",
+                DOMAIN_CAPACITY * core::mem::size_of::<u16>(),
+            );
+        }
 
         let result = unsafe {
             CredUIParseUserNameW(
@@ -1092,6 +1200,14 @@ impl WindowsAuthClient {
                 domain_buffer.len() as u32,
             )
         };
+
+        {
+            let parse_status_msg =
+                format!("[CredUI] CredUIParseUserNameW status: 0x{:08X}", result);
+            eprintln!("{}", parse_status_msg);
+            #[cfg(feature = "std")]
+            log_to_file(&parse_status_msg);
+        }
 
         match result {
             NO_ERROR => {
@@ -1104,6 +1220,12 @@ impl WindowsAuthClient {
                     .iter()
                     .position(|&c| c == 0)
                     .unwrap_or(domain_buffer.len());
+
+                #[cfg(feature = "std")]
+                {
+                    log_object_size("parsed user UTF-16 length", user_len);
+                    log_object_size("parsed domain UTF-16 length", domain_len);
+                }
 
                 let user = String::from_utf16(&user_buffer[..user_len]).map_err(|e| {
                     AuthError::InvalidCredentials(format!("Invalid parsed username: {}", e))
@@ -1119,54 +1241,294 @@ impl WindowsAuthClient {
                     Some(domain)
                 };
 
+                #[cfg(feature = "std")]
+                {
+                    log_string_info("CredUIParseUserNameW username", &user);
+                    log_option_info("CredUIParseUserNameW domain present", domain.is_some());
+                    if let Some(ref d) = domain {
+                        log_string_info("CredUIParseUserNameW domain", d);
+                    }
+                    log_function_exit(
+                        "parse_windows_username",
+                        &format!("Success - user='{}', domain={:?}", user, domain),
+                    );
+                    log_memory_info("parse_windows_username - end");
+                }
+
                 Ok((user, domain))
             }
 
-            ERROR_INSUFFICIENT_BUFFER => Err(AuthError::InvalidCredentials(
-                "Credential username/domain exceeds CredUI parser buffer size".to_string(),
-            )),
+            ERROR_INSUFFICIENT_BUFFER => {
+                #[cfg(feature = "std")]
+                {
+                    log_function_exit(
+                        "parse_windows_username",
+                        "Error - ERROR_INSUFFICIENT_BUFFER",
+                    );
+                }
+                Err(AuthError::InvalidCredentials(
+                    "Credential username/domain exceeds CredUI parser buffer size".to_string(),
+                ))
+            }
 
-            error => Err(AuthError::InvalidCredentials(format!(
-                "CredUIParseUserNameW failed: 0x{:08X}",
-                error
-            ))),
+            error => {
+                #[cfg(feature = "std")]
+                {
+                    log_function_exit(
+                        "parse_windows_username",
+                        &format!("Error - 0x{:08X}", error),
+                    );
+                }
+                Err(AuthError::InvalidCredentials(format!(
+                    "CredUIParseUserNameW failed: 0x{:08X}",
+                    error
+                )))
+            }
         }
     }
 
-    /// Normalize CredUI input into NTLM identity components.
+    /// Returns true when `domain` is a local-machine alias that must be rewritten
+    /// to the real NetBIOS computer name for NTLM local SAM authentication.
     ///
-    /// - `DOMAIN\user` → keep DOMAIN
-    /// - `.\user` / bare `user` → local NetBIOS computer name
-    /// - `user@dns.domain` (UPN) → keep full UPN, no fake NetBIOS domain
+    /// Includes:
+    /// - `.` (Windows local-machine qualifier)
+    /// - empty / whitespace-only
+    /// - `localhost` / `LOCALHOST` (HTTP hostname mistakenly used as CredUI target)
+    /// - loopback literals that are never valid NTLM account domains
+    #[cfg(windows)]
+    fn is_local_machine_domain_alias(domain: &str) -> bool {
+        let trimmed = domain.trim();
+        if trimmed.is_empty() || trimmed == "." {
+            return true;
+        }
+
+        trimmed.eq_ignore_ascii_case("localhost")
+            || trimmed.eq_ignore_ascii_case("127.0.0.1")
+            || trimmed.eq_ignore_ascii_case("::1")
+            || trimmed.eq_ignore_ascii_case("[::1]")
+    }
+
+    /// Resolve the NTLM account domain component.
+    ///
+    /// Rules (local-SAM focused, no invented UPN semantics):
+    /// - missing / `.` / localhost-style aliases → local NetBIOS computer name
+    /// - any other explicit DOMAIN → preserved verbatim (AD / remote NetBIOS)
+    #[cfg(windows)]
+    fn resolve_ntlm_account_domain(parsed_domain: Option<String>) -> AuthResult<Option<String>> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry(
+                "resolve_ntlm_account_domain",
+                &format!("parsed_domain={:?}", parsed_domain),
+            );
+            log_option_info("parsed_domain present", parsed_domain.is_some());
+        }
+
+        let resolved = match parsed_domain.as_deref() {
+            None => {
+                let local_netbios = get_local_netbios_name()?;
+                #[cfg(feature = "std")]
+                {
+                    log_string_info(
+                        "domain resolution path",
+                        "None -> local NetBIOS (bare username / CredUI default)",
+                    );
+                    log_string_info("resolved local NetBIOS domain", &local_netbios);
+                }
+                Some(local_netbios)
+            }
+
+            Some(domain) if Self::is_local_machine_domain_alias(domain) => {
+                let local_netbios = get_local_netbios_name()?;
+                #[cfg(feature = "std")]
+                {
+                    log_string_info(
+                        "domain resolution path",
+                        "local-machine alias -> local NetBIOS",
+                    );
+                    log_string_info("alias domain before rewrite", domain);
+                    log_string_info("resolved local NetBIOS domain", &local_netbios);
+                }
+                {
+                    let rewrite_msg = format!(
+                        "[CredUI] Rewriting local-machine domain alias '{}' -> '{}'",
+                        domain, local_netbios
+                    );
+                    eprintln!("{}", rewrite_msg);
+                    #[cfg(feature = "std")]
+                    log_to_file(&rewrite_msg);
+                }
+                Some(local_netbios)
+            }
+
+            Some(domain) => {
+                #[cfg(feature = "std")]
+                {
+                    log_string_info(
+                        "domain resolution path",
+                        "explicit DOMAIN\\user preserved",
+                    );
+                    log_string_info("preserved explicit domain", domain);
+                }
+                Some(domain.to_string())
+            }
+        };
+
+        #[cfg(feature = "std")]
+        {
+            log_option_info("resolved domain present", resolved.is_some());
+            if let Some(ref d) = resolved {
+                log_string_info("final NTLM account domain", d);
+            }
+            log_function_exit(
+                "resolve_ntlm_account_domain",
+                &format!("Success - domain={:?}", resolved),
+            );
+        }
+
+        Ok(resolved)
+    }
+
+    /// Normalize CredUI input into NTLM identity components for Username::new.
+    ///
+    /// Pipeline:
+    ///   CredUIPromptForCredentialsW
+    ///           ↓
+    ///   entered_username (may already be NETBIOS\user)
+    ///           ↓
+    ///   CredUIParseUserNameW
+    ///           ↓
+    ///   (username, parsed_domain)
+    ///           ↓
+    ///   resolve_ntlm_account_domain
+    ///           ↓
+    ///   AuthCredentials { username, password, domain }
+    ///
+    /// - `DOMAIN\user` → keep DOMAIN (unless DOMAIN is a local alias like localhost)
+    /// - `.\user` / bare `user` / missing domain → local NetBIOS computer name
+    /// - No custom UPN rewriting: whatever CredUIParseUserNameW returns is normalized
+    ///   only through the domain-resolution rules above.
     #[cfg(windows)]
     fn normalize_windows_credentials(
         entered_username: String,
         password: String,
     ) -> AuthResult<AuthCredentials> {
-        let (username, mut domain) = Self::parse_windows_username(&entered_username)?;
-
-        // CredUIParseUserNameW leaves domain empty for UPNs and returns only the
-        // account name. Preserve the original UPN string instead of inventing a
-        // NetBIOS domain.
-        if entered_username.contains('@') && domain.is_none() {
-            return Ok(AuthCredentials {
-                username: entered_username,
-                password,
-                domain: None,
-            });
+        #[cfg(feature = "std")]
+        {
+            log_function_entry(
+                "normalize_windows_credentials",
+                &format!(
+                    "entered_username length: {}, password length: {}",
+                    entered_username.len(),
+                    password.len()
+                ),
+            );
+            log_string_info("normalize entered_username", &entered_username);
+            log_memory_info("normalize_windows_credentials - start");
         }
 
-        match domain.as_deref() {
-            None | Some(".") => {
-                domain = Some(get_local_netbios_name()?);
+        let (username, parsed_domain) = Self::parse_windows_username(&entered_username)?;
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("post-parse username", &username);
+            log_option_info("post-parse domain present", parsed_domain.is_some());
+            if let Some(ref d) = parsed_domain {
+                log_string_info("post-parse domain", d);
             }
-            Some(_) => {}
         }
 
-        Ok(AuthCredentials {
+        let domain = Self::resolve_ntlm_account_domain(parsed_domain)?;
+
+        let credentials = AuthCredentials {
             username,
             password,
             domain,
+        };
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("normalized username", &credentials.username);
+            log_option_info("normalized domain present", credentials.domain.is_some());
+            if let Some(ref d) = credentials.domain {
+                log_string_info("normalized domain", d);
+                log_string_info(
+                    "normalized NTLM identity",
+                    &format!("{}\\{}", d, credentials.username),
+                );
+            }
+            log_function_exit(
+                "normalize_windows_credentials",
+                &format!(
+                    "Success - identity={}\\{:?}",
+                    credentials
+                        .domain
+                        .as_deref()
+                        .unwrap_or("<none>"),
+                    credentials.username
+                ),
+            );
+            log_memory_info("normalize_windows_credentials - end");
+        }
+
+        Ok(credentials)
+    }
+
+    /// Defensive re-normalization for credentials that may arrive via
+    /// auth_get_credentials → auth_set_credentials (or other interop paths)
+    /// with a stale local alias domain such as "localhost".
+    ///
+    /// Does not re-parse the username string; only repairs the domain field
+    /// when it is missing or is a known local-machine alias.
+    #[cfg(windows)]
+    fn normalize_stored_credentials(creds: AuthCredentials) -> AuthResult<AuthCredentials> {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry(
+                "normalize_stored_credentials",
+                &format!(
+                    "username length: {}, domain={:?}",
+                    creds.username.len(),
+                    creds.domain
+                ),
+            );
+            log_string_info("stored username", &creds.username);
+            log_option_info("stored domain present", creds.domain.is_some());
+        }
+
+        let needs_domain_repair = match creds.domain.as_deref() {
+            None => true,
+            Some(domain) => Self::is_local_machine_domain_alias(domain),
+        };
+
+        if !needs_domain_repair {
+            #[cfg(feature = "std")]
+            {
+                log_string_info(
+                    "stored domain repair",
+                    "not required - explicit non-local domain preserved",
+                );
+                log_function_exit("normalize_stored_credentials", "passthrough");
+            }
+            return Ok(creds);
+        }
+
+        let repaired_domain = Self::resolve_ntlm_account_domain(creds.domain)?;
+
+        #[cfg(feature = "std")]
+        {
+            log_string_info("stored domain repair", "applied");
+            log_option_info("repaired domain present", repaired_domain.is_some());
+            if let Some(ref d) = repaired_domain {
+                log_string_info("repaired domain", d);
+            }
+            log_function_exit("normalize_stored_credentials", "repaired");
+        }
+
+        Ok(AuthCredentials {
+            username: creds.username,
+            password: creds.password,
+            domain: repaired_domain,
         })
     }
 

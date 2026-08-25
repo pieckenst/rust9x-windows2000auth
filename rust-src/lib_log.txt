@@ -6218,3 +6218,35 @@
 [1787670413] [OBJECT_SIZE] AuthInteropResult = 16 bytes
 [1787670413] [PARAM] error_message = ptr=0x7102c8 (leaked)
 [1787670413] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787670441] [FUNCTION_ENTRY] auth_free_string
+[1787670441] [PARAM] ptr = 0x7102c8
+[1787670441] [PARAM] return_type = void
+[1787670441] [MEMORY_FREE] CString freed 84 bytes
+[1787670441] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x7102c8
+[1787670441] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787670441] [FUNCTION_ENTRY] auth_free_string
+[1787670441] [PARAM] ptr = 0x7a3198
+[1787670441] [PARAM] return_type = void
+[1787670441] [MEMORY_FREE] CString freed 84 bytes
+[1787670441] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x7a3198
+[1787670441] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787670448] [FUNCTION_ENTRY] auth_free_string
+[1787670448] [PARAM] ptr = 0x4d952c0
+[1787670448] [PARAM] return_type = void
+[1787670448] [MEMORY_FREE] CString freed 28 bytes
+[1787670448] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x4d952c0
+[1787670448] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787670448] [FUNCTION_ENTRY] auth_free_string
+[1787670448] [PARAM] ptr = 0x7a3078
+[1787670448] [PARAM] return_type = void
+[1787670448] [MEMORY_FREE] CString freed 84 bytes
+[1787670448] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x7a3078
+[1787670448] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787670825] [FUNCTION_ENTRY] auth_init
+[1787670825] [LIB] auth_init called
+[1787670825] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787670825] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787670825] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787670825] [OBJECT_SIZE] client instance = 912 bytes
+[1787670825] [LIB] Auth client initialized successfully
+[1787670825] [FUNCTION_EXIT] auth_init -> Success

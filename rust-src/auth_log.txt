@@ -12303,3 +12303,10 @@
 [1787670407] [OPTION_INFO] credentials_handle after Type 3 - Status: Some
 [1787670407] [FUNCTION_EXIT] WindowsAuthClient::process_challenge - Result: Success - token size: 350 bytes
 [1787670407] [MEMORY] process_challenge - end - Context: Memory tracking enabled
+[1787670825] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787670825] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787670825] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787670825] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787670825] [OPTION_INFO] credentials - Status: None
+[1787670825] [OPTION_INFO] ntlm - Status: Some
+[1787670825] [OPTION_INFO] credentials_handle - Status: None
