@@ -79,11 +79,8 @@ namespace Rust9xWindowsAuth
                     }
                 }
 
-                // Make strings read-only after population
-                _username.MakeReadOnly();
-                _password.MakeReadOnly();
-                _domain.MakeReadOnly();
-                
+                // Note: Not calling MakeReadOnly() to allow Clear() to work during cleanup.
+                // The SecureString remains mutable for secure clearing via Clear() and Dispose().
                 Debug.WriteLine("CredentialContainer: Container created with credentials");
             }
             catch (Exception ex)
@@ -92,9 +89,9 @@ namespace Rust9xWindowsAuth
                 // Clean up any partial data
                 try
                 {
-                    _username.Clear();
-                    _password.Clear();
-                    _domain.Clear();
+                    _username.Dispose();
+                    _password.Dispose();
+                    _domain.Dispose();
                 }
                 catch
                 {
@@ -118,30 +115,19 @@ namespace Rust9xWindowsAuth
                 if (username != null)
                 {
                     _username = username;
-                    if (!_username.IsReadOnly())
-                    {
-                        _username.MakeReadOnly();
-                    }
                 }
 
                 if (password != null)
                 {
                     _password = password;
-                    if (!_password.IsReadOnly())
-                    {
-                        _password.MakeReadOnly();
-                    }
                 }
 
                 if (domain != null)
                 {
                     _domain = domain;
-                    if (!_domain.IsReadOnly())
-                    {
-                        _domain.MakeReadOnly();
-                    }
                 }
-                
+
+                // Note: Not calling MakeReadOnly() to allow Clear() to work during cleanup.
                 Debug.WriteLine("CredentialContainer: Container created from SecureStrings");
             }
             catch (Exception ex)

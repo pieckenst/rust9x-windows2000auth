@@ -208,7 +208,7 @@ impl HttpClient {
         self
     }
 
-    /// Perform HTTP request with NTLM authentication and proper persistent connection handling
+    /// Perform HTTP request with Negotiate/NTLM authentication and proper persistent connection handling
     pub fn http_request(
         &mut self,
         url: &str,
@@ -242,7 +242,7 @@ impl HttpClient {
     ) -> AuthResult<Vec<u8>> {
         // Generate NTLM negotiate token first to avoid borrow conflicts
         let target_name = format!("HTTP/{}", url.host);
-        let target_msg = format!("[HTTP] Target name for NTLM: {}", target_name);
+        let target_msg = format!("[HTTP] Target name for authentication: {}", target_name);
         eprintln!("{}", target_msg);
         #[cfg(feature = "std")]
         log_to_file(&target_msg);
@@ -253,7 +253,7 @@ impl HttpClient {
         };
         let negotiate_b64 = self.base64_encode(&negotiate_token);
 
-        let negotiate_msg = format!("[HTTP] NTLM negotiate token: {} bytes", negotiate_token.len());
+        let negotiate_msg = format!("[HTTP] Negotiate token: {} bytes", negotiate_token.len());
         eprintln!("{}", negotiate_msg);
         #[cfg(feature = "std")]
         log_to_file(&negotiate_msg);
@@ -270,8 +270,8 @@ impl HttpClient {
             self.establish_connection(url)?
         };
 
-        // Send initial request with NTLM negotiate
-        let request = self.build_request(url, method, &body, &format!("NTLM {}", negotiate_b64), true);
+        // Send initial request with Negotiate header (Negotiate can use NTLM under the hood)
+        let request = self.build_request(url, method, &body, &format!("Negotiate {}", negotiate_b64), true);
         
         let send_msg = format!("[HTTP] Sending initial request ({} bytes)", request.len());
         eprintln!("{}", send_msg);
@@ -299,27 +299,33 @@ impl HttpClient {
             #[cfg(feature = "std")]
             log_to_file(challenge_msg);
             
-            // Extract NTLM challenge from WWW-Authenticate header
-            if let Some(challenge) = self.extract_ntlm_challenge(&initial_response) {
-                let challenge_size_msg = format!("[HTTP] NTLM challenge size: {} bytes", challenge.len());
+            // Extract Negotiate/NTLM challenge from WWW-Authenticate header
+            if let Some(challenge) = self.extract_auth_challenge(&initial_response) {
+                let challenge_size_msg = format!("[HTTP] Challenge size: {} bytes", challenge.len());
                 eprintln!("{}", challenge_size_msg);
                 #[cfg(feature = "std")]
                 log_to_file(&challenge_size_msg);
                 
                 // Process challenge and get authenticate token
-                let auth_token = {
+                // If challenge is empty, regenerate negotiate token (server sent initial challenge)
+                // If challenge has data, process it as normal NTLM challenge
+                let auth_token = if challenge.is_empty() {
+                    eprintln!("[HTTP] Empty challenge - regenerating negotiate token");
+                    let auth_client = self.get_auth_client()?;
+                    auth_client.generate_negotiate_token(&target_name)?
+                } else {
                     let auth_client = self.get_auth_client()?;
                     auth_client.process_challenge(&challenge, &target_name)?
                 };
                 let auth_b64 = self.base64_encode(&auth_token);
                 
-                let auth_msg = format!("[HTTP] NTLM authenticate token: {} bytes", auth_token.len());
+                let auth_msg = format!("[HTTP] Authenticate token: {} bytes", auth_token.len());
                 eprintln!("{}", auth_msg);
                 #[cfg(feature = "std")]
                 log_to_file(&auth_msg);
                 
-                // Send authenticated request
-                let auth_request = self.build_request(url, method, &body, &format!("NTLM {}", auth_b64), false);
+                // Send authenticated request with Negotiate header
+                let auth_request = self.build_request(url, method, &body, &format!("Negotiate {}", auth_b64), false);
                 
                 let auth_send_msg = format!("[HTTP] Sending auth request ({} bytes)", auth_request.len());
                 eprintln!("{}", auth_send_msg);
@@ -340,7 +346,7 @@ impl HttpClient {
                 
                 final_response
             } else {
-                return Err(AuthError::AuthFailed("Could not extract NTLM challenge from 401 response".to_string()));
+                return Err(AuthError::AuthFailed("Could not extract Negotiate/NTLM challenge from 401 response".to_string()));
             }
         } else {
             initial_response
@@ -644,12 +650,42 @@ impl HttpClient {
         request
     }
 
-    fn extract_ntlm_challenge(&self, response: &HttpResponse) -> Option<Vec<u8>> {
+    fn extract_auth_challenge(&self, response: &HttpResponse) -> Option<Vec<u8>> {
         for header_value in response.headers.get_all("www-authenticate") {
-            if let Some(ntlm_start) = header_value.find("NTLM ") {
-                let challenge_b64 = &header_value[ntlm_start + 5..].trim();
-                if let Some(challenge) = self.base64_decode(challenge_b64) {
-                    return Some(challenge);
+            // Handle both "Negotiate <token>" and "NTLM <token>" formats
+            // Server may send either "Negotiate" (with or without token) or "NTLM <token>"
+            let header_lower = header_value.to_lowercase();
+            
+            // Check for Negotiate header
+            if header_lower.starts_with("negotiate") {
+                let after_negotiate = &header_value[9..].trim(); // Skip "Negotiate"
+                if after_negotiate.is_empty() {
+                    // Server sent "Negotiate" with no token - this is a valid initial challenge
+                    // Return empty challenge to trigger the authentication sequence
+                    eprintln!("[HTTP] Server sent Negotiate without token - this is valid for initial challenge");
+                    return Some(Vec::new());
+                } else {
+                    // Server sent "Negotiate <token>" - extract the token
+                    if let Some(challenge) = self.base64_decode(after_negotiate) {
+                        eprintln!("[HTTP] Extracted Negotiate challenge token: {} bytes", challenge.len());
+                        return Some(challenge);
+                    }
+                }
+            }
+            
+            // Check for NTLM header (fallback for servers that only support NTLM)
+            if header_lower.starts_with("ntlm") {
+                let after_ntlm = &header_value[4..].trim(); // Skip "NTLM"
+                if after_ntlm.is_empty() {
+                    // Server sent "NTLM" with no token - valid initial challenge
+                    eprintln!("[HTTP] Server sent NTLM without token - this is valid for initial challenge");
+                    return Some(Vec::new());
+                } else {
+                    // Server sent "NTLM <token>" - extract the token
+                    if let Some(challenge) = self.base64_decode(after_ntlm) {
+                        eprintln!("[HTTP] Extracted NTLM challenge token: {} bytes", challenge.len());
+                        return Some(challenge);
+                    }
                 }
             }
         }

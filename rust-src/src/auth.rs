@@ -666,7 +666,15 @@ impl WindowsAuthClient {
         }
 
         let mut output_buffer = vec![SecurityBuffer::new(Vec::new(), BufferType::Token)];
-        let mut input_buffer = vec![SecurityBuffer::new(challenge.to_vec(), BufferType::Token)];
+        
+        // Handle empty challenge (server sent "Negotiate" or "NTLM" without token)
+        // In this case, we pass an empty input buffer to SSPI
+        let mut input_buffer = if challenge.is_empty() {
+            eprintln!("[SSPI] Empty challenge - passing empty input buffer to SSPI");
+            Vec::new()
+        } else {
+            vec![SecurityBuffer::new(challenge.to_vec(), BufferType::Token)]
+        };
 
         #[cfg(feature = "std")]
         {
@@ -674,7 +682,9 @@ impl WindowsAuthClient {
             log_object_size("input_buffer", core::mem::size_of::<Vec<SecurityBuffer>>());
             log_object_size("output_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
             log_object_size("input_buffer Vec", core::mem::size_of::<Vec<SecurityBuffer>>());
-            log_object_size("challenge Vec clone", core::mem::size_of::<Vec<u8>>());
+            if !challenge.is_empty() {
+                log_object_size("challenge Vec clone", core::mem::size_of::<Vec<u8>>());
+            }
             log_memory_info("process_challenge - before initialize_security_context");
         }
 

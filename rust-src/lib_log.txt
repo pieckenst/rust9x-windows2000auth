@@ -4686,3 +4686,169 @@
 [1787604713] [PARAM] response_data = null_mut()
 [1787604713] [PARAM] response_length = 0 (size: 4 bytes)
 [1787604713] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787658824] [FUNCTION_ENTRY] auth_init
+[1787658824] [LIB] auth_init called
+[1787658824] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787658824] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787658824] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787658824] [OBJECT_SIZE] client instance = 912 bytes
+[1787658824] [LIB] Auth client initialized successfully
+[1787658824] [FUNCTION_EXIT] auth_init -> Success
+[1787658926] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787658926] [LIB] auth_prompt_credentials called
+[1787658926] [PARAM] caption = 0x72bcc48
+[1787658926] [PARAM] message = 0x72bcb48
+[1787658926] [PARAM] save_credentials = 0x72bd154
+[1787658926] [PARAM] result = 0x72bd144
+[1787658926] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787658926] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787658926] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787658926] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787658926] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787658926] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787658926] [PARAM] save = false (size: 4 bytes)
+[1787658926] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787658972] [LIB] Credential prompt successful
+[1787658972] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787658972] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787658972] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787658972] [PARAM] error_code = Success (size: 4 bytes)
+[1787658972] [PARAM] error_message = null_mut()
+[1787658972] [PARAM] response_data = null_mut()
+[1787658972] [PARAM] response_length = 0 (size: 4 bytes)
+[1787658972] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787658972] [FUNCTION_ENTRY] auth_get_credentials
+[1787658972] [LIB] auth_get_credentials called
+[1787658972] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787658972] [LIB] Username: rsncra
+[1787658972] [LIB] Password length: 8 chars
+[1787658972] [LIB] Domain: Some("rust9x")
+[1787658972] [LIB] Credentials retrieved successfully
+[1787658972] [FUNCTION_EXIT] auth_get_credentials -> Success
+[1787658972] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787658972] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787658972] [PARAM] error_code = Success (size: 4 bytes)
+[1787658972] [PARAM] error_message = null_mut()
+[1787658972] [PARAM] response_data = null_mut()
+[1787658972] [PARAM] response_length = 0 (size: 4 bytes)
+[1787658972] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787658972] [FUNCTION_ENTRY] auth_set_credentials
+[1787658972] [LIB] auth_set_credentials called
+[1787658972] [PARAM] username = 0x63cebbc
+[1787658972] [PARAM] password = 0x63ceabc
+[1787658972] [PARAM] domain = 0x63ce9bc
+[1787658972] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787658972] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787658972] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rsncra' (6 bytes)
+[1787658972] [PARAM] username_str = 'rsncra' (size: 6 bytes)
+[1787658972] [INTEROP] *const c_char -> &str [SUCCESS] value: '***' (8 bytes)
+[1787658972] [PARAM] password_str = '***' (8 bytes) (size: 8 bytes)
+[1787658972] [INTEROP] *const c_char -> Option<&str> [SUCCESS] value: Some('rust9x')
+[1787658972] [PARAM] domain_str = Some('rust9x') (size: 6 bytes)
+[1787658972] [OBJECT_SIZE] AuthCredentials = 36 bytes
+[1787658972] [MEMORY_ALLOC] AuthCredentials allocated 36 bytes
+[1787658972] [PARAM] creds.username = 'rsncra' (size: 6 bytes)
+[1787658972] [PARAM] creds.password = '***' (8 bytes) (size: 8 bytes)
+[1787658972] [PARAM] creds.domain = Some(6)
+[1787658972] [LIB] Setting credentials for user: rsncra
+[1787658972] [LIB] Credentials set successfully
+[1787658972] [FUNCTION_EXIT] auth_set_credentials -> Success
+[1787658972] [FUNCTION_ENTRY] auth_http_request
+[1787658972] [LIB] auth_http_request called
+[1787658972] [PARAM] url = 0x63ce938
+[1787658972] [PARAM] method = 0x63ce838
+[1787658972] [PARAM] body_data = NULL
+[1787658972] [PARAM] body_length = 0 (size: 0 bytes)
+[1787658972] [PARAM] result = 0x63ceb1c
+[1787658972] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787658972] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787658972] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787658972] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787658972] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787658972] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787658972] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787658972] [PARAM] body = None
+[1787658972] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787658972] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787658992] [LIB] HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787658992] [FUNCTION_EXIT] auth_http_request -> NetworkError: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787658992] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787658992] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787658992] [PARAM] message = 'HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response' (94 bytes) (size: 94 bytes)
+[1787658992] [MEMORY_ALLOC] CString (error message) allocated 94 bytes
+[1787658992] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x6609538
+[1787658992] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787658992] [PARAM] error_message = ptr=0x6609538 (leaked)
+[1787658992] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787658993] [FUNCTION_ENTRY] auth_http_request
+[1787658993] [LIB] auth_http_request called
+[1787658993] [PARAM] url = 0x63ce938
+[1787658993] [PARAM] method = 0x63ce838
+[1787658993] [PARAM] body_data = NULL
+[1787658993] [PARAM] body_length = 0 (size: 0 bytes)
+[1787658993] [PARAM] result = 0x63ceb1c
+[1787658993] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787658993] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787658993] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787658993] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787658993] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787658993] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787658993] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787658993] [PARAM] body = None
+[1787658993] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787658993] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787659001] [LIB] HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787659001] [FUNCTION_EXIT] auth_http_request -> NetworkError: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787659001] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787659001] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787659001] [PARAM] message = 'HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response' (94 bytes) (size: 94 bytes)
+[1787659001] [MEMORY_ALLOC] CString (error message) allocated 94 bytes
+[1787659001] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x66095a0
+[1787659001] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787659001] [PARAM] error_message = ptr=0x66095a0 (leaked)
+[1787659001] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787659002] [FUNCTION_ENTRY] auth_http_request
+[1787659002] [LIB] auth_http_request called
+[1787659002] [PARAM] url = 0x63ce938
+[1787659002] [PARAM] method = 0x63ce838
+[1787659002] [PARAM] body_data = NULL
+[1787659002] [PARAM] body_length = 0 (size: 0 bytes)
+[1787659002] [PARAM] result = 0x63ceb1c
+[1787659002] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787659002] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787659002] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787659002] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787659002] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787659002] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787659002] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787659002] [PARAM] body = None
+[1787659002] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787659002] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787659010] [LIB] HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787659010] [FUNCTION_EXIT] auth_http_request -> NetworkError: Authentication failed: Could not extract NTLM challenge from 401 response
+[1787659010] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787659010] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787659010] [PARAM] message = 'HTTP request failed: Authentication failed: Could not extract NTLM challenge from 401 response' (94 bytes) (size: 94 bytes)
+[1787659010] [MEMORY_ALLOC] CString (error message) allocated 94 bytes
+[1787659010] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x6608f88
+[1787659010] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787659010] [PARAM] error_message = ptr=0x6608f88 (leaked)
+[1787659010] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787659020] [FUNCTION_ENTRY] auth_free_string
+[1787659020] [PARAM] ptr = 0x6608f88
+[1787659020] [PARAM] return_type = void
+[1787659020] [MEMORY_FREE] CString freed 94 bytes
+[1787659020] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6608f88
+[1787659020] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787659020] [FUNCTION_ENTRY] auth_free_string
+[1787659020] [PARAM] ptr = 0x66095a0
+[1787659020] [PARAM] return_type = void
+[1787659020] [MEMORY_FREE] CString freed 94 bytes
+[1787659020] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x66095a0
+[1787659020] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787659020] [FUNCTION_ENTRY] auth_free_string
+[1787659020] [PARAM] ptr = 0x6609538
+[1787659020] [PARAM] return_type = void
+[1787659020] [MEMORY_FREE] CString freed 94 bytes
+[1787659020] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6609538
+[1787659020] [FUNCTION_EXIT] auth_free_string -> void (freed)

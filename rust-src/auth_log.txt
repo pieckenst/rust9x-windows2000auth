@@ -9433,3 +9433,229 @@
 [1787604713] [CredUI] Credentials stored successfully
 [1787604713] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
 [1787604713] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787658824] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787658824] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787658824] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787658824] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787658824] [OPTION_INFO] credentials - Status: None
+[1787658824] [OPTION_INFO] ntlm - Status: Some
+[1787658824] [OPTION_INFO] credentials_handle - Status: None
+[1787658926] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787658926] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787658926] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787658926] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787658926] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787658926] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787658926] [CredUI] Caption: Windows Authentication Required
+[1787658926] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787658926] [CredUI] Save checkbox: false
+[1787658926] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787658926] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787658926] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787658926] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787658926] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787658926] [OBJECT_SIZE] result Vec - 12 bytes
+[1787658926] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787658926] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787658926] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787658926] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787658926] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787658926] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787658926] [OBJECT_SIZE] result Vec - 12 bytes
+[1787658926] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787658926] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787658926] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787658926] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787658926] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787658926] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787658926] [OBJECT_SIZE] username_buf - 512 bytes
+[1787658926] [OBJECT_SIZE] password_buf - 512 bytes
+[1787658926] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787658926] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787658926] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787658926] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787658926] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787658926] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787658926] [OBJECT_SIZE] result Vec - 12 bytes
+[1787658926] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787658926] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787658972] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787658972] [CredUI] HRESULT: 0x00000000
+[1787658972] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787658972] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787658972] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787658972] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787658972] [OBJECT_SIZE] result String - 12 bytes
+[1787658972] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787658972] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787658972] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787658972] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787658972] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787658972] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787658972] [OBJECT_SIZE] result String - 12 bytes
+[1787658972] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787658972] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787658972] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787658972] [OBJECT_SIZE] username String - 12 bytes
+[1787658972] [OBJECT_SIZE] password String - 12 bytes
+[1787658972] [CredUI] Username length: 13
+[1787658972] [CredUI] Password length: 8
+[1787658972] [CredUI] Save flag result: 0
+[1787658972] [CredUI] Parsed username: rsncra
+[1787658972] [CredUI] Parsed domain: Some("rust9x")
+[1787658972] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787658972] [OPTION_INFO] parsed domain - Status: Some
+[1787658972] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787658972] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787658972] [CredUI] Credentials stored successfully
+[1787658972] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787658972] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787658972] [FUNCTION_ENTRY] WindowsAuthClient::set_credentials - Parameters: username length: 6, password length: 8, domain: Some("rust9x")
+[1787658972] [STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[1787658972] [OBJECT_SIZE] AuthCredentials struct - 36 bytes
+[1787658972] [OBJECT_SIZE] String struct - 12 bytes
+[1787658972] [MEMORY] set_credentials - before assignment - Context: Memory tracking enabled
+[1787658972] [FUNCTION_EXIT] WindowsAuthClient::set_credentials - Result: Success
+[1787658972] [OPTION_INFO] credentials - Status: Some
+[1787658972] [MEMORY] set_credentials - after assignment - Context: Memory tracking enabled
+[1787658972] [FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/localhost', length: 14
+[1787658972] [STRING_INFO] target_name - Length: 14 bytes, Content: 'HTTP/localhost'
+[1787658972] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787658972] [MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[1787658972] [OPTION_INFO] credentials - Status: Some
+[1787658972] [STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[1787658972] [OBJECT_SIZE] String struct - 12 bytes
+[1787658972] [SSPI] Username: rsncra
+[1787658972] [SSPI] Domain: Some("rust9x")
+[1787658972] [MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[1787658972] [OPTION_INFO] ntlm - Status: Some
+[1787658972] [OBJECT_SIZE] Ntlm struct - 840 bytes
+[1787658972] [SSPI] API: AcquireCredentialsHandle
+[1787658972] [SSPI] Package: NTLM
+[1787658972] [SSPI] Principal: NULL
+[1787658972] [SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[1787658972] [OBJECT_SIZE] Username struct - 24 bytes
+[1787658972] [OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[1787658972] [MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[1787658972] [FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[1787658972] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787658972] [SSPI] AcquireCredentialsHandle -> SUCCESS
+[1787658972] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787658972] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787658972] [MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[1787658972] [OPTION_INFO] credentials_handle - Status: Some
+[1787658972] [SSPI] API: InitializeSecurityContext
+[1787658972] [SSPI] TargetName: HTTP/localhost
+[1787658972] [SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[1787658972] [SSPI] DataRepresentation: Native
+[1787658972] [OBJECT_SIZE] output_buffer - 12 bytes
+[1787658972] [OBJECT_SIZE] input_buffer - 12 bytes
+[1787658972] [OBJECT_SIZE] output_buffer Vec - 12 bytes
+[1787658972] [OBJECT_SIZE] input_buffer Vec - 12 bytes
+[1787658972] [MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[1787658972] [FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[1787658972] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787658972] [SSPI] InitializeSecurityContext -> SUCCESS
+[1787658972] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787658972] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787658972] [MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[1787658972] [VEC_INFO] token - Length: 40 bytes
+[1787658972] [OBJECT_SIZE] token Vec - 12 bytes
+[1787658972] [OBJECT_SIZE] token Vec<u8> - 12 bytes
+[1787658972] [SSPI] Negotiate token generated (40 bytes)
+[1787658972] [FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[1787658972] [MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[1787658993] [FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/localhost', length: 14
+[1787658993] [STRING_INFO] target_name - Length: 14 bytes, Content: 'HTTP/localhost'
+[1787658993] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787658993] [MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[1787658993] [OPTION_INFO] credentials - Status: Some
+[1787658993] [STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[1787658993] [OBJECT_SIZE] String struct - 12 bytes
+[1787658993] [SSPI] Username: rsncra
+[1787658993] [SSPI] Domain: Some("rust9x")
+[1787658993] [MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[1787658993] [OPTION_INFO] ntlm - Status: Some
+[1787658993] [OBJECT_SIZE] Ntlm struct - 840 bytes
+[1787658993] [SSPI] API: AcquireCredentialsHandle
+[1787658993] [SSPI] Package: NTLM
+[1787658993] [SSPI] Principal: NULL
+[1787658993] [SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[1787658993] [OBJECT_SIZE] Username struct - 24 bytes
+[1787658993] [OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[1787658993] [MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[1787658993] [FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[1787658993] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787658993] [SSPI] AcquireCredentialsHandle -> SUCCESS
+[1787658993] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787658993] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787658993] [MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[1787658993] [OPTION_INFO] credentials_handle - Status: Some
+[1787658993] [SSPI] API: InitializeSecurityContext
+[1787658993] [SSPI] TargetName: HTTP/localhost
+[1787658993] [SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[1787658993] [SSPI] DataRepresentation: Native
+[1787658993] [OBJECT_SIZE] output_buffer - 12 bytes
+[1787658993] [OBJECT_SIZE] input_buffer - 12 bytes
+[1787658993] [OBJECT_SIZE] output_buffer Vec - 12 bytes
+[1787658993] [OBJECT_SIZE] input_buffer Vec - 12 bytes
+[1787658993] [MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[1787658993] [FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[1787658993] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787658993] [SSPI] InitializeSecurityContext -> SUCCESS
+[1787658993] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787658993] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787658993] [MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[1787658993] [VEC_INFO] token - Length: 40 bytes
+[1787658993] [OBJECT_SIZE] token Vec - 12 bytes
+[1787658993] [OBJECT_SIZE] token Vec<u8> - 12 bytes
+[1787658993] [SSPI] Negotiate token generated (40 bytes)
+[1787658993] [FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[1787658993] [MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled
+[1787659002] [FUNCTION_ENTRY] WindowsAuthClient::generate_negotiate_token - Parameters: target_name: 'HTTP/localhost', length: 14
+[1787659002] [STRING_INFO] target_name - Length: 14 bytes, Content: 'HTTP/localhost'
+[1787659002] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787659002] [MEMORY] generate_negotiate_token - start - Context: Memory tracking enabled
+[1787659002] [OPTION_INFO] credentials - Status: Some
+[1787659002] [STRING_INFO] creds.username - Length: 6 bytes, Content: 'rsncra'
+[1787659002] [OBJECT_SIZE] String struct - 12 bytes
+[1787659002] [SSPI] Username: rsncra
+[1787659002] [SSPI] Domain: Some("rust9x")
+[1787659002] [MEMORY] generate_negotiate_token - resetting NTLM state for new authentication sequence - Context: Memory tracking enabled
+[1787659002] [OPTION_INFO] ntlm - Status: Some
+[1787659002] [OBJECT_SIZE] Ntlm struct - 840 bytes
+[1787659002] [SSPI] API: AcquireCredentialsHandle
+[1787659002] [SSPI] Package: NTLM
+[1787659002] [SSPI] Principal: NULL
+[1787659002] [SSPI] CredentialUse: SECPKG_CRED_OUTBOUND
+[1787659002] [OBJECT_SIZE] Username struct - 24 bytes
+[1787659002] [OBJECT_SIZE] AuthIdentity struct - 36 bytes
+[1787659002] [MEMORY] generate_negotiate_token - before acquire_credentials_handle - Context: Memory tracking enabled
+[1787659002] [FUNCTION_ENTRY] log_security_status - Parameters: operation: AcquireCredentialsHandle
+[1787659002] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787659002] [SSPI] AcquireCredentialsHandle -> SUCCESS
+[1787659002] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787659002] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787659002] [MEMORY] generate_negotiate_token - after acquire_credentials_handle - Context: Memory tracking enabled
+[1787659002] [OPTION_INFO] credentials_handle - Status: Some
+[1787659002] [SSPI] API: InitializeSecurityContext
+[1787659002] [SSPI] TargetName: HTTP/localhost
+[1787659002] [SSPI] ContextRequirements: CONNECTION | ALLOCATE_MEMORY
+[1787659002] [SSPI] DataRepresentation: Native
+[1787659002] [OBJECT_SIZE] output_buffer - 12 bytes
+[1787659002] [OBJECT_SIZE] input_buffer - 12 bytes
+[1787659002] [OBJECT_SIZE] output_buffer Vec - 12 bytes
+[1787659002] [OBJECT_SIZE] input_buffer Vec - 12 bytes
+[1787659002] [MEMORY] generate_negotiate_token - before initialize_security_context - Context: Memory tracking enabled
+[1787659002] [FUNCTION_ENTRY] log_security_status - Parameters: operation: InitializeSecurityContext
+[1787659002] [MEMORY] log_security_status - processing result - Context: Memory tracking enabled
+[1787659002] [SSPI] InitializeSecurityContext -> SUCCESS
+[1787659002] [FUNCTION_EXIT] log_security_status - Result: completed
+[1787659002] [MEMORY] log_security_status - end - Context: Memory tracking enabled
+[1787659002] [MEMORY] generate_negotiate_token - after initialize_security_context - Context: Memory tracking enabled
+[1787659002] [VEC_INFO] token - Length: 40 bytes
+[1787659002] [OBJECT_SIZE] token Vec - 12 bytes
+[1787659002] [OBJECT_SIZE] token Vec<u8> - 12 bytes
+[1787659002] [SSPI] Negotiate token generated (40 bytes)
+[1787659002] [FUNCTION_EXIT] WindowsAuthClient::generate_negotiate_token - Result: Success - token size: 40 bytes
+[1787659002] [MEMORY] generate_negotiate_token - end - Context: Memory tracking enabled

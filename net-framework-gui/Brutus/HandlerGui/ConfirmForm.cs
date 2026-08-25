@@ -380,12 +380,10 @@ namespace HandlerGui
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Clean up credentials if form is closed during credential prompt
-            if (isPromptingForCredentials)
-            {
-                authManager.Config.Log("ConfirmForm: Form closing during credential prompt, cleaning up");
-                CredentialManager.Instance.ClearCredentials();
-            }
+            // Note: Credential cleanup is now handled by the consumer (InstallingForm)
+            // via RetrieveAndClearCredentials(), not by the producer (ConfirmForm).
+            // The credentials stored in CredentialManager are intended for transfer
+            // to the next form and should not be cleared here.
             base.OnFormClosing(e);
         }
     }

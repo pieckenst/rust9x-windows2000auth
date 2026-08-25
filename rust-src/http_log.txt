@@ -573,3 +573,33 @@
 [1786982688] [HTTP] Sending auth request (426 bytes)
 [1786982688] [HTTP] Final response: 200 OK
 [1786982688] [HTTP] Request completed successfully, body size: 12 bytes
+[1787658972] [HTTP] TLS connector built successfully
+[1787658972] [HTTP] Starting GET request to localhost:5001
+[1787658972] [HTTP] Target name for NTLM: HTTP/localhost
+[1787658972] [HTTP] NTLM negotiate token: 40 bytes
+[1787658974] [HTTP] Connected to localhost:5001
+[1787658974] [HTTP] Starting TLS handshake with localhost
+[1787658974] [HTTP] TLS handshake successful with localhost
+[1787658974] [HTTP] Sending initial request (220 bytes)
+[1787658992] [HTTP] Initial response: 401 Unauthorized
+[1787658992] [HTTP] Received 401 - extracting NTLM challenge
+[1787658993] [HTTP] TLS connector built successfully
+[1787658993] [HTTP] Starting GET request to localhost:5001
+[1787658993] [HTTP] Target name for NTLM: HTTP/localhost
+[1787658993] [HTTP] NTLM negotiate token: 40 bytes
+[1787658995] [HTTP] Connected to localhost:5001
+[1787658995] [HTTP] Starting TLS handshake with localhost
+[1787658995] [HTTP] TLS handshake successful with localhost
+[1787658995] [HTTP] Sending initial request (220 bytes)
+[1787659001] [HTTP] Initial response: 401 Unauthorized
+[1787659001] [HTTP] Received 401 - extracting NTLM challenge
+[1787659002] [HTTP] TLS connector built successfully
+[1787659002] [HTTP] Starting GET request to localhost:5001
+[1787659002] [HTTP] Target name for NTLM: HTTP/localhost
+[1787659002] [HTTP] NTLM negotiate token: 40 bytes
+[1787659004] [HTTP] Connected to localhost:5001
+[1787659004] [HTTP] Starting TLS handshake with localhost
+[1787659004] [HTTP] TLS handshake successful with localhost
+[1787659004] [HTTP] Sending initial request (220 bytes)
+[1787659010] [HTTP] Initial response: 401 Unauthorized
+[1787659010] [HTTP] Received 401 - extracting NTLM challenge
