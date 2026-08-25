@@ -4547,3 +4547,142 @@
 [1787603139] [OBJECT_SIZE] client instance = 912 bytes
 [1787603139] [LIB] Auth client initialized successfully
 [1787603139] [FUNCTION_EXIT] auth_init -> Success
+[1787603300] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787603300] [LIB] auth_prompt_credentials called
+[1787603300] [PARAM] caption = 0x731d4d0
+[1787603300] [PARAM] message = 0x731d3d0
+[1787603300] [PARAM] save_credentials = 0x731d858
+[1787603300] [PARAM] result = 0x731d848
+[1787603300] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787603300] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787603300] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787603300] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603300] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787603300] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787603300] [PARAM] save = false (size: 4 bytes)
+[1787603300] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787603307] [LIB] Credential prompt successful
+[1787603307] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787603307] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787603307] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787603307] [PARAM] error_code = Success (size: 4 bytes)
+[1787603307] [PARAM] error_message = null_mut()
+[1787603307] [PARAM] response_data = null_mut()
+[1787603307] [PARAM] response_length = 0 (size: 4 bytes)
+[1787603307] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787603308] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787603308] [LIB] auth_prompt_credentials called
+[1787603308] [PARAM] caption = 0x731d4d0
+[1787603308] [PARAM] message = 0x731d3d0
+[1787603308] [PARAM] save_credentials = 0x731d858
+[1787603308] [PARAM] result = 0x731d848
+[1787603308] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787603308] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787603308] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787603308] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603308] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787603308] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787603308] [PARAM] save = false (size: 4 bytes)
+[1787603308] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787603317] [LIB] Credential prompt successful
+[1787603317] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787603317] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787603317] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787603317] [PARAM] error_code = Success (size: 4 bytes)
+[1787603317] [PARAM] error_message = null_mut()
+[1787603317] [PARAM] response_data = null_mut()
+[1787603317] [PARAM] response_length = 0 (size: 4 bytes)
+[1787603317] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787603968] [FUNCTION_ENTRY] auth_init
+[1787603968] [LIB] auth_init called
+[1787603968] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787603968] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787603968] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787603968] [OBJECT_SIZE] client instance = 912 bytes
+[1787603968] [LIB] Auth client initialized successfully
+[1787603968] [FUNCTION_EXIT] auth_init -> Success
+[1787604089] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787604089] [LIB] auth_prompt_credentials called
+[1787604089] [PARAM] caption = 0x6fad2c8
+[1787604089] [PARAM] message = 0x6fad1c8
+[1787604089] [PARAM] save_credentials = 0x6fad7d4
+[1787604089] [PARAM] result = 0x6fad7c4
+[1787604089] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787604089] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787604089] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787604089] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604089] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787604089] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787604089] [PARAM] save = false (size: 4 bytes)
+[1787604089] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787604096] [LIB] Credential prompt successful
+[1787604096] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787604096] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787604096] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787604096] [PARAM] error_code = Success (size: 4 bytes)
+[1787604096] [PARAM] error_message = null_mut()
+[1787604096] [PARAM] response_data = null_mut()
+[1787604096] [PARAM] response_length = 0 (size: 4 bytes)
+[1787604096] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787604216] [FUNCTION_ENTRY] auth_init
+[1787604216] [LIB] auth_init called
+[1787604216] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787604216] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787604216] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787604216] [OBJECT_SIZE] client instance = 912 bytes
+[1787604216] [LIB] Auth client initialized successfully
+[1787604216] [FUNCTION_EXIT] auth_init -> Success
+[1787604317] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787604317] [LIB] auth_prompt_credentials called
+[1787604317] [PARAM] caption = 0x69acd98
+[1787604317] [PARAM] message = 0x69acc98
+[1787604317] [PARAM] save_credentials = 0x69ad2a4
+[1787604317] [PARAM] result = 0x69ad294
+[1787604317] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787604317] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787604317] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787604317] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604317] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787604317] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787604317] [PARAM] save = false (size: 4 bytes)
+[1787604317] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787604323] [LIB] Credential prompt successful
+[1787604323] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787604323] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787604323] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787604323] [PARAM] error_code = Success (size: 4 bytes)
+[1787604323] [PARAM] error_message = null_mut()
+[1787604323] [PARAM] response_data = null_mut()
+[1787604323] [PARAM] response_length = 0 (size: 4 bytes)
+[1787604323] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787604604] [FUNCTION_ENTRY] auth_init
+[1787604604] [LIB] auth_init called
+[1787604604] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787604604] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787604604] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787604604] [OBJECT_SIZE] client instance = 912 bytes
+[1787604604] [LIB] Auth client initialized successfully
+[1787604604] [FUNCTION_EXIT] auth_init -> Success
+[1787604705] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787604705] [LIB] auth_prompt_credentials called
+[1787604705] [PARAM] caption = 0x6cacb68
+[1787604705] [PARAM] message = 0x6caca68
+[1787604705] [PARAM] save_credentials = 0x6cad074
+[1787604705] [PARAM] result = 0x6cad064
+[1787604705] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787604705] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787604705] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787604705] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604705] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787604705] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787604705] [PARAM] save = false (size: 4 bytes)
+[1787604705] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787604713] [LIB] Credential prompt successful
+[1787604713] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787604713] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787604713] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787604713] [PARAM] error_code = Success (size: 4 bytes)
+[1787604713] [PARAM] error_message = null_mut()
+[1787604713] [PARAM] response_data = null_mut()
+[1787604713] [PARAM] response_length = 0 (size: 4 bytes)
+[1787604713] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)

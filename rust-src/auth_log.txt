@@ -9062,3 +9062,374 @@
 [1787603139] [OPTION_INFO] credentials - Status: None
 [1787603139] [OPTION_INFO] ntlm - Status: Some
 [1787603139] [OPTION_INFO] credentials_handle - Status: None
+[1787603300] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787603300] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787603300] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603300] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787603300] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787603300] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787603300] [CredUI] Caption: Windows Authentication Required
+[1787603300] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787603300] [CredUI] Save checkbox: false
+[1787603300] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787603300] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787603300] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787603300] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603300] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787603300] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603300] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787603300] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603300] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787603300] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603300] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603300] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787603300] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603300] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787603300] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603300] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787603300] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787603300] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787603300] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787603300] [OBJECT_SIZE] username_buf - 512 bytes
+[1787603300] [OBJECT_SIZE] password_buf - 512 bytes
+[1787603300] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787603300] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787603300] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787603300] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787603300] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603300] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787603300] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603300] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787603300] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603307] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787603307] [CredUI] HRESULT: 0x00000000
+[1787603307] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787603307] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787603307] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787603307] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787603307] [OBJECT_SIZE] result String - 12 bytes
+[1787603307] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787603307] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787603307] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787603307] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787603307] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787603307] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787603307] [OBJECT_SIZE] result String - 12 bytes
+[1787603307] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787603307] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787603307] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787603307] [OBJECT_SIZE] username String - 12 bytes
+[1787603307] [OBJECT_SIZE] password String - 12 bytes
+[1787603307] [CredUI] Username length: 13
+[1787603307] [CredUI] Password length: 8
+[1787603307] [CredUI] Save flag result: 0
+[1787603307] [CredUI] Parsed username: rsncra
+[1787603307] [CredUI] Parsed domain: Some("rust9x")
+[1787603307] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787603307] [OPTION_INFO] parsed domain - Status: Some
+[1787603307] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787603307] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787603307] [CredUI] Credentials stored successfully
+[1787603307] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787603307] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787603308] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787603308] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787603308] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603308] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787603308] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787603308] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787603308] [CredUI] Caption: Windows Authentication Required
+[1787603308] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787603308] [CredUI] Save checkbox: false
+[1787603308] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787603308] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787603308] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787603308] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603308] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787603308] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603308] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787603308] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603308] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787603308] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787603308] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603308] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787603308] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603308] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787603308] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603308] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787603308] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787603308] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787603308] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787603308] [OBJECT_SIZE] username_buf - 512 bytes
+[1787603308] [OBJECT_SIZE] password_buf - 512 bytes
+[1787603308] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787603308] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787603308] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787603308] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787603308] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787603308] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787603308] [OBJECT_SIZE] result Vec - 12 bytes
+[1787603308] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787603308] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787603317] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787603317] [CredUI] HRESULT: 0x00000000
+[1787603317] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787603317] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787603317] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787603317] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787603317] [OBJECT_SIZE] result String - 12 bytes
+[1787603317] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787603317] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787603317] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787603317] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787603317] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787603317] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787603317] [OBJECT_SIZE] result String - 12 bytes
+[1787603317] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787603317] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787603317] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787603317] [OBJECT_SIZE] username String - 12 bytes
+[1787603317] [OBJECT_SIZE] password String - 12 bytes
+[1787603317] [CredUI] Username length: 13
+[1787603317] [CredUI] Password length: 8
+[1787603317] [CredUI] Save flag result: 0
+[1787603317] [CredUI] Parsed username: rsncra
+[1787603317] [CredUI] Parsed domain: Some("rust9x")
+[1787603317] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787603317] [OPTION_INFO] parsed domain - Status: Some
+[1787603317] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787603317] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787603317] [CredUI] Credentials stored successfully
+[1787603317] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787603317] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787603968] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787603968] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787603968] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787603968] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787603968] [OPTION_INFO] credentials - Status: None
+[1787603968] [OPTION_INFO] ntlm - Status: Some
+[1787603968] [OPTION_INFO] credentials_handle - Status: None
+[1787604089] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787604089] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604089] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604089] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787604089] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787604089] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787604089] [CredUI] Caption: Windows Authentication Required
+[1787604089] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787604089] [CredUI] Save checkbox: false
+[1787604089] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787604089] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787604089] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604089] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604089] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787604089] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604089] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787604089] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604089] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787604089] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604089] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604089] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787604089] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604089] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787604089] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604089] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787604089] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787604089] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787604089] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787604089] [OBJECT_SIZE] username_buf - 512 bytes
+[1787604089] [OBJECT_SIZE] password_buf - 512 bytes
+[1787604089] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787604089] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604089] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787604089] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787604089] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604089] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787604089] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604089] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787604089] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604096] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604096] [CredUI] HRESULT: 0x00000000
+[1787604096] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787604096] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787604096] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604096] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604096] [OBJECT_SIZE] result String - 12 bytes
+[1787604096] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787604096] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604096] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787604096] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787604096] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604096] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787604096] [OBJECT_SIZE] result String - 12 bytes
+[1787604096] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787604096] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604096] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604096] [OBJECT_SIZE] username String - 12 bytes
+[1787604096] [OBJECT_SIZE] password String - 12 bytes
+[1787604096] [CredUI] Username length: 13
+[1787604096] [CredUI] Password length: 8
+[1787604096] [CredUI] Save flag result: 0
+[1787604096] [CredUI] Parsed username: rsncra
+[1787604096] [CredUI] Parsed domain: Some("rust9x")
+[1787604096] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787604096] [OPTION_INFO] parsed domain - Status: Some
+[1787604096] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787604096] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787604096] [CredUI] Credentials stored successfully
+[1787604096] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787604096] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787604216] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787604216] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787604216] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787604216] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787604216] [OPTION_INFO] credentials - Status: None
+[1787604216] [OPTION_INFO] ntlm - Status: Some
+[1787604216] [OPTION_INFO] credentials_handle - Status: None
+[1787604317] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787604317] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604317] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604317] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787604317] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787604317] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787604317] [CredUI] Caption: Windows Authentication Required
+[1787604317] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787604317] [CredUI] Save checkbox: false
+[1787604317] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787604317] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787604317] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604317] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604317] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787604317] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604317] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787604317] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604317] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787604317] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604317] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604317] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787604317] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604317] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787604317] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604317] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787604317] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787604317] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787604317] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787604317] [OBJECT_SIZE] username_buf - 512 bytes
+[1787604317] [OBJECT_SIZE] password_buf - 512 bytes
+[1787604317] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787604317] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604317] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787604317] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787604317] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604317] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787604317] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604317] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787604317] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604323] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604323] [CredUI] HRESULT: 0x00000000
+[1787604323] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787604323] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787604323] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604323] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604323] [OBJECT_SIZE] result String - 12 bytes
+[1787604323] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787604323] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604323] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787604323] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787604323] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604323] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787604323] [OBJECT_SIZE] result String - 12 bytes
+[1787604323] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787604323] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604323] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604323] [OBJECT_SIZE] username String - 12 bytes
+[1787604323] [OBJECT_SIZE] password String - 12 bytes
+[1787604323] [CredUI] Username length: 13
+[1787604323] [CredUI] Password length: 8
+[1787604323] [CredUI] Save flag result: 0
+[1787604323] [CredUI] Parsed username: rsncra
+[1787604323] [CredUI] Parsed domain: Some("rust9x")
+[1787604323] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787604323] [OPTION_INFO] parsed domain - Status: Some
+[1787604323] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787604323] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787604323] [CredUI] Credentials stored successfully
+[1787604323] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787604323] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled
+[1787604604] [FUNCTION_ENTRY] WindowsAuthClient::new - Parameters: no parameters
+[1787604604] [MEMORY] WindowsAuthClient::new - creating new instance - Context: Memory tracking enabled
+[1787604604] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787604604] [FUNCTION_EXIT] WindowsAuthClient::new - Result: Success
+[1787604604] [OPTION_INFO] credentials - Status: None
+[1787604604] [OPTION_INFO] ntlm - Status: Some
+[1787604604] [OPTION_INFO] credentials_handle - Status: None
+[1787604705] [FUNCTION_ENTRY] WindowsAuthClient::prompt_for_windows_credentials - Parameters: caption: 'Windows Authentication Required', message: 'Enter your network credentials to authenticate with BRU Avtopark', save: false
+[1787604705] [STRING_INFO] caption - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604705] [STRING_INFO] message - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604705] [OBJECT_SIZE] WindowsAuthClient struct - 912 bytes
+[1787604705] [MEMORY] prompt_for_windows_credentials - start - Context: Memory tracking enabled
+[1787604705] [CredUI] API: CredUICmdLinePromptForCredentialsW
+[1787604705] [CredUI] Caption: Windows Authentication Required
+[1787604705] [CredUI] Message: Enter your network credentials to authenticate with BRU Avtopark
+[1787604705] [CredUI] Save checkbox: false
+[1787604705] [CredUI] Flags: GENERIC_CREDENTIALS | DO_NOT_PERSIST
+[1787604705] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 31
+[1787604705] [STRING_INFO] input string - Length: 31 bytes, Content: 'Windows Authentication Required'
+[1787604705] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604705] [VEC_U16_INFO] result Vec<u16> - Length: 32 elements
+[1787604705] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604705] [FUNCTION_EXIT] to_wide - Result: Success - output length: 32
+[1787604705] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604705] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 64
+[1787604705] [STRING_INFO] input string - Length: 64 bytes, Content: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787604705] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604705] [VEC_U16_INFO] result Vec<u16> - Length: 65 elements
+[1787604705] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604705] [FUNCTION_EXIT] to_wide - Result: Success - output length: 65
+[1787604705] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604705] [VEC_U16_INFO] caption_wide - Length: 32 elements
+[1787604705] [VEC_U16_INFO] message_wide - Length: 65 elements
+[1787604705] [OBJECT_SIZE] caption_wide Vec - 12 bytes
+[1787604705] [OBJECT_SIZE] message_wide Vec - 12 bytes
+[1787604705] [OBJECT_SIZE] username_buf - 512 bytes
+[1787604705] [OBJECT_SIZE] password_buf - 512 bytes
+[1787604705] [OBJECT_SIZE] CREDUI_INFOW struct - 20 bytes
+[1787604705] [MEMORY] prompt_for_windows_credentials - before CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604705] [FUNCTION_ENTRY] to_wide - Parameters: input string length: 6
+[1787604705] [STRING_INFO] input string - Length: 6 bytes, Content: 'rust9x'
+[1787604705] [MEMORY] to_wide - start - Context: Memory tracking enabled
+[1787604705] [VEC_U16_INFO] result Vec<u16> - Length: 7 elements
+[1787604705] [OBJECT_SIZE] result Vec - 12 bytes
+[1787604705] [FUNCTION_EXIT] to_wide - Result: Success - output length: 7
+[1787604705] [MEMORY] to_wide - end - Context: Memory tracking enabled
+[1787604713] [MEMORY] prompt_for_windows_credentials - after CredUIPromptForCredentialsW - Context: Memory tracking enabled
+[1787604713] [CredUI] HRESULT: 0x00000000
+[1787604713] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 13
+[1787604713] [VEC_U16_INFO] input slice - Length: 13 elements
+[1787604713] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604713] [STRING_INFO] result string - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604713] [OBJECT_SIZE] result String - 12 bytes
+[1787604713] [FUNCTION_EXIT] from_wide - Result: Success - output length: 13
+[1787604713] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604713] [FUNCTION_ENTRY] from_wide - Parameters: input slice length: 8
+[1787604713] [VEC_U16_INFO] input slice - Length: 8 elements
+[1787604713] [MEMORY] from_wide - start - Context: Memory tracking enabled
+[1787604713] [STRING_INFO] result string - Length: 8 bytes, Content: 'ctrt55xx'
+[1787604713] [OBJECT_SIZE] result String - 12 bytes
+[1787604713] [FUNCTION_EXIT] from_wide - Result: Success - output length: 8
+[1787604713] [MEMORY] from_wide - end - Context: Memory tracking enabled
+[1787604713] [STRING_INFO] username - Length: 13 bytes, Content: 'rust9x\rsncra'
+[1787604713] [OBJECT_SIZE] username String - 12 bytes
+[1787604713] [OBJECT_SIZE] password String - 12 bytes
+[1787604713] [CredUI] Username length: 13
+[1787604713] [CredUI] Password length: 8
+[1787604713] [CredUI] Save flag result: 0
+[1787604713] [CredUI] Parsed username: rsncra
+[1787604713] [CredUI] Parsed domain: Some("rust9x")
+[1787604713] [STRING_INFO] parsed username - Length: 6 bytes, Content: 'rsncra'
+[1787604713] [OPTION_INFO] parsed domain - Status: Some
+[1787604713] [MEMORY] prompt_for_windows_credentials - before credentials assignment - Context: Memory tracking enabled
+[1787604713] [MEMORY] prompt_for_windows_credentials - after credentials assignment - Context: Memory tracking enabled
+[1787604713] [CredUI] Credentials stored successfully
+[1787604713] [FUNCTION_EXIT] WindowsAuthClient::prompt_for_windows_credentials - Result: Success
+[1787604713] [MEMORY] prompt_for_windows_credentials - end (success) - Context: Memory tracking enabled

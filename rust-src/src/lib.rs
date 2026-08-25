@@ -951,3 +951,131 @@ pub extern "C" fn auth_prompt_credentials(
         }
     }
 }
+
+#[no_mangle]
+pub extern "C" fn auth_get_credentials(
+    username_out: *mut c_char,
+    username_len: i32,
+    password_out: *mut c_char,
+    password_len: i32,
+    domain_out: *mut c_char,
+    domain_len: i32,
+    result: *mut AuthInteropResult,
+) {
+    #[cfg(feature = "std")]
+    log_function_entry("auth_get_credentials");
+    
+    let get_msg = "[LIB] auth_get_credentials called";
+    eprintln!("{}", get_msg);
+    #[cfg(feature = "std")]
+    log_to_file(get_msg);
+    
+    // Initialize result to error state if null pointer
+    if result.is_null() {
+        #[cfg(feature = "std")]
+        {
+            log_function_exit("auth_get_credentials", "InvalidParameter (null result pointer)");
+        }
+        return;
+    }
+    
+    unsafe {
+        *result = AuthInteropResult {
+            error_code: AuthErrorCode::InvalidParameter,
+            error_message: core::ptr::null_mut(),
+            response_data: core::ptr::null_mut(),
+            response_length: 0,
+        };
+    }
+    
+    if unsafe { AUTH_CLIENT.is_none() } {
+        let not_init_msg = "[LIB] Auth client not initialized for get_credentials";
+        eprintln!("{}", not_init_msg);
+        #[cfg(feature = "std")]
+        log_to_file(not_init_msg);
+        #[cfg(feature = "std")]
+        log_function_exit("auth_get_credentials", "NotInitialized (client not initialized)");
+        unsafe {
+            *result = AuthInteropResult::error(AuthErrorCode::NotInitialized, "Auth client not initialized");
+        }
+        return;
+    }
+
+    let client = unsafe { AUTH_CLIENT.as_ref().unwrap() };
+    
+    #[cfg(feature = "std")]
+    log_object_size("AUTH_CLIENT", std::mem::size_of_val(&*client));
+    
+    let creds = match client.get_credentials() {
+        Some(c) => c,
+        None => {
+            let no_creds_msg = "[LIB] No credentials available";
+            eprintln!("{}", no_creds_msg);
+            #[cfg(feature = "std")]
+            log_to_file(no_creds_msg);
+            #[cfg(feature = "std")]
+            log_function_exit("auth_get_credentials", "InvalidCredentials (no credentials)");
+            unsafe {
+                *result = AuthInteropResult::error(AuthErrorCode::InvalidCredentials, "No credentials available");
+            }
+            return;
+        }
+    };
+    
+    #[cfg(feature = "std")]
+    {
+        let username_log = format!("[LIB] Username: {}", creds.username);
+        let password_log = format!("[LIB] Password length: {} chars", creds.password.len());
+        let domain_log = format!("[LIB] Domain: {:?}", creds.domain);
+        eprintln!("{}", username_log);
+        eprintln!("{}", password_log);
+        eprintln!("{}", domain_log);
+        log_to_file(&username_log);
+        log_to_file(&password_log);
+        log_to_file(&domain_log);
+    }
+    
+    unsafe {
+        // Copy username
+        if !username_out.is_null() && username_len > 0 {
+            let username_bytes = creds.username.as_bytes();
+            let copy_len = std::cmp::min((username_len - 1) as usize, username_bytes.len());
+            std::ptr::copy_nonoverlapping(username_bytes.as_ptr(), username_out as *mut u8, copy_len);
+            *(username_out.add(copy_len)) = 0; // Null terminate
+        }
+        
+        // Copy password
+        if !password_out.is_null() && password_len > 0 {
+            let password_bytes = creds.password.as_bytes();
+            let copy_len = std::cmp::min((password_len - 1) as usize, password_bytes.len());
+            std::ptr::copy_nonoverlapping(password_bytes.as_ptr(), password_out as *mut u8, copy_len);
+            *(password_out.add(copy_len)) = 0; // Null terminate
+        }
+        
+        // Copy domain
+        if !domain_out.is_null() && domain_len > 0 {
+            match &creds.domain {
+                Some(d) => {
+                    let domain_bytes = d.as_bytes();
+                    let copy_len = std::cmp::min((domain_len - 1) as usize, domain_bytes.len());
+                    std::ptr::copy_nonoverlapping(domain_bytes.as_ptr(), domain_out as *mut u8, copy_len);
+                    *(domain_out.add(copy_len)) = 0; // Null terminate
+                }
+                None => {
+                    *(domain_out) = 0; // Empty string
+                }
+            }
+        }
+    }
+    
+    let success_msg = "[LIB] Credentials retrieved successfully";
+    eprintln!("{}", success_msg);
+    #[cfg(feature = "std")]
+    log_to_file(success_msg);
+    #[cfg(feature = "std")]
+    log_function_exit("auth_get_credentials", "Success");
+    
+    unsafe {
+        *result = AuthInteropResult::success();
+    }
+}

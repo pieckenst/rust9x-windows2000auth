@@ -147,6 +147,8 @@ namespace Rust9xWindowsAuth
                 int saveCredentials = _config.AllowSaveCredentials ? 1 : 0;
 
                 _config.Log("Showing credential dialog: " + _config.CredentialCaption);
+                _config.Log("PromptForCredentials: Config.Username BEFORE prompt: " + (_config.Username ?? "(null)"));
+                _config.Log("PromptForCredentials: Config.Password BEFORE prompt: " + (_config.Password != null ? "PRESENT (" + _config.Password.Length + " chars)" : "(null)"));
 
                 AuthInteropResult result;
                 WindowsAuth.auth_prompt_credentials(
@@ -157,6 +159,47 @@ namespace Rust9xWindowsAuth
 
                 AuthResult authResult = new AuthResult(result);
                 _config.Log("Credential dialog result: " + authResult.ErrorCode);
+                
+                // If prompt was successful, retrieve the credentials from the Rust library
+                if (authResult.ErrorCode == AuthErrorCode.Success)
+                {
+                    _config.Log("PromptForCredentials: Retrieving credentials from Rust library");
+                    
+                    try
+                    {
+                        System.Text.StringBuilder username = new System.Text.StringBuilder(256);
+                        System.Text.StringBuilder password = new System.Text.StringBuilder(256);
+                        System.Text.StringBuilder domain = new System.Text.StringBuilder(256);
+                        
+                        AuthInteropResult getCredsResult;
+                        WindowsAuth.auth_get_credentials(username, password, domain, out getCredsResult);
+                        
+                        if (getCredsResult.error_code == AuthErrorCode.Success)
+                        {
+                            _config.Username = username.ToString();
+                            _config.Password = password.ToString();
+                            _config.Domain = domain.ToString();
+                            
+                            _config.Log("PromptForCredentials: Credentials retrieved from Rust library");
+                            _config.Log("PromptForCredentials: Username: " + _config.Username);
+                            _config.Log("PromptForCredentials: Password: PRESENT (" + _config.Password.Length + " chars)");
+                            _config.Log("PromptForCredentials: Domain: " + (_config.Domain ?? "(null)"));
+                        }
+                        else
+                        {
+                            _config.Log("PromptForCredentials: Failed to retrieve credentials from Rust library: " + getCredsResult.error_code);
+                        }
+                    }
+                    catch (Exception credsEx)
+                    {
+                        _config.Log("PromptForCredentials: Exception retrieving credentials: " + credsEx.Message);
+                    }
+                }
+                
+                // Debug: Check if credentials were set in config after prompt
+                _config.Log("PromptForCredentials: Config.Username AFTER prompt: " + (_config.Username ?? "(null)"));
+                _config.Log("PromptForCredentials: Config.Password AFTER prompt: " + (_config.Password != null ? "PRESENT (" + _config.Password.Length + " chars)" : "(null)"));
+                _config.Log("PromptForCredentials: Config.Domain AFTER prompt: " + (_config.Domain ?? "(null)"));
 
                 return authResult;
             }

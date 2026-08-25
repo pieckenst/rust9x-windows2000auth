@@ -658,6 +658,75 @@ namespace Rust9xWindowsAuth
             ref int saveCredentials,
             out AuthInteropResult result);
 
+        /// <summary>
+        /// Get credentials that were set by credential prompt
+        /// </summary>
+        /// <param name="username">Output buffer for username (must be pre-allocated)</param>
+        /// <param name="usernameLen">Length of username buffer</param>
+        /// <param name="password">Output buffer for password (must be pre-allocated)</param>
+        /// <param name="passwordLen">Length of password buffer</param>
+        /// <param name="domain">Output buffer for domain (must be pre-allocated)</param>
+        /// <param name="domainLen">Length of domain buffer</param>
+        /// <param name="result">Output parameter for the result structure</param>
+        public static void auth_get_credentials(
+            StringBuilder username,
+            StringBuilder password,
+            StringBuilder domain,
+            out AuthInteropResult result)
+        {
+            result = new AuthInteropResult(); // Initialize to default
+            
+            try
+            {
+                Trace.WriteLine("auth_get_credentials: Getting credentials from DLL");
+                EnsureDllLoaded();
+                
+                IntPtr funcPtr = GetProcAddress(_dllHandle, "auth_get_credentials");
+                if (funcPtr == IntPtr.Zero)
+                {
+                    Trace.WriteLine("auth_get_credentials: Could not find 'auth_get_credentials' function in DLL");
+                    throw new DllLoadException("Could not find 'auth_get_credentials' function in DLL");
+                }
+
+                Trace.WriteLine("auth_get_credentials: Found function pointer for auth_get_credentials");
+                auth_get_credentials_delegate del = (auth_get_credentials_delegate)Marshal.GetDelegateForFunctionPointer(
+                    funcPtr, typeof(auth_get_credentials_delegate));
+                
+                del(username, username.Capacity, password, password.Capacity, domain, domain.Capacity, out result);
+                Trace.WriteLine("auth_get_credentials: Credentials retrieved with error code: " + result.error_code);
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("EXCEPTION TYPE: " + ex.GetType().FullName);
+                Trace.WriteLine("MESSAGE: " + ex.Message);
+                Trace.WriteLine("STACK TRACE:\r\n" + ex.StackTrace);
+                
+                if (ex.InnerException != null)
+                {
+                    Trace.WriteLine("INNER TYPE: " + ex.InnerException.GetType().FullName);
+                    Trace.WriteLine("INNER MESSAGE: " + ex.InnerException.Message);
+                    Trace.WriteLine("INNER STACK:\r\n" + ex.InnerException.StackTrace);
+                }
+                
+                Trace.WriteLine("auth_get_credentials: Exception occurred: " + ex.Message);
+                if (ex is DllLoadException)
+                {
+                    throw;
+                }
+                throw new InvalidOperationException("Failed to get credentials: " + ex.Message, ex);
+            }
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        private delegate void auth_get_credentials_delegate(
+            StringBuilder username,
+            int usernameLen,
+            StringBuilder password,
+            int passwordLen,
+            StringBuilder domain,
+            int domainLen,
+            out AuthInteropResult result);
+
         #endregion
 
         #region Helper Methods

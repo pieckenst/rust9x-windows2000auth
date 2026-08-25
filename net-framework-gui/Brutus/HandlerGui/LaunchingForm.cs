@@ -17,7 +17,7 @@ namespace HandlerGui
         private string requestedUrl;
         private Timer displayTimer;
         private int displaySecondsRemaining;
-        private const int MINIMUM_DISPLAY_SECONDS = 120; // 2 minutes
+        private const int MINIMUM_DISPLAY_SECONDS = 100; // 100 seconds
 
         public LaunchingForm()
         {

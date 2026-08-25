@@ -359,6 +359,11 @@ impl WindowsAuthClient {
         }
     }
 
+    /// Get a reference to the current credentials (if any)
+    pub fn get_credentials(&self) -> Option<&AuthCredentials> {
+        self.credentials.as_ref()
+    }
+
     /// Generate NTLM negotiate token (Type 1 message)
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
         #[cfg(feature = "std")]

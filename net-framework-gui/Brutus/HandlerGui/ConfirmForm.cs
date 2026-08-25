@@ -144,10 +144,33 @@ namespace HandlerGui
                 {
                     authManager.Config.Log("ConfirmForm: Credentials provided successfully");
                     
+                    // Debug: Check what's in the AuthResult
+                    authManager.Config.Log("ConfirmForm: AuthResult ErrorCode: " + promptResult.ErrorCode);
+                    authManager.Config.Log("ConfirmForm: AuthResult ErrorMessage: " + (promptResult.ErrorMessage ?? "(null)"));
+                    authManager.Config.Log("ConfirmForm: AuthResult ResponseData: " + (promptResult.ResponseData != null ? promptResult.ResponseData.Length + " bytes" : "(null)"));
+                    
+                    // Debug: Check what's in the config BEFORE creating container
+                    authManager.Config.Log("ConfirmForm: Config.Username BEFORE: " + (authManager.Config.Username ?? "(null)"));
+                    authManager.Config.Log("ConfirmForm: Config.Password BEFORE: " + (authManager.Config.Password != null ? "PRESENT (" + authManager.Config.Password.Length + " chars)" : "(null)"));
+                    authManager.Config.Log("ConfirmForm: Config.Domain BEFORE: " + (authManager.Config.Domain ?? "(null)"));
+                    
                     // Store credentials in CredentialManager for secure passing to InstallingForm
                     try
                     {
                         CredentialContainer credentials = CreateCredentialContainerFromAuthResult(promptResult);
+                        
+                        // Debug: Check what we got back
+                        authManager.Config.Log("ConfirmForm: CredentialContainer created: " + (credentials != null ? "YES" : "NO"));
+                        if (credentials != null)
+                        {
+                            authManager.Config.Log("ConfirmForm: CredentialContainer.HasCredentials: " + credentials.HasCredentials());
+                            authManager.Config.Log("ConfirmForm: CredentialContainer.IsValid: " + credentials.IsValid);
+                            if (credentials.HasCredentials())
+                            {
+                                authManager.Config.Log("ConfirmForm: CredentialContainer.GetUsername: " + (credentials.GetUsername() ?? "(null)"));
+                            }
+                        }
+                        
                         if (credentials != null && credentials.HasCredentials())
                         {
                             CredentialManager.Instance.StoreCredentials(credentials, 120000); // 2 minutes
@@ -173,6 +196,8 @@ namespace HandlerGui
                     catch (Exception credEx)
                     {
                         authManager.Config.Log("ConfirmForm: Exception storing credentials: " + credEx.Message);
+                        authManager.Config.Log("EXCEPTION TYPE: " + credEx.GetType().FullName);
+                        authManager.Config.Log("STACK TRACE:\r\n" + credEx.StackTrace);
                         ShowFormAfterCredentialPrompt();
                         MessageBox.Show(
                             "Error processing credentials: " + credEx.Message,
@@ -282,32 +307,48 @@ namespace HandlerGui
         {
             try
             {
+                authManager.Config.Log("ConfirmForm: CreateCredentialContainerFromAuthResult - START");
+                
                 // Get credentials from the auth manager config (they were set by the prompt)
                 string username = authManager.Config.Username;
                 string password = authManager.Config.Password;
                 string domain = authManager.Config.Domain;
 
+                authManager.Config.Log("ConfirmForm: Retrieved from config - Username: " + (username ?? "(null)"));
+                authManager.Config.Log("ConfirmForm: Retrieved from config - Password: " + (password != null ? "PRESENT (" + password.Length + " chars)" : "(null)"));
+                authManager.Config.Log("ConfirmForm: Retrieved from config - Domain: " + (domain ?? "(null)"));
+
                 // Validate we have the necessary credentials
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 {
                     authManager.Config.Log("ConfirmForm: No credentials available in config after prompt");
+                    authManager.Config.Log("ConfirmForm: Username is null/empty: " + string.IsNullOrEmpty(username));
+                    authManager.Config.Log("ConfirmForm: Password is null/empty: " + string.IsNullOrEmpty(password));
                     return null;
                 }
 
                 // Create secure credential container
+                authManager.Config.Log("ConfirmForm: Creating CredentialContainer with username: " + username);
                 CredentialContainer credentials = new CredentialContainer(username, password, domain);
                 authManager.Config.Log("ConfirmForm: Created credential container for user: " + username);
+                authManager.Config.Log("ConfirmForm: CredentialContainer.IsValid: " + credentials.IsValid);
+                authManager.Config.Log("ConfirmForm: CredentialContainer.HasCredentials: " + credentials.HasCredentials());
 
                 // Clear the credentials from config after creating container
+                authManager.Config.Log("ConfirmForm: Clearing credentials from config");
                 authManager.Config.Username = null;
                 authManager.Config.Password = null;
                 authManager.Config.Domain = null;
+                authManager.Config.Log("ConfirmForm: Credentials cleared from config");
 
+                authManager.Config.Log("ConfirmForm: CreateCredentialContainerFromAuthResult - SUCCESS");
                 return credentials;
             }
             catch (Exception ex)
             {
                 authManager.Config.Log("ConfirmForm: Exception creating credential container: " + ex.Message);
+                authManager.Config.Log("EXCEPTION TYPE: " + ex.GetType().FullName);
+                authManager.Config.Log("STACK TRACE:\r\n" + ex.StackTrace);
                 return null;
             }
         }
