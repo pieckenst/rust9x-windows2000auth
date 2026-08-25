@@ -603,3 +603,45 @@
 [1787659004] [HTTP] Sending initial request (220 bytes)
 [1787659010] [HTTP] Initial response: 401 Unauthorized
 [1787659010] [HTTP] Received 401 - extracting NTLM challenge
+[1787660952] [HTTP] TLS connector built successfully
+[1787660952] [HTTP] Starting GET request to localhost:5001
+[1787660952] [HTTP] Target name for authentication: HTTP/localhost
+[1787660952] [HTTP] Negotiate token: 40 bytes
+[1787660954] [HTTP] Connected to localhost:5001
+[1787660954] [HTTP] Starting TLS handshake with localhost
+[1787660954] [HTTP] TLS handshake successful with localhost
+[1787660954] [HTTP] Sending initial request (225 bytes)
+[1787660960] [HTTP] Initial response: 401 Unauthorized
+[1787660960] [HTTP] Received 401 - extracting NTLM challenge
+[1787660960] [HTTP] Challenge size: 240 bytes
+[1787660960] [HTTP] Authenticate token: 344 bytes
+[1787660960] [HTTP] Sending auth request (624 bytes)
+[1787660966] [HTTP] Final response: 400 Bad Request
+[1787660967] [HTTP] TLS connector built successfully
+[1787660967] [HTTP] Starting GET request to localhost:5001
+[1787660967] [HTTP] Target name for authentication: HTTP/localhost
+[1787660967] [HTTP] Negotiate token: 40 bytes
+[1787660969] [HTTP] Connected to localhost:5001
+[1787660969] [HTTP] Starting TLS handshake with localhost
+[1787660969] [HTTP] TLS handshake successful with localhost
+[1787660969] [HTTP] Sending initial request (225 bytes)
+[1787660975] [HTTP] Initial response: 401 Unauthorized
+[1787660975] [HTTP] Received 401 - extracting NTLM challenge
+[1787660975] [HTTP] Challenge size: 240 bytes
+[1787660975] [HTTP] Authenticate token: 344 bytes
+[1787660975] [HTTP] Sending auth request (624 bytes)
+[1787660981] [HTTP] Final response: 400 Bad Request
+[1787660982] [HTTP] TLS connector built successfully
+[1787660982] [HTTP] Starting GET request to localhost:5001
+[1787660982] [HTTP] Target name for authentication: HTTP/localhost
+[1787660982] [HTTP] Negotiate token: 40 bytes
+[1787660987] [HTTP] Connected to localhost:5001
+[1787660987] [HTTP] Starting TLS handshake with localhost
+[1787660987] [HTTP] TLS handshake successful with localhost
+[1787660987] [HTTP] Sending initial request (225 bytes)
+[1787660993] [HTTP] Initial response: 401 Unauthorized
+[1787660993] [HTTP] Received 401 - extracting NTLM challenge
+[1787660993] [HTTP] Challenge size: 240 bytes
+[1787660993] [HTTP] Authenticate token: 344 bytes
+[1787660993] [HTTP] Sending auth request (624 bytes)
+[1787660999] [HTTP] Final response: 400 Bad Request

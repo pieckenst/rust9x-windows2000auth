@@ -1440,6 +1440,7 @@ version = "0.1.0"
 dependencies = [
  "base64 0.21.7",
  "embed-resource",
+ "hex",
  "native-tls",
  "sspi",
  "windows-sys 0.59.0",

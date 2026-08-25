@@ -299,6 +299,26 @@ impl HttpClient {
             #[cfg(feature = "std")]
             log_to_file(challenge_msg);
             
+            // CRITICAL FIX: Check if server closed the connection after 401
+            // If Connection: close is present or HTTP/1.0 without keep-alive, we must reconnect
+            let needs_reconnect = initial_response.headers.should_close() || 
+                                  (initial_response.version == HttpVersion::Http1_0 && !initial_response.headers.keep_alive());
+            
+            if needs_reconnect {
+                let reconnect_msg = "[HTTP] Server closed connection after 401 - establishing new connection for Type 3";
+                eprintln!("{}", reconnect_msg);
+                #[cfg(feature = "std")]
+                log_to_file(reconnect_msg);
+                
+                connection.close();
+                connection = self.establish_connection(url)?;
+            } else {
+                let keepalive_msg = "[HTTP] Server kept connection alive - reusing for Type 3";
+                eprintln!("{}", keepalive_msg);
+                #[cfg(feature = "std")]
+                log_to_file(keepalive_msg);
+            }
+            
             // Extract Negotiate/NTLM challenge from WWW-Authenticate header
             if let Some(challenge) = self.extract_auth_challenge(&initial_response) {
                 let challenge_size_msg = format!("[HTTP] Challenge size: {} bytes", challenge.len());
@@ -436,8 +456,129 @@ impl HttpClient {
     fn read_response(&self, stream: &mut dyn ReadWrite) -> AuthResult<HttpResponse> {
         let mut reader = BufReader::new(stream);
         
-        // Read status line
-        let status_line = self.read_line(&mut reader)?;
+        // Read raw response bytes for logging before parsing
+        let mut raw_response = Vec::new();
+        let mut buffer = [0u8; 4096]; // Use larger buffer for efficiency
+        let mut headers_found = false;
+        let mut content_length: Option<usize> = None;
+        let mut is_chunked = false;
+        let mut headers_end_pos: Option<usize> = None;
+        
+        // First, read until we have the complete headers
+        while !headers_found {
+            match reader.read(&mut buffer) {
+                Ok(0) => {
+                    if raw_response.is_empty() {
+                        return Err(AuthError::NetworkError("Connection closed before receiving response".to_string()));
+                    }
+                    break;
+                }
+                Ok(n) => {
+                    raw_response.extend_from_slice(&buffer[..n]);
+                    
+                    // Check if we've found the end of headers
+                    if let Some(headers_end) = self.find_headers_end(&raw_response) {
+                        headers_found = true;
+                        headers_end_pos = Some(headers_end);
+                        
+                        // Parse headers from raw response to determine body length
+                        let headers_str = String::from_utf8_lossy(&raw_response[..headers_end]);
+                        for line in headers_str.lines() {
+                            let line_lower = line.to_lowercase();
+                            if line_lower.starts_with("content-length:") {
+                                if let Some(len_str) = line.strip_prefix("content-length:")
+                                    .or_else(|| line.strip_prefix("Content-Length:"))
+                                {
+                                    content_length = len_str.trim().parse::<usize>().ok();
+                                }
+                            } else if line_lower.starts_with("transfer-encoding:") {
+                                is_chunked = line_lower.contains("chunked");
+                            }
+                        }
+                    }
+                }
+                Err(e) => return Err(AuthError::NetworkError(format!("Failed to read response headers: {}", e))),
+            }
+        }
+        
+        let headers_end = headers_end_pos.unwrap();
+        
+        // Now read the body based on the transfer encoding
+        if let Some(cl) = content_length {
+            // Fixed-length body: read exactly content_length bytes
+            let current_body_len = raw_response.len() - headers_end;
+            let remaining = cl.saturating_sub(current_body_len);
+            
+            if remaining > 0 {
+                let mut body_buffer = vec![0u8; remaining];
+                reader.read_exact(&mut body_buffer)
+                    .map_err(|e| AuthError::NetworkError(format!("Failed to read response body: {}", e)))?;
+                raw_response.extend_from_slice(&body_buffer);
+            }
+        } else if is_chunked {
+            // Chunked encoding: read until we get the terminating chunk
+            loop {
+                // Check if we already have the terminating chunk
+                if raw_response.ends_with(b"0\r\n\r\n") {
+                    break;
+                }
+                
+                match reader.read(&mut buffer) {
+                    Ok(0) => break, // Connection closed
+                    Ok(n) => {
+                        raw_response.extend_from_slice(&buffer[..n]);
+                    }
+                    Err(e) => return Err(AuthError::NetworkError(format!("Failed to read chunked body: {}", e))),
+                }
+            }
+        } else {
+            // Connection-close: read until connection closes or we get a reasonable amount of data
+            // Read a bit more data, but don't block forever
+            let mut total_body_read = raw_response.len() - headers_end;
+            let max_body_size = 1024 * 1024; // 1MB max body size for connection-close
+            
+            while total_body_read < max_body_size {
+                match reader.read(&mut buffer) {
+                    Ok(0) => break, // Connection closed
+                    Ok(n) => {
+                        raw_response.extend_from_slice(&buffer[..n]);
+                        total_body_read += n;
+                    }
+                    Err(ref e) if e.kind() == std::io::ErrorKind::WouldBlock => {
+                        // Non-blocking mode - we have what we can get
+                        break;
+                    }
+                    Err(e) => return Err(AuthError::NetworkError(format!("Failed to read response body: {}", e))),
+                }
+            }
+        }
+        
+        // Log the raw response
+        let raw_hex = hex::encode(&raw_response);
+        let raw_text = String::from_utf8_lossy(&raw_response);
+        
+        let log_msg = format!(
+            "----- RAW HTTP RESPONSE -----\n\
+             Size: {} bytes\n\
+             Hex (first 500 bytes): {}\n\
+             Text:\n{}\n\
+             -----------------------------",
+            raw_response.len(),
+            &raw_hex.chars().take(1000).collect::<String>(),
+            raw_text
+        );
+        
+        eprintln!("{}", log_msg);
+        #[cfg(feature = "std")]
+        log_to_file(&log_msg);
+        
+        // Parse the response from the raw bytes
+        let headers_section = String::from_utf8_lossy(&raw_response[..headers_end]);
+        let mut lines = headers_section.lines();
+        
+        // Parse status line
+        let status_line = lines.next()
+            .ok_or_else(|| AuthError::NetworkError("Missing status line".to_string()))?;
         let status_parts: Vec<&str> = status_line.split_whitespace().collect();
         
         if status_parts.len() < 2 {
@@ -458,10 +599,9 @@ impl HttpClient {
         
         let status_text = status_parts[2..].join(" ");
         
-        // Read headers
+        // Parse headers
         let mut headers = HttpHeaders::new();
-        loop {
-            let line = self.read_line(&mut reader)?;
+        for line in lines {
             if line.is_empty() {
                 break;
             }
@@ -473,14 +613,29 @@ impl HttpClient {
             }
         }
         
-        // Read body based on headers
+        // The raw_response should already contain the complete body based on our reading logic
+        // We just need to extract it properly based on the transfer encoding
         let body = if headers.is_chunked() {
-            self.read_chunked_body(&mut reader)?
+            // For chunked, parse the chunked encoding from the raw body data
+            let body_data = &raw_response[headers_end..];
+            self.parse_chunked_body_from_bytes(body_data)?
         } else if let Some(content_length) = headers.content_length() {
-            self.read_fixed_body(&mut reader, content_length)?
+            // For fixed-length, the raw_response should already contain exactly content_length bytes after headers
+            // But validate this to be safe
+            let expected_body_len = content_length;
+            let actual_body_len = raw_response.len() - headers_end;
+            
+            if actual_body_len < expected_body_len {
+                return Err(AuthError::NetworkError(format!(
+                    "Incomplete body: expected {} bytes but only have {} bytes", 
+                    expected_body_len, actual_body_len
+                )));
+            }
+            
+            raw_response[headers_end..headers_end + expected_body_len].to_vec()
         } else {
-            // Read until connection close
-            self.read_until_close(&mut reader)?
+            // For connection-close (no content-length, not chunked), everything after headers is the body
+            raw_response[headers_end..].to_vec()
         };
         
         Ok(HttpResponse {
@@ -507,6 +662,53 @@ impl HttpClient {
         }
         
         Ok(line)
+    }
+
+    #[cfg(feature = "network")]
+    fn parse_chunked_body_from_bytes(&self, data: &[u8]) -> AuthResult<Vec<u8>> {
+        let mut body = Vec::new();
+        let mut pos = 0;
+        
+        while pos < data.len() {
+            // Find the end of the chunk size line (CRLF)
+            let line_end = data[pos..]
+                .iter()
+                .position(|&b| b == b'\n')
+                .ok_or_else(|| AuthError::NetworkError("Invalid chunked encoding: missing CRLF after chunk size".to_string()))?;
+            
+            let chunk_size_line = String::from_utf8_lossy(&data[pos..pos + line_end]);
+            let chunk_size = usize::from_str_radix(chunk_size_line.trim(), 16)
+                .map_err(|e| AuthError::NetworkError(format!("Invalid chunk size: {}", e)))?;
+            
+            pos += line_end + 1; // Skip the newline
+            
+            if chunk_size == 0 {
+                // Final chunk - we're done
+                break;
+            }
+            
+            // Read chunk data
+            if pos + chunk_size > data.len() {
+                return Err(AuthError::NetworkError("Invalid chunked encoding: chunk data incomplete".to_string()));
+            }
+            
+            body.extend_from_slice(&data[pos..pos + chunk_size]);
+            pos += chunk_size;
+            
+            // Skip CRLF after chunk data
+            if pos + 2 > data.len() {
+                return Err(AuthError::NetworkError("Invalid chunked encoding: missing CRLF after chunk data".to_string()));
+            }
+            if &data[pos..pos + 2] == b"\r\n" {
+                pos += 2;
+            } else if data[pos] == b'\n' {
+                pos += 1; // Handle just LF
+            } else {
+                return Err(AuthError::NetworkError("Invalid chunked encoding: missing CRLF after chunk data".to_string()));
+            }
+        }
+        
+        Ok(body)
     }
 
     #[cfg(feature = "network")]
