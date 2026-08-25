@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Devolutions.Sspi", "Devolutions.Sspi\Devolutions.Sspi.csproj", "{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PackageTests", "PackageTests\PackageTests.csproj", "{664EFE2B-97C4-4419-A233-9835E2D38F37}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		PkgTest|Any CPU = PkgTest|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.PkgTest|Any CPU.ActiveCfg = PkgTest|Any CPU
+		{C26693DD-5BB5-436B-A3B8-2C0CA18E9870}.PkgTest|Any CPU.Build.0 = PkgTest|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.PkgTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{664EFE2B-97C4-4419-A233-9835E2D38F37}.PkgTest|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal

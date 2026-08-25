@@ -6250,3 +6250,353 @@
 [1787670825] [OBJECT_SIZE] client instance = 912 bytes
 [1787670825] [LIB] Auth client initialized successfully
 [1787670825] [FUNCTION_EXIT] auth_init -> Success
+[1787670927] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787670927] [LIB] auth_prompt_credentials called
+[1787670927] [PARAM] caption = 0x66ed278
+[1787670927] [PARAM] message = 0x66ed178
+[1787670927] [PARAM] save_credentials = 0x66ed784
+[1787670927] [PARAM] result = 0x66ed774
+[1787670927] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670927] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787670927] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787670927] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787670927] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787670927] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787670927] [PARAM] save = false (size: 4 bytes)
+[1787670927] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787670932] [LIB] Credential prompt successful
+[1787670932] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787670932] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787670932] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787670932] [PARAM] error_code = Success (size: 4 bytes)
+[1787670932] [PARAM] error_message = null_mut()
+[1787670932] [PARAM] response_data = null_mut()
+[1787670932] [PARAM] response_length = 0 (size: 4 bytes)
+[1787670932] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787670932] [FUNCTION_ENTRY] auth_get_credentials
+[1787670932] [LIB] auth_get_credentials called
+[1787670932] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670932] [LIB] Username: rsncra
+[1787670932] [LIB] Password length: 8 chars
+[1787670932] [LIB] Domain: Some("DESKTOP-I4OV31Q")
+[1787670932] [LIB] Credentials retrieved successfully
+[1787670932] [FUNCTION_EXIT] auth_get_credentials -> Success
+[1787670932] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787670932] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787670932] [PARAM] error_code = Success (size: 4 bytes)
+[1787670932] [PARAM] error_message = null_mut()
+[1787670932] [PARAM] response_data = null_mut()
+[1787670932] [PARAM] response_length = 0 (size: 4 bytes)
+[1787670932] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787670932] [FUNCTION_ENTRY] auth_set_credentials
+[1787670932] [LIB] auth_set_credentials called
+[1787670932] [PARAM] username = 0x5a4e97c
+[1787670932] [PARAM] password = 0x5a4e87c
+[1787670932] [PARAM] domain = 0x5a4e77c
+[1787670932] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787670932] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670932] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rsncra' (6 bytes)
+[1787670932] [PARAM] username_str = 'rsncra' (size: 6 bytes)
+[1787670932] [INTEROP] *const c_char -> &str [SUCCESS] value: '***' (8 bytes)
+[1787670932] [PARAM] password_str = '***' (8 bytes) (size: 8 bytes)
+[1787670932] [INTEROP] *const c_char -> Option<&str> [SUCCESS] value: Some('DESKTOP-I4OV31Q')
+[1787670932] [PARAM] domain_str = Some('DESKTOP-I4OV31Q') (size: 15 bytes)
+[1787670932] [OBJECT_SIZE] AuthCredentials = 36 bytes
+[1787670932] [MEMORY_ALLOC] AuthCredentials allocated 36 bytes
+[1787670932] [PARAM] creds.username = 'rsncra' (size: 6 bytes)
+[1787670932] [PARAM] creds.password = '***' (8 bytes) (size: 8 bytes)
+[1787670932] [PARAM] creds.domain = Some(15)
+[1787670932] [LIB] Setting credentials for user: rsncra
+[1787670932] [LIB] Credentials set successfully
+[1787670932] [FUNCTION_EXIT] auth_set_credentials -> Success
+[1787670932] [FUNCTION_ENTRY] auth_http_request
+[1787670932] [LIB] auth_http_request called
+[1787670932] [PARAM] url = 0x5a4e864
+[1787670932] [PARAM] method = 0x5a4e764
+[1787670932] [PARAM] body_data = NULL
+[1787670932] [PARAM] body_length = 0 (size: 0 bytes)
+[1787670932] [PARAM] result = 0x5a4ea48
+[1787670932] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670932] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787670932] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787670932] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787670932] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787670932] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787670932] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787670932] [PARAM] body = None
+[1787670932] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787670932] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787670946] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787670946] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787670946] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787670946] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787670946] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787670946] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787670946] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x651c908
+[1787670946] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787670946] [PARAM] error_message = ptr=0x651c908 (leaked)
+[1787670946] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787670947] [FUNCTION_ENTRY] auth_http_request
+[1787670947] [LIB] auth_http_request called
+[1787670947] [PARAM] url = 0x5a4e864
+[1787670947] [PARAM] method = 0x5a4e764
+[1787670947] [PARAM] body_data = NULL
+[1787670947] [PARAM] body_length = 0 (size: 0 bytes)
+[1787670947] [PARAM] result = 0x5a4ea48
+[1787670947] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670947] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787670947] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787670947] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787670947] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787670947] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787670947] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787670947] [PARAM] body = None
+[1787670947] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787670947] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787670961] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787670961] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787670961] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787670961] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787670961] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787670961] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787670961] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x651ca28
+[1787670961] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787670961] [PARAM] error_message = ptr=0x651ca28 (leaked)
+[1787670961] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787670962] [FUNCTION_ENTRY] auth_http_request
+[1787670962] [LIB] auth_http_request called
+[1787670962] [PARAM] url = 0x5a4e864
+[1787670962] [PARAM] method = 0x5a4e764
+[1787670962] [PARAM] body_data = NULL
+[1787670962] [PARAM] body_length = 0 (size: 0 bytes)
+[1787670962] [PARAM] result = 0x5a4ea48
+[1787670962] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787670962] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787670962] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787670962] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787670962] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787670962] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787670962] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787670962] [PARAM] body = None
+[1787670962] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787670962] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787670976] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787670976] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787670976] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787670976] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787670976] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787670976] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787670976] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x651c788
+[1787670976] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787670976] [PARAM] error_message = ptr=0x651c788 (leaked)
+[1787670976] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787671066] [FUNCTION_ENTRY] auth_free_string
+[1787671066] [PARAM] ptr = 0x651c788
+[1787671066] [PARAM] return_type = void
+[1787671066] [MEMORY_FREE] CString freed 84 bytes
+[1787671066] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x651c788
+[1787671066] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671066] [FUNCTION_ENTRY] auth_free_string
+[1787671066] [PARAM] ptr = 0x651ca28
+[1787671066] [PARAM] return_type = void
+[1787671066] [MEMORY_FREE] CString freed 84 bytes
+[1787671066] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x651ca28
+[1787671066] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671186] [FUNCTION_ENTRY] auth_free_string
+[1787671186] [PARAM] ptr = 0x655d240
+[1787671186] [PARAM] return_type = void
+[1787671186] [MEMORY_FREE] CString freed 28 bytes
+[1787671186] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x655d240
+[1787671186] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671186] [FUNCTION_ENTRY] auth_free_string
+[1787671186] [PARAM] ptr = 0x651c908
+[1787671186] [PARAM] return_type = void
+[1787671186] [MEMORY_FREE] CString freed 84 bytes
+[1787671186] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x651c908
+[1787671186] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671218] [FUNCTION_ENTRY] auth_cleanup
+[1787671218] [LIB] auth_cleanup called
+[1787671218] [PARAM] return_type = void
+[1787671218] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1787671218] [OBJECT_SIZE] client being dropped = 912 bytes
+[1787671218] [LIB] Auth client cleaned up
+[1787671218] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
+[1787671227] [FUNCTION_ENTRY] auth_init
+[1787671227] [LIB] auth_init called
+[1787671227] [OBJECT_SIZE] WindowsAuthClient = 912 bytes
+[1787671227] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787671227] [MEMORY_ALLOC] AUTH_CLIENT allocated 912 bytes
+[1787671227] [OBJECT_SIZE] client instance = 912 bytes
+[1787671227] [LIB] Auth client initialized successfully
+[1787671227] [FUNCTION_EXIT] auth_init -> Success
+[1787671602] [FUNCTION_ENTRY] auth_prompt_credentials
+[1787671602] [LIB] auth_prompt_credentials called
+[1787671602] [PARAM] caption = 0x739cbd8
+[1787671602] [PARAM] message = 0x739cad8
+[1787671602] [PARAM] save_credentials = 0x739d0e4
+[1787671602] [PARAM] result = 0x739d0d4
+[1787671602] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671602] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Windows Authentication Required'
+[1787671602] [PARAM] caption_str = 'Windows Authentication Required' (size: 31 bytes)
+[1787671602] [INTEROP] *const c_char -> &str [SUCCESS] value: 'Enter your network credentials to authenticate with BRU Avtopark'
+[1787671602] [PARAM] message_str = 'Enter your network credentials to authenticate with BRU Avtopark' (size: 64 bytes)
+[1787671602] [INTEROP] *mut i32 -> bool [SUCCESS] value: 0 -> false
+[1787671602] [PARAM] save = false (size: 4 bytes)
+[1787671602] [LIB] Prompting for credentials - Caption: Windows Authentication Required, Message: Enter your network credentials to authenticate with BRU Avtopark, Save: false
+[1787671608] [LIB] Credential prompt successful
+[1787671608] [FUNCTION_EXIT] auth_prompt_credentials -> Success
+[1787671608] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787671608] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787671608] [PARAM] error_code = Success (size: 4 bytes)
+[1787671608] [PARAM] error_message = null_mut()
+[1787671608] [PARAM] response_data = null_mut()
+[1787671608] [PARAM] response_length = 0 (size: 4 bytes)
+[1787671608] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787671608] [FUNCTION_ENTRY] auth_get_credentials
+[1787671608] [LIB] auth_get_credentials called
+[1787671608] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671608] [LIB] Username: rsncra
+[1787671608] [LIB] Password length: 8 chars
+[1787671608] [LIB] Domain: Some("DESKTOP-I4OV31Q")
+[1787671608] [LIB] Credentials retrieved successfully
+[1787671608] [FUNCTION_EXIT] auth_get_credentials -> Success
+[1787671608] [FUNCTION_ENTRY] AuthInteropResult::success
+[1787671608] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787671608] [PARAM] error_code = Success (size: 4 bytes)
+[1787671608] [PARAM] error_message = null_mut()
+[1787671608] [PARAM] response_data = null_mut()
+[1787671608] [PARAM] response_length = 0 (size: 4 bytes)
+[1787671608] [FUNCTION_EXIT] AuthInteropResult::success -> AuthInteropResult (success)
+[1787671608] [FUNCTION_ENTRY] auth_set_credentials
+[1787671608] [LIB] auth_set_credentials called
+[1787671608] [PARAM] username = 0x914e9fc
+[1787671608] [PARAM] password = 0x914e8fc
+[1787671608] [PARAM] domain = 0x914e7fc
+[1787671608] [PARAM] return_type = AuthErrorCode (size: 4 bytes)
+[1787671608] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671608] [INTEROP] *const c_char -> &str [SUCCESS] value: 'rsncra' (6 bytes)
+[1787671608] [PARAM] username_str = 'rsncra' (size: 6 bytes)
+[1787671608] [INTEROP] *const c_char -> &str [SUCCESS] value: '***' (8 bytes)
+[1787671608] [PARAM] password_str = '***' (8 bytes) (size: 8 bytes)
+[1787671608] [INTEROP] *const c_char -> Option<&str> [SUCCESS] value: Some('DESKTOP-I4OV31Q')
+[1787671608] [PARAM] domain_str = Some('DESKTOP-I4OV31Q') (size: 15 bytes)
+[1787671608] [OBJECT_SIZE] AuthCredentials = 36 bytes
+[1787671608] [MEMORY_ALLOC] AuthCredentials allocated 36 bytes
+[1787671608] [PARAM] creds.username = 'rsncra' (size: 6 bytes)
+[1787671608] [PARAM] creds.password = '***' (8 bytes) (size: 8 bytes)
+[1787671608] [PARAM] creds.domain = Some(15)
+[1787671608] [LIB] Setting credentials for user: rsncra
+[1787671608] [LIB] Credentials set successfully
+[1787671608] [FUNCTION_EXIT] auth_set_credentials -> Success
+[1787671608] [FUNCTION_ENTRY] auth_http_request
+[1787671608] [LIB] auth_http_request called
+[1787671608] [PARAM] url = 0x914e8e4
+[1787671608] [PARAM] method = 0x914e7e4
+[1787671608] [PARAM] body_data = NULL
+[1787671608] [PARAM] body_length = 0 (size: 0 bytes)
+[1787671608] [PARAM] result = 0x914eac8
+[1787671608] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671608] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787671608] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787671608] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787671608] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787671608] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787671608] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787671608] [PARAM] body = None
+[1787671608] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787671608] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787671635] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787671635] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787671635] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787671635] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787671635] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787671635] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787671635] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x6645ce0
+[1787671635] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787671635] [PARAM] error_message = ptr=0x6645ce0 (leaked)
+[1787671635] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787671636] [FUNCTION_ENTRY] auth_http_request
+[1787671636] [LIB] auth_http_request called
+[1787671636] [PARAM] url = 0x914e8e4
+[1787671636] [PARAM] method = 0x914e7e4
+[1787671636] [PARAM] body_data = NULL
+[1787671636] [PARAM] body_length = 0 (size: 0 bytes)
+[1787671636] [PARAM] result = 0x914eac8
+[1787671636] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671636] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787671636] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787671636] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787671636] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787671636] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787671636] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787671636] [PARAM] body = None
+[1787671636] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787671636] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787671650] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787671650] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787671650] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787671650] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787671650] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787671650] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787671650] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x6645e00
+[1787671650] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787671650] [PARAM] error_message = ptr=0x6645e00 (leaked)
+[1787671650] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787671651] [FUNCTION_ENTRY] auth_http_request
+[1787671651] [LIB] auth_http_request called
+[1787671651] [PARAM] url = 0x914e8e4
+[1787671651] [PARAM] method = 0x914e7e4
+[1787671651] [PARAM] body_data = NULL
+[1787671651] [PARAM] body_length = 0 (size: 0 bytes)
+[1787671651] [PARAM] result = 0x914eac8
+[1787671651] [OBJECT_SIZE] AUTH_CLIENT = 912 bytes
+[1787671651] [INTEROP] *const c_char -> &str [SUCCESS] value: 'https://localhost:5001/api/v1/auth/windows/windows-login' (56 bytes)
+[1787671651] [PARAM] url_str = 'https://localhost:5001/api/v1/auth/windows/windows-login' (size: 56 bytes)
+[1787671651] [INTEROP] *const c_char -> &str [SUCCESS] value: 'GET'
+[1787671651] [PARAM] method_str = 'GET' (size: 3 bytes)
+[1787671651] [LIB] HTTP request: GET https://localhost:5001/api/v1/auth/windows/windows-login
+[1787671651] [INTEROP] *const u8 -> Option<Vec<u8>> [SUCCESS] value: NULL/empty -> None
+[1787671651] [PARAM] body = None
+[1787671651] [OBJECT_SIZE] HttpClient = 96 bytes
+[1787671651] [MEMORY_ALLOC] HttpClient allocated 96 bytes
+[1787671665] [LIB] HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request
+[1787671665] [FUNCTION_EXIT] auth_http_request -> NetworkError: Network error: HTTP request failed with status: 400 Bad Request
+[1787671665] [FUNCTION_ENTRY] AuthInteropResult::error
+[1787671665] [PARAM] error_code = NetworkError (size: 4 bytes)
+[1787671665] [PARAM] message = 'HTTP request failed: Network error: HTTP request failed with status: 400 Bad Request' (84 bytes) (size: 84 bytes)
+[1787671665] [MEMORY_ALLOC] CString (error message) allocated 84 bytes
+[1787671665] [INTEROP] CString -> *mut c_char [SUCCESS] value: leaked ptr=0x6645da0
+[1787671665] [OBJECT_SIZE] AuthInteropResult = 16 bytes
+[1787671665] [PARAM] error_message = ptr=0x6645da0 (leaked)
+[1787671665] [FUNCTION_EXIT] AuthInteropResult::error -> AuthInteropResult (error: NetworkError)
+[1787671679] [FUNCTION_ENTRY] auth_free_string
+[1787671679] [PARAM] ptr = 0x6645e00
+[1787671679] [PARAM] return_type = void
+[1787671679] [MEMORY_FREE] CString freed 84 bytes
+[1787671679] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6645e00
+[1787671679] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671679] [FUNCTION_ENTRY] auth_free_string
+[1787671679] [PARAM] ptr = 0x6645ce0
+[1787671679] [PARAM] return_type = void
+[1787671679] [MEMORY_FREE] CString freed 84 bytes
+[1787671679] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6645ce0
+[1787671679] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671679] [FUNCTION_ENTRY] auth_free_string
+[1787671679] [PARAM] ptr = 0x6645da0
+[1787671679] [PARAM] return_type = void
+[1787671679] [MEMORY_FREE] CString freed 84 bytes
+[1787671679] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6645da0
+[1787671679] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787671679] [FUNCTION_ENTRY] auth_free_string
+[1787671679] [PARAM] ptr = 0x6641828
+[1787671679] [PARAM] return_type = void
+[1787671679] [MEMORY_FREE] CString freed 28 bytes
+[1787671679] [INTEROP] *mut c_char -> CString [SUCCESS] value: 0x6641828
+[1787671679] [FUNCTION_EXIT] auth_free_string -> void (freed)
+[1787673544] [FUNCTION_ENTRY] auth_cleanup
+[1787673544] [LIB] auth_cleanup called
+[1787673544] [PARAM] return_type = void
+[1787673544] [MEMORY_FREE] AUTH_CLIENT freed 912 bytes
+[1787673544] [OBJECT_SIZE] client being dropped = 912 bytes
+[1787673544] [LIB] Auth client cleaned up
+[1787673544] [FUNCTION_EXIT] auth_cleanup -> void (client dropped)
