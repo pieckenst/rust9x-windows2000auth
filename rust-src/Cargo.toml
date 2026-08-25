@@ -26,7 +26,7 @@ exe-build = []
 exe-static-build = []
 
 [dependencies]
-sspi = { path = "../schannel-rs-src"  }
+sspi = { path = "../sspi-rs-src"  }
 native-tls = { path = "../rust-native-tls-src", optional = true }
 windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Security_Credentials"], optional = true }
 base64 = "0.21"
