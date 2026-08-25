@@ -345,7 +345,24 @@ impl HttpClient {
                 log_to_file(&auth_msg);
                 
                 // Send authenticated request with Negotiate header
-                let auth_request = self.build_request(url, method, &body, &format!("Negotiate {}", auth_b64), false);
+                // Use keep-alive to maintain connection affinity for NTLM authentication
+                let auth_request = self.build_request(url, method, &body, &format!("Negotiate {}", auth_b64), true);
+                
+                // Log the exact plaintext request before sending
+                let auth_hex = hex::encode(&auth_request.as_bytes());
+                let log_msg = format!(
+                    "----- OUTGOING AUTH HTTP REQUEST -----\n\
+                     Size: {} bytes\n\
+                     Hex (first 1000 bytes): {}\n\
+                     Plaintext:\n{}\n\
+                     --------------------------------------",
+                    auth_request.len(),
+                    &auth_hex.chars().take(2000).collect::<String>(),
+                    auth_request
+                );
+                eprintln!("{}", log_msg);
+                #[cfg(feature = "std")]
+                log_to_file(&log_msg);
                 
                 let auth_send_msg = format!("[HTTP] Sending auth request ({} bytes)", auth_request.len());
                 eprintln!("{}", auth_send_msg);

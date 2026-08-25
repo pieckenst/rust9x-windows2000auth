@@ -1037,3 +1037,42 @@
 [1787660982] [TLS] Setting maximum protocol to Tlsv12
 [1787660982] [TLS] TLS connector built successfully
 [1787660982] [TLS] Connector ready for secure connections
+[1787662237] [OS_DETECT] RtlGetVersion -> 10.0.26200
+[1787662237] [TLS] Auto-selecting config based on OS version: Windows10OrLater
+[1787662237] [TLS] OS uses modern TLS configuration
+[1787662237] [TLS] Creating new TlsConfig with secure defaults
+[1787662237] [TLS] Setting handshake timeout to: 30s
+[1787662237] [TLS] Configuration validation passed
+[1787662237] [TLS] Building TLS connector with current configuration
+[1787662237] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+[1787662237] [TLS] Mapping min_protocol Auto to native_tls None
+[1787662237] [TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1787662237] [TLS] Setting maximum protocol to Tlsv12
+[1787662237] [TLS] TLS connector built successfully
+[1787662237] [TLS] Connector ready for secure connections
+[1787662252] [OS_DETECT] RtlGetVersion -> 10.0.26200
+[1787662252] [TLS] Auto-selecting config based on OS version: Windows10OrLater
+[1787662252] [TLS] OS uses modern TLS configuration
+[1787662252] [TLS] Creating new TlsConfig with secure defaults
+[1787662252] [TLS] Setting handshake timeout to: 30s
+[1787662252] [TLS] Configuration validation passed
+[1787662252] [TLS] Building TLS connector with current configuration
+[1787662252] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+[1787662252] [TLS] Mapping min_protocol Auto to native_tls None
+[1787662252] [TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1787662252] [TLS] Setting maximum protocol to Tlsv12
+[1787662252] [TLS] TLS connector built successfully
+[1787662252] [TLS] Connector ready for secure connections
+[1787662267] [OS_DETECT] RtlGetVersion -> 10.0.26200
+[1787662267] [TLS] Auto-selecting config based on OS version: Windows10OrLater
+[1787662267] [TLS] OS uses modern TLS configuration
+[1787662267] [TLS] Creating new TlsConfig with secure defaults
+[1787662267] [TLS] Setting handshake timeout to: 30s
+[1787662267] [TLS] Configuration validation passed
+[1787662267] [TLS] Building TLS connector with current configuration
+[1787662267] [TLS] Configuration: verify_certs=true, min_protocol=Auto, max_protocol=Tls1_2, use_sni=true, timeout=30s
+[1787662267] [TLS] Mapping min_protocol Auto to native_tls None
+[1787662267] [TLS] Mapping max_protocol Tls1_2 to native_tls Some(Tlsv12)
+[1787662267] [TLS] Setting maximum protocol to Tlsv12
+[1787662267] [TLS] TLS connector built successfully
+[1787662267] [TLS] Connector ready for secure connections
