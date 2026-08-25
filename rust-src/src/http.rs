@@ -241,7 +241,14 @@ impl HttpClient {
         body: Option<Vec<u8>>,
     ) -> AuthResult<Vec<u8>> {
         // Generate NTLM negotiate token first to avoid borrow conflicts
-        let target_name = format!("HTTP/{}", url.host);
+        // Try multiple SPN formats for better compatibility
+        let target_name = if url.host == "localhost" {
+            // For localhost, try the NetBIOS format which is often more compatible
+            "HTTP/localhost".to_string()
+        } else {
+            // For other hosts, use the standard HTTP/hostname format
+            format!("HTTP/{}", url.host)
+        };
         let target_msg = format!("[HTTP] Target name for authentication: {}", target_name);
         eprintln!("{}", target_msg);
         #[cfg(feature = "std")]
@@ -249,6 +256,8 @@ impl HttpClient {
         
         let negotiate_token = {
             let auth_client = self.get_auth_client()?;
+            // Reset NTLM state before starting new authentication sequence
+            auth_client.reset_ntlm_state();
             auth_client.generate_negotiate_token(&target_name)?
         };
         let negotiate_b64 = self.base64_encode(&negotiate_token);
@@ -327,13 +336,9 @@ impl HttpClient {
                 log_to_file(&challenge_size_msg);
                 
                 // Process challenge and get authenticate token
-                // If challenge is empty, regenerate negotiate token (server sent initial challenge)
-                // If challenge has data, process it as normal NTLM challenge
-                let auth_token = if challenge.is_empty() {
-                    eprintln!("[HTTP] Empty challenge - regenerating negotiate token");
-                    let auth_client = self.get_auth_client()?;
-                    auth_client.generate_negotiate_token(&target_name)?
-                } else {
+                // If challenge is empty, treat as Type 2 with no data (rare, but valid)
+                // If challenge has data, process it as normal NTLM Type 2 challenge
+                let auth_token = {
                     let auth_client = self.get_auth_client()?;
                     auth_client.process_challenge(&challenge, &target_name)?
                 };

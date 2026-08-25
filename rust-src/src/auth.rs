@@ -19,14 +19,25 @@ use sspi::{
 
 #[cfg(windows)]
 use windows_sys::Win32::Security::Credentials::{
-    CredUIPromptForCredentialsW, CREDUI_FLAGS_DO_NOT_PERSIST,
+    CredUIPromptForCredentialsW,
+    CredUIParseUserNameW,
+    CREDUI_FLAGS_DO_NOT_PERSIST,
     CREDUI_INFOW,
 };
 
 #[cfg(windows)]
-use windows_sys::Win32::Foundation::HWND;
+use windows_sys::Win32::System::SystemInformation::{
+    GetComputerNameExW,
+    ComputerNameNetBIOS,
+};
+
 #[cfg(windows)]
-use windows_sys::Win32::Foundation::GetLastError;
+use windows_sys::Win32::Foundation::{
+    GetLastError,
+    ERROR_INSUFFICIENT_BUFFER,
+    NO_ERROR,
+    HWND,
+};
 
 #[cfg(feature = "std")]
 fn log_to_file(message: &str) {
@@ -111,6 +122,83 @@ fn log_option_info(name: &str, is_some: bool) {
 #[cfg(windows)]
 #[cfg(not(feature = "std"))]
 use alloc::ffi::CString;
+
+/// Local NetBIOS computer name for NTLM local SAM accounts.
+/// Supported since Windows 2000 (GetComputerNameExW).
+#[cfg(windows)]
+fn get_local_netbios_name() -> AuthResult<String> {
+    const INITIAL_CAPACITY: usize = 16;
+
+    let mut buffer = vec![0u16; INITIAL_CAPACITY];
+    let mut size = buffer.len() as u32;
+
+    unsafe {
+        if GetComputerNameExW(
+            ComputerNameNetBIOS,
+            buffer.as_mut_ptr(),
+            &mut size,
+        ) != 0
+        {
+            buffer.truncate(size as usize);
+
+            let name = String::from_utf16(&buffer).map_err(|e| {
+                AuthError::AuthFailed(format!(
+                    "Invalid NetBIOS computer name UTF-16: {}",
+                    e
+                ))
+            })?;
+
+            if name.is_empty() {
+                return Err(AuthError::AuthFailed(
+                    "Windows returned an empty NetBIOS computer name".to_string(),
+                ));
+            }
+
+            return Ok(name);
+        }
+
+        let error = GetLastError();
+
+        if error == ERROR_INSUFFICIENT_BUFFER {
+            buffer.resize(size as usize, 0);
+
+            if GetComputerNameExW(
+                ComputerNameNetBIOS,
+                buffer.as_mut_ptr(),
+                &mut size,
+            ) == 0
+            {
+                let retry_error = GetLastError();
+                return Err(AuthError::AuthFailed(format!(
+                    "GetComputerNameExW(ComputerNameNetBIOS) failed: 0x{:08X}",
+                    retry_error
+                )));
+            }
+
+            buffer.truncate(size as usize);
+
+            let name = String::from_utf16(&buffer).map_err(|e| {
+                AuthError::AuthFailed(format!(
+                    "Invalid NetBIOS computer name UTF-16: {}",
+                    e
+                ))
+            })?;
+
+            if name.is_empty() {
+                return Err(AuthError::AuthFailed(
+                    "Windows returned an empty NetBIOS computer name".to_string(),
+                ));
+            }
+
+            return Ok(name);
+        }
+
+        Err(AuthError::AuthFailed(format!(
+            "GetComputerNameExW(ComputerNameNetBIOS) failed: 0x{:08X}",
+            error
+        )))
+    }
+}
 
 /// Helper to log SSPI SecurityStatus codes
 fn log_security_status<T>(status: &Result<T, sspi::Error>, operation: &str) {
@@ -364,7 +452,31 @@ impl WindowsAuthClient {
         self.credentials.as_ref()
     }
 
+    /// Reset NTLM state for a new authentication sequence
+    /// Call this before starting a new NTLM handshake (new Type 1 message)
+    pub fn reset_ntlm_state(&mut self) {
+        #[cfg(feature = "std")]
+        {
+            log_function_entry("WindowsAuthClient::reset_ntlm_state", "no parameters");
+            log_memory_info("reset_ntlm_state - resetting NTLM state for new authentication sequence");
+            log_option_info("ntlm before reset", self.ntlm.is_some());
+            log_option_info("credentials_handle before reset", self.credentials_handle.is_some());
+        }
+
+        self.ntlm = Some(Ntlm::new());
+        self.credentials_handle = None;
+
+        #[cfg(feature = "std")]
+        {
+            log_option_info("ntlm after reset", self.ntlm.is_some());
+            log_option_info("credentials_handle after reset", self.credentials_handle.is_some());
+            log_function_exit("WindowsAuthClient::reset_ntlm_state", "Success");
+            log_memory_info("reset_ntlm_state - end");
+        }
+    }
+
     /// Generate NTLM negotiate token (Type 1 message)
+    /// IMPORTANT: Call reset_ntlm_state() before this if starting a new authentication sequence
     pub fn generate_negotiate_token(&mut self, target_name: &str) -> AuthResult<Vec<u8>> {
         #[cfg(feature = "std")]
         {
@@ -397,15 +509,16 @@ impl WindowsAuthClient {
             log_to_file(msg);
         }
 
-        // Reset NTLM state for new authentication sequence
-        // This is necessary because the NTLM state machine progresses from Initial -> Negotiate -> Challenge -> Authenticate
-        // Once it leaves Initial state, it cannot generate a new negotiate token
+        // Log NTLM state before generating Type 1
         #[cfg(feature = "std")]
         {
-            log_memory_info("generate_negotiate_token - resetting NTLM state for new authentication sequence");
+            log_option_info("ntlm before Type 1", self.ntlm.is_some());
+            log_option_info("credentials_handle before Type 1", self.credentials_handle.is_some());
         }
-        self.ntlm = Some(Ntlm::new());
-        self.credentials_handle = None;
+
+        // NOTE: NTLM state is NOT reset here anymore to preserve security context
+        // across Type 1 -> Type 2 -> Type 3 sequence
+        // Call reset_ntlm_state() explicitly before starting a new authentication sequence
 
         let ntlm = self
             .ntlm
@@ -539,7 +652,9 @@ impl WindowsAuthClient {
 
         #[cfg(feature = "std")]
         {
-            log_function_exit("WindowsAuthClient::generate_negotiate_token", 
+            log_option_info("ntlm after Type 1", self.ntlm.is_some());
+            log_option_info("credentials_handle after Type 1", self.credentials_handle.is_some());
+            log_function_exit("WindowsAuthClient::generate_negotiate_token",
                              &format!("Success - token size: {} bytes", token.len()));
             log_memory_info("generate_negotiate_token - end");
         }
@@ -567,7 +682,8 @@ impl WindowsAuthClient {
 
         #[cfg(feature = "std")]
         {
-            log_option_info("ntlm", true);
+            log_option_info("ntlm before Type 3", true);
+            log_option_info("credentials_handle before Type 3", self.credentials_handle.is_some());
             log_object_size("Ntlm struct", core::mem::size_of::<Ntlm>());
         }
 
@@ -733,7 +849,9 @@ impl WindowsAuthClient {
 
         #[cfg(feature = "std")]
         {
-            log_function_exit("WindowsAuthClient::process_challenge", 
+            log_option_info("ntlm after Type 3", self.ntlm.is_some());
+            log_option_info("credentials_handle after Type 3", self.credentials_handle.is_some());
+            log_function_exit("WindowsAuthClient::process_challenge",
                              &format!("Success - token size: {} bytes", token.len()));
             log_memory_info("process_challenge - end");
         }
@@ -809,7 +927,8 @@ impl WindowsAuthClient {
         }
 
         let flags = CREDUI_FLAGS_DO_NOT_PERSIST;
-        let target_name = Self::to_wide("rust9x");
+        // CredUI target name is a UI/persistence label only — not the NTLM account domain.
+        let target_name = Self::to_wide("localhost");
 
         let result = unsafe {
             CredUIPromptForCredentialsW(
@@ -856,20 +975,17 @@ impl WindowsAuthClient {
             )));
         }
 
-        // CredUICmdLinePromptForCredentialsW writes NUL-terminated wide strings.
-        // Find NUL terminators to determine actual lengths.
+        // CredUIPromptForCredentialsW writes NUL-terminated wide strings.
         let username_len_pos = username_buf.iter().position(|&c| c == 0).unwrap_or(username_buf.len());
         let password_len_pos = password_buf.iter().position(|&c| c == 0).unwrap_or(password_buf.len());
 
-        // Convert using your from_wide helper
-        let username = Self::from_wide(&username_buf[..username_len_pos]);
+        let entered_username = Self::from_wide(&username_buf[..username_len_pos]);
         let password = Self::from_wide(&password_buf[..password_len_pos]);
-        let _domain = String::new(); // Domain is embedded in username (DOMAIN\user or user@domain)
 
         #[cfg(feature = "std")]
         {
-            log_string_info("username", &username);
-            log_object_size("username String", core::mem::size_of::<String>());
+            log_string_info("entered_username", &entered_username);
+            log_object_size("entered_username String", core::mem::size_of::<String>());
             log_object_size("password String", core::mem::size_of::<String>());
         }
 
@@ -884,30 +1000,12 @@ impl WindowsAuthClient {
             log_to_file(msg);
         }
 
-        // Parse username in format "DOMAIN\username" or "username@domain"
-        let (username, domain) = if let Some(pos) = username.find('\\') {
-            let (d, u) = username.split_at(pos);
-
-            (
-                u[1..].to_string(),
-                Some(d.to_string())
-            )
-        } else if let Some(pos) = username.find('@') {
-            let (u, d) = username.split_at(pos);
-            (
-                u.to_string(),
-                Some(d[1..].to_string())
-            )
-        } else {
-            (
-                username,
-                None // No domain specified
-            )
-        };
+        let credentials =
+            Self::normalize_windows_credentials(entered_username, password)?;
 
         let parsed_msgs = vec![
-            format!("[CredUI] Parsed username: {}", username),
-            format!("[CredUI] Parsed domain: {:?}", domain),
+            format!("[CredUI] Parsed username: {}", credentials.username),
+            format!("[CredUI] Parsed domain: {:?}", credentials.domain),
         ];
         for msg in &parsed_msgs {
             eprintln!("{}", msg);
@@ -917,16 +1015,15 @@ impl WindowsAuthClient {
 
         #[cfg(feature = "std")]
         {
-            log_string_info("parsed username", &username);
-            log_option_info("parsed domain", domain.is_some());
+            log_string_info("normalized username", &credentials.username);
+            if let Some(domain) = &credentials.domain {
+                log_string_info("normalized domain", domain);
+            }
+            log_option_info("parsed domain", credentials.domain.is_some());
             log_memory_info("prompt_for_windows_credentials - before credentials assignment");
         }
 
-        self.credentials = Some(AuthCredentials {
-            username,
-            password,
-            domain,
-        });
+        self.credentials = Some(credentials);
 
         #[cfg(feature = "std")]
         {
@@ -973,6 +1070,104 @@ impl WindowsAuthClient {
         }
 
         result
+    }
+
+    /// Parse CredUI username via CredUIParseUserNameW (DOMAIN\user and UPN forms).
+    #[cfg(windows)]
+    fn parse_windows_username(input: &str) -> AuthResult<(String, Option<String>)> {
+        const USER_CAPACITY: usize = 512;
+        const DOMAIN_CAPACITY: usize = 512;
+
+        let input_wide = Self::to_wide(input);
+
+        let mut user_buffer = vec![0u16; USER_CAPACITY];
+        let mut domain_buffer = vec![0u16; DOMAIN_CAPACITY];
+
+        let result = unsafe {
+            CredUIParseUserNameW(
+                input_wide.as_ptr(),
+                user_buffer.as_mut_ptr(),
+                user_buffer.len() as u32,
+                domain_buffer.as_mut_ptr(),
+                domain_buffer.len() as u32,
+            )
+        };
+
+        match result {
+            NO_ERROR => {
+                let user_len = user_buffer
+                    .iter()
+                    .position(|&c| c == 0)
+                    .unwrap_or(user_buffer.len());
+
+                let domain_len = domain_buffer
+                    .iter()
+                    .position(|&c| c == 0)
+                    .unwrap_or(domain_buffer.len());
+
+                let user = String::from_utf16(&user_buffer[..user_len]).map_err(|e| {
+                    AuthError::InvalidCredentials(format!("Invalid parsed username: {}", e))
+                })?;
+
+                let domain = String::from_utf16(&domain_buffer[..domain_len]).map_err(|e| {
+                    AuthError::InvalidCredentials(format!("Invalid parsed domain: {}", e))
+                })?;
+
+                let domain = if domain.is_empty() {
+                    None
+                } else {
+                    Some(domain)
+                };
+
+                Ok((user, domain))
+            }
+
+            ERROR_INSUFFICIENT_BUFFER => Err(AuthError::InvalidCredentials(
+                "Credential username/domain exceeds CredUI parser buffer size".to_string(),
+            )),
+
+            error => Err(AuthError::InvalidCredentials(format!(
+                "CredUIParseUserNameW failed: 0x{:08X}",
+                error
+            ))),
+        }
+    }
+
+    /// Normalize CredUI input into NTLM identity components.
+    ///
+    /// - `DOMAIN\user` → keep DOMAIN
+    /// - `.\user` / bare `user` → local NetBIOS computer name
+    /// - `user@dns.domain` (UPN) → keep full UPN, no fake NetBIOS domain
+    #[cfg(windows)]
+    fn normalize_windows_credentials(
+        entered_username: String,
+        password: String,
+    ) -> AuthResult<AuthCredentials> {
+        let (username, mut domain) = Self::parse_windows_username(&entered_username)?;
+
+        // CredUIParseUserNameW leaves domain empty for UPNs and returns only the
+        // account name. Preserve the original UPN string instead of inventing a
+        // NetBIOS domain.
+        if entered_username.contains('@') && domain.is_none() {
+            return Ok(AuthCredentials {
+                username: entered_username,
+                password,
+                domain: None,
+            });
+        }
+
+        match domain.as_deref() {
+            None | Some(".") => {
+                domain = Some(get_local_netbios_name()?);
+            }
+            Some(_) => {}
+        }
+
+        Ok(AuthCredentials {
+            username,
+            password,
+            domain,
+        })
     }
 
     #[cfg(windows)]
